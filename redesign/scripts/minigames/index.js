@@ -1,7 +1,7 @@
 import {createRoleplayState,setRoleplayMode,nextRoleplay,renderRoleplay} from "./roleplay.js";
 import {createKingState,kingAction,renderKing} from "./kingslave.js";
 import {createChessState,chessClick,chessUndo,renderChess} from "./chess.js";
-import {createSnakeState,snakeRoll,snakeContinue,snakeSetMode,snakeReset,snakeFinishAnimation,renderSnake} from "./snake.js?v=20260923-4";
+import {createSnakeState,snakeRoll,snakeContinue,snakeSetMode,snakeReset,renderSnake} from "./snake.js?v=20260923-5";
 import {saveMemory} from "../features/memories.js";
 
 const state={active:null,roleplay:createRoleplayState(),king:createKingState(),chess:createChessState(),snake:createSnakeState()};
@@ -25,22 +25,29 @@ export function minigameAction(action,value){
  if(state.active==="snake"){if(state.snake.animating)return;if(action==="snake-roll")snakeRoll(state.snake);else if(action==="snake-continue")snakeContinue(state.snake);else if(action==="snake-done")snakeContinue(state.snake,"done");else if(action==="snake-skip")snakeContinue(state.snake,"skip");else if(action==="snake-mode")snakeSetMode(state.snake,value);else if(action==="snake-reset")state.snake=createSnakeState();else if(action==="snake-save-memory"){const note=document.querySelector("#snake-memory-note")?.value?.trim()||"";saveMemory({journey:"Snake & Ladder",xp:0,moment:"Snake & Ladder — "+(state.snake.winner!=null?"Winner reached 100":"Game complete"),note});state.snake.memorySaved=true}}
 }
 
+function finishSnakeAnimation(s){
+  const move=s.lastMove;
+  s.animating=false;
+  if(move&&!s.finished&&!s.event)s.turn=1-move.player;
+  s.lastMove=null;
+}
+
 export async function animateSnakeMove(){
   const s=state.snake;
   const move=s?.lastMove;
   if(!move||!s.animating)return;
   const board=document.querySelector(".snake-board");
-  if(!board){snakeFinishAnimation(s);return;}
+  if(!board){finishSnakeAnimation(s);return;}
   const finalCell=board.querySelector('[data-square="'+move.to+'"]');
   const pawn=finalCell?.querySelector(".pawn.p"+(move.player+1)+"-pawn");
-  if(!finalCell||!pawn){snakeFinishAnimation(s);return;}
+  if(!finalCell||!pawn){finishSnakeAnimation(s);return;}
   const clone=pawn.cloneNode(true);
   const boardRect=board.getBoundingClientRect();
   const firstCell=board.querySelector('[data-square="1"]');
   const startCell=board.querySelector('[data-square="'+move.from+'"]');
   const startRect=(startCell||firstCell)?.getBoundingClientRect();
   const finalRect=finalCell.getBoundingClientRect();
-  if(!startRect){snakeFinishAnimation(s);return;}
+  if(!startRect){finishSnakeAnimation(s);return;}
   pawn.style.visibility="hidden";
   clone.style.position="fixed";
   clone.style.zIndex="9999";
@@ -71,6 +78,8 @@ export async function animateSnakeMove(){
   }
   clone.remove();
   pawn.style.visibility="";
-  snakeFinishAnimation(s);
+  finishSnakeAnimation(s);
   window.dispatchEvent(new CustomEvent("ignite:rerender"));
 }
+
+window.__igniteAnimateSnakeMove=animateSnakeMove;
