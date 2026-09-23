@@ -1,7 +1,14 @@
 const {test,expect}=require("@playwright/test");
 
+async function enterIgniteWelcome(page){
+  await expect(page.getByRole("button",{name:"Enter IGNITE"})).toBeVisible();
+  await page.getByRole("button",{name:"Enter IGNITE"}).click();
+  await expect(page.getByText("Let’s spend")).toBeVisible();
+}
+
 async function openChess(page){
   await page.goto("");
+  await enterIgniteWelcome(page);
   await page.getByRole("button",{name:/Minigames/}).click();
   await page.getByRole("button",{name:/Chess/}).click();
   await expect(page.locator(".chess-board")).toBeVisible();
