@@ -45,10 +45,15 @@ test("Phase 7 Dynamic Journey and Surprise Mode are wired to Journey actions",as
  await page.goto("");
  await page.getByRole("button",{name:"Profile",exact:true}).click();
  await page.getByRole("button",{name:"Build Dynamic Journey"}).click();
- await expect(page.getByRole("heading",{name:/Normal Journey|After Dark/})).toBeVisible();
+ await expect(page.getByRole("heading",{name:"Who is here?"})).toBeVisible();
+ await page.locator("#name-form input[name=\"p1\"]").fill("Deon");
+ await page.locator("#name-form input[name=\"p2\"]").fill("Partner");
+ await page.getByRole("button",{name:"Save Couple"}).click();
+ await expect(page.getByRole("heading",{name:"Date Night"})).toBeVisible();
+ await page.getByRole("button",{name:"←"}).click();
  await page.getByRole("button",{name:"←"}).click();
  await page.getByRole("button",{name:"Surprise Us"}).click();
- await expect(page.getByRole("heading",{name:/Normal Journey|After Dark/})).toBeVisible();
+ await expect(page.getByRole("heading",{name:"Date Night"})).toBeVisible();
 });
 
 test("Phase 7 generated couple quote remains tied to progression level",async({page})=>{
