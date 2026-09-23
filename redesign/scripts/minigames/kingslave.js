@@ -42,7 +42,7 @@ export function kingAction(s,a,v){
  if(a==="draw-again"){if(!s.drawAgain||s.currentCommands.length!==1)return;randomCommand(s);s.currentCommands=[s.currentCommands[0],s.command];s.command=s.currentCommands.join("\\n\\n");s.drawAgain=false;return}
  if(a==="power"){usePower(s,v);return}
  if(a==="respond"){if(!s.commandDrawn||s.responded)return;s.responded=true;next(s);return}
- if(a==="reset")Object.assign(s,fresh())
+ if(a==="reset"){Object.assign(s,fresh())}
 }
 function powerSheet(s){
  const used=s.king===null?[]:s.usedPowers[s.king],locked=id=>id==="pc2"&&s.commandDrawn;
