@@ -74,7 +74,7 @@ test("Visual system keeps controls, cards, navigation, and spacing consistent",a
   expect(metrics.bottomGap).toBeGreaterThanOrEqual(8);
 });
 
-test("Main bottom navigation exposes all destinations and Journey jumps to Journey section",async({page})=>{
+test("Main bottom navigation exposes all destinations and opens Journey story",async({page})=>{
   await page.goto("");
   await expect(page.getByRole("navigation",{name:"Main navigation"})).toBeVisible();
   await expect(page.getByRole("button",{name:"Home",exact:true})).toBeVisible();
@@ -82,7 +82,8 @@ test("Main bottom navigation exposes all destinations and Journey jumps to Journ
   await expect(page.getByRole("button",{name:"Journey"})).toBeVisible();
   await expect(page.getByRole("button",{name:"Profile"})).toBeVisible();
   await page.getByRole("button",{name:"Journey"}).click();
-  await expect(page.locator("#journey-section")).toBeVisible();
+  await expect(page.getByRole("heading",{name:"One moment at a time.",exact:true})).toBeVisible();
+  await expect(page.getByText("Your Story",{exact:true}).last()).toBeVisible();
 });
 
 test("Profile and Minigames use the same compact control system",async({page})=>{
