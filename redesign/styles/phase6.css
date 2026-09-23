@@ -1,0 +1,80 @@
+/* IGNITE Phase 6 — UX, mobile, accessibility and release polish */
+:root{
+  --safe-bottom: env(safe-area-inset-bottom, 0px);
+  --safe-top: env(safe-area-inset-top, 0px);
+}
+html{background:#10070c;scroll-behavior:smooth}
+body{overflow-x:hidden;-webkit-tap-highlight-color:transparent}
+.app-shell{
+  padding-top:max(24px,var(--safe-top));
+  padding-bottom:max(40px,var(--safe-bottom));
+}
+button,.btn,input{touch-action:manipulation}
+button{min-height:44px}
+.btn{min-height:44px}
+.profile-chip{min-height:40px}
+.session{
+  min-height:calc(100svh - 64px);
+  padding-bottom:max(8px,var(--safe-bottom));
+}
+.session-card{
+  width:100%;
+  max-width:520px;
+  margin:auto auto 0;
+}
+.session-actions{
+  position:sticky;
+  bottom:max(8px,var(--safe-bottom));
+  z-index:5;
+  padding-top:10px;
+  background:linear-gradient(180deg,transparent,rgba(16,7,12,.96) 34%);
+}
+.session-actions .btn-row{padding-top:8px}
+.intro-shell,.complete-shell{min-height:calc(100svh - 64px)}
+.intro-card,.complete-card{width:100%;max-width:520px}
+.game-active,.mini-intro{min-width:0}
+.reveal-card,.game-prompt,.experience-card,.mini-card,.continue-card{overflow-wrap:anywhere}
+.reveal-card{min-height:170px;padding:20px}
+.choice{min-height:52px}
+.chess-square{min-height:0}
+.snake-cell{min-height:0}
+input{min-height:46px}
+.btn:focus-visible,.card:focus-visible,.choice:focus-visible,.chess-square:focus-visible{
+  outline:3px solid var(--gold);
+  outline-offset:2px;
+}
+[aria-disabled="true"]{cursor:not-allowed}
+@media (max-width:479px){
+  .app-shell{padding-left:14px;padding-right:14px}
+  .topbar{margin-bottom:30px}
+  h1{font-size:clamp(44px,15vw,60px)}
+  h2{font-size:36px}
+  .hero{margin-bottom:24px}
+  .hero p{font-size:13px}
+  .experience-card{min-height:156px;padding:17px}
+  .mini-card{min-height:126px;padding:16px}
+  .session-card{padding:30px 16px}
+  .session-card h2{font-size:34px}
+  .btn-row{gap:8px}
+  .btn{padding:11px 13px}
+  .content-actions .btn{min-height:44px}
+}
+@media (max-width:360px){
+  .app-shell{padding-left:12px;padding-right:12px}
+  .choice-grid{grid-template-columns:1fr}
+  .choice-grid.three{grid-template-columns:1fr}
+  .mini-grid,.stats-grid{grid-template-columns:1fr}
+  .session-card{padding:26px 12px}
+}
+@media (min-width:541px){
+  body{padding-left:12px;padding-right:12px}
+}
+@media (prefers-reduced-motion:reduce){
+  html{scroll-behavior:auto}
+  *,*::before,*::after{
+    animation-duration:.01ms!important;
+    animation-iteration-count:1!important;
+    transition-duration:.01ms!important;
+    scroll-behavior:auto!important;
+  }
+}
