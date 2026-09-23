@@ -949,3 +949,48 @@ button.card:focus-visible,
 @media(max-width:390px){.preference-grid{grid-template-columns:1fr 1fr}}
 
 .memory-capture{display:grid;gap:10px}.memory-capture textarea{min-height:90px;resize:vertical;padding:14px;border-radius:14px;border:1px solid rgba(255,255,255,.1);background:#211019;color:var(--text);font:inherit}.memory-capture input[type=file]{width:100%;font-size:11px;color:var(--muted)}
+/* ---------- mechanic result clarity ---------- */
+.round-label{
+  margin:0 0 10px;
+  color:var(--gold);
+  font-size:9px;
+  font-weight:700;
+  letter-spacing:.16em;
+  text-transform:uppercase;
+  text-align:center;
+}
+.mechanic-result{
+  display:grid;
+  gap:7px;
+  width:100%;
+  margin:12px auto 14px;
+  padding:20px 16px;
+  border:1px solid rgba(255,106,150,.25);
+  border-radius:20px;
+  background:
+    radial-gradient(circle at 50% 0%,rgba(255,106,150,.14),transparent 58%),
+    rgba(255,255,255,.035);
+  text-align:center;
+  box-shadow:0 14px 35px rgba(0,0,0,.18);
+}
+.mechanic-result.success{border-color:rgba(230,194,109,.35)}
+.mechanic-result.miss{border-color:rgba(255,106,150,.28)}
+.mechanic-result.draw{border-color:rgba(255,255,255,.16)}
+.mechanic-result .result-kicker{
+  color:var(--gold);
+  font-size:9px;
+  font-weight:800;
+  letter-spacing:.2em;
+}
+.mechanic-result strong{
+  color:var(--text);
+  font-family:var(--display);
+  font-size:clamp(30px,8vw,42px);
+  line-height:1;
+  letter-spacing:-.025em;
+}
+.mechanic-result span:last-child{
+  color:var(--muted);
+  font-size:11px;
+  line-height:1.45;
+}
