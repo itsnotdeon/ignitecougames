@@ -8,6 +8,7 @@ on:
 
 jobs:
   test:
+    timeout-minutes: 15
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -17,7 +18,7 @@ jobs:
       - run: npm install
       - run: npx playwright install --with-deps chromium
       - run: find redesign/scripts -name "*.js" -print0 | xargs -0 -n1 node --check
-      - run: npm run test:e2e
+      - run: npm run test:e2e -- --workers=1
       - name: Upload Playwright report on failure
         if: failure()
         uses: actions/upload-artifact@v4
