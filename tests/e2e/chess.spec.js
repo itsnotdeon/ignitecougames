@@ -17,11 +17,11 @@ test("Chess renders equal square geometry and both piece colors",async({page})=>
   for(const g of geometry) expect(Math.abs(g.width-g.height)).toBeLessThanOrEqual(0.5);
   await expect(page.locator(".chess-square.piece-w")).toHaveCount(16);
   await expect(page.locator(".chess-square.piece-b")).toHaveCount(16);
-  await expect(page.locator(".chess-square[data-index="60"]")).toContainText("♔");
-  await expect(page.locator(".chess-square[data-index="4"]")).toContainText("♚");
+  await expect(page.locator('[data-mini="chess-square"][data-index="60"]')).toContainText("♔");
+  await expect(page.locator('[data-mini="chess-square"][data-index="4"]')).toContainText("♚");
 });
 
-test("Chess supports normal movement and blocks occupied own squares",async({page})=>{
+test("Chess supports normal pawn movement and turn switching",async({page})=>{
   await openChess(page);
   await page.locator('[data-mini="chess-square"][data-index="52"]').click();
   await page.locator('[data-mini="chess-square"][data-index="36"]').click();
