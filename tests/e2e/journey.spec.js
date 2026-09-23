@@ -1,7 +1,7 @@
 const {test,expect}=require("@playwright/test");
 
 async function startNormal(page){
- await page.goto("/");
+ await page.goto("");
  await expect(page.getByText("Let’s spend")).toBeVisible();
  await page.getByRole("button",{name:/Normal/}).click();
  await expect(page.getByText("Who is here?")).toBeVisible();
