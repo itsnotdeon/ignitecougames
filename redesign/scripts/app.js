@@ -26,7 +26,7 @@ const journeys={
 };
 
 const app=document.querySelector("#app");
-function load(){try{const saved=JSON.parse(localStorage.getItem(STORAGE_KEY));if(saved){state.names=saved.names||state.names;state.currentJourney=saved.currentJourney||null;state.step=Number(saved.step)||0;state.view=saved.view||"home"}}catch(e){}}
+function load(){try{const saved=JSON.parse(localStorage.getItem(STORAGE_KEY));if(saved){state.names=saved.names||state.names;state.currentJourney=saved.currentJourney||null;state.step=Number(saved.step)||0;state.view=saved.view||"home";state.__selectedJourney=Number.isInteger(saved.__selectedJourney)?saved.__selectedJourney:null}}catch(e){}}
 function save(){localStorage.setItem(STORAGE_KEY,JSON.stringify(state))}
 function coupleName(){const level=getLevelInfo(getProgress().xp);const quotes={1:"Every story starts with a spark.",2:"Two people, one little world.",3:"The closer you get, the more you discover.",4:"In sync, one moment at a time.",5:"You found your rhythm. Keep the fire alive.",6:"Some connections grow deeper with every moment.",7:"Two hearts, one unstoppable rhythm.",8:"This is your story. Keep the fire alive."};return quotes[level.level]||quotes[1]}
 function esc(v){return String(v).replace(/[&<>"']/g,function(c){return{"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#039;"}[c]})}
