@@ -96,7 +96,7 @@ export function snakeFinishAnimation(s){
   if(move&&!s.finished&&!s.event)s.turn=1-move.player;
   s.lastMove=null;
 }
-function escapeHtml(v){return String(v).replace(/[&<>"\']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;","'":"&#039;"}[c]));}
+function escapeHtml(v){return String(v).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;","'":"&#039;"}[c]));}
 
 function renderBoard(s,names){
   const cells=Array.from({length:100},(_,i)=>100-i);
