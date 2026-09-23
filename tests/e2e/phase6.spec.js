@@ -77,7 +77,7 @@ test("Visual system keeps controls, cards, navigation, and spacing consistent",a
 test("Main bottom navigation exposes all destinations and Journey jumps to Journey section",async({page})=>{
   await page.goto("");
   await expect(page.getByRole("navigation",{name:"Main navigation"})).toBeVisible();
-  await expect(page.getByRole("button",{name:"Home"})).toBeVisible();
+  await expect(page.getByRole("button",{name:"Home",exact:true})).toBeVisible();
   await expect(page.getByRole("button",{name:"Minigames"})).toBeVisible();
   await expect(page.getByRole("button",{name:"Journey"})).toBeVisible();
   await expect(page.getByRole("button",{name:"Profile"})).toBeVisible();
