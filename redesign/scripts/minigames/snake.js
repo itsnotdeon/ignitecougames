@@ -22,7 +22,7 @@ const CHALLENGES={
   }
 };
 const SPECIAL_LABELS={couple:"Couple Challenge",question:"Question",playful:"Fun & Playful",intimate:"Intimate",surprise:"Surprise"};
-const SPECIAL_ICONS={couple:"💞",question:"❓",playful:"🎉",intimate:"💗",surprise:"🎁"};
+const SPECIAL_ICONS={couple:"&#x1F49E;",question:"&#x2753;",playful:"&#x1F389;",intimate:"&#x1F497;",surprise:"&#x1F381;"};
 
 export function createSnakeState(){
   return{pos:[0,0],turn:Math.random()<0.5?0:1,finished:false,lastRoll:null,event:null,mode:"normal",challenge:null,memorySaved:false,winner:null,animating:false,lastMove:null};
@@ -105,8 +105,8 @@ function renderBoard(s,names){
     const special=SPECIALS[n];
     return '<div class="snake-cell '+(p1?"p1 ":"")+(p2?"p2 ":"")+(special?"special ":"")+(LADDERS[n]?"ladder ":"")+(SNAKES[n]?"snake ":"")+"' data-square='"+n+"'>'+
       '<span>'+n+'</span>'+
-      (LADDERS[n]?'<b class="snake-marker ladder-marker" aria-label="Ladder">🪜</b>':"")+
-      (SNAKES[n]?'<b class="snake-marker snake-marker" aria-label="Snake">🐍</b>':"")+
+      (LADDERS[n]?'<b class="snake-marker ladder-marker" aria-label="Ladder">&#x1FA9C;</b>':"")+
+      (SNAKES[n]?'<b class="snake-marker snake-marker" aria-label="Snake">&#x1F40D;</b>':"")+
       (special?'<i class="special-marker" aria-label="'+escapeHtml(SPECIAL_LABELS[special])+'">'+SPECIAL_ICONS[special]+'</i>':"")+
       (p1?'<em class="pawn p1-pawn">'+escapeHtml((names[0]||"P").charAt(0).toUpperCase())+'</em>':"")+
       (p2?'<em class="pawn p2-pawn">'+escapeHtml((names[1]||"P").charAt(0).toUpperCase())+'</em>':"")+
@@ -120,19 +120,19 @@ export function renderSnake(s,names){
   const status=s.finished?"Game Complete":s.event?.type==="challenge"?SPECIAL_LABELS[s.event.kind]:s.event?.type==="ladder"?"Ladder":s.event?.type==="snake"?"Snake":s.event?.type==="overshoot"?"Too Far":s.event?.type==="skip"?"Skipped":"Your Turn";
   let panel="";
   if(s.finished){
-    panel='<section class="snake-winner card"><div class="winner-mark">♥</div><div class="eyebrow">Winner</div><h2>'+escapeHtml(winnerName)+' reached 100.</h2><p>Game selesai tepat di kotak terakhir. Simpan momen ini sebelum bermain lagi.</p><div class="memory-form"><label for="snake-memory-note">Memory &amp; Moment</label><textarea id="snake-memory-note" data-snake-note placeholder="Tulis satu kalimat tentang momen ini..."></textarea><button class="btn primary full" data-mini="snake-save-memory" '+(s.memorySaved?"disabled":"")+'>'+(s.memorySaved?"Memory Saved ✓":"Save Memory & Moment")+'</button></div><button class="btn ghost full" data-mini="snake-reset">Play Again</button></section>';
+    panel='<section class="snake-winner card"><div class="winner-mark">&hearts;</div><div class="eyebrow">Winner</div><h2>'+escapeHtml(winnerName)+' reached 100.</h2><p>Game selesai tepat di kotak terakhir. Simpan momen ini sebelum bermain lagi.</p><div class="memory-form"><label for="snake-memory-note">Memory &amp; Moment</label><textarea id="snake-memory-note" data-snake-note placeholder="Tulis satu kalimat tentang momen ini..."></textarea><button class="btn primary full" data-mini="snake-save-memory" '+(s.memorySaved?"disabled":"")+'>'+(s.memorySaved?"Memory Saved &#10003;":"Save Memory & Moment")+'</button></div><button class="btn ghost full" data-mini="snake-reset">Play Again</button></section>';
   }else if(s.event?.type==="challenge"){
-    panel='<section class="snake-challenge card"><div class="eyebrow">'+escapeHtml(SPECIAL_LABELS[s.event.kind])+' · '+s.mode.toUpperCase()+'</div><h2>Do it together.</h2><p class="snake-challenge-text">'+escapeHtml(s.challenge.text)+'</p><div class="btn-row"><button class="btn primary" data-mini="snake-done" >Done</button><button class="btn ghost" data-mini="snake-skip" >Skip · −3</button></div></section>';
+    panel='<section class="snake-challenge card"><div class="eyebrow">'+escapeHtml(SPECIAL_LABELS[s.event.kind])+' &middot; '+s.mode.toUpperCase()+'</div><h2>Do it together.</h2><p class="snake-challenge-text">'+escapeHtml(s.challenge.text)+'</p><div class="btn-row"><button class="btn primary" data-mini="snake-done" >Done</button><button class="btn ghost" data-mini="snake-skip" >Skip &middot; -3</button></div></section>';
   }else if(s.event?.type==="ladder"||s.event?.type==="snake"||s.event?.type==="overshoot"||s.event?.type==="skip"){
     const message=s.event.type==="ladder"?"You found a shortcut. Up you go.":s.event.type==="snake"?"A slide down. Keep going.":s.event.type==="overshoot"?"That roll goes past 100. No move this turn.":"Challenge skipped. Move back 3 squares.";
-    panel='<section class="snake-event card"><div class="event-icon">'+(s.event.type==="ladder"?"↗":s.event.type==="snake"?"↘":s.event.type==="skip"?"−3":"6")+'</div><div class="eyebrow">'+escapeHtml(status)+'</div><h2>'+escapeHtml(message)+'</h2><p>Current position: <strong>'+s.pos[s.turn]+'</strong></p><button class="btn primary full" data-mini="snake-continue" >Continue</button></section>';
+    panel='<section class="snake-event card"><div class="event-icon">'+(s.event.type==="ladder"?"&#8599;":s.event.type==="snake"?"&#8600;":s.event.type==="skip"?"-3":"6")+'</div><div class="eyebrow">'+escapeHtml(status)+'</div><h2>'+escapeHtml(message)+'</h2><p>Current position: <strong>'+s.pos[s.turn]+'</strong></p><button class="btn primary full" data-mini="snake-continue" >Continue</button></section>';
   }
   return '<div class="ks-screen snake-screen '+(s.animating?"is-animating":"")+'">'+
-    '<div class="ks-header"><button class="ks-back" data-action="minigames-menu">← Games</button><div><b>Snake &amp; Ladder</b><small>IGNITE COUPLE GAME</small></div><button class="ks-reset" data-mini="snake-reset" >Reset</button></div>'+
+    '<div class="ks-header"><button class="ks-back" data-action="minigames-menu">&larr; Games</button><div><b>Snake &amp; Ladder</b><small>IGNITE COUPLE GAME</small></div><button class="ks-reset" data-mini="snake-reset" >Reset</button></div>'+
     '<div class="snake-hud"><div class="snake-player '+(s.turn===0&&!s.finished?"active":"")+'"><strong>'+escapeHtml(names[0])+'</strong><span>'+s.pos[0]+' / 100</span></div><div class="snake-turn">TURN</div><div class="snake-player '+(s.turn===1&&!s.finished?"active":"")+'"><strong>'+escapeHtml(names[1])+'</strong><span>'+s.pos[1]+' / 100</span></div></div>'+
     '<div class="snake-mode"><span>Challenge</span><div><button class="btn '+(s.mode==="normal"?"primary":"ghost")+'" data-mini="snake-mode" data-value="normal">Normal</button><button class="btn '+(s.mode==="extreme"?"primary":"ghost")+'" data-mini="snake-mode" data-value="extreme">Extreme</button></div></div>'+
     renderBoard(s,names)+
-    '<div class="snake-control"><div class="dice-result">'+(s.lastRoll?s.lastRoll:"—")+'</div><div class="snake-turn-copy">'+(s.finished?"Winner: "+escapeHtml(winnerName):"Turn: "+escapeHtml(turnName))+'</div>'+(!s.finished&&!s.event?'<button class="btn primary snake-roll" data-mini="snake-roll" '+(s.animating?"disabled":"")+'>ROLL DICE</button>':"")+'</div>'+
+    '<div class="snake-control"><div class="dice-result">'+(s.lastRoll?s.lastRoll:"&mdash;")+'</div><div class="snake-turn-copy">'+(s.finished?"Winner: "+escapeHtml(winnerName):"Turn: "+escapeHtml(turnName))+'</div>'+(!s.finished&&!s.event?'<button class="btn primary snake-roll" data-mini="snake-roll" '+(s.animating?"disabled":"")+'>ROLL DICE</button>':"")+'</div>'+
     panel+
   '</div>';
 }
