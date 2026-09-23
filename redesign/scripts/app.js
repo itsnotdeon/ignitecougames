@@ -1,5 +1,5 @@
 import {initMechanic,mechanicAction,mechanicView,winnerLabel,isMechanicComplete} from "./journey/mechanics.js";
-import {renderMinigameMenu,minigameView,minigameAction,openMinigame,animateSnakeMove} from "./minigames/index.js";
+import {renderMinigameMenu,minigameView,minigameAction,openMinigame,animateSnakeMove} from "./minigames/index.js?v=20260923-4";
 import {getProgress,getLevelInfo,startJourney as progressionStartJourney,completeJourney,completeActivity,completeRitual,recordMinigamePlayed} from "./progression.js";
 import {starterNormalCards,starterExplicitCards,starterTruth,starterDare,starterIntimateTruth,starterIntimateDare} from "./journey/content.js";
 import {renderMemorySummary,renderMemories,renderPreferences,renderFeatureSettings,handleVibeClick,handlePreferenceSubmit,surpriseContext,dynamicContext,renderContextSummary,handleMoodClick} from "./features/ui.js";
