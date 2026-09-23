@@ -81,7 +81,7 @@ test("Phase 3 King & Slave requires consent and reveals a fair round",async({pag
  await page.getByRole("button",{name:"Mulai Sesi"}).click();
  await expect(page.getByText("ROUND 1",{exact:true})).toBeVisible();
  await page.getByRole("button",{name:"Reveal King"}).click();
- await expect(page.getByText("KING / QUEEN",{exact:true})).toBeVisible();
+ await expect(page.locator(".ks-role-person.king").getByText("KING / QUEEN",{exact:true})).toBeVisible();
  await page.getByRole("button",{name:"Draw Command Card"}).click();
  await expect(page.locator(".ks-command-card-main")).toBeVisible();
  await expect(page.getByRole("button",{name:"Jalankan"})).toBeVisible();
@@ -189,7 +189,7 @@ test("Phase 4 Profile and Settings are separated",async({page})=>{
 test("Phase 9 Journey is a story timeline and opens completed Journey details",async({page})=>{
  await page.goto("");
  await page.getByRole("button",{name:"Journey",exact:true}).click();
- await expect(page.getByText("Your Story")).toBeVisible();
+ await expect(page.locator(".hero").getByText("Your Story",{exact:true})).toBeVisible();
  await expect(page.getByText("The story starts here")).toBeVisible();
  await expect(page.getByText("What are you up for?")).not.toBeVisible();
 
