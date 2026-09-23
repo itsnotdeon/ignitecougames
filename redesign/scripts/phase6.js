@@ -3,8 +3,8 @@ const app=document.querySelector("#app");
 
 function annotateInteractiveUI(){
   if(!app)return;
+
   app.querySelectorAll("button").forEach((button)=>{
-    if(!button.getAttribute("type") && button.closest("form")) button.type="button";
     if(button.disabled) button.setAttribute("aria-disabled","true");
   });
 
