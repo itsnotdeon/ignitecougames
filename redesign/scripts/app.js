@@ -31,10 +31,10 @@ function setView(view){state.view=view;save();render()}
 function render(){if(state.view==="home")renderHome();else if(state.view==="names")renderNames();else if(state.view==="intro")renderIntro();else if(state.view==="session")renderSession();else if(state.view==="complete")renderComplete();else if(state.view==="minigames")renderMinigames();else if(state.view==="settings")renderSettings()}
 function renderBottomNav(active="home"){
  return '<nav class="bottom-nav" aria-label="Main navigation">'+
- '<button class="bottom-nav-item '+(active==="home"?"active":"")+'" data-action="home"><span>⌂</span><small>Home</small></button>'+
+ '<button class="bottom-nav-item '+(active==="home"?"active":"")+'" data-action="home" aria-label="Home"><span>⌂</span><small>Home</small></button>'+
  '<button class="bottom-nav-item '+(active==="play"?"active":"")+'" data-action="minigames" aria-label="Minigames"><span>♧</span><small>Play</small></button>'+
- '<button class="bottom-nav-item '+(active==="journey"?"active":"")+'" data-action="journey"><span>♡</span><small>Journey</small></button>'+
- '<button class="bottom-nav-item '+(active==="profile"?"active":"")+'" data-action="settings"><span>⌁</span><small>Profile</small></button>'+
+ '<button class="bottom-nav-item '+(active==="journey"?"active":"")+'" data-action="journey" aria-label="Journey"><span>♡</span><small>Journey</small></button>'+
+ '<button class="bottom-nav-item '+(active==="profile"?"active":"")+'" data-action="settings" aria-label="Profile"><span>⌁</span><small>Profile</small></button>'+
  '</nav>';
 }
 function renderHome(){
