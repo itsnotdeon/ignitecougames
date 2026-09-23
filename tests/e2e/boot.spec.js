@@ -14,3 +14,13 @@ test.describe("IGNITE boot",()=>{
     expect(errors).toEqual([]);
   });
 });
+
+test("Welcome screen stays visible before entering Home",async({page})=>{
+  await page.goto("./");
+  await expect(page.getByRole("button",{name:"Enter IGNITE"})).toBeVisible();
+  await expect(page.getByText("Your time.")).toBeVisible();
+  await page.waitForTimeout(500);
+  await expect(page.getByRole("button",{name:"Enter IGNITE"})).toBeVisible();
+  await page.getByRole("button",{name:"Enter IGNITE"}).click();
+  await expect(page.getByText("Let’s spend")).toBeVisible();
+});
