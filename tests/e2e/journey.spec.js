@@ -169,7 +169,7 @@ test("Phase 5 direct minigame access records Game Night progress",async({page})=
 
 test("Phase 4 Settings exposes content and backup management",async({page})=>{
  await page.goto("");
- await page.getByRole("button",{name:/Player 1 & Player 2/}).click();
+ await page.getByRole("button",{name:"Profile",exact:true}).click();
  await expect(page.locator(".content-manager")).toContainText("Content Library");
  await expect(page.getByRole("button",{name:"Export Content"})).toBeVisible();
  await expect(page.getByRole("button",{name:"Export Backup"})).toBeVisible();
