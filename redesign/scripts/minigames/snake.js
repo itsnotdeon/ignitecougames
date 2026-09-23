@@ -25,7 +25,7 @@ const SPECIAL_LABELS={couple:"Couple Challenge",question:"Question",playful:"Fun
 const SPECIAL_ICONS={couple:"💞",question:"❓",playful:"🎉",intimate:"💗",surprise:"🎁"};
 
 export function createSnakeState(){
-  return{pos:[0,0],turn:Math.random()<0.5?0:1,finished:false,lastRoll:null,event:null,mode:"normal",challenge:null,memorySaved:false,winner:null};
+  return{pos:[0,0],turn:Math.random()<0.5?0:1,finished:false,lastRoll:null,event:null,mode:"normal",challenge:null,memorySaved:false,winner:null,animating:false,lastMove:null};
 }
 function pickChallenge(kind,mode){
   const list=CHALLENGES[mode][kind]||CHALLENGES.normal[kind];
@@ -36,33 +36,44 @@ export function snakeSetMode(s,mode){
   s.mode=mode==="extreme"?"extreme":"normal";
 }
 export function snakeRoll(s){
-  if(s.finished||s.event)return;
+  if(s.finished||s.event||s.animating)return;
   s.lastRoll=Math.floor(Math.random()*6)+1;
   const p=s.turn;
   const from=s.pos[p];
   const target=from+s.lastRoll;
   s.event=null;
   s.challenge=null;
+  s.lastMove=null;
   if(target>100){s.event={type:"overshoot",from,to:from,roll:s.lastRoll};return}
-  s.pos[p]=target;
-  if(LADDERS[target]){s.pos[p]=LADDERS[target];s.event={type:"ladder",from:target,to:s.pos[p]};}
-  else if(SNAKES[target]){s.pos[p]=SNAKES[target];s.event={type:"snake",from:target,to:s.pos[p]};}
+  const landing=LADDERS[target]||SNAKES[target]||target;
+  const path=[];
+  for(let step=from+1;step<=target;step++)path.push(step);
+  if(landing!==target)path.push(landing);
+  s.pos[p]=landing;
+  s.lastMove={player:p,from,to:landing,path};
+  s.animating=true;
+  if(LADDERS[target])s.event={type:"ladder",from:target,to:landing};
+  else if(SNAKES[target])s.event={type:"snake",from:target,to:landing};
   else if(SPECIALS[target]){
     const kind=SPECIALS[target];
     s.challenge={kind,level:s.mode,text:pickChallenge(kind,s.mode)};
     s.event={type:"challenge",square:target,kind};
   }else if(s.pos[p]===100){
     s.finished=true;s.winner=p;
-  }else{
-    s.turn=1-p;
   }
 }
 export function snakeContinue(s,outcome){
   if(s.finished)return;
   const p=s.turn;
   if(s.event?.type==="challenge"&&outcome==="skip"){
-    s.pos[p]=Math.max(0,s.pos[p]-3);
-    s.event={type:"skip",to:s.pos[p]};
+    const from=s.pos[p];
+    const to=Math.max(0,from-3);
+    const path=[];
+    for(let step=from-1;step>=to;step--)path.push(step);
+    s.pos[p]=to;
+    s.lastMove={player:p,from,to,path};
+    s.animating=true;
+    s.event={type:"skip",to};
     return;
   }
   if(s.event?.type==="overshoot"){
@@ -79,6 +90,10 @@ export function snakeContinue(s,outcome){
   s.turn=1-p;
 }
 export function snakeReset(s){Object.assign(s,createSnakeState());}
+export function snakeFinishAnimation(s){
+  s.animating=false;
+  s.lastMove=null;
+}
 function escapeHtml(v){return String(v).replace(/[&<>"\']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;","'":"&#039;"}[c]));}
 
 function renderBoard(s,names){
