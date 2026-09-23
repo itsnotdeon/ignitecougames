@@ -39,7 +39,7 @@ export function kingAction(s,a,v){
  if(a==="roll"){if(s.rolling)return;s.rolling=true;s.rollP1=1+Math.floor(Math.random()*6);s.rollP2=1+Math.floor(Math.random()*6);if(s.rollP1===s.rollP2){s.rollP1=null;s.rollP2=null;s.rolling=false;return}assign(s);s.rolling=false;return}
  if(a==="draw"){if(s.chooseOpen)return;randomCommand(s);return}
  if(a==="choose"){chooseCommand(s,Number(v));return}
- if(a==="draw-again"){if(!s.drawAgain||s.currentCommands.length!==1)return;randomCommand(s);s.currentCommands=[s.currentCommands[0],s.command];s.command=s.currentCommands.join("\\n\\n");s.drawAgain=false;return}
+ if(a==="draw-again"){if(!s.drawAgain||s.currentCommands.length!==1)return;const first=s.currentCommands[0];randomCommand(s);s.currentCommands=[first,s.command];s.command=s.currentCommands.join("\\n\\n");s.drawAgain=false;return}
  if(a==="power"){usePower(s,v);return}
  if(a==="respond"){if(!s.commandDrawn||s.responded)return;s.responded=true;next(s);return}
  if(a==="reset"){Object.assign(s,fresh())}
