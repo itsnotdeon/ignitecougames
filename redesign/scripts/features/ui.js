@@ -1,9 +1,9 @@
-import {getMemories,getMemoryStats} from "./memories.js?v=20260923-8";
-import {getPreferences,savePreferences,VIBES} from "./preferences.js?v=20260923-8";
-import {getUnlocks} from "./unlocks.js?v=20260923-8";
-import {createSurpriseContext} from "./surprise.js?v=20260923-8";
-import {buildJourney} from "./dynamicJourney.js?v=20260923-8";
-import {buildContext,getMoodMeta,MOODS,setMood} from "./context.js?v=20260923-8";
+import {getMemories,getMemoryStats} from "./memories.js?v=20260923-12";
+import {getPreferences,savePreferences,VIBES} from "./preferences.js?v=20260923-12";
+import {getUnlocks} from "./unlocks.js?v=20260923-12";
+import {createSurpriseContext} from "./surprise.js?v=20260923-12";
+import {buildJourney} from "./dynamicJourney.js?v=20260923-12";
+import {buildContext,getMoodMeta,MOODS,setMood} from "./context.js?v=20260923-12";
 function esc(v){return String(v).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#039;"}[c]))}
 export function getCurrentContext(level){return buildContext({level,preferences:getPreferences(),memories:getMemories()})}
 function formatTime(hour,minute){return String(hour).padStart(2,"0")+":"+String(minute).padStart(2,"0")}
