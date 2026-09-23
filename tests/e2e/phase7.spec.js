@@ -1,11 +1,18 @@
 const {test,expect}=require("@playwright/test");
 
+async function enterIgniteWelcome(page){
+  await expect(page.getByRole("button",{name:"Enter IGNITE"})).toBeVisible();
+  await page.getByRole("button",{name:"Enter IGNITE"}).click();
+  await expect(page.getByText("Let’s spend")).toBeVisible();
+}
+
 test.beforeEach(async({page})=>{
  page.on("pageerror",error=>{throw error});
 });
 
 test("Phase 7 Couple Memories can save a note and expose streak summary",async({page})=>{
  await page.goto("");
+  await enterIgniteWelcome(page);
  await page.getByRole("button",{name:"Profile",exact:true}).click();
  await page.getByRole("button",{name:"Settings",exact:true}).click();
  await page.getByRole("button",{name:"Couple Memories"}).click();
@@ -32,6 +39,7 @@ test("Phase 7 Couple Memories can save a note and expose streak summary",async({
 
 test("Phase 7 preferences persist and drive personalization controls",async({page})=>{
  await page.goto("");
+  await enterIgniteWelcome(page);
  await page.getByRole("button",{name:"Profile",exact:true}).click();
  await page.getByRole("button",{name:"Settings",exact:true}).click();
  await page.getByRole("button",{name:"Journey Preferences"}).click();
@@ -45,6 +53,7 @@ test("Phase 7 preferences persist and drive personalization controls",async({pag
 
 test("Phase 7 Dynamic Journey and Surprise Mode are wired to Journey actions",async({page})=>{
  await page.goto("");
+  await enterIgniteWelcome(page);
  await page.getByRole("button",{name:"Profile",exact:true}).click();
  await page.getByRole("button",{name:"Settings",exact:true}).click();
  await page.getByRole("button",{name:"Build Dynamic Journey"}).click();
@@ -60,6 +69,7 @@ test("Phase 7 Dynamic Journey and Surprise Mode are wired to Journey actions",as
 
 test("Phase 7 generated couple quote remains tied to progression level",async({page})=>{
  await page.goto("");
+  await enterIgniteWelcome(page);
  await page.getByRole("button",{name:"Profile",exact:true}).click();
  await expect(page.locator(".generated-couple-quote")).toContainText("Couple Quote · Level 1");
  await expect(page.locator(".generated-couple-quote")).toContainText("Every story starts with a spark.");
