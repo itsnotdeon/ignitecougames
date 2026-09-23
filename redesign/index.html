@@ -12,6 +12,14 @@
 </head>
 <body>
 <main id="app" class="app-shell"></main>
-<script type="module" src="./scripts/app.js"></script>
+<script>
+window.addEventListener("error",function(e){
+  console.error(e.error||e.message);
+  var app=document.querySelector("#app");
+  if(app)app.innerHTML='<section style="min-height:100vh;display:grid;place-items:center;padding:24px;color:#fff;font-family:system-ui"><div style="max-width:560px"><h1>IGNITE sedang memuat ulang</h1><p>Terjadi error saat memuat aplikasi. Silakan refresh sekali lagi.</p><button onclick="localStorage.removeItem(\'ignite-redesign-v4\');location.reload()" style="padding:12px 18px;border:0;border-radius:12px">Reset &amp; Reload</button></div></section>';
+});
+window.addEventListener("unhandledrejection",function(e){console.error(e.reason);});
+</script>
+<script type="module" src="./scripts/app.js?v=20260923-3"></script>
 </body>
 </html>
