@@ -89,3 +89,17 @@ button,input{font:inherit}button{cursor:pointer}button:focus-visible,input:focus
 .memory-form textarea:focus{outline:2px solid var(--gold);outline-offset:2px}
 @media(max-width:390px){.snake-control{grid-template-columns:50px 1fr}.snake-roll{grid-column:1/-1}.snake-cell span{font-size:6px}.pawn{width:15px;height:15px;font-size:7px}.snake-challenge-text{font-size:21px!important}}
 @media(min-width:480px){.snake-screen{padding-bottom:10px}.snake-cell span{font-size:8px}.pawn{width:18px;height:18px}}
+
+/* Snake board visual clarity hotfix — emoji-first 0.0.1 visual language */
+.snake-board{gap:2px;padding:6px;border-radius:18px;background:rgba(255,255,255,.04)}
+.snake-cell{aspect-ratio:1;min-width:0;overflow:hidden;position:relative;display:grid;place-items:center;background:rgba(255,255,255,.045);border:1px solid rgba(255,255,255,.09);border-radius:7px}
+.snake-cell:nth-child(even){background:rgba(255,255,255,.065)}
+.snake-cell.special{background:rgba(255,106,150,.12);border-color:rgba(255,106,150,.3)}
+.snake-cell.ladder{box-shadow:inset 0 0 0 1px rgba(230,194,109,.28)}
+.snake-cell.snake{box-shadow:inset 0 0 0 1px rgba(255,120,120,.25)}
+.snake-cell span{position:absolute;top:3px;left:4px;z-index:2;font-size:clamp(9px,2.7vw,13px);font-weight:900;line-height:1;text-shadow:0 1px 3px rgba(0,0,0,.9);margin:0;color:#fff}
+.snake-marker{position:absolute;inset:0;z-index:1;display:grid;place-items:center;font-style:normal;font-size:clamp(18px,6vw,30px);line-height:1;opacity:1;text-shadow:0 2px 4px rgba(0,0,0,.75);pointer-events:none}
+.ladder-marker{right:auto;bottom:auto}.snake-marker{right:auto;top:auto}
+.special-marker{position:absolute;right:3px;bottom:2px;z-index:2;font-style:normal;font-size:clamp(13px,4vw,20px);line-height:1;color:#fff;text-shadow:0 2px 4px rgba(0,0,0,.8);pointer-events:none}
+.pawn{z-index:4;width:clamp(17px,5.2vw,23px);height:clamp(17px,5.2vw,23px);font-size:clamp(8px,2.5vw,11px);bottom:2px}
+@media(max-width:390px){.snake-board{gap:2px;padding:5px}.snake-cell span{font-size:9px;top:2px;left:3px}.snake-marker{font-size:17px}.special-marker{font-size:12px}.pawn{width:16px;height:16px;font-size:8px}}

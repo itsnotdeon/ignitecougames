@@ -22,7 +22,7 @@ const CHALLENGES={
   }
 };
 const SPECIAL_LABELS={couple:"Couple Challenge",question:"Question",playful:"Fun & Playful",intimate:"Intimate",surprise:"Surprise"};
-const SPECIAL_ICONS={couple:"♥",question:"?",playful:"✦",intimate:"♡",surprise:"!"};
+const SPECIAL_ICONS={couple:"💞",question:"❓",playful:"🎉",intimate:"💗",surprise:"🎁"};
 
 export function createSnakeState(){
   return{pos:[0,0],turn:Math.random()<0.5?0:1,finished:false,lastRoll:null,event:null,mode:"normal",challenge:null,memorySaved:false,winner:null};
@@ -88,9 +88,9 @@ function renderBoard(s,names){
     const special=SPECIALS[n];
     return '<div class="snake-cell '+(p1?"p1 ":"")+(p2?"p2 ":"")+(special?"special ":"")+(LADDERS[n]?"ladder ":"")+(SNAKES[n]?"snake ":"")+'">'+
       '<span>'+n+'</span>'+
-      (LADDERS[n]?'<b class="snake-marker ladder-marker">↗</b>':"")+
-      (SNAKES[n]?'<b class="snake-marker snake-marker">↘</b>':"")+
-      (special?'<i class="special-marker">'+SPECIAL_ICONS[special]+'</i>':"")+
+      (LADDERS[n]?'<b class="snake-marker ladder-marker" aria-label="Ladder">🪜</b>':"")+
+      (SNAKES[n]?'<b class="snake-marker snake-marker" aria-label="Snake">🐍</b>':"")+
+      (special?'<i class="special-marker" aria-label="'+escapeHtml(SPECIAL_LABELS[special])+'">'+SPECIAL_ICONS[special]+'</i>':"")+
       (p1?'<em class="pawn p1-pawn">'+escapeHtml((names[0]||"P").charAt(0).toUpperCase())+'</em>':"")+
       (p2?'<em class="pawn p2-pawn">'+escapeHtml((names[1]||"P").charAt(0).toUpperCase())+'</em>':"")+
     '</div>';
