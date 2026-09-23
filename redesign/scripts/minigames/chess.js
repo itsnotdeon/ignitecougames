@@ -211,6 +211,6 @@ export function renderChess(s,names){
   const turnLabel=s.over
     ?(s.winner?(s.winner==="w"?(names[0]||"White"):(names[1]||"Black"))+" wins":"Draw")
     :status;
-  return '<div class="game-active"><div class="game-meta">♟ Chess · '+escapeHtml(turnLabel)+'</div><div class="chess-status">'+escapeHtml(status)+'</div>'+board+'<div class="btn-row"><button class="btn ghost" data-mini="chess-undo" '+(!s.history.length?"disabled":"")+'>Undo</button><button class="btn primary" data-mini="chess-reset">Restart</button></div></div>';
+  return '<div class="game-active"><div class="game-meta">♟ Chess · '+escapeHtml(turnLabel)+'</div>'+board+'<div class="btn-row"><button class="btn ghost" data-mini="chess-undo" '+(!s.history.length?"disabled":"")+'>Undo</button><button class="btn primary" data-mini="chess-reset">Restart</button></div></div>';
 }
 function escapeHtml(v){return String(v).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#039;"}[c]))}
