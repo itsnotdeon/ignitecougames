@@ -107,5 +107,6 @@ test("Couple quote is generated from XP level instead of manual input",async({pa
   await page.locator('input[name="p1"]').fill("Deon");
   await page.locator('input[name="p2"]').fill("Partner");
   await page.getByRole("button",{name:"Save Changes"}).click();
-  await expect(page.locator(".generated-couple-quote").getByText("Every story starts with a spark.",{exact:true})).toBeVisible();
+  await page.getByRole("button",{name:"Profile",exact:true}).click();
+  await expect(page.locator(".generated-couple-quote")).toContainText("Every story starts with a spark.");
 });
