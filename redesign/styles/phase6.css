@@ -507,3 +507,5 @@ h3{
 .session-count{font-family:var(--display);font-size:16px;color:#f4d9df}
 .session-card{box-shadow:0 20px 60px rgba(0,0,0,.45)}
 .session-actions .btn.primary{box-shadow:0 10px 30px rgba(244,73,108,.25)}
+
+.sr-only{position:absolute!important;width:1px!important;height:1px!important;padding:0!important;margin:-1px!important;overflow:hidden!important;clip:rect(0,0,0,0)!important;white-space:nowrap!important;border:0!important}
