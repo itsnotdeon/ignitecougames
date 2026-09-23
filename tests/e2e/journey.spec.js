@@ -167,12 +167,17 @@ test("Phase 5 direct minigame access records Game Night progress",async({page})=
  await expect(page.getByText("Game Night")).toBeVisible();
 });
 
-test("Phase 4 Settings exposes content and backup management",async({page})=>{
+test("Phase 4 Profile and Settings are separated",async({page})=>{
  await page.goto("");
  await page.getByRole("button",{name:"Profile",exact:true}).click();
+ await expect(page.getByText("Couple Profile")).toBeVisible();
+ await expect(page.getByText("Content Library")).not.toBeVisible();
+ await expect(page.getByText("Data Management")).not.toBeVisible();
+ await page.getByRole("button",{name:"Settings",exact:true}).click();
+ await expect(page.getByText("App Settings")).toBeVisible();
+ await expect(page.getByText("Personalization")).toBeVisible();
  await expect(page.locator(".content-manager")).toContainText("Content Library");
+ await expect(page.locator(".data-manager")).toContainText("Data Management");
  await expect(page.getByRole("button",{name:"Export Content"})).toBeVisible();
  await expect(page.getByRole("button",{name:"Export Backup"})).toBeVisible();
- await page.getByRole("button",{name:"Export Content"}).click();
- await page.getByRole("button",{name:"Export Backup"}).click();
 });
