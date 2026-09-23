@@ -1,4 +1,4 @@
-import {roleplayBuiltInRoles,roleplayCustomItems,roleplayCustomItemsExplicit} from "../data/topics.js?v=20260924-01";
+import {allRoleplayNormalRoles,allRoleplayDarkRoles,roleplayCustomItems,roleplayCustomItemsExplicit} from "../data/topics.js?v=20260924-02";
 
 function customRolePool(items){
   const groups=new Map();
@@ -9,8 +9,8 @@ function customRolePool(items){
   }
   return [...groups.values()];
 }
-const NORMAL_ROLES=[...roleplayBuiltInRoles,...customRolePool(roleplayCustomItems)];
-const DARK_ROLES=customRolePool(roleplayCustomItemsExplicit);
+const NORMAL_ROLES=[...allRoleplayNormalRoles,...customRolePool(roleplayCustomItems)];
+const DARK_ROLES=[...allRoleplayDarkRoles,...customRolePool(roleplayCustomItemsExplicit)];
 
 function pick(pool,used){const available=pool.filter(x=>!used.has(x.id));const source=available.length?available:pool;const role=source[Math.floor(Math.random()*source.length)];used.add(role.id);return role}
 export function createRoleplayState(){return{mode:"normal",role:null,item:null,usedRoles:new Set(),usedItems:new Map()}}
