@@ -5,8 +5,8 @@ async function startNormal(page){
  await expect(page.getByText("Let’s spend")).toBeVisible();
  await page.getByRole("button",{name:/Normal/}).click();
  await expect(page.getByText("Who is here?")).toBeVisible();
- await page.getByLabel("Player 1").fill("Deon");
- await page.getByLabel("Player 2").fill("Partner");
+ await page.locator('input[name="p1"]').fill("Deon");
+ await page.locator('input[name="p2"]').fill("Partner");
  await page.getByRole("button",{name:"Save Couple"}).click();
  await expect(page.getByText("Normal Journey")).toBeVisible();
  await page.getByRole("button",{name:/Begin Journey/}).click();
@@ -54,15 +54,15 @@ test("Normal Journey exposes card and Truth or Dare mechanics",async({page})=>{
 });
 
 test("After Dark requires consent before entering",async({page})=>{
- await page.goto("/");
+ await page.goto("");
  await page.getByRole("button",{name:/After Dark/}).click();
- await page.getByLabel("Player 1").fill("Deon");
- await page.getByLabel("Player 2").fill("Partner");
+ await page.locator('input[name="p1"]').fill("Deon");
+ await page.locator('input[name="p2"]').fill("Partner");
  await page.getByRole("button",{name:"Save Couple"}).click();
  await expect(page.getByText("After Dark")).toBeVisible();
  await page.getByRole("button",{name:/Enter After Dark/}).click();
  await expect(page.getByText("Set the Mood")).not.toBeVisible();
- await page.getByLabel(/Kami berdua berusia 18+/).check();
+ await page.locator("#consent").check();
  await page.getByRole("button",{name:/Enter After Dark/}).click();
  await expect(page.getByText("Set the Mood")).toBeVisible();
 });
