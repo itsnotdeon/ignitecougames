@@ -15,7 +15,7 @@
 (async function(){
   const app=document.querySelector("#app");
   const status=document.querySelector("#boot-status");
-  const revision="20260923-9";
+  const revision="20260923-10";
   const modules=[
     "./scripts/journey/mechanics.js",
     "./scripts/progression.js",
@@ -23,6 +23,11 @@
     "./scripts/features/ui.js",
     "./scripts/features/memories.js",
     "./scripts/ui/accessibility.js",
+    "./scripts/minigames/roleplay.js",
+    "./scripts/minigames/kingslave.js",
+    "./scripts/minigames/chess.js",
+    "./scripts/minigames/snake.js",
+    "./scripts/features/memories.js",
     "./scripts/minigames/index.js"
   ];
   const setStatus=(text)=>{if(status)status.textContent=text};
