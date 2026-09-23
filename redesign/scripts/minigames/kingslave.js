@@ -1,7 +1,7 @@
-import {ksCommands,ksCommandsExplicit} from "../data/topics.js?v=20260924-01";
+import {allKingNormalCommands,allKingDarkCommands} from "../data/topics.js?v=20260924-02";
 
-const NORMAL = ksCommands;
-const DARK = ksCommandsExplicit;
+const NORMAL = allKingNormalCommands;
+const DARK = allKingDarkCommands;
 
 const POWERS = [
   { id: "pc1", name: "Titah Ganda", icon: "P1", desc: "Ambil satu Command Card tambahan pada ronde ini." },
