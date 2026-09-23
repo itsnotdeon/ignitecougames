@@ -10,7 +10,7 @@ test("King & Slave mobile flow keeps the action as the primary result",async({pa
  await page.getByRole("button",{name:"Mulai Sesi"}).click();
  await expect(page.getByText("ROUND 1")).toBeVisible();
  await page.getByRole("button",{name:"Reveal King"}).click();
- await expect(page.getByText("KING / QUEEN",{exact:true})).toBeVisible();
+ await expect(page.locator(".ks-role-person.king").getByText("KING / QUEEN",{exact:true})).toBeVisible();
  await page.getByRole("button",{name:"Draw Command Card"}).click();
  await expect(page.locator(".ks-command-card-main")).toBeVisible();
  await expect(page.locator(".ks-command-part strong")).toBeVisible();
