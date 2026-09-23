@@ -82,7 +82,7 @@
     const elapsed=performance.now()-startedAt;
     if(elapsed<720)await sleep(720-elapsed);
     setProgress(100,"Ready.");
-    await sleep(180);
+    await sleep(900);
   }catch(error){
     showError(status?.textContent||"unknown",error);
   }
