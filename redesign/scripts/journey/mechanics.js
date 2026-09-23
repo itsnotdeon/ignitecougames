@@ -1,5 +1,5 @@
-import {createRpsState,rpsPick,rpsWinner,createGuessColorState,guessColor,nextGuessRound} from "./rituals.js";
-import {starterNormalCards,starterExplicitCards,starterTruth,starterDare,starterIntimateTruth,starterIntimateDare,randomUnused} from "./content.js";
+import {createRpsState,rpsPick,rpsWinner,createGuessColorState,guessColor,nextGuessRound} from "./rituals.js?v=20260923-8";
+import {starterNormalCards,starterExplicitCards,starterTruth,starterDare,starterIntimateTruth,starterIntimateDare,randomUnused} from "./content.js?v=20260923-8";
 const sessions=new Map();
 function key(journey,step){return journey+":"+step}
 export function resetMechanic(journey,step){sessions.delete(key(journey,step))}
