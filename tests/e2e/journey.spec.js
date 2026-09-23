@@ -181,3 +181,36 @@ test("Phase 4 Profile and Settings are separated",async({page})=>{
  await expect(page.getByRole("button",{name:"Export Content"})).toBeVisible();
  await expect(page.getByRole("button",{name:"Export Backup"})).toBeVisible();
 });
+
+test("Phase 9 Journey is a story timeline and opens completed Journey details",async({page})=>{
+ await page.goto("");
+ await page.getByRole("button",{name:"Journey",exact:true}).click();
+ await expect(page.getByText("Your Story")).toBeVisible();
+ await expect(page.getByText("The story starts here")).toBeVisible();
+ await expect(page.getByText("What are you up for?")).not.toBeVisible();
+
+ await page.getByRole("button",{name:"Home",exact:true}).click();
+ await page.getByRole("button",{name:/Normal/}).click();
+ await page.locator('input[name="p1"]').fill("Deon");
+ await page.locator('input[name="p2"]').fill("Partner");
+ await page.getByRole("button",{name:"Save Couple"}).click();
+ await page.getByRole("button",{name:/Begin Journey/}).click();
+ for(let i=0;i<5;i++){await page.getByRole("button",{name:/Merah/}).click();if(i<4)await page.getByRole("button",{name:"Next Round"}).click();}
+ await page.getByRole("button",{name:"Continue →"}).click();
+ await page.getByRole("button",{name:"Skip"}).click();
+ await page.getByRole("button",{name:"Skip"}).click();
+ await page.getByRole("button",{name:"Skip"}).click();
+ await page.getByRole("button",{name:"Skip"}).click();
+ await page.getByRole("button",{name:/Finish Journey/}).click();
+ await page.getByRole("button",{name:"←"}).click();
+ await page.getByRole("button",{name:"Journey",exact:true}).click();
+ await expect(page.getByText("Normal Journey",{exact:true})).toBeVisible();
+ await expect(page.getByText("+60 XP",{exact:true})).toBeVisible();
+ await page.getByRole("button",{name:/Normal Journey/}).click();
+ await expect(page.getByText("Completed Journey")).toBeVisible();
+ await expect(page.getByText("Warm Up",{exact:true})).toBeVisible();
+ await expect(page.getByText("Close the Journey",{exact:true})).toBeVisible();
+ await page.reload();
+ await expect(page.getByText("Completed Journey")).toBeVisible();
+ await expect(page.getByText("Warm Up",{exact:true})).toBeVisible();
+});

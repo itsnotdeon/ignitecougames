@@ -33,6 +33,7 @@ const DEFAULT = () => ({
   },
   achievements: [],
   history: [],
+  journeyHistory: [],
   awarded: {}
 });
 
@@ -47,6 +48,7 @@ function read() {
       stats: { ...base.stats, ...(saved.stats || {}) },
       achievements: Array.isArray(saved.achievements) ? saved.achievements : [],
       history: Array.isArray(saved.history) ? saved.history : [],
+      journeyHistory: Array.isArray(saved.journeyHistory) ? saved.journeyHistory : [],
       awarded: saved.awarded || {}
     };
   } catch {
@@ -127,10 +129,27 @@ export function startJourney(journeyId) {
   return awardXP(10, journeyId === "dark" ? "Started After Dark" : "Started a Journey", "journey-start:" + Date.now());
 }
 
-export function completeJourney(journeyId) {
+export function completeJourney(journeyId, details = {}) {
   const progress = read();
   progress.stats.journeysCompleted += 1;
   if (journeyId === "dark") progress.stats.afterDarkCompleted += 1;
+
+  const completedAt = new Date().toISOString();
+  progress.journeyHistory.unshift({
+    id: "journey-" + Date.now(),
+    journeyId: String(journeyId || "normal"),
+    title: String(details.title || (journeyId === "dark" ? "After Dark" : "Journey")),
+    subtitle: String(details.subtitle || ""),
+    completedAt,
+    xp: journeyId === "dark" ? 75 : 60,
+    steps: Array.isArray(details.steps) ? details.steps.map((step, index) => ({
+      index,
+      title: String(step.title || "Moment"),
+      kind: String(step.kind || "activity"),
+      icon: String(step.icon || "♡")
+    })) : []
+  });
+  progress.journeyHistory = progress.journeyHistory.slice(0, 30);
   write(progress);
   return awardXP(journeyId === "dark" ? 75 : 60, journeyId === "dark" ? "After Dark completed" : "Journey completed", "journey-complete:" + journeyId + ":" + Date.now());
 }
