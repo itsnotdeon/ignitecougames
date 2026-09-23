@@ -20,7 +20,7 @@ test.beforeEach(async({page})=>{
 test("home renders and Normal Journey can complete",async({page})=>{
  await startNormal(page);
  await expect(page.getByText("Pilih warna kartu")).toBeVisible();
- for(let i=0;i<5;i++){ await page.getByRole("button",{name:/Merah/}).click(); await expect(page.getByText(/Kartu:/)).toBeVisible(); if(i<4) await page.getByRole("button",{name:"Next Round"}).click(); }
+ for(let i=0;i<5;i++){ await page.getByRole("button",{name:/Merah/}).click(); await expect(page.locator(".mechanic-result")).toBeVisible(); if(i<4) await page.getByRole("button",{name:"Next Round"}).click(); }
  await page.getByRole("button",{name:"Continue →"}).click();
  await page.getByRole("button",{name:"Skip"}).click();
  await page.getByRole("button",{name:"Skip"}).click();
