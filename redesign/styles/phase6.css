@@ -754,7 +754,9 @@ button.card:focus-visible,
   bottom:10px;
   transform:translateX(-50%);
   width:min(calc(100% - 28px),520px);
+  height:68px;
   min-height:68px;
+  box-sizing:border-box;
   display:grid;
   grid-template-columns:repeat(4,1fr);
   padding:7px;
