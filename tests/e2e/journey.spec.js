@@ -32,7 +32,8 @@ test("home renders and Normal Journey can complete",async({page})=>{
 
 test("Normal Journey exposes card and Truth or Dare mechanics",async({page})=>{
  await startNormal(page);
- await page.getByRole("button",{name:"Continue →"}).click();
+ await page.getByRole("button",{name:"Skip"}).click();
+ await expect(page.getByText("Talk Card")).toBeVisible();
  await expect(page.getByText("Talk Card")).toBeVisible();
  await page.getByText("Tap to reveal").click();
  await expect(page.locator(".reveal-card")).toContainText(/./);
