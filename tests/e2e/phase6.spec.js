@@ -109,3 +109,26 @@ test("Couple quote is generated from XP level instead of manual input",async({pa
   await page.getByRole("button",{name:"Profile",exact:true}).click();
   await expect(page.locator(".generated-couple-quote")).toContainText("Every story starts with a spark.");
 });
+
+test("Phase 6 replay starts Journey mechanics from a clean state",async({page})=>{
+  await page.goto("");
+  await page.getByRole("button",{name:/Normal/}).click();
+  await page.locator('input[name="p1"]').fill("Deon");
+  await page.locator('input[name="p2"]').fill("Partner");
+  await page.getByRole("button",{name:"Save Couple"}).click();
+  await page.getByRole("button",{name:/Begin Journey/}).click();
+
+  for(let i=0;i<5;i++){
+    await page.getByRole("button",{name:/Merah/}).click();
+    if(i<4) await page.getByRole("button",{name:"Next Round"}).click();
+  }
+  await page.getByRole("button",{name:"Continue →"}).click();
+  for(let i=0;i<4;i++) await page.getByRole("button",{name:"Skip"}).click();
+  await page.getByRole("button",{name:/Finish Journey/}).click();
+
+  await page.getByRole("button",{name:"Play Again"}).click();
+  await page.getByRole("button",{name:/Begin Journey/}).click();
+  await expect(page.getByText("Warm Up")).toBeVisible();
+  await expect(page.getByText("Pilih warna kartu")).toBeVisible();
+  await expect(page.locator(".mechanic-result")).toHaveCount(0);
+});
