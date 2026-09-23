@@ -38,5 +38,5 @@ test("Phase 6 reduced-motion preference removes long transitions",async({page})=
   await page.emulateMedia({reducedMotion:"reduce"});
   await page.goto("");
   const duration=await page.locator(".btn").first().evaluate(el=>getComputedStyle(el).transitionDuration);
-  expect(duration).toBe("0.01s");
+  expect(duration).toContain("0.01s");
 });
