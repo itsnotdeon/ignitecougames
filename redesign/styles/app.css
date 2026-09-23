@@ -117,9 +117,9 @@ button,input{font:inherit}button{cursor:pointer}button:focus-visible,input:focus
 .boot-progress span{display:block;width:0;height:100%;border-radius:inherit;background:linear-gradient(90deg,var(--rose),var(--gold));transition:width .24s ease}
 .boot-progress-meta{width:min(280px,82vw);display:flex;justify-content:space-between;margin-top:8px;font-size:8px;letter-spacing:.14em;color:var(--faint)}
 .boot-progress-meta strong{color:var(--muted);font-size:9px}
-.boot-orbit{position:absolute;width:210px;height:210px;border:1px solid rgba(255,106,150,.08);border-radius:50%;animation:ignite-orbit 8s linear infinite}
-.boot-orbit span{position:absolute;width:5px;height:5px;border-radius:50%;background:var(--rose);box-shadow:0 0 18px rgba(255,106,150,.55)}
-.boot-orbit span:nth-child(1){top:15px;left:72px}.boot-orbit span:nth-child(2){right:25px;bottom:55px;background:var(--gold)}.boot-orbit span:nth-child(3){left:24px;bottom:48px}
+.boot-orbit{position:absolute;width:180px;height:180px;border-radius:50%;background:radial-gradient(circle,rgba(255,106,150,.09) 0%,transparent 68%);filter:blur(1px);animation:ignite-breathe 2.8s ease-in-out infinite}
+.boot-orbit span{position:absolute;width:7px;height:7px;border-radius:50%;background:var(--rose);box-shadow:0 0 20px rgba(255,106,150,.45);animation:ignite-pulse 2.8s ease-in-out infinite}
+.boot-orbit span:nth-child(1){top:28px;left:50%;transform:translateX(-50%)}.boot-orbit span:nth-child(2){right:32px;bottom:48px;background:var(--gold);animation-delay:.5s}.boot-orbit span:nth-child(3){left:32px;bottom:48px;animation-delay:1s}
 .boot-error{align-items:stretch;text-align:left}.boot-error h1{align-self:center;text-align:center}.boot-error .boot-brand,.boot-error .boot-kicker{align-self:center}.boot-error p{color:var(--muted);font-size:12px}.boot-error pre{white-space:pre-wrap;word-break:break-word;background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:14px;font-size:10px;line-height:1.5;max-height:300px;overflow:auto;color:var(--muted)}
 .welcome-shell{justify-content:flex-end;align-items:stretch;text-align:left;min-height:calc(100vh - 24px);padding:38px 18px 30px}
 .welcome-glow{position:absolute;width:320px;height:320px;border-radius:50%;background:radial-gradient(circle,rgba(255,106,150,.17),transparent 68%);top:5%;right:-140px;pointer-events:none}
@@ -130,5 +130,5 @@ button,input{font:inherit}button{cursor:pointer}button:focus-visible,input:focus
 .welcome-meta{display:flex;justify-content:space-between;color:var(--faint);font-size:8px;letter-spacing:.16em;font-weight:800;position:relative}
 .welcome-enter{margin-top:28px;min-height:50px;position:relative}
 .welcome-note{color:var(--faint);font-size:9px;text-align:center;margin-top:12px}
-@keyframes ignite-orbit{to{transform:rotate(360deg)}}
-@media(prefers-reduced-motion:reduce){.boot-orbit{animation:none}.boot-progress span{transition:none}}
+@keyframes ignite-breathe{0%,100%{transform:scale(.92);opacity:.55}50%{transform:scale(1.06);opacity:1}}@keyframes ignite-pulse{0%,100%{transform:scale(.7);opacity:.45}50%{transform:scale(1.25);opacity:1}}
+@media(prefers-reduced-motion:reduce){.boot-orbit,.boot-orbit span{animation:none}.boot-progress span{transition:none}}
