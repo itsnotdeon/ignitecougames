@@ -78,3 +78,385 @@ input{min-height:46px}
     scroll-behavior:auto!important;
   }
 }
+
+
+/* IGNITE UI SYSTEM — visual direction v1
+   Reference: dark romantic editorial mobile UI.
+   Keep interaction/HTML structure intact; this layer changes presentation only.
+*/
+:root{
+  --bg:#0c070a;
+  --bg-2:#160a11;
+  --surface:#1b0d13;
+  --surface-2:#28131c;
+  --surface-3:#351923;
+  --text:#fff7f8;
+  --muted:#caaeb7;
+  --faint:#8f6874;
+  --rose:#ff718f;
+  --rose-2:#ff9bad;
+  --gold:#e8c58a;
+  --line:rgba(255,220,228,.13);
+  --line-strong:rgba(255,165,184,.34);
+  --shadow:0 18px 55px rgba(0,0,0,.46);
+  --display:"Cormorant Garamond",Georgia,serif;
+  --body:"Inter",system-ui,sans-serif;
+}
+
+html,body{
+  min-height:100%;
+  background:
+    radial-gradient(ellipse at 12% 7%,rgba(184,47,73,.20),transparent 28%),
+    radial-gradient(ellipse at 90% 18%,rgba(255,112,143,.10),transparent 24%),
+    radial-gradient(ellipse at 50% 105%,rgba(103,22,45,.24),transparent 42%),
+    linear-gradient(180deg,#17090f 0%,#090508 100%);
+}
+
+body{
+  position:relative;
+  color:var(--text);
+}
+
+body::before,
+body::after{
+  content:"";
+  position:fixed;
+  pointer-events:none;
+  z-index:0;
+  opacity:.38;
+  filter:blur(1px);
+}
+body::before{
+  width:240px;height:360px;
+  left:-105px;top:10%;
+  background:radial-gradient(ellipse,rgba(127,20,44,.34),transparent 68%);
+  transform:rotate(-18deg);
+}
+body::after{
+  width:280px;height:420px;
+  right:-140px;bottom:0;
+  background:radial-gradient(ellipse,rgba(145,28,55,.28),transparent 68%);
+  transform:rotate(20deg);
+}
+
+.app-shell{
+  position:relative;
+  z-index:1;
+  width:min(100%,430px);
+  min-height:100svh;
+  margin:0 auto;
+  padding:22px 18px max(34px,var(--safe-bottom));
+}
+
+.topbar{
+  min-height:44px;
+  margin-bottom:30px;
+  position:relative;
+}
+.topbar .brand{
+  position:absolute;
+  left:50%;
+  transform:translateX(-50%);
+  font-size:24px;
+  letter-spacing:.16em;
+  color:#fff2f5;
+  text-shadow:0 2px 20px rgba(255,100,140,.16);
+}
+.topbar > span:last-child:empty{display:block}
+
+.profile-chip{
+  border:1px solid rgba(255,180,198,.20);
+  background:rgba(255,255,255,.055);
+  color:#f4dbe2;
+  border-radius:999px;
+  padding:8px 12px;
+  box-shadow:0 8px 25px rgba(0,0,0,.18);
+}
+
+.eyebrow,
+.game-meta{
+  color:#f38da4;
+  letter-spacing:.20em;
+  font-size:9px;
+  font-weight:700;
+}
+
+.hero{
+  margin-bottom:26px;
+}
+.hero .eyebrow{margin-bottom:12px}
+h1{
+  font-size:clamp(52px,14vw,68px);
+  line-height:.86;
+  letter-spacing:-.045em;
+  font-weight:600;
+  text-shadow:0 5px 28px rgba(0,0,0,.34);
+}
+h2{
+  font-size:42px;
+  line-height:.92;
+  font-weight:600;
+}
+h3{
+  font-size:27px;
+  font-weight:600;
+}
+.hero p{
+  max-width:350px;
+  color:#bfa4ad;
+  font-size:12px;
+  line-height:1.6;
+  margin-top:18px;
+}
+
+.section-label{
+  margin:27px 0 10px;
+  color:#a47b86;
+  font-size:9px;
+  letter-spacing:.19em;
+}
+
+.card{
+  border:1px solid rgba(255,213,223,.12);
+  background:
+    linear-gradient(145deg,rgba(255,255,255,.055),rgba(255,255,255,.012) 65%),
+    rgba(29,13,20,.94);
+  border-radius:20px;
+  box-shadow:var(--shadow);
+  backdrop-filter:blur(12px);
+}
+
+.progression-card{
+  border-radius:18px;
+  padding:15px 16px;
+  background:linear-gradient(145deg,rgba(73,28,40,.75),rgba(25,10,17,.92));
+}
+.progression-card .eyebrow{font-size:8px}
+.progression-card strong{font-family:var(--display);font-size:21px;font-weight:600}
+.progression-card span{font-size:10px}
+.progression-bar{
+  height:4px;
+  background:rgba(255,255,255,.09);
+}
+.progression-bar span{
+  background:linear-gradient(90deg,#ff7694,#ff9cac);
+}
+
+.experience-grid{
+  gap:10px;
+}
+.experience-card{
+  min-height:158px;
+  padding:17px;
+  border-radius:18px;
+  background:
+    linear-gradient(145deg,rgba(255,255,255,.06),rgba(255,255,255,.012)),
+    rgba(29,12,19,.94);
+}
+.experience-card.normal{border-color:rgba(255,132,158,.28)}
+.experience-card.dark{
+  border-color:rgba(255,106,112,.25);
+  background:
+    linear-gradient(145deg,rgba(92,25,40,.35),rgba(28,10,17,.95)),
+    rgba(29,12,19,.94);
+}
+.experience-card .icon{
+  font-size:22px;
+  margin-bottom:18px;
+}
+.experience-card h3{margin-bottom:5px}
+.experience-card p{
+  color:#bda3ad;
+  font-size:11px;
+}
+
+.continue-card{
+  padding:17px 18px;
+  border-radius:18px;
+}
+.continue-card > span:last-child{
+  width:38px;height:38px;
+  display:grid;place-items:center;
+  border-radius:50%;
+  color:#fff;
+  background:linear-gradient(135deg,#ff7794,#dc466b);
+  box-shadow:0 8px 22px rgba(255,76,116,.22);
+}
+
+.progress{
+  height:3px;
+  margin-top:11px;
+}
+.progress span{
+  background:linear-gradient(90deg,#ff718f,#ff9bae);
+}
+
+.btn{
+  min-height:48px;
+  padding:13px 20px;
+  border-radius:999px;
+  border:1px solid rgba(255,192,207,.25);
+  background:rgba(255,255,255,.035);
+  color:#fff4f6;
+  font-size:12px;
+  font-weight:700;
+  letter-spacing:.01em;
+  box-shadow:0 8px 24px rgba(0,0,0,.20);
+}
+.btn:hover{
+  transform:translateY(-1px);
+  border-color:rgba(255,171,191,.42);
+}
+.btn.primary{
+  border:0;
+  background:linear-gradient(135deg,#ff7896 0%,#f45b7f 55%,#e8466d 100%);
+  color:#fff;
+  box-shadow:0 10px 28px rgba(241,67,105,.28);
+}
+.btn.ghost{
+  min-width:44px;
+  padding:10px 14px;
+  border-color:rgba(255,255,255,.13);
+  color:#d7c0c8;
+  background:rgba(255,255,255,.035);
+}
+.btn.full{width:100%}
+.btn-row{gap:9px}
+
+.name-form{
+  padding:19px;
+  border-radius:20px;
+}
+.field{gap:7px}
+.field label{
+  color:#c5aab4;
+  font-size:10px;
+}
+.field input{
+  border:1px solid rgba(255,205,217,.13);
+  background:rgba(8,4,7,.35);
+  border-radius:14px;
+  padding:14px;
+  color:#fff;
+  font-size:13px;
+}
+.field input:focus{
+  border-color:rgba(255,121,150,.58);
+  box-shadow:0 0 0 3px rgba(255,94,132,.08);
+}
+
+.session-card,
+.intro-card,
+.complete-card{
+  border-radius:24px;
+  background:
+    radial-gradient(circle at 50% 0%,rgba(255,102,139,.09),transparent 38%),
+    linear-gradient(145deg,rgba(255,255,255,.055),rgba(255,255,255,.012)),
+    rgba(25,10,16,.94);
+}
+.session-card .type{color:#f58ca3}
+.session-card h2,
+.intro-card h2,
+.complete-card h2{
+  font-size:42px;
+}
+.session-card p,
+.intro-card p,
+.complete-card p{
+  color:#c3a8b1;
+  font-size:12px;
+}
+.session .progress{
+  background:rgba(255,255,255,.07);
+}
+.session .progress span{
+  background:linear-gradient(90deg,#ff718f,#ff9daf);
+}
+
+.meta-pill{
+  border:1px solid rgba(255,190,205,.16);
+  background:rgba(255,255,255,.035);
+  color:#d7b9c3;
+  border-radius:999px;
+}
+
+.consent{
+  border:1px solid rgba(255,190,205,.12);
+  border-radius:15px;
+  background:rgba(255,255,255,.025);
+}
+
+.mini-grid{gap:10px}
+.mini-card{
+  min-height:125px;
+  border-radius:18px;
+  padding:16px;
+}
+.mini-card strong{
+  font-size:21px;
+}
+.mini-card span{
+  font-size:10px;
+  color:#bda4ad;
+}
+
+.choice-grid{gap:8px}
+.choice{
+  min-height:50px;
+  border-radius:999px;
+}
+.toggle-row .btn{border-radius:999px}
+
+.reveal-card{
+  min-height:190px;
+  border-radius:22px;
+  background:
+    radial-gradient(circle at 50% 25%,rgba(255,214,198,.17),transparent 38%),
+    linear-gradient(145deg,#f0d7cb,#d9a9aa);
+  color:#3b1823;
+  box-shadow:0 18px 45px rgba(0,0,0,.28);
+}
+
+.game-prompt{
+  border-radius:20px;
+  border-color:rgba(255,200,213,.13);
+  background:rgba(255,255,255,.025);
+}
+.game-prompt strong{
+  font-size:27px;
+}
+.snake-board{
+  border-radius:18px;
+}
+.chess-board{
+  border-radius:16px;
+  box-shadow:0 18px 40px rgba(0,0,0,.3);
+}
+
+.content-manager,.data-manager{margin-top:20px}
+.content-actions .btn{
+  border-radius:999px;
+}
+
+.btn.danger{
+  color:#ff9aab;
+  border-color:rgba(255,110,130,.28);
+}
+
+@media(max-width:479px){
+  .app-shell{
+    padding-left:16px;
+    padding-right:16px;
+  }
+  .topbar{margin-bottom:28px}
+  .hero{margin-bottom:22px}
+  h1{font-size:clamp(50px,14.5vw,61px)}
+  h2{font-size:38px}
+  .experience-card{min-height:150px}
+  .btn{min-height:50px}
+}
+
+@media(prefers-reduced-motion:no-preference){
+  .card,.btn{transition:transform .18s ease,border-color .18s ease,box-shadow .18s ease,background .18s ease}
+  .card:hover{box-shadow:0 22px 60px rgba(0,0,0,.48)}
+}
