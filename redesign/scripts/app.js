@@ -55,8 +55,21 @@ function renderIntro(){const j=state.currentJourney;if(!j){setView("home");retur
 function renderMechanic(s){
  if(!s.mechanic)return"";
  const d=mechanicView(s.mechanic,state.step);
- if(s.mechanic==="guess-color")return'<div class="mechanic"><div class="mechanic-note">'+(d.revealed?"Kartu: "+d.currentSuit.symbol+" · "+(d.currentSuit.color==="red"?"Merah":"Hitam"):"Pilih warna kartu")+'</div><div class="choice-grid"><button class="btn choice" data-mechanic="guess" data-value="red" '+(d.revealed?"disabled":"")+'>🔴 Merah</button><button class="btn choice" data-mechanic="guess" data-value="black" '+(d.revealed?"disabled":"")+'>⚫ Hitam</button></div>'+(d.revealed?'<button class="btn ghost full" data-mechanic="next-round">Next Round</button>':"")+'</div>';
- if(s.mechanic==="rps")return'<div class="mechanic"><div class="mechanic-note">'+(d.stage==="p1"?esc(state.names.p1||"Player 1")+" pilih dulu, lalu oper HP.":d.stage==="p2"?esc(state.names.p2||"Player 2")+" pilih sekarang.":"Hasil: "+esc(winnerLabel(d,state.names)))+'</div><div class="choice-grid three"><button class="btn choice" data-mechanic="pick" data-value="rock" '+(d.stage==="result"?"disabled":"")+'>✊ Batu</button><button class="btn choice" data-mechanic="pick" data-value="paper" '+(d.stage==="result"?"disabled":"")+'>✋ Kertas</button><button class="btn choice" data-mechanic="pick" data-value="scissors" '+(d.stage==="result"?"disabled":"")+'>✌️ Gunting</button></div>'+(d.stage==="result"?'<button class="btn ghost full" data-mechanic="rps-next">Next Round</button>':"")+'</div>';
+ if(s.mechanic==="guess-color"){
+  const correct=d.lastGuess===d.currentSuit.color;
+  return '<div class="mechanic"><div class="round-label">Round '+Math.min(d.roundsPlayed+1,d.targetRounds)+' / '+d.targetRounds+'</div>'+
+   (d.revealed?'<div class="mechanic-result '+(correct?"success":"miss")+'"><div class="result-kicker">'+(correct?"BENAR":"BELUM TEPAT")+'</div><strong>'+d.currentSuit.symbol+" "+(d.currentSuit.color==="red"?"Merah":"Hitam")+'</strong><span>'+(correct?"Tebakan kalian tepat.":"Kartu yang terbuka berbeda dari tebakan.")+'</span></div>':'<div class="mechanic-note">Pilih warna kartu sebelum dibuka.</div>')+
+   '<div class="choice-grid"><button class="btn choice" data-mechanic="guess" data-value="red" '+(d.revealed?"disabled":"")+'>🔴 Merah</button><button class="btn choice" data-mechanic="guess" data-value="black" '+(d.revealed?"disabled":"")+'>⚫ Hitam</button></div>'+
+   (d.revealed?'<button class="btn ghost full" data-mechanic="next-round">Next Round</button>':"")+'</div>';
+ }
+ if(s.mechanic==="rps"){
+  const labels={rock:"✊ Batu",paper:"✋ Kertas",scissors:"✌️ Gunting"};
+  const winner=winnerLabel(d,state.names);
+  return '<div class="mechanic"><div class="round-label">Round '+Math.min(d.roundsPlayed+1,d.targetRounds)+' / '+d.targetRounds+'</div>'+
+   (d.stage==="result"?'<div class="mechanic-result '+(winner==="Seri"?"draw":"success")+'"><div class="result-kicker">HASIL RONDE</div><strong>'+esc(winner)+'</strong><span>'+esc(state.names.p1||"Player 1")+'  ·  '+labels[d.p1Move]+' &nbsp; vs &nbsp; '+esc(state.names.p2||"Player 2")+'  ·  '+labels[d.p2Move]+'</span></div>':'<div class="mechanic-note">'+(d.stage==="p1"?esc(state.names.p1||"Player 1")+" pilih dulu, lalu oper HP.":esc(state.names.p2||"Player 2")+" pilih sekarang.")+'</div>')+
+   '<div class="choice-grid three"><button class="btn choice" data-mechanic="pick" data-value="rock" '+(d.stage==="result"?"disabled":"")+'>✊ Batu</button><button class="btn choice" data-mechanic="pick" data-value="paper" '+(d.stage==="result"?"disabled":"")+'>✋ Kertas</button><button class="btn choice" data-mechanic="pick" data-value="scissors" '+(d.stage==="result"?"disabled":"")+'>✌️ Gunting</button></div>'+
+   (d.stage==="result"?'<button class="btn ghost full" data-mechanic="rps-next">Next Round</button>':"")+'</div>';
+ }
  if(s.mechanic==="card"||s.mechanic==="explicit-card")return'<div class="mechanic"><button class="card reveal-card" data-mechanic="draw-card">'+(d.revealed?'<span>'+esc(d.text)+'</span>':'<span>♡<br><small>Tap to reveal</small></span>')+'</button></div>';
  if(s.mechanic==="tod"||s.mechanic==="intimate-tod")return'<div class="mechanic"><div class="toggle-row"><button class="btn '+(d.mode==="truth"?"primary":"ghost")+'" data-mechanic="tod-mode" data-value="truth">Truth</button><button class="btn '+(d.mode==="dare"?"primary":"ghost")+'" data-mechanic="tod-mode" data-value="dare">Dare</button></div><button class="card reveal-card" data-mechanic="tod-draw">'+(d.revealed?'<span>'+esc(d.text)+'</span>':'<span>◇<br><small>Tap to reveal</small></span>')+'</button></div>';
  return"";
