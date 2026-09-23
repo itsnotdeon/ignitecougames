@@ -89,8 +89,8 @@ function renderBoard(s,names){
     return '<div class="snake-cell '+(p1?"p1 ":"")+(p2?"p2 ":"")+(special?"special ":"")+(LADDERS[n]?"ladder ":"")+(SNAKES[n]?"snake ":"")+'">'+
       '<span>'+n+'</span>'+
       (LADDERS[n]?'<b class="snake-marker ladder-marker" aria-label="Ladder">🪜</b>':"")+
-      (SNAKES[n]?'<b class="snake-marker snake-marker">↘</b>':"")+
-      (special?'<i class="special-marker">'+SPECIAL_ICONS[special]+'</i>':"")+
+      (SNAKES[n]?'<b class="snake-marker snake-marker" aria-label="Snake">🐍</b>':"")+
+      (special?'<i class="special-marker" aria-label="'+escapeHtml(SPECIAL_LABELS[special])+'">'+SPECIAL_ICONS[special]+'</i>':"")+
       (p1?'<em class="pawn p1-pawn">'+escapeHtml((names[0]||"P").charAt(0).toUpperCase())+'</em>':"")+
       (p2?'<em class="pawn p2-pawn">'+escapeHtml((names[1]||"P").charAt(0).toUpperCase())+'</em>':"")+
     '</div>';
