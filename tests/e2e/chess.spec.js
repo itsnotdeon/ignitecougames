@@ -9,7 +9,7 @@ async function openChess(page){
 
 async function chessModule(page){
   return page.evaluate(async()=>{
-    const m=await import("./scripts/minigames/chess.js");
+    const m=await import("/redesign/scripts/minigames/chess.js");
     const s=m.createChessState();
     const play=(from,to)=>{m.chessClick(s,from);m.chessClick(s,to)};
     return {m,s,play};
@@ -32,7 +32,7 @@ test("Chess renders equal square geometry and both piece colors",async({page})=>
 
 test("Chess supports normal pawn movement and turn switching",async({page})=>{
   const result=await page.evaluate(async()=>{
-    const m=await import("./scripts/minigames/chess.js");
+    const m=await import("/redesign/scripts/minigames/chess.js");
     const s=m.createChessState();
     m.chessClick(s,52);m.chessClick(s,36);
     return {turn:s.turn,piece:s.board[36]};
@@ -43,7 +43,7 @@ test("Chess supports normal pawn movement and turn switching",async({page})=>{
 
 test("Chess supports castling and en passant",async({page})=>{
   const result=await page.evaluate(async()=>{
-    const m=await import("./scripts/minigames/chess.js");
+    const m=await import("/redesign/scripts/minigames/chess.js");
     const s=m.createChessState();
     const play=(from,to)=>{m.chessClick(s,from);m.chessClick(s,to)};
     play(52,36);play(12,28);
@@ -61,7 +61,7 @@ test("Chess supports castling and en passant",async({page})=>{
 
 test("Chess supports en passant",async({page})=>{
   const result=await page.evaluate(async()=>{
-    const m=await import("./scripts/minigames/chess.js");
+    const m=await import("/redesign/scripts/minigames/chess.js");
     const s=m.createChessState();
     const play=(from,to)=>{m.chessClick(s,from);m.chessClick(s,to)};
     play(52,36);play(8,16);
