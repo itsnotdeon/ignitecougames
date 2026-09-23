@@ -72,16 +72,20 @@ test("Phase 3 Roleplay opens and can advance scenes",async({page})=>{
  await expect(page.getByText("YOUR MOVE")).toBeVisible();
 });
 
-test("Phase 3 King & Slave requires consent and rolls a round",async({page})=>{
+test("Phase 3 King & Slave requires consent and reveals a fair round",async({page})=>{
  await page.goto("");
  await page.getByRole("button",{name:/Minigames/}).click();
  await page.getByRole("button",{name:/King & Slave/}).click();
- await expect(page.getByText("King & Slave")).toBeVisible();
+ await expect(page.getByText("KING & SLAVE",{exact:true})).toBeVisible();
  await page.locator("#ks-consent").check();
- await page.getByRole("button",{name:"Start Game"}).click();
- await expect(page.getByText("Who holds the crown?")).toBeVisible();
- await page.getByRole("button",{name:"Roll Dice"}).click();
- await expect(page.getByText("Your Command")).toBeVisible();
+ await page.getByRole("button",{name:"Mulai Sesi"}).click();
+ await expect(page.getByText("ROUND 1",{exact:true})).toBeVisible();
+ await page.getByRole("button",{name:"Reveal King"}).click();
+ await expect(page.getByText("KING / QUEEN",{exact:true})).toBeVisible();
+ await page.getByRole("button",{name:"Draw Command Card"}).click();
+ await expect(page.locator(".ks-command-card-main")).toBeVisible();
+ await expect(page.getByRole("button",{name:"Jalankan"})).toBeVisible();
+ await expect(page.getByRole("button",{name:"Skip"})).toBeVisible();
 });
 
 test("Phase 3 Chess renders board, keeps square geometry, distinguishes piece colors, and accepts legal moves",async({page})=>{
