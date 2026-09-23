@@ -38,6 +38,7 @@ function freshState() {
     rolled: false,
     rollP1: null,
     rollP2: null,
+    rollStarted: false,
     command: null,
     commandDrawn: false,
     currentCommands: [],
@@ -208,6 +209,7 @@ export function kingAction(state, action, value) {
   }
 
   if (action === "roll") {
+    state.rollStarted = true;
     state.rollP1 = 1 + Math.floor(Math.random() * 6);
     state.rollP2 = 1 + Math.floor(Math.random() * 6);
 
@@ -362,7 +364,7 @@ export function renderKing(state, names) {
         '</div>' +
         '<p class="ks-fair-note">' + note + '</p>' +
         '<button class="ks-main-btn" data-mini="ks-roll">' +
-          (state.rollP1 === null ? "Roll Again" : "Reveal King") +
+          (state.rollStarted ? "Roll Again" : "Reveal King") +
         '</button>' +
       '</section>';
   } else if (!state.commandDrawn) {
