@@ -2,7 +2,7 @@ name: Playwright E2E
 
 on:
   push:
-    branches: ["redesign/guided-journey"]
+    branches: ["main", "redesign/guided-journey"]
   pull_request:
     branches: ["redesign/guided-journey"]
 
