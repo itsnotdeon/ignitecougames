@@ -1,6 +1,6 @@
 import {createRoleplayState,setRoleplayMode,nextRoleplay,renderRoleplay} from "./roleplay.js";
 import {createKingState,kingAction,renderKing} from "./kingslave.js";
-import {createChessState,chessClick,chessUndo,chessPromote,renderChess} from "./chess.js";
+import {createChessState,chessClick,chessUndo,renderChess} from "./chess.js";
 import {createSnakeState,snakeRoll,snakeContinue,renderSnake} from "./snake.js";
 
 const state={active:null,roleplay:createRoleplayState(),king:createKingState(),chess:createChessState(),snake:createSnakeState()};
@@ -20,6 +20,6 @@ export function minigameView(names){
 export function minigameAction(action,value){
  if(state.active==="roleplay"){if(action==="roleplay-next")nextRoleplay(state.roleplay);if(action==="roleplay-switch"){state.roleplay.usedRoles=new Set();nextRoleplay(state.roleplay)}if(action==="roleplay-mode")setRoleplayMode(state.roleplay,value);return}
  if(state.active==="king"){if(action==="ks-consent"){const box=document.querySelector("#ks-consent");if(box&&!box.checked)return;kingAction(state.king,"consent")}else if(action==="ks-roll")kingAction(state.king,"roll");else if(action==="ks-done")kingAction(state.king,"done");else if(action==="ks-mode")kingAction(state.king,"mode");return}
- if(state.active==="chess"){if(action==="chess-square")chessClick(state.chess,Number(value));else if(action==="chess-undo")chessUndo(state.chess);else if(action==="chess-promote")chessPromote(state.chess,value);else if(action==="chess-reset")state.chess=createChessState();return}
+ if(state.active==="chess"){if(action==="chess-square")chessClick(state.chess,Number(value));else if(action==="chess-undo")chessUndo(state.chess);else if(action==="chess-reset")state.chess=createChessState();return}
  if(state.active==="snake"){if(action==="snake-roll")snakeRoll(state.snake);else if(action==="snake-continue")snakeContinue(state.snake);else if(action==="snake-reset")state.snake=createSnakeState()}
 }
