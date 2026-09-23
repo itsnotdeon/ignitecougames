@@ -1,0 +1,2 @@
+import {chooseSurprise} from "./dynamicJourney.js";
+export function createSurpriseContext({level,preferences,memories}){const ctx=chooseSurprise({level,preferences,memories});const durations=["short","medium","long"];const duration=preferences?.duration&&durations.includes(preferences.duration)?preferences.duration:durations[level%durations.length];return{...ctx,duration,intensity:preferences?.intensity||"balanced"}}
