@@ -1,0 +1,3 @@
+const RULES=[{level:1,label:"Spark",items:["Normal Journey","Talk Cards"]},{level:2,label:"Closer",items:["Surprise Mode","Couple Memories"]},{level:3,label:"Connected",items:["Deep vibe","Dynamic Journey"]},{level:4,label:"In Sync",items:["Spontaneous vibe","Extra rituals"]},{level:5,label:"Ignited",items:["After Dark"]},{level:6,label:"Deeply Connected",items:["Intimate vibe","Long Journey"]},{level:7,label:"Unstoppable Duo",items:["Challenge Journey"]},{level:8,label:"IGNITE",items:["Full Surprise Mode"]}];
+export function getUnlocks(level){return RULES.filter(x=>x.level<=level).flatMap(x=>x.items)}
+export function getCurrentUnlocks(level){return RULES.find(x=>x.level===level)?.items||[]}
