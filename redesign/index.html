@@ -10,12 +10,25 @@
 <link rel="stylesheet" href="./styles/phase6.css">
 </head>
 <body>
-<main id="app" class="app-shell"><section style="min-height:100vh;display:grid;place-items:center;padding:24px;color:#fff;font-family:system-ui;background:#160a11"><div style="max-width:720px;width:100%;text-align:center"><div style="font-size:12px;letter-spacing:.18em;opacity:.7;margin-bottom:14px">IGNITE BOOT</div><h1 style="font-family:Georgia,serif;font-size:42px;line-height:1.05;margin:0 0 12px">IGNITE sedang memuat.</h1><p id="boot-status" style="opacity:.8">Memeriksa module aplikasi…</p></div></section></main>
+<main id="app" class="app-shell">
+<section class="boot-screen" aria-label="IGNITE loading">
+  <div class="boot-orbit" aria-hidden="true"><span></span><span></span><span></span></div>
+  <div class="boot-brand">IGNITE</div>
+  <div class="boot-kicker">COUPLE EXPERIENCE</div>
+  <h1>Preparing your moment.</h1>
+  <p id="boot-status" class="boot-status">Starting IGNITE…</p>
+  <div class="boot-progress" role="progressbar" aria-label="Loading progress" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0"><span id="boot-progress-fill"></span></div>
+  <div class="boot-progress-meta"><span>LOADING</span><strong id="boot-progress-value">0%</strong></div>
+</section>
+</main>
 <script>
 (async function(){
   const app=document.querySelector("#app");
   const status=document.querySelector("#boot-status");
-  const revision="20260924-02";
+  const fill=document.querySelector("#boot-progress-fill");
+  const value=document.querySelector("#boot-progress-value");
+  const bar=document.querySelector(".boot-progress");
+  const revision="20260924-03";
   const modules=[
     "./scripts/journey/mechanics.js",
     "./scripts/data/topics.js",
@@ -28,24 +41,48 @@
     "./scripts/minigames/kingslave.js",
     "./scripts/minigames/chess.js",
     "./scripts/minigames/snake.js",
-    "./scripts/features/memories.js",
     "./scripts/minigames/index.js"
   ];
-  const setStatus=(text)=>{if(status)status.textContent=text};
+  const startedAt=performance.now();
+  const sleep=ms=>new Promise(resolve=>setTimeout(resolve,ms));
+  const setProgress=(percent,label)=>{
+    const n=Math.max(0,Math.min(100,Math.round(percent)));
+    if(fill)fill.style.width=n+"%";
+    if(value)value.textContent=n+"%";
+    if(bar)bar.setAttribute("aria-valuenow",String(n));
+    if(status)status.textContent=label;
+  };
   const showError=(stage,error)=>{
     const message=String(error&&error.message||error||"Unknown error");
     const stack=String(error&&error.stack||"");
     console.error("[IGNITE BOOT ERROR]",stage,error);
-    app.innerHTML='<section style="min-height:100vh;display:grid;place-items:center;padding:24px;color:#fff;font-family:system-ui;background:#160a11"><div style="max-width:820px;width:100%"><div style="font-size:12px;letter-spacing:.18em;opacity:.7;margin-bottom:14px">IGNITE BOOT ERROR</div><h1 style="font-family:Georgia,serif;font-size:42px;line-height:1.05;margin:0 0 18px">Module gagal dimuat.</h1><p style="opacity:.85">Stage: <strong>'+stage+'</strong></p><pre style="white-space:pre-wrap;word-break:break-word;background:#24121a;border:1px solid #4a2734;border-radius:14px;padding:16px;font-size:12px;line-height:1.5;max-height:340px;overflow:auto">'+message+'\n\n'+stack+'</pre><button id="ignite-reset-reload" style="padding:12px 18px;border:0;border-radius:12px">Reset &amp; Reload</button></div></section>';
-    document.querySelector("#ignite-reset-reload")?.addEventListener("click",()=>{localStorage.removeItem("ignite-redesign-v4");location.reload()});
+    app.innerHTML='<section class="boot-error"><div class="boot-brand">IGNITE</div><div class="boot-kicker">BOOT ERROR</div><h1>Something interrupted the start.</h1><p>Stage: <strong>'+stage+'</strong></p><pre>'+message+"\n\n"+stack+'</pre><button class="btn primary" id="ignite-reset-reload">Reset &amp; Reload</button></section>';
+    document.querySelector("#ignite-reset-reload")?.addEventListener("click",()=>{
+      localStorage.removeItem("ignite-redesign-v4");
+      sessionStorage.removeItem("ignite-welcome-seen");
+      location.reload();
+    });
   };
   try{
-    for(const path of modules){
-      setStatus("Memeriksa "+path);
-      await Promise.race([import(path+"?v="+revision),new Promise((_,reject)=>setTimeout(()=>reject(new Error("Timeout loading module")),10000))]);
+    setProgress(4,"Starting IGNITE…");
+    await sleep(120);
+    for(let i=0;i<modules.length;i++){
+      const path=modules[i];
+      setProgress(8+(i/modules.length)*78,"Preparing "+path.split("/").pop()+"…");
+      await Promise.race([
+        import(path+"?v="+revision),
+        new Promise((_,reject)=>setTimeout(()=>reject(new Error("Timeout loading module")),10000))
+      ]);
     }
-    setStatus("Memulai aplikasi…");
-    await Promise.race([import("./scripts/app.js?v="+revision),new Promise((_,reject)=>setTimeout(()=>reject(new Error("Timeout loading app.js")),10000))]);
+    setProgress(90,"Starting your experience…");
+    await Promise.race([
+      import("./scripts/app.js?v="+revision),
+      new Promise((_,reject)=>setTimeout(()=>reject(new Error("Timeout loading app.js")),10000))
+    ]);
+    const elapsed=performance.now()-startedAt;
+    if(elapsed<720)await sleep(720-elapsed);
+    setProgress(100,"Ready.");
+    await sleep(180);
   }catch(error){
     showError(status?.textContent||"unknown",error);
   }
