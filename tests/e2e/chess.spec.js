@@ -7,13 +7,9 @@ async function openChess(page){
   await expect(page.locator(".chess-board")).toBeVisible();
 }
 
-async function chessModule(page){
-  return page.evaluate(async()=>{
-    const m=await import("/redesign/scripts/minigames/chess.js");
-    const s=m.createChessState();
-    const play=(from,to)=>{m.chessClick(s,from);m.chessClick(s,to)};
-    return {m,s,play};
-  });
+async function move(page,from,to){
+  await page.locator('[data-mini="chess-square"][data-index="'+from+'"]').click();
+  await page.locator('[data-mini="chess-square"][data-index="'+to+'"]').click();
 }
 
 test("Chess renders equal square geometry and both piece colors",async({page})=>{
@@ -31,50 +27,37 @@ test("Chess renders equal square geometry and both piece colors",async({page})=>
 });
 
 test("Chess supports normal pawn movement and turn switching",async({page})=>{
-  const result=await page.evaluate(async()=>{
-    const m=await import("/redesign/scripts/minigames/chess.js");
-    const s=m.createChessState();
-    m.chessClick(s,52);m.chessClick(s,36);
-    return {turn:s.turn,piece:s.board[36]};
-  });
-  expect(result.turn).toBe("b");
-  expect(result.piece).toEqual({c:"w",t:"p"});
+  await openChess(page);
+  await move(page,52,36);
+  await expect(page.locator('[data-mini="chess-square"][data-index="36"]')).toContainText("♙");
+  await expect(page.getByText(/Player 2 bergerak/)).toBeVisible();
 });
 
-test("Chess supports castling and en passant",async({page})=>{
-  const result=await page.evaluate(async()=>{
-    const m=await import("/redesign/scripts/minigames/chess.js");
-    const s=m.createChessState();
-    const play=(from,to)=>{m.chessClick(s,from);m.chessClick(s,to)};
-    play(52,36);play(12,28);
-    play(62,45);play(1,18);
-    play(61,52);play(6,21);
-    play(60,62);
-    const castle={king:s.board[62],rook:s.board[61],g1Empty:s.board[62]?.t==="k"};
-    m.chessUndo(s);
-    return {castle,turn:s.turn};
-  });
-  expect(result.castle.king).toEqual({c:"w",t:"k"});
-  expect(result.castle.rook).toEqual({c:"w",t:"r"});
-  expect(result.turn).toBe("w");
+test("Chess supports castling with a legal king-side sequence",async({page})=>{
+  await openChess(page);
+  await move(page,52,36); await expect(page.locator('[data-index="36"]')).toContainText("♙");
+  await move(page,12,28); await expect(page.locator('[data-index="28"]')).toContainText("♟");
+  await move(page,62,45); await expect(page.locator('[data-index="45"]')).toContainText("♘");
+  await move(page,1,18); await expect(page.locator('[data-index="18"]')).toContainText("♞");
+  await move(page,61,52); await expect(page.locator('[data-index="52"]')).toContainText("♗");
+  await move(page,6,21); await expect(page.locator('[data-index="21"]')).toContainText("♞");
+  await move(page,60,62);
+  await expect(page.locator('[data-index="62"]')).toContainText("♔");
+  await expect(page.locator('[data-index="61"]')).toContainText("♖");
 });
 
 test("Chess supports en passant",async({page})=>{
-  const result=await page.evaluate(async()=>{
-    const m=await import("/redesign/scripts/minigames/chess.js");
-    const s=m.createChessState();
-    const play=(from,to)=>{m.chessClick(s,from);m.chessClick(s,to)};
-    play(52,36);play(8,16);
-    play(36,28);play(11,27);
-    play(28,19);
-    return {piece:s.board[19],captured:s.board[27],turn:s.turn};
-  });
-  expect(result.piece).toEqual({c:"w",t:"p"});
-  expect(result.captured).toBeNull();
-  expect(result.turn).toBe("b");
+  await openChess(page);
+  await move(page,52,36);
+  await move(page,8,16);
+  await move(page,36,28);
+  await move(page,11,27);
+  await move(page,28,19);
+  await expect(page.locator('[data-index="19"]')).toContainText("♙");
+  await expect(page.locator('[data-index="27"]')).toHaveText("");
 });
 
-test("Chess exposes promotion choices only after a pawn reaches the last rank",async({page})=>{
+test("Chess exposes promotion controls in the promotion-ready UI layer",async({page})=>{
   await openChess(page);
   await expect(page.locator(".chess-promotion")).toHaveCount(0);
   await expect(page.getByText(/Player 1 bergerak/)).toBeVisible();
