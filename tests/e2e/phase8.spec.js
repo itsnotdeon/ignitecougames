@@ -30,5 +30,9 @@ test("Phase 8 Dynamic Journey receives mood and time context without breaking Jo
  await page.getByRole("button",{name:"Calm"}).click();
  await page.getByRole("button",{name:"Profile"}).click();
  await page.getByRole("button",{name:"Build Dynamic Journey"}).click();
+ await expect(page.getByRole("heading",{name:"Who is here?",exact:true})).toBeVisible();
+ await page.locator("#name-form input[name=\"p1\"]").fill("Deon");
+ await page.locator("#name-form input[name=\"p2\"]").fill("Partner");
+ await page.getByRole("button",{name:"Save Couple"}).click();
  await expect(page.getByRole("heading",{name:"Normal Journey",exact:true})).toBeVisible();
 });
