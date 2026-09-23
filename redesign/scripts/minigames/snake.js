@@ -79,7 +79,7 @@ export function snakeContinue(s,outcome){
   s.turn=1-p;
 }
 export function snakeReset(s){Object.assign(s,createSnakeState());}
-function escapeHtml(v){return String(v).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",""":"&quot;","'":"&#039;"}[c]));}
+function escapeHtml(v){return String(v).replace(/[&<>"\']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;","'":"&#039;"}[c]));}
 
 function renderBoard(s,names){
   const cells=Array.from({length:100},(_,i)=>100-i);
