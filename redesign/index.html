@@ -13,13 +13,17 @@
 <body>
 <main id="app" class="app-shell"></main>
 <script>
-window.addEventListener("error",function(e){
-  console.error(e.error||e.message);
-  var app=document.querySelector("#app");
-  if(app)app.innerHTML='<section style="min-height:100vh;display:grid;place-items:center;padding:24px;color:#fff;font-family:system-ui"><div style="max-width:560px"><h1>IGNITE sedang memuat ulang</h1><p>Terjadi error saat memuat aplikasi. Silakan refresh sekali lagi.</p><button onclick="localStorage.removeItem(\'ignite-redesign-v4\');location.reload()" style="padding:12px 18px;border:0;border-radius:12px">Reset &amp; Reload</button></div></section>';
-});
-window.addEventListener("unhandledrejection",function(e){console.error(e.reason);});
+(async function(){
+  const app=document.querySelector("#app");
+  const showError=(error)=>{
+    const message=String(error?.message||error||"Unknown boot error");
+    const stack=String(error?.stack||"");
+    console.error("[IGNITE BOOT ERROR]",error);
+    if(app)app.innerHTML='<section style="min-height:100vh;display:grid;place-items:center;padding:24px;color:#fff;font-family:system-ui;background:#160a11"><div style="max-width:720px;width:100%"><div style="font-size:12px;letter-spacing:.18em;opacity:.7;margin-bottom:14px">IGNITE BOOT ERROR</div><h1 style="font-family:Georgia,serif;font-size:42px;line-height:1.05;margin:0 0 18px">IGNITE gagal memuat.</h1><p style="opacity:.85">Error sebenarnya sekarang ditampilkan supaya sumber masalah bisa diperbaiki, bukan ditutupi oleh layar blank.</p><pre style="white-space:pre-wrap;word-break:break-word;background:#24121a;border:1px solid #4a2734;border-radius:14px;padding:16px;font-size:12px;line-height:1.5;max-height:280px;overflow:auto">'+message+'\n\n'+stack+'</pre><button onclick="localStorage.removeItem('ignite-redesign-v4');location.reload()" style="padding:12px 18px;border:0;border-radius:12px">Reset &amp; Reload</button></div></section>';
+  };
+  try{ await import("./scripts/app.js?v=20260923-6"); }
+  catch(error){ showError(error); }
+})();
 </script>
-<script type="module" src="./scripts/app.js?v=20260923-5"></script>
 </body>
 </html>
