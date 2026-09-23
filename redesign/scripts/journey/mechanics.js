@@ -1,0 +1,10 @@
+import {createRpsState,rpsPick,rpsWinner,createGuessColorState,guessColor,nextGuessRound} from "./rituals.js";
+import {starterNormalCards,starterTruth,starterDare,randomUnused} from "./content.js";
+const sessions=new Map();
+function key(journey,step){return journey+":"+step}
+export function resetMechanic(journey,step){sessions.delete(key(journey,step))}
+export function getMechanicState(journey,step){return sessions.get(key(journey,step))}
+export function initMechanic(journey,step){const k=key(journey,step);if(!sessions.has(k)){if(journey==="guess-color")sessions.set(k,{type:journey,data:createGuessColorState()});else if(journey==="rps")sessions.set(k,{type:journey,data:createRpsState()});else if(journey==="card")sessions.set(k,{type:journey,data:{used:new Set(),revealed:false,text:""}});else if(journey==="tod")sessions.set(k,{type:journey,data:{mode:"truth",usedTruth:new Set(),usedDare:new Set(),revealed:false,text:""}})}return sessions.get(k)}
+export function mechanicAction(journey,step,action,value){const s=initMechanic(journey,step);if(journey==="guess-color"){if(action==="guess")return guessColor(s.data,value);if(action==="next"){nextGuessRound(s.data);return null}}if(journey==="rps"){if(action==="pick")return rpsPick(s.data,value);if(action==="next"){s.data.stage="p1";s.data.p1Move=null;s.data.p2Move=null;return null}}if(journey==="card"&&action==="draw"){s.data.text=randomUnused(starterNormalCards,s.data.used);s.data.revealed=true;return s.data.text}if(journey==="tod"){if(action==="toggle"){s.data.mode=value;return null}if(action==="draw"){const pool=s.data.mode==="truth"?starterTruth:starterDare;const used=s.data.mode==="truth"?s.data.usedTruth:s.data.usedDare;s.data.text=randomUnused(pool,used);s.data.revealed=true;return s.data.text}}return null}
+export function mechanicView(journey,step){const s=initMechanic(journey,step);return s.data}
+export function winnerLabel(state,names){const w=rpsWinner(state);if(w===null)return"Seri";return(w===0?names.p1:names.p2)+" menang"}
