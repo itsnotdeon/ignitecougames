@@ -901,3 +901,29 @@ button.card:focus-visible,
     bottom:max(8px,env(safe-area-inset-bottom));
   }
 }
+
+/* ---------- generated couple quote ---------- */
+.generated-couple-quote{
+  padding:16px 17px;
+  border:1px solid rgba(255,106,150,.18);
+  border-radius:16px;
+  background:
+    radial-gradient(circle at 92% 10%,rgba(230,194,109,.08),transparent 35%),
+    rgba(255,255,255,.025);
+}
+.generated-couple-quote .eyebrow{
+  color:var(--gold);
+}
+.generated-couple-quote p{
+  margin:8px 0 5px;
+  color:var(--text);
+  font-family:var(--display);
+  font-size:22px;
+  line-height:1.15;
+  font-style:italic;
+}
+.generated-couple-quote .muted{
+  display:block;
+  font-size:10px;
+  line-height:1.5;
+}
