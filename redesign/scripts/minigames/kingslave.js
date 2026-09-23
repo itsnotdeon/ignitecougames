@@ -1,24 +1,7 @@
-const NORMAL = [
-  "Beri pasanganmu satu pujian spesifik yang jarang kamu ucapkan.",
-  "Tentukan satu aktivitas kecil yang harus kalian lakukan bersama selama 3 menit.",
-  "Pilih lagu untuk pasanganmu dan jelaskan kenapa lagu itu cocok.",
-  "Pilih: pelukan 20 detik atau tatapan mata 20 detik.",
-  "Buat satu aturan playful untuk ronde ini, lalu jalankan bersama.",
-  "Tatap mata pasanganmu selama 20 detik sebelum command ini.",
-  "Buat pasanganmu tersenyum dalam waktu 30 detik.",
-  "Ceritakan satu hal kecil yang paling kamu sukai dari pasanganmu hari ini."
-];
+import {ksCommands,ksCommandsExplicit} from "../data/topics.js?v=20260924-01";
 
-const DARK = [
-  "Tentukan suasana malam ini dengan satu pilihan musik atau pencahayaan.",
-  "Berikan satu tantangan playful yang bisa ditolak tanpa perlu alasan.",
-  "Pilih satu pertanyaan berani namun tetap nyaman untuk dijawab.",
-  "Tukar peran selama satu menit dan improvise adegan singkat.",
-  "Pilih satu gesture affection yang terasa nyaman.",
-  "Bisikkan satu pujian spesifik kepada pasanganmu.",
-  "Pegang tangan pasanganmu selama 30 detik tanpa berbicara.",
-  "Pilih satu cara romantis untuk membuat pasanganmu merasa diperhatikan malam ini."
-];
+const NORMAL = ksCommands;
+const DARK = ksCommandsExplicit;
 
 const POWERS = [
   { id: "pc1", name: "Titah Ganda", icon: "P1", desc: "Ambil satu Command Card tambahan pada ronde ini." },
