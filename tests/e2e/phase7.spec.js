@@ -47,7 +47,7 @@ test("Phase 7 Dynamic Journey and Surprise Mode are wired to Journey actions",as
  await page.getByRole("button",{name:"Build Dynamic Journey"}).click();
  await expect(page.getByRole("heading",{name:/Normal Journey|After Dark/})).toBeVisible();
  await page.getByRole("button",{name:"←"}).click();
- await page.getByRole("button",{name:"Surprise Me"}).click();
+ await page.getByRole("button",{name:"Surprise Us"}).click();
  await expect(page.getByRole("heading",{name:/Normal Journey|After Dark/})).toBeVisible();
 });
 
