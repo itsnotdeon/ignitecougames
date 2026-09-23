@@ -91,7 +91,9 @@ export function snakeContinue(s,outcome){
 }
 export function snakeReset(s){Object.assign(s,createSnakeState());}
 export function snakeFinishAnimation(s){
+  const move=s.lastMove;
   s.animating=false;
+  if(move&&!s.finished&&!s.event)s.turn=1-move.player;
   s.lastMove=null;
 }
 function escapeHtml(v){return String(v).replace(/[&<>"\']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;","'":"&#039;"}[c]));}
@@ -120,13 +122,13 @@ export function renderSnake(s,names){
   if(s.finished){
     panel='<section class="snake-winner card"><div class="winner-mark">♥</div><div class="eyebrow">Winner</div><h2>'+escapeHtml(winnerName)+' reached 100.</h2><p>Game selesai tepat di kotak terakhir. Simpan momen ini sebelum bermain lagi.</p><div class="memory-form"><label for="snake-memory-note">Memory &amp; Moment</label><textarea id="snake-memory-note" data-snake-note placeholder="Tulis satu kalimat tentang momen ini..."></textarea><button class="btn primary full" data-mini="snake-save-memory" '+(s.memorySaved?"disabled":"")+'>'+(s.memorySaved?"Memory Saved ✓":"Save Memory & Moment")+'</button></div><button class="btn ghost full" data-mini="snake-reset">Play Again</button></section>';
   }else if(s.event?.type==="challenge"){
-    panel='<section class="snake-challenge card"><div class="eyebrow">'+escapeHtml(SPECIAL_LABELS[s.event.kind])+' · '+s.mode.toUpperCase()+'</div><h2>Do it together.</h2><p class="snake-challenge-text">'+escapeHtml(s.challenge.text)+'</p><div class="btn-row"><button class="btn primary" data-mini="snake-done">Done</button><button class="btn ghost" data-mini="snake-skip">Skip · −3</button></div></section>';
+    panel='<section class="snake-challenge card"><div class="eyebrow">'+escapeHtml(SPECIAL_LABELS[s.event.kind])+' · '+s.mode.toUpperCase()+'</div><h2>Do it together.</h2><p class="snake-challenge-text">'+escapeHtml(s.challenge.text)+'</p><div class="btn-row"><button class="btn primary" data-mini="snake-done" >Done</button><button class="btn ghost" data-mini="snake-skip" >Skip · −3</button></div></section>';
   }else if(s.event?.type==="ladder"||s.event?.type==="snake"||s.event?.type==="overshoot"||s.event?.type==="skip"){
     const message=s.event.type==="ladder"?"You found a shortcut. Up you go.":s.event.type==="snake"?"A slide down. Keep going.":s.event.type==="overshoot"?"That roll goes past 100. No move this turn.":"Challenge skipped. Move back 3 squares.";
-    panel='<section class="snake-event card"><div class="event-icon">'+(s.event.type==="ladder"?"↗":s.event.type==="snake"?"↘":s.event.type==="skip"?"−3":"6")+'</div><div class="eyebrow">'+escapeHtml(status)+'</div><h2>'+escapeHtml(message)+'</h2><p>Current position: <strong>'+s.pos[s.turn]+'</strong></p><button class="btn primary full" data-mini="snake-continue">Continue</button></section>';
+    panel='<section class="snake-event card"><div class="event-icon">'+(s.event.type==="ladder"?"↗":s.event.type==="snake"?"↘":s.event.type==="skip"?"−3":"6")+'</div><div class="eyebrow">'+escapeHtml(status)+'</div><h2>'+escapeHtml(message)+'</h2><p>Current position: <strong>'+s.pos[s.turn]+'</strong></p><button class="btn primary full" data-mini="snake-continue" >Continue</button></section>';
   }
   return '<div class="ks-screen snake-screen '+(s.animating?"is-animating":"")+'">'+
-    '<div class="ks-header"><button class="ks-back" data-action="minigames-menu">← Games</button><div><b>Snake &amp; Ladder</b><small>IGNITE COUPLE GAME</small></div><button class="ks-reset" data-mini="snake-reset">Reset</button></div>'+
+    '<div class="ks-header"><button class="ks-back" data-action="minigames-menu">← Games</button><div><b>Snake &amp; Ladder</b><small>IGNITE COUPLE GAME</small></div><button class="ks-reset" data-mini="snake-reset" >Reset</button></div>'+
     '<div class="snake-hud"><div class="snake-player '+(s.turn===0&&!s.finished?"active":"")+'"><strong>'+escapeHtml(names[0])+'</strong><span>'+s.pos[0]+' / 100</span></div><div class="snake-turn">TURN</div><div class="snake-player '+(s.turn===1&&!s.finished?"active":"")+'"><strong>'+escapeHtml(names[1])+'</strong><span>'+s.pos[1]+' / 100</span></div></div>'+
     '<div class="snake-mode"><span>Challenge</span><div><button class="btn '+(s.mode==="normal"?"primary":"ghost")+'" data-mini="snake-mode" data-value="normal">Normal</button><button class="btn '+(s.mode==="extreme"?"primary":"ghost")+'" data-mini="snake-mode" data-value="extreme">Extreme</button></div></div>'+
     renderBoard(s,names)+
