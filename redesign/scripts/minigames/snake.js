@@ -101,7 +101,7 @@ function renderBoard(s,names){
   return '<div class="snake-board">'+cells.map(n=>{
     const p1=s.pos[0]===n,p2=s.pos[1]===n;
     const special=SPECIALS[n];
-    return '<div class="snake-cell '+(p1?"p1 ":"")+(p2?"p2 ":"")+(special?"special ":"")+(LADDERS[n]?"ladder ":"")+(SNAKES[n]?"snake ":"")+'">'+
+    return '<div class="snake-cell '+(p1?"p1 ":"")+(p2?"p2 ":"")+(special?"special ":"")+(LADDERS[n]?"ladder ":"")+(SNAKES[n]?"snake ":"")+"' data-square='"+n+"'>'+
       '<span>'+n+'</span>'+
       (LADDERS[n]?'<b class="snake-marker ladder-marker" aria-label="Ladder">🪜</b>':"")+
       (SNAKES[n]?'<b class="snake-marker snake-marker" aria-label="Snake">🐍</b>':"")+
