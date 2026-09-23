@@ -210,4 +210,7 @@ test("Phase 9 Journey is a story timeline and opens completed Journey details",a
  await expect(page.getByText("Completed Journey")).toBeVisible();
  await expect(page.getByText("Warm Up",{exact:true})).toBeVisible();
  await expect(page.getByText("Close the Journey",{exact:true})).toBeVisible();
+ await page.reload();
+ await expect(page.getByText("Completed Journey")).toBeVisible();
+ await expect(page.getByText("Warm Up",{exact:true})).toBeVisible();
 });
