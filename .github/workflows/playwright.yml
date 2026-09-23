@@ -4,7 +4,7 @@ on:
   push:
     branches: ["main", "redesign/guided-journey"]
   pull_request:
-    branches: ["redesign/guided-journey"]
+    branches: ["main", "redesign/guided-journey"]
 
 jobs:
   test:
