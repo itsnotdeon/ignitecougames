@@ -7,6 +7,7 @@ test.beforeEach(async({page})=>{
 test("Phase 7 Couple Memories can save a note and expose streak summary",async({page})=>{
  await page.goto("");
  await page.getByRole("button",{name:"Profile",exact:true}).click();
+ await page.getByRole("button",{name:"Settings",exact:true}).click();
  await page.getByRole("button",{name:"Couple Memories"}).click();
  await expect(page.getByRole("heading",{name:"Keep the moments.",exact:true})).toBeVisible();
  await page.getByRole("button",{name:"←"}).click();
@@ -32,6 +33,7 @@ test("Phase 7 Couple Memories can save a note and expose streak summary",async({
 test("Phase 7 preferences persist and drive personalization controls",async({page})=>{
  await page.goto("");
  await page.getByRole("button",{name:"Profile",exact:true}).click();
+ await page.getByRole("button",{name:"Settings",exact:true}).click();
  await page.getByRole("button",{name:"Journey Preferences"}).click();
  await page.getByRole("button",{name:"Spontaneous"}).click();
  await page.locator('select[name="duration"]').selectOption("long");
@@ -44,6 +46,7 @@ test("Phase 7 preferences persist and drive personalization controls",async({pag
 test("Phase 7 Dynamic Journey and Surprise Mode are wired to Journey actions",async({page})=>{
  await page.goto("");
  await page.getByRole("button",{name:"Profile",exact:true}).click();
+ await page.getByRole("button",{name:"Settings",exact:true}).click();
  await page.getByRole("button",{name:"Build Dynamic Journey"}).click();
  await expect(page.getByRole("heading",{name:"Who is here?"})).toBeVisible();
  await page.locator("#name-form input[name=\"p1\"]").fill("Deon");
