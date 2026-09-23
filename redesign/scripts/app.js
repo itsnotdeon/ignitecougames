@@ -41,7 +41,7 @@ function renderBottomNav(active="home"){
  '</nav>';
 }
 function renderHome(){
- let html='<div class="topbar home-topbar"><div class="brand">IGNITE</div><button class="profile-chip" data-action="settings">'+esc(coupleName())+'</button></div>';
+ let html='<div class="topbar home-topbar"><div class="brand">IGNITE</div><button class="profile-chip" data-action="profile">'+esc(coupleName())+'</button></div>';
  html+='<section class="couple-identity"><div class="avatar">'+esc((state.names.p1||"P").charAt(0).toUpperCase())+'</div><div class="heart-mark">♥</div><div class="avatar">'+esc((state.names.p2||"P").charAt(0).toUpperCase())+'</div><div class="couple-identity-name">'+esc(coupleName())+'</div></section>';
  html+='<section class="hero home-hero"><div class="eyebrow">Your moment together</div><h1>Let’s spend<br>some time<br>together.</h1><p>Choose a moment, set the mood, and enjoy your time together.</p></section>';
  if(state.currentJourney){const total=state.currentJourney.steps.length;const pct=Math.round((state.step/(total-1))*100);html+='<div class="section-label">Continue</div><button class="card continue-card" data-action="continue"><div class="continue-copy"><strong>'+esc(state.currentJourney.title)+'</strong><span class="muted">Moment '+(state.step+1)+' of '+total+'</span><div class="progress"><span style="width:'+pct+'%"></span></div></div><span>→</span></button>'}
