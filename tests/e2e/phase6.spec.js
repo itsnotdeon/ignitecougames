@@ -10,6 +10,15 @@ test("Phase 6 mobile layout has no horizontal overflow",async({page})=>{
   await expect(page.getByRole("button",{name:/Normal/})).toBeVisible();
 });
 
+
+test("Release candidate has no application page errors on Home",async({page})=>{
+  const pageErrors=[];
+  page.on("pageerror",error=>pageErrors.push(error.message));
+  await page.goto("");
+  await expect(page.getByText("Let’s spend")).toBeVisible();
+  expect(pageErrors).toEqual([]);
+});
+
 test("Phase 6 preserves an active Journey after reload",async({page})=>{
   await page.goto("");
   await page.getByRole("button",{name:/Normal/}).click();
