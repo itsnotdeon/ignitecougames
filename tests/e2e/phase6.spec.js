@@ -96,3 +96,16 @@ test("Profile and Minigames use the same compact control system",async({page})=>
   const miniCards=await page.locator(".mini-card").count();
   expect(miniCards).toBe(4);
 });
+
+
+test("Couple quote is generated from XP level instead of manual input",async({page})=>{
+  await page.goto("");
+  await page.getByRole("button",{name:"Profile"}).click();
+  await expect(page.getByText(/Couple Quote · Level 1/)).toBeVisible();
+  await expect(page.getByText("Every story starts with a spark.")).toBeVisible();
+  await expect(page.locator('input[name="couple"]')).toHaveCount(0);
+  await page.locator('input[name="p1"]').fill("Deon");
+  await page.locator('input[name="p2"]').fill("Partner");
+  await page.getByRole("button",{name:"Save Changes"}).click();
+  await expect(page.getByText("Every story starts with a spark.")).toBeVisible();
+});
