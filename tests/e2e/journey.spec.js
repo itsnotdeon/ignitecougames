@@ -20,11 +20,7 @@ test.beforeEach(async({page})=>{
 test("home renders and Normal Journey can complete",async({page})=>{
  await startNormal(page);
  await expect(page.getByText("Pilih warna kartu")).toBeVisible();
- await page.getByRole("button",{name:/Merah/}).click();
- await expect(page.getByText(/Kartu:/)).toBeVisible();
- await page.getByRole("button",{name:"Next Round"}).click();
- await page.getByRole("button",{name:/Hitam/}).click();
- await page.getByRole("button",{name:"Next Round"}).click();
+ for(let i=0;i<5;i++){ await page.getByRole("button",{name:/Merah/}).click(); await expect(page.getByText(/Kartu:/)).toBeVisible(); if(i<4) await page.getByRole("button",{name:"Next Round"}).click(); }
  await page.getByRole("button",{name:"Continue →"}).click();
  await page.getByRole("button",{name:"Skip"}).click();
  await page.getByRole("button",{name:"Skip"}).click();
@@ -42,10 +38,7 @@ test("Normal Journey exposes card and Truth or Dare mechanics",async({page})=>{
  await expect(page.locator(".reveal-card")).toContainText(/./);
  await page.getByRole("button",{name:"Continue →"}).click();
  await expect(page.getByText("Change the Energy")).toBeVisible();
- await page.getByRole("button",{name:"Batu"}).click();
- await page.getByRole("button",{name:"Kertas"}).click();
- await expect(page.getByRole("button",{name:"Next Round"})).toBeVisible();
- await page.getByRole("button",{name:"Next Round"}).click();
+ for(let i=0;i<5;i++){ await page.getByRole("button",{name:"Batu"}).click(); await page.getByRole("button",{name:"Kertas"}).click(); if(i<4) await page.getByRole("button",{name:"Next Round"}).click(); }
  await page.getByRole("button",{name:"Continue →"}).click();
  await expect(page.getByText("Truth or Dare")).toBeVisible();
  await page.getByRole("button",{name:"Dare"}).click();
