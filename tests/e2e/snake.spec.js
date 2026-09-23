@@ -52,7 +52,9 @@ test.describe("Snake & Ladder",()=>{
       m.snakeRoll(s);
       const win={pos:s.pos[0],finished:s.finished,winner:s.winner};
       const o=m.createSnakeState();o.turn=0;o.pos=[98,0];
+      Math.random=()=>0.34;
       m.snakeRoll(o);
+      Math.random=()=>0;
       const overshoot={pos:o.pos[0],event:o.event?.type};
       Math.random=original;
       return {win,overshoot};
