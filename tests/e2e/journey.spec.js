@@ -103,3 +103,35 @@ test("Phase 3 Snake & Ladder rolls and updates game state",async({page})=>{
  await page.getByRole("button",{name:"Roll Dice"}).click();
  await expect(page.locator(".dice-result")).toBeVisible();
 });
+
+
+test("Phase 5 progression tracks XP, level stats, and achievements",async({page})=>{
+ await page.goto("");
+ await expect(page.getByText(/Level 1 · Spark/)).toBeVisible();
+ await page.getByRole("button",{name:/Normal/}).click();
+ await page.locator('input[name="p1"]').fill("Deon");
+ await page.locator('input[name="p2"]').fill("Partner");
+ await page.getByRole("button",{name:"Save Couple"}).click();
+ await page.getByRole("button",{name:/Begin Journey/}).click();
+ for(let i=0;i<5;i++){await page.getByRole("button",{name:/Merah/}).click();if(i<4)await page.getByRole("button",{name:"Next Round"}).click();}
+ await page.getByRole("button",{name:"Continue →"}).click();
+ await page.getByRole("button",{name:"Tap to reveal"}).click();
+ await page.getByRole("button",{name:"Continue →"}).click();
+ await page.getByRole("button",{name:"Skip"}).click();
+ await page.getByRole("button",{name:"Skip"}).click();
+ await page.getByRole("button",{name:/Finish Journey/}).click();
+ await page.getByRole("button",{name:"Back to Journey"}).click();
+ await expect(page.getByText(/Level 2 · Closer/)).toBeVisible();
+ await page.getByRole("button",{name:/Deon & Partner/}).click();
+ await expect(page.getByText("First Journey")).toBeVisible();
+ await expect(page.getByText(/Journeys/)).toBeVisible();
+});
+
+test("Phase 5 direct minigame access records Game Night progress",async({page})=>{
+ await page.goto("");
+ await page.getByRole("button",{name:/Minigames/}).click();
+ await page.getByRole("button",{name:/Roleplay/}).click();
+ await page.getByRole("button",{name:"← All Minigames"}).click();
+ await page.getByRole("button",{name:/←/}).first().click();
+ await expect(page.getByText("Game Night")).toBeVisible();
+});
