@@ -1,8 +1,15 @@
 const {test,expect}=require("@playwright/test");
 
+async function enterIgniteWelcome(page){
+  await expect(page.getByRole("button",{name:"Enter IGNITE"})).toBeVisible();
+  await page.getByRole("button",{name:"Enter IGNITE"}).click();
+  await expect(page.getByText("Let’s spend")).toBeVisible();
+}
+
 test("Phase 6 mobile layout has no horizontal overflow",async({page})=>{
   await page.setViewportSize({width:375,height:812});
   await page.goto("");
+  await enterIgniteWelcome(page);
   await expect(page.locator('link[href="./styles/phase6.css"]')).toHaveCount(1);
   const overflow=await page.evaluate(()=>document.documentElement.scrollWidth>window.innerWidth);
   expect(overflow).toBe(false);
@@ -14,12 +21,14 @@ test("Release candidate has no application page errors on Home",async({page})=>{
   const pageErrors=[];
   page.on("pageerror",error=>pageErrors.push(error.message));
   await page.goto("");
+  await enterIgniteWelcome(page);
   await expect(page.getByText("Let’s spend")).toBeVisible();
   expect(pageErrors).toEqual([]);
 });
 
 test("Phase 6 preserves an active Journey after reload",async({page})=>{
   await page.goto("");
+  await enterIgniteWelcome(page);
   await page.getByRole("button",{name:/Normal/}).click();
   await page.locator('input[name="p1"]').fill("Deon");
   await page.locator('input[name="p2"]').fill("Partner");
@@ -35,6 +44,7 @@ test("Phase 6 preserves an active Journey after reload",async({page})=>{
 test("Phase 6 keeps form submission working on mobile",async({page})=>{
   await page.setViewportSize({width:390,height:844});
   await page.goto("");
+  await enterIgniteWelcome(page);
   await page.getByRole("button",{name:/Normal/}).click();
   await page.locator('input[name="p1"]').fill("Deon");
   await page.locator('input[name="p2"]').fill("Partner");
@@ -45,6 +55,7 @@ test("Phase 6 keeps form submission working on mobile",async({page})=>{
 test("Phase 6 reduced-motion preference removes long transitions",async({page})=>{
   await page.emulateMedia({reducedMotion:"reduce"});
   await page.goto("");
+  await enterIgniteWelcome(page);
   const duration=await page.locator("button").first().evaluate(el=>getComputedStyle(el).transitionDuration);
   expect(parseFloat(duration)).toBeLessThanOrEqual(0.001);
 });
@@ -52,6 +63,7 @@ test("Phase 6 reduced-motion preference removes long transitions",async({page})=
 test("Visual system keeps controls, cards, navigation, and spacing consistent",async({page})=>{
   await page.setViewportSize({width:390,height:844});
   await page.goto("");
+  await enterIgniteWelcome(page);
   await expect(page.getByRole("navigation",{name:"Main navigation"})).toBeVisible();
   const metrics=await page.evaluate(()=>{
     const buttons=[...document.querySelectorAll(".btn")].filter(el=>el.offsetParent!==null);
@@ -75,6 +87,7 @@ test("Visual system keeps controls, cards, navigation, and spacing consistent",a
 
 test("Main bottom navigation exposes all destinations and opens Journey story",async({page})=>{
   await page.goto("");
+  await enterIgniteWelcome(page);
   await expect(page.getByRole("navigation",{name:"Main navigation"})).toBeVisible();
   await expect(page.getByRole("button",{name:"Home",exact:true})).toBeVisible();
   await expect(page.getByRole("button",{name:"Minigames"})).toBeVisible();
@@ -87,6 +100,7 @@ test("Main bottom navigation exposes all destinations and opens Journey story",a
 
 test("Profile and Minigames use the same compact control system",async({page})=>{
   await page.goto("");
+  await enterIgniteWelcome(page);
   await page.getByRole("button",{name:"Profile"}).click();
   await expect(page.getByRole("heading",{name:"Make it yours.",exact:true})).toBeVisible();
   const profileButtons=await page.locator(".content-actions .btn").evaluateAll(els=>els.map(el=>Math.round(el.getBoundingClientRect().height)));
@@ -99,6 +113,7 @@ test("Profile and Minigames use the same compact control system",async({page})=>
 
 test("Couple quote is generated from XP level instead of manual input",async({page})=>{
   await page.goto("");
+  await enterIgniteWelcome(page);
   await page.getByRole("button",{name:"Profile"}).click();
   await expect(page.getByText(/Couple Quote · Level 1/)).toBeVisible();
   await expect(page.locator(".generated-couple-quote")).toContainText("Every story starts with a spark.");
@@ -112,6 +127,7 @@ test("Couple quote is generated from XP level instead of manual input",async({pa
 
 test("Phase 6 replay starts Journey mechanics from a clean state",async({page})=>{
   await page.goto("");
+  await enterIgniteWelcome(page);
   await page.getByRole("button",{name:/Normal/}).click();
   await page.locator('input[name="p1"]').fill("Deon");
   await page.locator('input[name="p2"]').fill("Partner");
