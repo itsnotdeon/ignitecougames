@@ -1,8 +1,8 @@
-import {createRoleplayState,setRoleplayMode,nextRoleplay,renderRoleplay} from "./roleplay.js?v=20260923-12";
-import {createKingState,kingAction,renderKing} from "./kingslave.js?v=20260923-12";
-import {createChessState,chessClick,chessUndo,renderChess} from "./chess.js?v=20260923-12";
-import {createSnakeState,snakeRoll,snakeContinue,snakeSetMode,snakeReset,renderSnake} from "./snake.js?v=20260923-12";
-import {saveMemory} from "../features/memories.js?v=20260923-12";
+import {createRoleplayState,setRoleplayMode,nextRoleplay,renderRoleplay} from "./roleplay.js?v=20260924-01";
+import {createKingState,kingAction,renderKing} from "./kingslave.js?v=20260924-01";
+import {createChessState,chessClick,chessUndo,renderChess} from "./chess.js?v=20260924-01";
+import {createSnakeState,snakeRoll,snakeContinue,snakeSetMode,snakeReset,renderSnake} from "./snake.js?v=20260924-01";
+import {saveMemory} from "../features/memories.js?v=20260924-01";
 
 const state={active:null,roleplay:createRoleplayState(),king:createKingState(),chess:createChessState(),snake:createSnakeState()};
 
