@@ -105,3 +105,30 @@ button,input{font:inherit}button{cursor:pointer}button:focus-visible,input:focus
 @media(max-width:390px){.snake-board{gap:2px;padding:5px}.snake-cell span{font-size:9px;top:2px;left:3px}.snake-marker{font-size:17px}.special-marker{font-size:12px}.pawn{width:16px;height:16px;font-size:8px}}
 
 .snake-screen.is-animating [data-mini]{pointer-events:none;opacity:.55}.snake-screen.is-animating .snake-board{cursor:wait}
+
+/* IGNITE loading + welcome experience */
+.boot-screen,.boot-error,.welcome-shell{min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;position:relative;overflow:hidden;padding:28px 22px}
+.boot-screen{background:radial-gradient(circle at 50% 38%,rgba(255,106,150,.13),transparent 34%)}
+.boot-brand{font-family:var(--display);font-size:30px;letter-spacing:.18em;color:var(--text);position:relative;z-index:2}
+.boot-kicker{font-size:9px;letter-spacing:.24em;font-weight:800;color:var(--faint);margin-top:5px;position:relative;z-index:2}
+.boot-screen h1,.boot-error h1{font-size:clamp(27px,7vw,38px);margin:22px 0 8px;max-width:330px}
+.boot-status{font-size:10px;color:var(--muted);min-height:16px;margin:0 0 18px;letter-spacing:.02em}
+.boot-progress{width:min(280px,82vw);height:4px;border-radius:99px;background:rgba(255,255,255,.08);overflow:hidden;box-shadow:0 0 0 1px rgba(255,255,255,.035)}
+.boot-progress span{display:block;width:0;height:100%;border-radius:inherit;background:linear-gradient(90deg,var(--rose),var(--gold));transition:width .24s ease}
+.boot-progress-meta{width:min(280px,82vw);display:flex;justify-content:space-between;margin-top:8px;font-size:8px;letter-spacing:.14em;color:var(--faint)}
+.boot-progress-meta strong{color:var(--muted);font-size:9px}
+.boot-orbit{position:absolute;width:210px;height:210px;border:1px solid rgba(255,106,150,.08);border-radius:50%;animation:ignite-orbit 8s linear infinite}
+.boot-orbit span{position:absolute;width:5px;height:5px;border-radius:50%;background:var(--rose);box-shadow:0 0 18px rgba(255,106,150,.55)}
+.boot-orbit span:nth-child(1){top:15px;left:72px}.boot-orbit span:nth-child(2){right:25px;bottom:55px;background:var(--gold)}.boot-orbit span:nth-child(3){left:24px;bottom:48px}
+.boot-error{align-items:stretch;text-align:left}.boot-error h1{align-self:center;text-align:center}.boot-error .boot-brand,.boot-error .boot-kicker{align-self:center}.boot-error p{color:var(--muted);font-size:12px}.boot-error pre{white-space:pre-wrap;word-break:break-word;background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:14px;font-size:10px;line-height:1.5;max-height:300px;overflow:auto;color:var(--muted)}
+.welcome-shell{justify-content:flex-end;align-items:stretch;text-align:left;min-height:calc(100vh - 24px);padding:38px 18px 30px}
+.welcome-glow{position:absolute;width:320px;height:320px;border-radius:50%;background:radial-gradient(circle,rgba(255,106,150,.17),transparent 68%);top:5%;right:-140px;pointer-events:none}
+.welcome-mark{font-size:34px;color:var(--gold);margin-bottom:18px;position:relative}
+.welcome-shell h1{font-size:clamp(55px,14vw,76px);max-width:420px;position:relative}
+.welcome-shell p{max-width:370px;color:var(--muted);font-size:13px;line-height:1.65;margin:18px 0 0;position:relative}
+.welcome-divider{width:44px;height:1px;background:var(--gold);margin:28px 0 14px;opacity:.7}
+.welcome-meta{display:flex;justify-content:space-between;color:var(--faint);font-size:8px;letter-spacing:.16em;font-weight:800;position:relative}
+.welcome-enter{margin-top:28px;min-height:50px;position:relative}
+.welcome-note{color:var(--faint);font-size:9px;text-align:center;margin-top:12px}
+@keyframes ignite-orbit{to{transform:rotate(360deg)}}
+@media(prefers-reduced-motion:reduce){.boot-orbit{animation:none}.boot-progress span{transition:none}}
