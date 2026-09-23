@@ -107,7 +107,7 @@ test("Phase 3 Snake & Ladder rolls and updates game state",async({page})=>{
 
 test("Phase 5 progression tracks XP, level stats, and achievements",async({page})=>{
  await page.goto("");
- await expect(page.getByText("Spark",{exact:true})).toBeVisible();
+ await expect(page.locator(".progression-card strong")).toContainText("Spark");
  await page.getByRole("button",{name:/Normal/}).click();
  await page.locator('input[name="p1"]').fill("Deon");
  await page.locator('input[name="p2"]').fill("Partner");
@@ -123,7 +123,7 @@ test("Phase 5 progression tracks XP, level stats, and achievements",async({page}
  await page.getByRole("button",{name:"Skip"}).click();
  await page.getByRole("button",{name:/Finish Journey/}).click();
  await page.getByRole("button",{name:"Back to Journey"}).click();
- await expect(page.getByText("Closer",{exact:true})).toBeVisible();
+ await expect(page.locator(".progression-card strong")).toContainText("Closer");
  await page.getByRole("button",{name:/Deon & Partner/}).click();
  await expect(page.getByText("First Journey")).toBeVisible();
  await expect(page.getByText(/Journeys/)).toBeVisible();
