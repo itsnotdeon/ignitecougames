@@ -10,7 +10,6 @@ test("Phase 6 mobile layout has no horizontal overflow",async({page})=>{
   await expect(page.getByRole("button",{name:/Normal/})).toBeVisible();
 });
 
-
 test("Release candidate has no application page errors on Home",async({page})=>{
   const pageErrors=[];
   page.on("pageerror",error=>pageErrors.push(error.message));
@@ -50,10 +49,10 @@ test("Phase 6 reduced-motion preference removes long transitions",async({page})=
   expect(parseFloat(duration)).toBeLessThanOrEqual(0.001);
 });
 
-
 test("Visual system keeps controls, cards, navigation, and spacing consistent",async({page})=>{
   await page.setViewportSize({width:390,height:844});
   await page.goto("");
+  await expect(page.getByRole("navigation",{name:"Main navigation"})).toBeVisible();
   const metrics=await page.evaluate(()=>{
     const buttons=[...document.querySelectorAll(".btn")].filter(el=>el.offsetParent!==null);
     const cards=[...document.querySelectorAll(".experience-card")].filter(el=>el.offsetParent!==null);
@@ -97,7 +96,6 @@ test("Profile and Minigames use the same compact control system",async({page})=>
   const miniCards=await page.locator(".mini-card").count();
   expect(miniCards).toBe(4);
 });
-
 
 test("Couple quote is generated from XP level instead of manual input",async({page})=>{
   await page.goto("");
