@@ -1,7 +1,14 @@
 const {test,expect}=require("@playwright/test");
 
+async function enterIgniteWelcome(page){
+  await expect(page.getByRole("button",{name:"Enter IGNITE"})).toBeVisible();
+  await page.getByRole("button",{name:"Enter IGNITE"}).click();
+  await expect(page.getByText("Let’s spend")).toBeVisible();
+}
+
 test("Phase 8 context engine derives deterministic time periods",async({page})=>{
  await page.goto("");
+  await enterIgniteWelcome(page);
  const result=await page.evaluate(async()=>{
   const m=await import("./scripts/features/context.js");
   return [
@@ -16,6 +23,7 @@ test("Phase 8 context engine derives deterministic time periods",async({page})=>
 
 test("Phase 8 mood selection persists and is reflected in the current context",async({page})=>{
  await page.goto("");
+  await enterIgniteWelcome(page);
  await expect(page.getByText("Right now")).toBeVisible();
  await page.getByRole("button",{name:"Calm"}).click();
  await expect(page.locator(".context-mood")).toContainText("Calm");
@@ -27,6 +35,7 @@ test("Phase 8 mood selection persists and is reflected in the current context",a
 
 test("Phase 8 Dynamic Journey receives mood and time context without breaking Journey flow",async({page})=>{
  await page.goto("");
+  await enterIgniteWelcome(page);
  await page.getByRole("button",{name:"Calm"}).click();
  await page.getByRole("button",{name:"Profile"}).click();
  await page.getByRole("button",{name:"Build Dynamic Journey"}).click();
