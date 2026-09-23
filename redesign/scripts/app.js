@@ -2,23 +2,7 @@ import {initMechanic,mechanicAction,mechanicView,winnerLabel} from "./journey/me
 const STORAGE_KEY="ignite-redesign-v3";
 const state={names:{p1:"",p2:"",couple:""},currentJourney:null,step:0,view:"home"};
 
-const journeys={
- normal:{id:"normal",title:"Normal Journey",subtitle:"Talk, play, and get a little closer.",mood:"Romantic · Playful · Warm",steps:[
-  {kind:"ritual",mechanic:"guess-color",icon:"🎴",title:"Warm Up",text:"Tebak warna kartu sebelum kartu dibuka. Lima ronde cukup untuk mengubah suasana.",action:"Play Warm Up"},
-  {kind:"activity",mechanic:"card",icon:"♡",title:"Talk Card",text:"Satu kartu, satu jawaban. Tidak perlu terburu-buru.",action:"Reveal Card"},
-  {kind:"ritual",mechanic:"rps",icon:"✊",title:"Change the Energy",text:"Mainkan Rock Paper Scissors. Lima ronde, lalu kalian bebas lanjut atau berhenti.",action:"Play Ritual"},
-  {kind:"activity",mechanic:"tod",icon:"◇",title:"Truth or Dare",text:"Pilih Truth atau Dare, lalu buka satu prompt.",action:"Open Truth or Dare"},
-  {kind:"activity",mechanic:"card",icon:"♡",title:"One More Card",text:"Satu kartu terakhir sebelum kalian menutup Journey.",action:"Reveal Card"},
-  {kind:"closing",icon:"♥",title:"Close the Journey",text:"Apa satu hal kecil dari pasanganmu yang paling kamu nikmati saat ini?",action:"Finish Journey"}]},
- dark:{id:"dark",title:"After Dark",subtitle:"A more intimate journey for two.",mood:"Intimate · Daring · Tasteful",steps:[
-  {kind:"ritual",mechanic:"guess-color",icon:"🎴",title:"Set the Mood",text:"Mulai perlahan dengan tebak warna kartu. Kalian bisa berhenti kapan saja.",action:"Play Ritual"},
-  {kind:"activity",mechanic:"card",icon:"🔥",title:"Explicit Card",text:"Konten After Dark membutuhkan persetujuan dan kenyamanan kalian berdua.",action:"Reveal Card"},
-  {kind:"ritual",mechanic:"rps",icon:"✊",title:"Change the Energy",text:"Gunakan lima ronde singkat untuk mengubah tempo sebelum aktivitas berikutnya.",action:"Play Ritual"},
-  {kind:"activity",mechanic:"tod",icon:"◇",title:"Intimate Truth or Dare",text:"Pilih prompt yang terasa nyaman. Kalian tetap memegang kendali.",action:"Open Truth or Dare"},
-  {kind:"activity",icon:"🎭",title:"Roleplay",text:"Masuk ke Roleplay setelah kalian selesai dengan ritme Journey ini.",action:"Continue"},
-  {kind:"closing",icon:"♥",title:"Close the Journey",text:"Selesai. Tidak perlu mengejar apa pun—cukup nikmati momennya.",action:"Finish Journey"}]}
-};
-
+const journeys={normal:{id:"normal",title:"Normal Journey",subtitle:"Talk, play, and get a little closer.",mood:"Romantic · Playful · Warm",steps:[{kind:"ritual",mechanic:"guess-color",icon:"🎴",title:"Warm Up",text:"Tebak warna kartu sebelum kartu dibuka. Lima ronde cukup untuk mengubah suasana.",action:"Play Warm Up"},{kind:"activity",mechanic:"card",icon:"♡",title:"Talk Card",text:"Satu kartu, satu jawaban. Tidak perlu terburu-buru.",action:"Reveal Card"},{kind:"ritual",mechanic:"rps",icon:"✊",title:"Change the Energy",text:"Mainkan Rock Paper Scissors. Lima ronde, lalu kalian bebas lanjut atau berhenti.",action:"Play Ritual"},{kind:"activity",mechanic:"tod",icon:"◇",title:"Truth or Dare",text:"Pilih Truth atau Dare, lalu buka satu prompt.",action:"Open Truth or Dare"},{kind:"activity",mechanic:"card",icon:"♡",title:"One More Card",text:"Satu kartu terakhir sebelum kalian menutup Journey.",action:"Reveal Card"},{kind:"closing",icon:"♥",title:"Close the Journey",text:"Apa satu hal kecil dari pasanganmu yang paling kamu nikmati saat ini?",action:"Finish Journey"}]},dark:{id:"dark",title:"After Dark",subtitle:"A more intimate journey for two.",mood:"Intimate · Daring · Tasteful",steps:[{kind:"ritual",mechanic:"guess-color",icon:"🎴",title:"Set the Mood",text:"Mulai perlahan dengan tebak warna kartu. Kalian bisa berhenti kapan saja.",action:"Play Ritual"},{kind:"activity",mechanic:"card",icon:"🔥",title:"Explicit Card",text:"Konten After Dark membutuhkan persetujuan dan kenyamanan kalian berdua.",action:"Reveal Card"},{kind:"ritual",mechanic:"rps",icon:"✊",title:"Change the Energy",text:"Gunakan lima ronde singkat untuk mengubah tempo sebelum aktivitas berikutnya.",action:"Play Ritual"},{kind:"activity",mechanic:"tod",icon:"◇",title:"Intimate Truth or Dare",text:"Pilih prompt yang terasa nyaman. Kalian tetap memegang kendali.",action:"Open Truth or Dare"},{kind:"activity",icon:"🎭",title:"Roleplay",text:"Masuk ke Roleplay setelah kalian selesai dengan ritme Journey ini.",action:"Continue"},{kind:"closing",icon:"♥",title:"Close the Journey",text:"Selesai. Tidak perlu mengejar apa pun — cukup nikmati momennya.",action:"Finish Journey"}]}}
 const app=document.querySelector("#app");
 function load(){try{const saved=JSON.parse(localStorage.getItem(STORAGE_KEY));if(saved)Object.assign(state,saved)}catch{}}
 function save(){localStorage.setItem(STORAGE_KEY,JSON.stringify(state))}
