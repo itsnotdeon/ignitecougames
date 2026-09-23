@@ -13,6 +13,13 @@ Branch: redesign/guided-journey
 - Playwright trace/screenshots retained on failure.
 - Playwright report uploaded by CI when a run fails.
 
+
+## Verification status — 2026-09-23
+- Automated redesign suite: **28/28 passed** on Chromium desktop + Pixel 5 mobile.
+- Release-candidate Home page-error smoke check: added to CI.
+- `ignite-test` deployment workflow: successful.
+- Manual real-device visual smoke test: still required before calling the app production-ready.
+
 ## Manual gate
 - Verify Home, Journey Intro, Normal, After Dark, Completion, Minigames and Settings visually on a real phone.
 - Verify typography, spacing, safe-area behavior and sticky Journey controls.
