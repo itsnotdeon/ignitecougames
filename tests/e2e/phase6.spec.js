@@ -49,3 +49,50 @@ test("Phase 6 reduced-motion preference removes long transitions",async({page})=
   const duration=await page.locator("button").first().evaluate(el=>getComputedStyle(el).transitionDuration);
   expect(parseFloat(duration)).toBeLessThanOrEqual(0.001);
 });
+
+
+test("Visual system keeps controls, cards, navigation, and spacing consistent",async({page})=>{
+  await page.setViewportSize({width:390,height:844});
+  await page.goto("");
+  const metrics=await page.evaluate(()=>{
+    const buttons=[...document.querySelectorAll(".btn")].filter(el=>el.offsetParent!==null);
+    const cards=[...document.querySelectorAll(".experience-card")].filter(el=>el.offsetParent!==null);
+    const nav=document.querySelector(".bottom-nav");
+    const rect=el=>el?.getBoundingClientRect();
+    return {
+      buttonHeights:buttons.map(el=>Math.round(rect(el).height)),
+      cardRadii:cards.map(el=>getComputedStyle(el).borderTopLeftRadius),
+      navHeight:nav?Math.round(rect(nav).height):0,
+      bottomGap:nav?Math.round(window.innerHeight-rect(nav).bottom):0,
+      overflow:document.documentElement.scrollWidth>window.innerWidth
+    };
+  });
+  expect(metrics.overflow).toBe(false);
+  expect(metrics.buttonHeights.every(h=>h>=44)).toBe(true);
+  expect(metrics.cardRadii.every(r=>r==="22px"||r==="20px")).toBe(true);
+  expect(metrics.navHeight).toBeGreaterThanOrEqual(60);
+  expect(metrics.bottomGap).toBeGreaterThanOrEqual(8);
+});
+
+test("Main bottom navigation exposes all destinations and Journey jumps to Journey section",async({page})=>{
+  await page.goto("");
+  await expect(page.getByRole("navigation",{name:"Main navigation"})).toBeVisible();
+  await expect(page.getByRole("button",{name:"Home"})).toBeVisible();
+  await expect(page.getByRole("button",{name:"Minigames"})).toBeVisible();
+  await expect(page.getByRole("button",{name:"Journey"})).toBeVisible();
+  await expect(page.getByRole("button",{name:"Profile"})).toBeVisible();
+  await page.getByRole("button",{name:"Journey"}).click();
+  await expect(page.locator("#journey-section")).toBeVisible();
+});
+
+test("Profile and Minigames use the same compact control system",async({page})=>{
+  await page.goto("");
+  await page.getByRole("button",{name:"Profile"}).click();
+  await expect(page.getByRole("heading",{name:"Make it yours.",exact:true})).toBeVisible();
+  const profileButtons=await page.locator(".content-actions .btn").evaluateAll(els=>els.map(el=>Math.round(el.getBoundingClientRect().height)));
+  expect(profileButtons.every(h=>h>=40)).toBe(true);
+  await page.getByRole("button",{name:"Minigames"}).click();
+  await expect(page.getByRole("heading",{name:"Choose a game.",exact:true})).toBeVisible();
+  const miniCards=await page.locator(".mini-card").count();
+  expect(miniCards).toBe(4);
+});
