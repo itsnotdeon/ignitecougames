@@ -1,10 +1,10 @@
-import {initMechanic,mechanicAction,mechanicView,winnerLabel,isMechanicComplete} from "./journey/mechanics.js?v=20260923-10";
-import {renderMinigameMenu,minigameView,minigameAction,openMinigame} from "./minigames/index.js?v=20260923-10";
-import {getProgress,getLevelInfo,startJourney as progressionStartJourney,completeJourney,completeActivity,completeRitual,recordMinigamePlayed} from "./progression.js?v=20260923-10";
-import {starterNormalCards,starterExplicitCards,starterTruth,starterDare,starterIntimateTruth,starterIntimateDare} from "./journey/content.js?v=20260923-10";
-import {renderMemorySummary,renderMemories,renderPreferences,renderFeatureSettings,handleVibeClick,handlePreferenceSubmit,surpriseContext,dynamicContext,renderContextSummary,handleMoodClick} from "./features/ui.js?v=20260923-10";
-import {saveMemory} from "./features/memories.js?v=20260923-10";
-import {initAccessibility} from "./ui/accessibility.js?v=20260923-10";
+import {initMechanic,mechanicAction,mechanicView,winnerLabel,isMechanicComplete} from "./journey/mechanics.js?v=20260923-11";
+import {renderMinigameMenu,minigameView,minigameAction,openMinigame} from "./minigames/index.js?v=20260923-11";
+import {getProgress,getLevelInfo,startJourney as progressionStartJourney,completeJourney,completeActivity,completeRitual,recordMinigamePlayed} from "./progression.js?v=20260923-11";
+import {starterNormalCards,starterExplicitCards,starterTruth,starterDare,starterIntimateTruth,starterIntimateDare} from "./journey/content.js?v=20260923-11";
+import {renderMemorySummary,renderMemories,renderPreferences,renderFeatureSettings,handleVibeClick,handlePreferenceSubmit,surpriseContext,dynamicContext,renderContextSummary,handleMoodClick} from "./features/ui.js?v=20260923-11";
+import {saveMemory} from "./features/memories.js?v=20260923-11";
+import {initAccessibility} from "./ui/accessibility.js?v=20260923-11";
 
 const STORAGE_KEY="ignite-redesign-v4";
 const state={names:{p1:"",p2:"",couple:""},currentJourney:null,step:0,view:"home"};
