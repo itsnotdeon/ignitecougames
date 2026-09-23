@@ -16,6 +16,8 @@ jobs:
           node-version: 20
       - run: npm install
       - run: npx playwright install --with-deps chromium
+      - run: node --check redesign/scripts/minigames/kingslave.js
+      - run: node --check redesign/scripts/minigames/index.js
       - run: npm run test:e2e
       - name: Upload Playwright report on failure
         if: failure()
