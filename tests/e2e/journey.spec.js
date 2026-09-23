@@ -25,6 +25,11 @@ test("home renders and Normal Journey can complete",async({page})=>{
  await page.getByRole("button",{name:"Next Round"}).click();
  await page.getByRole("button",{name:/Hitam/}).click();
  await page.getByRole("button",{name:"Next Round"}).click();
+ await page.getByRole("button",{name:"Continue →"}).click();
+ await page.getByRole("button",{name:"Skip"}).click();
+ await page.getByRole("button",{name:"Skip"}).click();
+ await page.getByRole("button",{name:"Skip"}).click();
+ await page.getByRole("button",{name:"Skip"}).click();
  await page.getByRole("button",{name:/Finish Journey/}).click();
  await expect(page.getByText("Journey Complete")).toBeVisible();
 });
