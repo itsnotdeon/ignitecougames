@@ -1,27 +1,17 @@
-const NORMAL_ROLES=[
-{id:"date-director",emoji:"🎬",name:"Date Director",desc:"Satu orang memimpin suasana kencan.",items:[
-{context:"Kalian punya 10 menit untuk membuat suasana terasa seperti first date.",challenge:"Pilih satu detail kecil—musik, tempat duduk, atau cara menyapa—lalu jalankan peranmu."},
-{context:"Salah satu dari kalian adalah host acara kencan malam ini.",challenge:"Buat opening singkat yang membuat pasanganmu merasa benar-benar disambut."}
-]},
-{id:"mysterious-stranger",emoji:"🕯️",name:"Mysterious Stranger",desc:"Bertemu seolah kalian baru pertama kali.",items:[
-{context:"Kalian duduk di tempat yang sama tetapi belum saling mengenal.",challenge:"Perkenalkan diri dengan tiga fakta, satu di antaranya harus terdengar tidak terduga."},
-{context:"Kamu mendapat kesempatan menanyakan satu hal yang biasanya tidak kamu tanyakan.",challenge:"Ajukan pertanyaan itu dalam karakter dan dengarkan jawabannya tanpa memotong."}
-]},
-{id:"travel-partners",emoji:"✈️",name:"Travel Partners",desc:"Kalian sedang merencanakan perjalanan spontan.",items:[
-{context:"Pesawat berangkat malam ini dan kalian belum punya itinerary.",challenge:"Dalam satu menit, sepakati destinasi dan satu aktivitas yang wajib dilakukan bersama."},
-{context:"Salah satu koper tertukar.",challenge:"Buat adegan singkat tentang bagaimana kalian menyelesaikan masalah itu sebagai tim."}
-]}
-];
-const DARK_ROLES=[
-{id:"secret-agent",emoji:"🕶️",name:"Secret Agents",desc:"Misi rahasia membutuhkan kerja sama.",items:[
-{context:"Kalian harus menyampaikan pesan rahasia tanpa membuat orang lain curiga.",challenge:"Buat kode sederhana dan gunakan untuk menyampaikan satu pesan pendek."},
-{context:"Misi hampir gagal karena salah satu agen kehilangan fokus.",challenge:"Mainkan adegan 30 detik: satu agen menenangkan, satu agen menjelaskan situasi."}
-]},
-{id:"vip-hosts",emoji:"🥂",name:"VIP Hosts",desc:"Kalian menjadi pasangan tuan rumah malam ini.",items:[
-{context:"Tamu penting akan datang sebentar lagi.",challenge:"Salah satu menjadi host, satu menjadi tamu. Lakukan sambutan yang playful selama 30 detik."},
-{context:"Malam ini harus terasa berbeda dari biasanya.",challenge:"Ciptakan satu aturan kecil untuk suasana malam ini dan jalankan selama tiga menit."}
-]}
-];
+import {roleplayBuiltInRoles,roleplayCustomItems,roleplayCustomItemsExplicit} from "../data/topics.js?v=20260924-01";
+
+function customRolePool(items){
+  const groups=new Map();
+  for(const item of items||[]){
+    const id="custom-"+(item.roleName||"role").toLowerCase().replace(/[^a-z0-9]+/g,"-");
+    if(!groups.has(id)) groups.set(id,{id,emoji:item.roleEmoji||"🎭",name:item.roleName||"Custom Roleplay",desc:item.roleDescription||"Imported roleplay scene.",items:[]});
+    groups.get(id).items.push({context:item.context,challenge:item.challenge});
+  }
+  return [...groups.values()];
+}
+const NORMAL_ROLES=[...roleplayBuiltInRoles,...customRolePool(roleplayCustomItems)];
+const DARK_ROLES=customRolePool(roleplayCustomItemsExplicit);
+
 function pick(pool,used){const available=pool.filter(x=>!used.has(x.id));const source=available.length?available:pool;const role=source[Math.floor(Math.random()*source.length)];used.add(role.id);return role}
 export function createRoleplayState(){return{mode:"normal",role:null,item:null,usedRoles:new Set(),usedItems:new Map()}}
 export function setRoleplayMode(s,mode){s.mode=mode==="dark"?"dark":"normal";s.role=null;s.item=null;s.usedRoles=new Set();s.usedItems=new Map()}
