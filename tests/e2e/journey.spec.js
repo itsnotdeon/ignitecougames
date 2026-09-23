@@ -61,7 +61,6 @@ test("After Dark requires consent before entering",async({page})=>{
  await expect(page.getByText("Set the Mood")).toBeVisible();
 });
 
-
 test("Phase 3 Roleplay opens and can advance scenes",async({page})=>{
  await page.goto("");
  await page.getByRole("button",{name:/Minigames/}).click();
@@ -85,14 +84,44 @@ test("Phase 3 King & Slave requires consent and rolls a round",async({page})=>{
  await expect(page.getByText("Your Command")).toBeVisible();
 });
 
-test("Phase 3 Chess renders board and accepts a legal move",async({page})=>{
+test("Phase 3 Chess renders board, keeps square geometry, distinguishes piece colors, and accepts legal moves",async({page})=>{
  await page.goto("");
  await page.getByRole("button",{name:/Minigames/}).click();
  await page.getByRole("button",{name:/Chess/}).click();
- await expect(page.locator(".chess-board")).toBeVisible();
+ const board=page.locator(".chess-board");
+ await expect(board).toBeVisible();
+ await expect(page.locator('[data-mini="chess-square"]')).toHaveCount(64);
+ const firstBox=await page.locator('[data-mini="chess-square"]').first().boundingBox();
+ const lastBox=await page.locator('[data-mini="chess-square"]').nth(7).boundingBox();
+ expect(firstBox).not.toBeNull();
+ expect(lastBox).not.toBeNull();
+ expect(Math.abs(firstBox.height-firstBox.width)).toBeLessThanOrEqual(1);
+ expect(Math.abs(lastBox.height-lastBox.width)).toBeLessThanOrEqual(1);
+ await expect(page.locator(".chess-square.piece-w").first()).toHaveCSS("color","rgb(255, 255, 255)");
+ await expect(page.locator(".chess-square.piece-b").first()).toHaveCSS("color","rgb(36, 16, 26)");
  await page.locator('[data-mini="chess-square"][data-index="52"]').click();
  await page.locator('[data-mini="chess-square"][data-index="36"]').click();
  await expect(page.getByText(/bergerak/).first()).toBeVisible();
+});
+
+test("Chess supports castling after the required squares are cleared",async({page})=>{
+ await page.goto("");
+ await page.getByRole("button",{name:/Minigames/}).click();
+ await page.getByRole("button",{name:/Chess/}).click();
+ const sq=(i)=>page.locator('[data-mini="chess-square"][data-index="'+i+'"]');
+ await sq(52).click(); await sq(36).click(); // e4
+ await sq(12).click(); await sq(28).click(); // ...e5
+ await sq(62).click(); await sq(45).click(); // Nf3
+ await sq(6).click(); await sq(21).click(); // ...Nf6
+ await sq(61).click(); await sq(34).click(); // Bc4
+ await sq(5).click(); await sq(26).click(); // ...Bc5
+ await expect(sq(60)).toHaveClass(/piece-w/);
+ await sq(60).click();
+ await expect(sq(62)).toHaveClass(/legal/);
+ await sq(62).click();
+ await expect(sq(62)).toHaveClass(/piece-w/);
+ await expect(sq(61)).toHaveClass(/piece-w/);
+ await expect(sq(60)).toHaveText("");
 });
 
 test("Phase 3 Snake & Ladder rolls and updates game state",async({page})=>{
@@ -103,7 +132,6 @@ test("Phase 3 Snake & Ladder rolls and updates game state",async({page})=>{
  await page.getByRole("button",{name:"Roll Dice"}).click();
  await expect(page.locator(".dice-result")).toBeVisible();
 });
-
 
 test("Phase 5 progression tracks XP, level stats, and achievements",async({page})=>{
  await page.goto("");
@@ -138,7 +166,6 @@ test("Phase 5 direct minigame access records Game Night progress",async({page})=
  await page.getByRole("button",{name:/Player 1 & Player 2/}).click();
  await expect(page.getByText("Game Night")).toBeVisible();
 });
-
 
 test("Phase 4 Settings exposes content and backup management",async({page})=>{
  await page.goto("");
