@@ -150,9 +150,9 @@ test("Phase 5 progression tracks XP, level stats, and achievements",async({page}
  await page.getByRole("button",{name:"Skip"}).click();
  await page.getByRole("button",{name:"Skip"}).click();
  await page.getByRole("button",{name:/Finish Journey/}).click();
- await page.getByRole("button",{name:"Back to Journey"}).click();
+ await page.getByRole("button",{name:"←"}).click();
  await expect(page.locator(".progression-card strong")).toContainText("Closer");
- await page.getByRole("button",{name:/Deon & Partner/}).click();
+ await page.getByRole("button",{name:"Profile",exact:true}).click();
  await expect(page.getByText("First Journey")).toBeVisible();
  await expect(page.getByText(/Journeys/)).toBeVisible();
 });
@@ -163,7 +163,7 @@ test("Phase 5 direct minigame access records Game Night progress",async({page})=
  await page.getByRole("button",{name:/Roleplay/}).click();
  await page.getByRole("button",{name:"← All Minigames"}).click();
  await page.getByRole("button",{name:"←"}).click();
- await page.getByRole("button",{name:/Player 1 & Player 2/}).click();
+ await page.getByRole("button",{name:"Profile",exact:true}).click();
  await expect(page.getByText("Game Night")).toBeVisible();
 });
 
