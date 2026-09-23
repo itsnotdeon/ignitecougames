@@ -487,3 +487,23 @@ h3{
 .bottom-nav-item:hover{transform:none;color:#ffb0bd}
 @media(max-width:360px){.reference-grid{grid-template-columns:1fr}.bottom-nav{width:calc(100vw - 22px)}}
 @media(min-width:541px){.bottom-nav{position:fixed}}
+
+/* Completion screen reference treatment */
+.complete-shell{position:relative;min-height:100svh;justify-content:flex-start}
+.complete-top{display:grid;grid-template-columns:44px 1fr 44px;align-items:center;min-height:44px;margin-bottom:12px;text-align:center;font-family:var(--display);letter-spacing:.16em;font-size:20px;color:#fff0f3}
+.complete-card{margin:auto 0;padding:30px 20px 24px;background:linear-gradient(180deg,rgba(50,20,29,.82),rgba(20,8,13,.96));border-color:rgba(255,180,198,.18)}
+.complete-card .mark{width:48px;height:48px;border-radius:50%;margin:0 auto 14px;display:grid;place-items:center;background:rgba(255,110,143,.09);color:#ff829c;font-size:21px;box-shadow:0 0 35px rgba(255,83,124,.14)}
+.complete-card h2{font-size:40px;margin-bottom:10px}
+.memory-photo{height:150px;margin:20px 0;border-radius:16px;display:grid;place-items:center;overflow:hidden;position:relative;background:radial-gradient(ellipse at 52% 42%,rgba(255,202,205,.75) 0 12%,transparent 13%),radial-gradient(ellipse at 48% 58%,rgba(61,18,28,.92) 0 18%,transparent 19%),linear-gradient(145deg,#6e3d48,#241019 58%,#0c0609);box-shadow:inset 0 0 60px rgba(0,0,0,.36),0 15px 35px rgba(0,0,0,.3)}
+.memory-photo::before{content:"";position:absolute;width:110px;height:110px;left:50%;top:40%;transform:translate(-50%,-50%);border-radius:50%;background:radial-gradient(circle,rgba(255,215,216,.5),rgba(255,215,216,0) 68%);filter:blur(2px)}
+.memory-photo span{position:relative;z-index:1;color:#fff1f3;font-size:23px;text-shadow:0 2px 12px rgba(0,0,0,.5)}
+.complete-stats{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:16px}
+.complete-stats span{padding:10px;border:1px solid rgba(255,205,216,.12);border-radius:13px;color:#a98b95;font-size:9px;text-align:center}
+.complete-stats strong{display:block;color:#ffe7eb;font-family:var(--display);font-size:17px;font-weight:600;margin-bottom:2px}
+.btn-stack{display:grid;gap:8px}
+.btn-stack .btn{min-height:48px}
+.session-head .btn.ghost{min-width:76px;font-size:10px}
+.session-head{position:relative}
+.session-count{font-family:var(--display);font-size:16px;color:#f4d9df}
+.session-card{box-shadow:0 20px 60px rgba(0,0,0,.45)}
+.session-actions .btn.primary{box-shadow:0 10px 30px rgba(244,73,108,.25)}
