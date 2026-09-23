@@ -1,9 +1,17 @@
 const {test,expect}=require("@playwright/test");
 
+async function enterIgniteWelcome(page){
+  await expect(page.getByRole("button",{name:"Enter IGNITE"})).toBeVisible();
+  await page.getByRole("button",{name:"Enter IGNITE"}).click();
+  await expect(page.getByText("Let’s spend")).toBeVisible();
+}
+
 async function openSnake(page){
   await page.goto("./");
+  await enterIgniteWelcome(page);
   await page.evaluate(()=>localStorage.clear());
   await page.reload();
+  await enterIgniteWelcome(page);
   await page.locator('[data-action="minigames"]').click();
   await page.locator('[data-mini-open="snake"]').click();
 }
