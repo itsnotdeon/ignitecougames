@@ -24,4 +24,4 @@ export const allIntimateDareTopics=[...legacyJourneyPools.starterIntimateDare,..
 export const allKingNormalCommands=[...ksCommands,...legacyJourneyPools.ksLegacyNormal];
 export const allKingDarkCommands=[...ksCommandsExplicit,...legacyJourneyPools.ksLegacyDark];
 export const allRoleplayNormalRoles=[...roleplayBuiltInRoles,...legacyJourneyPools.roleplayLegacyNormal];
-export const allRoleplayDarkRoles=[...roleplayBuiltInRolesExplicit,...legacyJourneyPools.roleplayLegacyDark];
+export const allRoleplayDarkRoles=[...legacyJourneyPools.roleplayLegacyDark];
