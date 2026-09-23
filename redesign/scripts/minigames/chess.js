@@ -58,14 +58,14 @@ function inCheck(b,col){
   const k=b.findIndex(p=>p&&p.c===col&&p.t==="k");
   return k>=0&&attacked(b,k,col==="w"?"b":"w");
 }
-function legal(b,from,to,turn){
+function legal(b,from,to){
   const p=b[from];
-  if(!p||p.c!==turn||b[to]&&b[to].c===p.c||b[to]&&b[to].t==="k"||!pseudo(b,from).includes(to))return false;
+  if(!p||b[to]&&b[to].c===p.c||b[to]&&b[to].t==="k"||!pseudo(b,from).includes(to))return false;
   const n=b.map(x=>x&&{...x});
   n[to]=n[from];n[from]=null;
   return !inCheck(n,p.c);
 }
-function moves(b,f,turn){return pseudo(b,f).filter(t=>legal(b,f,t,turn))}
+function moves(b,f){return pseudo(b,f).filter(t=>legal(b,f,t))}
 
 const PIECE={w:WHITE,b:BLACK};
 export function createChessState(){return{board:initBoard(),turn:"w",selected:null,over:false,history:[]}}
@@ -74,7 +74,7 @@ export function chessClick(s,i){
   if(s.over)return;
   if(s.selected===null){
     if(s.board[i]&&s.board[i].c===s.turn)s.selected=i;
-  }else if(legal(s.board,s.selected,i,s.turn)){
+  }else if(legal(s.board,s.selected,i)){
     const f=s.selected,p=s.board[f];
     s.history.push(JSON.stringify({board:s.board,turn:s.turn}));
     s.board[i]=p;s.board[f]=null;
@@ -82,7 +82,7 @@ export function chessClick(s,i){
     s.turn=s.turn==="w"?"b":"w";
     s.selected=null;
     let any=false;
-    for(let x=0;x<64;x++)if(s.board[x]&&s.board[x].c===s.turn&&moves(s.board,x,s.turn).length){any=true;break}
+    for(let x=0;x<64;x++)if(s.board[x]&&s.board[x].c===s.turn&&moves(s.board,x).length){any=true;break}
     if(!any)s.over=true;
   }else{
     s.selected=s.board[i]&&s.board[i].c===s.turn?i:null;
@@ -99,7 +99,7 @@ export function renderChess(s,names){
     :(s.turn==="w"?(names[0]||"White"):(names[1]||"Black"))+" bergerak";
   const board='<div class="chess-board" role="grid" aria-label="Chess board">'+s.board.map((p,i)=>{
     const tone=((Math.floor(i/8)+i)%2)?"dark":"light";
-    const legalMove=s.selected!==null&&moves(s.board,s.selected,s.turn).includes(i);
+    const legalMove=s.selected!==null&&moves(s.board,s.selected).includes(i);
     const piece=p?PIECE[p.c][p.t]:"";
     return '<button class="chess-square '+tone+(s.selected===i?" selected":"")+(legalMove?" legal":"")+(p?" piece-"+p.c:"")+'" data-mini="chess-square" data-index="'+i+'" role="gridcell" aria-label="'+(p?(p.c==="w"?"White ":"Black ")+p.t:"Empty square")+'">'+piece+'</button>';
   }).join("")+'</div>';
