@@ -927,3 +927,23 @@ button.card:focus-visible,
   font-size:10px;
   line-height:1.5;
 }
+
+/* ---------- Phase 7 feature surfaces ---------- */
+.memory-summary,.feature-settings,.preference-form{margin-top:18px}
+.memory-summary-row{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:14px 0}
+.memory-summary-row>div{padding:14px;border:1px solid rgba(255,255,255,.07);border-radius:16px;background:rgba(255,255,255,.025)}
+.memory-summary-row strong{display:block;font-family:var(--display);font-size:26px;color:var(--text)}
+.memory-summary-row span{display:block;margin-top:3px;color:var(--muted);font-size:10px;text-transform:uppercase;letter-spacing:.08em}
+.memory-list{display:grid;gap:14px}
+.memory-item{padding:18px}
+.memory-item-head{display:flex;justify-content:space-between;gap:12px;color:var(--gold);font-size:10px;text-transform:uppercase;letter-spacing:.08em}
+.memory-item h3{margin:10px 0 5px}
+.memory-item p{margin:0;color:var(--muted)}
+.memory-item img{width:100%;margin-top:12px;border-radius:14px;display:block}
+.preference-grid{grid-template-columns:repeat(2,1fr)}
+.preference-form select{width:100%;min-height:48px;padding:0 14px;border-radius:14px;border:1px solid rgba(255,255,255,.1);background:#211019;color:var(--text)}
+.settings-links{display:grid;gap:10px}
+.unlock-summary{padding:14px 16px;border-radius:16px;background:rgba(255,255,255,.025);border:1px solid rgba(255,255,255,.07)}
+.unlock-summary p{margin:7px 0 0;color:var(--muted);font-size:12px;line-height:1.5}
+.empty-state{text-align:center;padding:28px 18px}
+@media(max-width:390px){.preference-grid{grid-template-columns:1fr 1fr}}
