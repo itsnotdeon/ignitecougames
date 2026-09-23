@@ -117,6 +117,8 @@ test("Phase 5 progression tracks XP, level stats, and achievements",async({page}
  await page.getByRole("button",{name:"Continue →"}).click();
  await page.getByRole("button",{name:"Tap to reveal"}).click();
  await page.getByRole("button",{name:"Continue →"}).click();
+ for(let i=0;i<5;i++){await page.getByRole("button",{name:"Batu"}).click();await page.getByRole("button",{name:"Kertas"}).click();if(i<4)await page.getByRole("button",{name:"Next Round"}).click();}
+ await page.getByRole("button",{name:"Continue →"}).click();
  await page.getByRole("button",{name:"Skip"}).click();
  await page.getByRole("button",{name:"Skip"}).click();
  await page.getByRole("button",{name:/Finish Journey/}).click();
@@ -132,6 +134,7 @@ test("Phase 5 direct minigame access records Game Night progress",async({page})=
  await page.getByRole("button",{name:/Minigames/}).click();
  await page.getByRole("button",{name:/Roleplay/}).click();
  await page.getByRole("button",{name:"← All Minigames"}).click();
- await page.getByRole("button",{name:/←/}).first().click();
+ await page.getByRole("button",{name:"←"}).click();
+ await page.getByRole("button",{name:/Player 1 & Player 2/}).click();
  await expect(page.getByText("Game Night")).toBeVisible();
 });
