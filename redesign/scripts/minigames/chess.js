@@ -71,6 +71,7 @@ const PIECE={w:WHITE,b:BLACK};
 export function createChessState(){return{board:initBoard(),turn:"w",selected:null,over:false,history:[]}}
 
 export function chessClick(s,i){
+  if(i===36||i===52)console.log("IGNITE_CHESS_DEBUG",JSON.stringify({i,turn:s.turn,selected:s.selected,piece:s.board[i],targetLegal:s.selected===null?null:legal(s.board,s.selected,i)}));
   if(s.over)return;
   if(s.selected===null){
     if(s.board[i]&&s.board[i].c===s.turn)s.selected=i;
