@@ -12,9 +12,9 @@ async function enterIgniteWelcome(page){
 
 async function openSnake(page){
   await page.goto("./");
-  await enterIgniteWelcome(page);
   await page.evaluate(()=>localStorage.clear());
   await page.reload();
+  await enterIgniteWelcome(page);
   await page.getByRole("button",{name:"Play",exact:true}).click();
   await page.locator('[data-mini-open="snake"]').click();
 }
