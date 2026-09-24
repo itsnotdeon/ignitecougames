@@ -321,7 +321,118 @@ button.card:focus-visible,
   letter-spacing:.08em;
 }
 
-/* ---------- names / profile forms ---------- */
+/* ---------- global mode + play spotlight ---------- */
+.mode-switch{
+  margin-top:22px;
+  padding:18px;
+  border-radius:22px;
+}
+.mode-switch-head{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:12px;
+}
+.mode-switch-head strong{
+  display:block;
+  margin-top:6px;
+  font-family:var(--display);
+  font-size:25px;
+}
+.mode-status{
+  padding:7px 10px;
+  border:1px solid var(--line);
+  border-radius:999px;
+  color:var(--muted);
+  font-size:9px;
+  letter-spacing:.08em;
+  text-transform:uppercase;
+}
+.mode-toggle{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:6px;
+  margin-top:16px;
+  padding:5px;
+  border:1px solid var(--line);
+  border-radius:15px;
+  background:rgba(0,0,0,.12);
+}
+.mode-toggle button{
+  min-height:42px;
+  border:0;
+  border-radius:11px;
+  background:transparent;
+  color:var(--muted);
+  font:inherit;
+  font-size:11px;
+}
+.mode-toggle button.active{
+  background:linear-gradient(145deg,rgba(255,106,150,.16),rgba(230,194,109,.08));
+  color:var(--text);
+  box-shadow:0 7px 18px rgba(0,0,0,.14);
+}
+.mode-switch > p{
+  margin:10px 2px 0;
+  color:var(--faint);
+  font-size:10px;
+  line-height:1.45;
+}
+.play-spotlight{
+  display:grid;
+  gap:18px;
+  margin-top:22px;
+  padding:22px;
+  border-radius:24px;
+  overflow:hidden;
+  position:relative;
+}
+.play-spotlight::after{
+  content:"";
+  position:absolute;
+  inset:auto -20% -65% 45%;
+  width:220px;
+  height:170px;
+  border-radius:50%;
+  background:radial-gradient(circle,rgba(255,106,150,.13),transparent 68%);
+  pointer-events:none;
+}
+.play-spotlight.dark{
+  border-color:rgba(230,194,109,.24);
+}
+.play-spotlight h3{
+  margin:7px 0 6px;
+}
+.play-spotlight p{
+  margin:0;
+  color:var(--muted);
+  font-size:11px;
+  line-height:1.5;
+  max-width:390px;
+}
+.play-spotlight .btn{
+  position:relative;
+  z-index:1;
+}
+.mini-mode-note{
+  display:grid;
+  gap:5px;
+  margin-bottom:12px;
+  padding:15px 16px;
+  border-radius:17px;
+  background:rgba(255,255,255,.025);
+  box-shadow:none;
+}
+.mini-mode-note strong{
+  font-family:var(--display);
+  font-size:19px;
+}
+.mini-mode-note span{
+  color:var(--muted);
+  font-size:10px;
+  line-height:1.4;
+}
+\n/* ---------- names / profile forms ---------- */
 .name-form{
   gap:16px;
   padding:22px;
