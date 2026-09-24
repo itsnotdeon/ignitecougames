@@ -132,6 +132,7 @@ function renderMinigames(){
  if(!active){
   const dark=state.mode==="dark";
   html+='<section class="play-v1-hero"><div class="eyebrow">'+(dark?"AFTER DARK · 18+":"PLAY TOGETHER")+'</div><h1>'+(dark?"Go a little deeper.":"What should we play?")+'</h1><p>'+(dark?"Choose an experience and keep consent at the center.":"Pick a game, challenge, or journey for the two of you.")+'</p></section>';
+  html+='<button class="btn ghost full journey-history-link" data-action="journey">View Journey History</button>';
   html+='<section class="play-spotlight card '+(dark?"dark":"normal")+'"><div><div class="eyebrow">TONIGHT’S JOURNEY</div><h3>'+ (dark?"Go deeper together.":"Connect, play, and discover.")+'</h3><p>'+ (dark?"A guided After Dark sequence shaped by your mode.":"A guided sequence of games and conversation.")+'</p></div><button class="btn primary" data-action="start" data-journey="'+(dark?"dark":"normal")+'">Start Journey →</button></section>';
   html+='<div class="section-label">QUICK PLAY</div>';
  }else{
