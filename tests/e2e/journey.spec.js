@@ -11,7 +11,7 @@ async function startNormal(page){
   await enterIgniteWelcome(page);
  await expect(page.getByText("Let’s spend")).toBeVisible();
  await page.getByRole("button",{name:"Normal",exact:true}).click();
- await expect(page.getByText("Normal",{exact:true})).toBeVisible();
+ await expect(page.getByRole("button",{name:"Normal",exact:true})).toHaveAttribute("aria-pressed","true");
  await page.getByRole("button",{name:"Minigames"}).click();
  await expect(page.getByRole("heading",{name:"Choose a game.",exact:true})).toBeVisible();
  await page.getByRole("button",{name:"Start Journey →"}).click();
