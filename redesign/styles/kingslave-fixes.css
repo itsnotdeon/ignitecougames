@@ -1,0 +1,46 @@
+/* King & Slave mobile UX hotfix — 2026-09-25
+   Fix consent viewport overflow, clarify crown state, keep dice stable during roll.
+*/
+
+.ks-consent-screen{
+  min-height:0;
+  height:auto;
+  max-height:none;
+  overflow:visible;
+  padding-bottom:8px;
+}
+
+.ks-consent-screen .ks-main-btn{
+  margin-top:2px;
+}
+
+.ks-progress > span:last-child{
+  display:flex;
+  align-items:center;
+  gap:4px;
+  white-space:nowrap;
+}
+
+.ks-dice-pair span{
+  min-width:1ch;
+}
+
+@media(max-width:390px){
+  .ks-consent-screen{
+    padding-top:4px;
+    padding-bottom:4px;
+  }
+
+  .ks-consent-screen h2{
+    font-size:35px;
+  }
+
+  .ks-consent-list>div{
+    padding:7px 0;
+  }
+
+  .ks-consent-check{
+    margin:8px 0;
+    padding:9px;
+  }
+}
