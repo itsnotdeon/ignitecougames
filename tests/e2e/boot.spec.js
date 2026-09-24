@@ -7,6 +7,10 @@ test.describe("IGNITE boot",()=>{
     await page.goto("./");
     await expect(page.getByRole("button",{name:/ENTER TOGETHER/})).toBeVisible();
     await page.getByRole("button",{name:/ENTER TOGETHER/}).click();
+    await expect(page.getByText("LET’S BEGIN TOGETHER")).toBeVisible();
+    await page.locator('input[name="p1"]').fill("Ariel");
+    await page.locator('input[name="p2"]').fill("Fe");
+    await page.getByRole("button",{name:/Start Our Journey/}).click();
     await expect(page.locator("#app")).toContainText("YOUR SPACE FOR TWO");
     await expect(page.locator("text=IGNITE sedang memuat ulang")).toHaveCount(0);
     expect(errors).toEqual([]);
