@@ -76,7 +76,7 @@ test("Journey history records a completed Journey",async({page})=>{
  await page.getByRole("button",{name:/Finish Journey/}).click();
  await page.getByRole("button",{name:"Play Again"}).click();
  await page.getByRole("button",{name:/Begin Journey/}).click();
- await page.getByRole("button",{name:"Home"}).click();
+ await page.getByRole("button",{name:"←"}).click();
  await page.getByRole("button",{name:"Play"}).click();
  await expect(page.getByRole("button",{name:"View Journey History"})).toBeVisible();
  await page.getByRole("button",{name:"View Journey History"}).click();
