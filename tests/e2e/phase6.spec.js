@@ -49,7 +49,7 @@ test.describe("IGNITE mockup UI",()=>{
     await page.getByRole("button",{name:"Settings",exact:true}).click();
     await expect(page.getByRole("heading",{name:"Set it your way."})).toBeVisible();
     await expect(page.getByText("Journey Preferences",{exact:true})).toBeVisible();
-    await expect(page.getByText("Data",{exact:true})).toBeVisible();
+    await expect(page.getByText("Your data stays with you.",{exact:true})).toBeVisible();
   });
 
   test("Setup saves names and relationship",async({page})=>{
