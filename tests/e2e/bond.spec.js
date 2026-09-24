@@ -10,8 +10,8 @@ test.describe("IGNITE Bond hub",()=>{
   test("Home exposes Play, Bond, and Memories shortcuts",async({page})=>{
     await enter(page);
     await expect(page.locator('button.bottom-nav-item[aria-label="Play"]')).toBeVisible();
-    await expect(page.getByRole("button",{name:"Bond",exact:true})).toBeVisible();
-    await expect(page.getByRole("button",{name:"Memories",exact:true})).toBeVisible();
+    await expect(page.locator('button.home-shortcut[data-action="bond"]')).toBeVisible();
+    await expect(page.locator('button.home-shortcut[data-action="memories"]')).toBeVisible();
   });
 
   test("Bond hub can rotate and save a daily question",async({page})=>{
