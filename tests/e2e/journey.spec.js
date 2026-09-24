@@ -217,6 +217,7 @@ test("Phase 9 Journey is a story timeline and opens completed Journey details",a
  await page.goto("");
   await enterIgniteWelcome(page);
  await page.getByRole("button",{name:"Play",exact:true}).click();
+ await expect(page.getByRole("button",{name:"Journey",exact:true})).not.toBeVisible();
  await page.getByRole("button",{name:"View Journey History"}).click();
  await expect(page.locator(".hero").getByText("Your Story",{exact:true})).toBeVisible();
  await expect(page.getByText("The story starts here")).toBeVisible();
