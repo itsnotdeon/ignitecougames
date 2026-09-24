@@ -21,7 +21,7 @@ Branch: redesign/guided-journey
 - Manual real-device visual smoke test: still required before calling the app production-ready.
 
 ## Manual gate
-- Verify Home, Journey Intro, Normal, After Dark, Completion, Minigames and Settings visually on a real phone.
+- Verify Home, Play (including Tonight's Journey), Journey Intro, Normal, After Dark, Completion and Settings visually on a real phone.
 - Verify typography, spacing, safe-area behavior and sticky Journey controls.
 - Verify backup/export/import and reset flows manually before production release.
 - Verify After Dark consent language and exit behavior.
