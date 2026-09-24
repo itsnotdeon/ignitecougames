@@ -129,7 +129,7 @@ function renderComplete(){const l=getLevelInfo(getProgress().xp);app.innerHTML='
 function renderMinigames(){
  const active=state.__minigameActive;
  const body=active?minigameView(state.names):renderMinigameMenu(state.mode);
- let html='<section class="play-v1"><div class="play-v1-top"><div></div><div><div class="brand">PLAY</div><span>CHOOSE YOUR MOMENT</span></div><div></div></div>';
+ let html='<section class="play-v1">'+(active?'': '<div class="play-v1-top"><div></div><div><div class="brand">PLAY</div><span>CHOOSE YOUR MOMENT</span></div><div></div></div>');
  if(!active){
   const dark=state.mode==="dark";
   html+='<section class="play-v1-hero"><div class="eyebrow">'+(dark?"AFTER DARK · 18+":"PLAY TOGETHER")+'</div><h1>'+(dark?"Go a little deeper.":"What should we play?")+'</h1><p>'+(dark?"Choose an experience and keep consent at the center.":"Pick a game, challenge, or journey for the two of you.")+'</p></section>';
@@ -139,7 +139,7 @@ function renderMinigames(){
  }else{
   html+='<div class="play-active-head"><button class="btn ghost" data-action="minigames-menu">← All Games</button><span class="mode-pill">'+(state.mode==="dark"?"AFTER DARK · 18+":"NORMAL")+'</span></div>';
  }
- html+=body+renderBottomNav("play")+'</section>';
+ html+=body+(active?'':renderBottomNav("play"))+'</section>';
  app.innerHTML=html;
 }
 function formatJourneyDate(value){
