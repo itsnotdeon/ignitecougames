@@ -5,6 +5,7 @@ on:
     branches: ["main", "redesign/guided-journey", "redesign/mockup-v1"]
   pull_request:
     branches: ["main", "redesign/guided-journey", "redesign/mockup-v1"]
+  workflow_dispatch:
 
 jobs:
   test:
