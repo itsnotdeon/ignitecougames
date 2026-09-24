@@ -83,6 +83,10 @@ function writeBond(v){localStorage.setItem(BOND_KEY,JSON.stringify(v));return v}
 function pickBond(type,current=""){const pool=BOND_PROMPTS[type]||BOND_PROMPTS.daily;const choices=pool.filter(x=>x!==current);return choices[Math.floor(Math.random()*choices.length)]||pool[0]}
 function renderBond(){
  const b=readBond(),current=b.dailyCurrent||pickBond("daily"),deep=b.deepCurrent||pickBond("deep"),quiz=b.quizCurrent||pickBond("quiz");
+ if(!b.dailyCurrent)b.dailyCurrent=current;
+ if(!b.deepCurrent)b.deepCurrent=deep;
+ if(!b.quizCurrent)b.quizCurrent=quiz;
+ writeBond(b);
  let html='<section class="bond-v1"><div class="bond-v1-top"><button class="btn ghost" data-action="home">←</button><div class="brand">BOND</div><div></div></div><section class="bond-v1-hero"><div class="eyebrow">CONNECTION, BEYOND THE GAME</div><h1>Make space<br>for each other.</h1><p>Small questions can become big memories.</p></section><section class="bond-v1-grid">';
  html+='<article class="bond-v1-card featured"><span class="eyebrow">DAILY QUESTION</span><h3>'+esc(current)+'</h3><div><button class="btn ghost" data-bond-action="new" data-bond-type="daily">Another</button><button class="btn primary" data-bond-action="favorite">Save</button></div></article>';
  html+='<article class="bond-v1-card"><span class="bond-v1-icon">◌</span><span class="eyebrow">COUPLE QUIZ</span><h3>'+esc(quiz)+'</h3><button class="btn ghost" data-bond-action="new" data-bond-type="quiz">New Question</button></article>';
