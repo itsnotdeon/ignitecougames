@@ -30,7 +30,6 @@
   const value=document.querySelector("#boot-progress-value");
   const bar=document.querySelector(".boot-progress");
   const revision="20260925-15";
-  const modules=["./scripts/journey/mechanics.js","./scripts/journey/rituals.js","./scripts/data/topics.js","./scripts/progression.js","./scripts/journey/content.js","./scripts/features/ui.js","./scripts/features/memories.js","./scripts/features/adaptive.js","./scripts/features/preferences.js","./scripts/features/unlocks.js","./scripts/features/surprise.js","./scripts/features/dynamicJourney.js","./scripts/features/context.js","./scripts/ui/accessibility.js","./scripts/minigames/roleplay.js","./scripts/minigames/kingslave.js","./scripts/minigames/chess.js","./scripts/minigames/snake.js","./scripts/minigames/index.js"];
   const startedAt=performance.now();
   const sleep=ms=>new Promise(resolve=>setTimeout(resolve,ms));
   const setProgress=(percent,label)=>{
@@ -58,15 +57,16 @@
     await sleep(120);
     setProgress(18,"Preparing your experience…");
     await sleep(40);
-    setProgress(42,"Checking the IGNITE core…");
-    const checks=await Promise.allSettled(modules.map(path=>Promise.race([import(path+"?v="+revision),new Promise((_,reject)=>setTimeout(()=>reject(new Error("Timeout loading "+path)),30000))])));
-    const failed=checks.findIndex(x=>x.status==="rejected");
-    if(failed>=0)throw new Error("Module failed: "+modules[failed]+" — "+String(checks[failed].reason?.message||checks[failed].reason||"Unknown module error"));
-    setProgress(90,"Starting your experience…");
+    setProgress(42,"Starting the IGNITE core…");
+    // Load app.js once and let its dependency graph resolve normally.
+    // Pre-importing the same modules with mixed cache-busting revisions
+    // caused duplicate module graphs and made CI boot stall.
+    setProgress(70,"Loading your experience…");
     await Promise.race([
       import("./scripts/app.js?v="+revision),
       new Promise((_,reject)=>setTimeout(()=>reject(new Error("Timeout loading app.js")),30000))
     ]);
+    setProgress(90,"Starting your experience…");
     const elapsed=performance.now()-startedAt;
     if(elapsed<900)await sleep(900-elapsed);
     setProgress(100,"Ready.");
