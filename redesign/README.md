@@ -9,8 +9,10 @@ This branch starts the UX redesign without destroying the legacy build.
 - 0.0.1.html — legacy/reference build
 
 ## Product structure
-1. Journey — guided couple experience
-2. Minigames — direct access to existing games
-3. Settings — configuration
+1. Home — relationship dashboard and current IGNITE context
+2. Play — Tonight's Journey + direct games and challenges
+3. Bond — relationship-focused activities (planned)
+4. Memories — saved moments and milestones
+5. Profile / Settings — couple identity and configuration
 
-The first pass focuses on the Journey MVP. Existing game mechanics remain the reference source while the new shell establishes the new information architecture.
+Journey is intentionally part of Play: it is the adaptive experience layer that orchestrates multiple activities, while Quick Play provides direct access to individual games.
