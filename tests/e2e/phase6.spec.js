@@ -185,7 +185,7 @@ test("Phase 6 replay starts Journey mechanics from a clean state",async({page})=
   await expect(page.locator(".mechanic-result")).toHaveCount(0);
 });
 
-test("Phase 6 restart preserves a generated short Journey length",async({page})=>{
+test("Phase 6 resume preserves a generated short Journey length",async({page})=>{
  await page.goto("");
  await enterIgniteWelcome(page);
  await page.getByRole("button",{name:"Profile",exact:true}).click();
