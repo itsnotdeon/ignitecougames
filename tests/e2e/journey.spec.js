@@ -10,7 +10,11 @@ async function startNormal(page){
  await page.goto("");
   await enterIgniteWelcome(page);
  await expect(page.getByText("Let’s spend")).toBeVisible();
- await page.getByRole("button",{name:/Normal/}).click();
+ await page.getByRole("button",{name:"Normal",exact:true}).click();
+ await expect(page.getByText("Normal",{exact:true})).toBeVisible();
+ await page.getByRole("button",{name:"Minigames"}).click();
+ await expect(page.getByRole("heading",{name:"Choose a game.",exact:true})).toBeVisible();
+ await page.getByRole("button",{name:"Start Journey →"}).click();
  await expect(page.getByText("Who is here?")).toBeVisible();
  await page.locator('input[name="p1"]').fill("Deon");
  await page.locator('input[name="p2"]').fill("Partner");
@@ -57,7 +61,9 @@ test("Normal Journey exposes card and Truth or Dare mechanics",async({page})=>{
 test("After Dark requires consent before entering",async({page})=>{
  await page.goto("");
   await enterIgniteWelcome(page);
- await page.getByRole("button",{name:/After Dark/}).click();
+ await page.getByRole("button",{name:"After Dark",exact:true}).click();
+ await page.getByRole("button",{name:"Minigames"}).click();
+ await page.getByRole("button",{name:"Start Journey →"}).click();
  await page.locator('input[name="p1"]').fill("Deon");
  await page.locator('input[name="p2"]').fill("Partner");
  await page.getByRole("button",{name:"Save Couple"}).click();
