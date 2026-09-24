@@ -3,7 +3,7 @@ const {test,expect}=require("@playwright/test");
 async function enterIgniteWelcome(page){
   await expect(page.getByRole("button",{name:"Enter IGNITE"})).toBeVisible();
   await page.getByRole("button",{name:"Enter IGNITE"}).click();
-  await expect(page.getByText("Let’s spend")).toBeVisible();
+  await expect(page.getByText("YOUR SPACE FOR TWO")).toBeVisible();
 }
 
 async function openSnake(page){
