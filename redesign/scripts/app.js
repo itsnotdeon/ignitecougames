@@ -5,7 +5,7 @@ import {starterNormalCards,starterExplicitCards,starterTruth,starterDare,starter
 import {renderMemorySummary,renderMemories,renderPreferences,renderFeatureSettings,handleVibeClick,handlePreferenceSubmit,surpriseContext,dynamicContext,renderContextSummary,handleMoodClick} from "./features/ui.js?v=20260924-04";
 import {saveMemory} from "./features/memories.js?v=20260924-04";
 import {recordVibe,recordInteraction} from "./features/adaptive.js?v=20260924-05";
-import {recordMemorySaved} from "./progression.js?v=20260924-04";
+import {recordMemorySaved,recordOneMore} from "./progression.js?v=20260924-04";
 import {initAccessibility} from "./ui/accessibility.js?v=20260924-04";
 
 const STORAGE_KEY="ignite-redesign-v4";
