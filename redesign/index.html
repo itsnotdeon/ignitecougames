@@ -43,8 +43,9 @@
   const showError=(stage,error)=>{
     const message=String(error&&error.message||error||"Unknown error");
     const stack=String(error&&error.stack||"");
+    const details=error?Object.getOwnPropertyNames(error).map(key=>key+"="+String(error[key])).join("\n"):"";
     console.error("[IGNITE BOOT ERROR]",stage,error);
-    app.innerHTML='<section class="boot-error"><div class="boot-brand">IGNITE</div><div class="boot-kicker">BOOT ERROR</div><h1>Something interrupted the start.</h1><p>Stage: <strong>'+stage+'</strong></p><pre>'+message+"\n\n"+stack+'</pre><button class="btn primary" id="ignite-reset-reload">Reset &amp; Reload</button></section>';
+    app.innerHTML='<section class="boot-error"><div class="boot-brand">IGNITE</div><div class="boot-kicker">BOOT ERROR</div><h1>Something interrupted the start.</h1><p>Stage: <strong>'+stage+'</strong></p><pre>'+message+"\n\n"+stack+"\n\n"+details+'</pre><button class="btn primary" id="ignite-reset-reload">Reset &amp; Reload</button></section>';
     document.querySelector("#ignite-reset-reload")?.addEventListener("click",()=>{
       localStorage.removeItem("ignite-redesign-v4");
       sessionStorage.removeItem("ignite-welcome-seen");
