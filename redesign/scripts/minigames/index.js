@@ -1,13 +1,16 @@
-import {createRoleplayState,setRoleplayMode,nextRoleplay,renderRoleplay} from "./roleplay.js?v=20260924-04";
-import {createKingState,kingAction,renderKing} from "./kingslave.js?v=20260924-04";
-import {createChessState,chessClick,chessUndo,renderChess} from "./chess.js?v=20260924-04";
-import {createSnakeState,snakeRoll,snakeContinue,snakeSetMode,snakeReset,renderSnake} from "./snake.js?v=20260924-04";
+import {createRoleplayState,setRoleplayMode,nextRoleplay,renderRoleplay} from "./roleplay.js?v=20260924-05";
+import {createKingState,kingAction,renderKing} from "./kingslave.js?v=20260924-05";
+import {createChessState,chessClick,chessUndo,renderChess} from "./chess.js?v=20260924-05";
+import {createSnakeState,snakeRoll,snakeContinue,snakeSetMode,snakeReset,renderSnake} from "./snake.js?v=20260924-05";
 import {saveMemory} from "../features/memories.js?v=20260924-04";
 
 const state={active:null,roleplay:createRoleplayState(),king:createKingState(),chess:createChessState(),snake:createSnakeState()};
 
 export function minigameNames(names){return[names.p1||"Player 1",names.p2||"Player 2"]}
-export function renderMinigameMenu(){return '<div class="mini-grid"><button class="card mini-card" data-mini-open="roleplay"><span>🎭</span><strong>Roleplay</strong><span>Step into a character and improvise together.</span></button><button class="card mini-card" data-mini-open="king"><span>👑</span><strong>King &amp; Slave</strong><span>Turn-based commands with consent always in control.</span></button><button class="card mini-card" data-mini-open="chess"><span>♟</span><strong>Chess</strong><span>Play the full board game directly.</span></button><button class="card mini-card" data-mini-open="snake"><span>🐍</span><strong>Snake &amp; Ladder</strong><span>Roll, climb, slide, and race to 100.</span></button></div>'}
+export function renderMinigameMenu(mode="normal"){
+ const dark=mode==="dark";
+ return '<div class="mini-mode-note card"><div class="eyebrow">'+(dark?"AFTER DARK QUICK PLAY":"NORMAL QUICK PLAY")+'</div><strong>'+(dark?"After Dark mode is active.":"Normal mode is active.")+'</strong><span>Roleplay and King &amp; Slave follow this mode. Chess and Snake &amp; Ladder stay neutral.</span></div><div class="mini-grid"><button class="card mini-card" data-mini-open="roleplay"><span>🎭</span><strong>Roleplay</strong><span>'+(dark?"After Dark scenes and roles.":"Characters and scenes for connection.")+'</span></button><button class="card mini-card" data-mini-open="king"><span>👑</span><strong>King &amp; Slave</strong><span>'+(dark?"After Dark commands with consent in control.":"Turn-based commands with consent always in control.")+'</span></button><button class="card mini-card" data-mini-open="chess"><span>♟</span><strong>Chess</strong><span>Play the full board game directly.</span></button><button class="card mini-card" data-mini-open="snake"><span>🐍</span><strong>Snake &amp; Ladder</strong><span>Roll, climb, slide, and race to 100.</span></button></div>';
+}
 export function openMinigame(id,mode="normal"){state.active=id;if(id==="roleplay")setRoleplayMode(state.roleplay,mode==="dark"?"dark":"normal");if(id==="king"){state.king=createKingState();state.king.mode=mode==="dark"?"dark":"normal"}if(id==="chess")state.chess=createChessState();if(id==="snake")state.snake=createSnakeState();return state.active}
 export function resetActive(){if(state.active==="chess")state.chess=createChessState();if(state.active==="snake")state.snake=createSnakeState();if(state.active==="king")state.king=createKingState();if(state.active==="roleplay")state.roleplay=createRoleplayState()}
 export function minigameView(names){
