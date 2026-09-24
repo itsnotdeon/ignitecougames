@@ -1,13 +1,11 @@
 name: Cleanup Actions History
 
 on:
-  push:
-    branches: ["main"]
   workflow_dispatch:
   workflow_run:
     workflows:
       - Playwright E2E
-      - Deploy GitHub Pages
+      - Deploy to Cloudflare Pages
     types: [completed]
 
 permissions:
@@ -25,10 +23,10 @@ jobs:
           set -euo pipefail
           ids="$(gh api --paginate "repos/$REPO/actions/workflows/playwright.yml/runs?per_page=100" --jq '.workflow_runs[].id' | tail -n +51)"
           for id in $ids; do
-            gh api --method DELETE "repos/$REPO/actions/runs/$id"
+            gh api --method DELETE "repos/$REPO/actions/runs/$id" || true
           done
 
-      - name: Keep 10 Deploy GitHub Pages runs
+      - name: Keep 10 Cloudflare Pages runs
         env:
           GH_TOKEN: ${{ github.token }}
           REPO: ${{ github.repository }}
@@ -36,7 +34,7 @@ jobs:
           set -euo pipefail
           ids="$(gh api --paginate "repos/$REPO/actions/workflows/pages.yml/runs?per_page=100" --jq '.workflow_runs[].id' | tail -n +11)"
           for id in $ids; do
-            gh api --method DELETE "repos/$REPO/actions/runs/$id"
+            gh api --method DELETE "repos/$REPO/actions/runs/$id" || true
           done
 
       - name: Keep 10 Cleanup Actions History runs
@@ -47,19 +45,5 @@ jobs:
           set -euo pipefail
           ids="$(gh api --paginate "repos/$REPO/actions/workflows/cleanup-actions.yml/runs?per_page=100" --jq '.workflow_runs[].id' | tail -n +11)"
           for id in $ids; do
-            gh api --method DELETE "repos/$REPO/actions/runs/$id"
+            gh api --method DELETE "repos/$REPO/actions/runs/$id" || true
           done
-
-      - name: Keep 10 pages-build-deployment runs
-        env:
-          GH_TOKEN: ${{ github.token }}
-          REPO: ${{ github.repository }}
-        run: |
-          set -euo pipefail
-          workflow_id="$(gh api --paginate "repos/$REPO/actions/workflows?per_page=100" --jq '.workflows[] | select(.name=="pages-build-deployment") | .id' | head -n 1)"
-          if [ -n "$workflow_id" ]; then
-            ids="$(gh api --paginate "repos/$REPO/actions/workflows/$workflow_id/runs?per_page=100" --jq '.workflow_runs[].id' | tail -n +11)"
-            for id in $ids; do
-              gh api --method DELETE "repos/$REPO/actions/runs/$id"
-            done
-          fi
