@@ -184,3 +184,24 @@ test("Phase 6 replay starts Journey mechanics from a clean state",async({page})=
   await expect(page.getByText("Pilih warna kartu")).toBeVisible();
   await expect(page.locator(".mechanic-result")).toHaveCount(0);
 });
+
+test("Phase 6 restart preserves a generated short Journey length",async({page})=>{
+ await page.goto("");
+ await enterIgniteWelcome(page);
+ await page.getByRole("button",{name:"Profile",exact:true}).click();
+ await page.getByRole("button",{name:"Settings",exact:true}).click();
+ await page.getByRole("button",{name:"Journey Preferences"}).click();
+ await page.locator('select[name="duration"]').selectOption("short");
+ await page.getByRole("button",{name:"Save Preferences"}).click();
+ await page.getByRole("button",{name:"Profile",exact:true}).click();
+ await page.getByRole("button",{name:"Build Dynamic Journey"}).click();
+ await page.locator('input[name="p1"]').fill("Deon");
+ await page.locator('input[name="p2"]').fill("Partner");
+ await page.getByRole("button",{name:"Save Couple"}).click();
+ await expect(page.getByText("Moment 1 of 4")).toBeVisible();
+ await page.getByRole("button",{name:"Begin Journey →"}).click();
+ await page.getByRole("button",{name:"Exit"}).click();
+ await page.getByRole("button",{name:"Play",exact:true}).click();
+ await page.getByRole("button",{name:"Continue Journey →"}).click();
+ await expect(page.getByText("Moment 1 of 4")).toBeVisible();
+});\n
