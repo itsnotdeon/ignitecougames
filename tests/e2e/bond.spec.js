@@ -9,7 +9,7 @@ async function enter(page){
 test.describe("IGNITE Bond hub",()=>{
   test("Home exposes Play, Bond, and Memories shortcuts",async({page})=>{
     await enter(page);
-    await expect(page.getByRole("button",{name:"Play",exact:true})).toBeVisible();
+    await expect(page.locator('button.bottom-nav-item[aria-label="Play"]')).toBeVisible();
     await expect(page.getByRole("button",{name:"Bond",exact:true})).toBeVisible();
     await expect(page.getByRole("button",{name:"Memories",exact:true})).toBeVisible();
   });
