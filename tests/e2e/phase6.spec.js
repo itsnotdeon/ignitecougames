@@ -122,7 +122,7 @@ test("Main bottom navigation exposes all destinations and opens Journey story",a
   await enterIgniteWelcome(page);
   await expect(page.getByRole("navigation",{name:"Main navigation"})).toBeVisible();
   await expect(page.getByRole("button",{name:"Home",exact:true})).toBeVisible();
-  await expect(page.getByRole("button",{name:"Play"})).toBeVisible();
+  await expect(page.getByRole("button",{name:"Play",exact:true})).toBeVisible();
   await expect(page.getByRole("button",{name:"Journey"})).toBeVisible();
   await expect(page.getByRole("button",{name:"Profile"})).toBeVisible();
   await page.getByRole("button",{name:"Journey"}).click();
