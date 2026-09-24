@@ -37,7 +37,7 @@ test("Phase 8 global mode reaches Journey without legacy mood controls",async({p
  await page.goto("");
  await enterIgniteWelcome(page);
  await page.getByRole("button",{name:"Normal",exact:true}).click();
- await page.getByRole("button",{name:"Minigames",exact:true}).click();
+ await page.getByRole("button",{name:"Play",exact:true}).click();
  await expect(page.getByRole("button",{name:"Start Journey →"})).toBeVisible();
  await page.getByRole("button",{name:"Start Journey →"}).click();
  await expect(page.getByRole("heading",{name:"Who is here?",exact:true})).toBeVisible();
