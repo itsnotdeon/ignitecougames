@@ -1,7 +1,7 @@
 # IGNITE Phase 6 — UX/Product Polish
 
 ## Goal
-Turn the completed Journey + Minigames + Settings foundation into a more coherent, mobile-first release candidate without expanding the product scope.
+Turn the completed Play (Journey + Minigames) + Settings foundation into a more coherent, mobile-first release candidate without expanding the product scope.
 
 ## Completed
 - Mobile-first spacing and safe-area handling.
@@ -18,8 +18,8 @@ Turn the completed Journey + Minigames + Settings foundation into a more coheren
 - Phase 6 CSS/interaction layer kept separate from the legacy monolith.
 
 ## Product guardrails
-- Journey remains the primary couple experience.
-- Minigames remain directly accessible.
+- Play is the primary couple experience surface, with Journey as its adaptive guided mode.
+- Quick Play games remain directly accessible inside Play.
 - Rituals stay embedded inside Journey.
 - Progression stays secondary to the experience.
 - No new feature category is introduced in Phase 6.
