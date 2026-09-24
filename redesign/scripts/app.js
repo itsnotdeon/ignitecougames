@@ -86,8 +86,8 @@ function renderComplete(){const l=getLevelInfo(getProgress().xp);app.innerHTML='
 function renderMinigames(){
  const active=state.__minigameActive;
  const body=active?minigameView(state.names):renderMinigameMenu(state.mode);
- let html='<div class="topbar"><button class="btn ghost" data-action="home">←</button><div class="brand">MINIGAMES</div><span></span></div>';
- html+='<div class="hero"><div class="eyebrow">Play Directly</div><h2>'+ (active?'Let’s play.':'Choose a game.') +'</h2><p>'+ (active?'Direct play — tidak perlu memulai Journey.':'Pilih Journey atau langsung mainkan Quick Play. Mode mengikuti pilihan IGNITE di Home.') +'</p></div>';
+ let html='<div class="topbar"><button class="btn ghost" data-action="home">←</button><div class="brand">PLAY</div><span></span></div>';
+ html+='<div class="hero"><div class="eyebrow">Play Together</div><h2>'+ (active?'Let’s play.':'Choose your experience.') +'</h2><p>'+ (active?'Direct play — atau kembali ke Play untuk memilih pengalaman lain.':'Journey, games, dan tantangan kalian semuanya dimulai dari sini.') +'</p></div>';
  if(!active){
   const dark=state.mode==="dark";
   html+='<section class="play-spotlight card '+(dark?"dark":"normal")+'"><div><div class="eyebrow">TONIGHT’S JOURNEY · '+(dark?"AFTER DARK":"NORMAL")+'</div><h3>'+ (dark?"Go deeper together.":"Connect, play, and discover.")+'</h3><p>'+ (dark?"IGNITE menyusun perjalanan After Dark dari ritme dan pilihan kalian.":"IGNITE menyusun rangkaian aktivitas untuk ngobrol, bermain, dan terhubung.")+'</p></div><button class="btn primary" data-action="start" data-journey="'+(dark?"dark":"normal")+'">Start Journey →</button></section><button class="btn ghost full" data-action="journey">View Journey History</button><div class="section-label">Quick Play · '+(dark?"After Dark":"Normal")+'</div>';
@@ -103,7 +103,7 @@ function renderJourney(){
  const p=getProgress();
  const records=Array.isArray(p.journeyHistory)?p.journeyHistory:[];
  const level=getLevelInfo(p.xp);
- let html='<div class="topbar"><button class="btn ghost" data-action="home">←</button><div class="brand">JOURNEY</div><span></span></div>';
+ let html='<div class="topbar"><button class="btn ghost" data-action="minigames">←</button><div class="brand">JOURNEY HISTORY</div><span></span></div>';
  html+='<div class="hero"><div class="eyebrow">Your Story</div><h2>One moment at a time.</h2><p>Journey menyimpan cerita yang sudah kalian jalani — bukan daftar permainan berikutnya.</p></div>';
  html+='<section class="journey-summary"><div class="card journey-stat"><span class="eyebrow">Journeys</span><strong>'+records.length+'</strong><small>moments completed</small></div><div class="card journey-stat"><span class="eyebrow">XP Together</span><strong>'+p.xp+'</strong><small>Level '+level.level+' · '+esc(level.title)+'</small></div></section>';
  html+='<div class="section-label">Your Story</div>';
