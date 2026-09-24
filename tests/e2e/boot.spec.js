@@ -7,6 +7,9 @@ test.describe("IGNITE boot",()=>{
     page.on("pageerror",error=>{console.log("PAGE ERROR:",String(error),String(error.stack||""));errors.push(String(error))});
     page.on("console",msg=>console.log("BROWSER CONSOLE:",msg.type(),msg.text(),JSON.stringify(msg.location())));
     await page.addInitScript(()=>window.addEventListener("error",e=>console.log("WINDOW ERROR:",e.filename,e.lineno,e.colno,String(e.message),String(e.error?.stack||""))));
+    await page.goto("./diagnostic.html");
+    await page.waitForTimeout(1000);
+    console.log("DIAGNOSTIC PAGE:",await page.locator("#out").innerText());
     await page.goto("./");
     const diagnostic=await page.evaluate(async()=>{
       const paths=["./scripts/journey/mechanics.js","./scripts/minigames/index.js","./scripts/progression.js","./scripts/journey/content.js","./scripts/features/ui.js","./scripts/features/memories.js","./scripts/features/adaptive.js","./scripts/ui/accessibility.js","./scripts/app.js"];
