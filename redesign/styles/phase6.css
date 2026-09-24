@@ -1810,3 +1810,58 @@ button.card:focus-visible,
 .ks-ready-stage{
   padding-bottom:8px;
 }
+
+
+/* ---------- 2026-09-25 global navigation + overflow cleanup ---------- */
+html,body{
+  width:100%;
+  max-width:100%;
+  overflow-x:hidden;
+  overscroll-behavior-x:none;
+}
+#app{
+  width:100%;
+  max-width:100%;
+  overflow-x:clip;
+}
+.app-shell{
+  overflow-x:clip;
+  overscroll-behavior-y:none;
+}
+
+/* Full-screen states should occupy the viewport without creating a phantom
+   scroll area underneath the fixed navigation. */
+.welcome-cinematic,
+.welcome-shell,
+.boot-screen,
+.boot-error,
+.setup-shell,
+.intro-shell,
+.complete-shell{
+  min-height:100dvh;
+  max-height:100dvh;
+  overflow:hidden;
+}
+
+/* The Journey session can become taller on small phones; keep it horizontally
+   contained while allowing the actual content to determine vertical height. */
+.session,
+.play-v1,
+.home-v1,
+.bond-v1,
+.memories-v1,
+.settings-v1,
+.profile-v1{
+  width:100%;
+  max-width:100%;
+  overflow-x:clip;
+}
+
+/* Avoid empty scroll bounce on primary dashboard surfaces. */
+.home-v1,
+.play-v1,
+.bond-v1,
+.memories-v1,
+.profile-v1{
+  overscroll-behavior-y:none;
+}
