@@ -20,7 +20,7 @@ test("King & Slave mobile flow keeps the action as the primary result",async({pa
  await page.locator("#ks-consent").check();
  await page.getByRole("button",{name:"Mulai Sesi"}).click();
  await expect(page.getByText("ROUND 1")).toBeVisible();
- await page.getByRole("button",{name:"Reveal King"}).click();
+ await page.getByRole("button",{name:"Roll Dice"}).click();
  await expect(page.locator(".ks-role-person.king").getByText("KING / QUEEN",{exact:true})).toBeVisible();
  await page.getByRole("button",{name:"Draw Command Card"}).click();
  await expect(page.locator(".ks-command-card-main")).toBeVisible();
@@ -39,7 +39,7 @@ test("King & Slave supports five one-use powers and Draw Again",async({page})=>{
  await page.getByRole("button",{name:"King & Slave"}).click();
  await page.locator("#ks-consent").check();
  await page.getByRole("button",{name:"Mulai Sesi"}).click();
- await page.getByRole("button",{name:"Reveal King"}).click();
+ await page.getByRole("button",{name:"Roll Dice"}).click();
  await page.getByRole("button",{name:/Power Cards/}).click();
  await expect(page.getByText("Titah Ganda")).toBeVisible();
  await expect(page.getByText("Hak Pilih")).toBeVisible();
@@ -61,7 +61,7 @@ test("King & Slave slave response is limited to Run or Skip",async({page})=>{
  await page.getByRole("button",{name:"King & Slave"}).click();
  await page.locator("#ks-consent").check();
  await page.getByRole("button",{name:"Mulai Sesi"}).click();
- await page.getByRole("button",{name:"Reveal King"}).click();
+ await page.getByRole("button",{name:"Roll Dice"}).click();
  await page.getByRole("button",{name:"Draw Command Card"}).click();
  await expect(page.getByRole("button",{name:"Jalankan"})).toBeVisible();
  await expect(page.getByRole("button",{name:"Skip"})).toBeVisible();
