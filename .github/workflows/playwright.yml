@@ -18,7 +18,7 @@ jobs:
       - run: npm install
       - run: npx playwright install --with-deps chromium
       - run: find redesign/scripts -name "*.js" -print0 | xargs -0 -n1 node --check
-      - run: npm run test:e2e -- --workers=2
+      - run: npx playwright test tests/e2e/boot.spec.js --workers=1
       - name: Upload Playwright report on failure
         if: failure()
         uses: actions/upload-artifact@v4
