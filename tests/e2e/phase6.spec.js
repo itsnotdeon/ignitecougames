@@ -10,7 +10,7 @@ test("Phase 6 mobile layout has no horizontal overflow",async({page})=>{
   await page.setViewportSize({width:375,height:812});
   await page.goto("");
   await enterIgniteWelcome(page);
-  await expect(page.locator('link[href="./styles/phase6.css"]')).toHaveCount(1);
+  await expect(page.locator('link[href^="./styles/phase6.css"]')).toHaveCount(1);
   const overflow=await page.evaluate(()=>document.documentElement.scrollWidth>window.innerWidth);
   expect(overflow).toBe(false);
   await expect(page.getByText("Let’s spend")).toBeVisible();
@@ -29,7 +29,9 @@ test("Release candidate has no application page errors on Home",async({page})=>{
 test("Phase 6 preserves an active Journey after reload",async({page})=>{
   await page.goto("");
   await enterIgniteWelcome(page);
-  await page.getByRole("button",{name:/Normal/}).click();
+  await page.getByRole("button",{name:"Normal",exact:true}).click();
+  await page.getByRole("button",{name:"Minigames"}).click();
+  await page.getByRole("button",{name:"Start Journey →"}).click();
   await page.locator('input[name="p1"]').fill("Deon");
   await page.locator('input[name="p2"]').fill("Partner");
   await page.getByRole("button",{name:"Save Couple"}).click();
@@ -45,7 +47,9 @@ test("Phase 6 keeps form submission working on mobile",async({page})=>{
   await page.setViewportSize({width:390,height:844});
   await page.goto("");
   await enterIgniteWelcome(page);
-  await page.getByRole("button",{name:/Normal/}).click();
+  await page.getByRole("button",{name:"Normal",exact:true}).click();
+  await page.getByRole("button",{name:"Minigames"}).click();
+  await page.getByRole("button",{name:"Start Journey →"}).click();
   await page.locator('input[name="p1"]').fill("Deon");
   await page.locator('input[name="p2"]').fill("Partner");
   await page.getByRole("button",{name:"Save Couple"}).click();
@@ -128,7 +132,9 @@ test("Couple quote is generated from XP level instead of manual input",async({pa
 test("Phase 6 replay starts Journey mechanics from a clean state",async({page})=>{
   await page.goto("");
   await enterIgniteWelcome(page);
-  await page.getByRole("button",{name:/Normal/}).click();
+  await page.getByRole("button",{name:"Normal",exact:true}).click();
+  await page.getByRole("button",{name:"Minigames"}).click();
+  await page.getByRole("button",{name:"Start Journey →"}).click();
   await page.locator('input[name="p1"]').fill("Deon");
   await page.locator('input[name="p2"]').fill("Partner");
   await page.getByRole("button",{name:"Save Couple"}).click();
