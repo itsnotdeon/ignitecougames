@@ -1,14 +1,13 @@
 const {test,expect}=require("@playwright/test");
 
-async function enterIgniteWelcome(page){
-  await expect(page.getByRole("button",{name:"Enter IGNITE"})).toBeVisible();
+async function enter(page){
+  await page.goto("");
   await page.getByRole("button",{name:"Enter IGNITE"}).click();
-  await expect(page.getByText("Let’s spend")).toBeVisible();
+  await expect(page.getByText("YOUR SPACE FOR TWO")).toBeVisible();
 }
 
-test("Phase 8 context engine derives deterministic time periods",async({page})=>{
- await page.goto("");
- await enterIgniteWelcome(page);
+test("context engine derives deterministic time periods",async({page})=>{
+ await enter(page);
  const result=await page.evaluate(async()=>{
   const m=await import("./scripts/features/context.js");
   return [
@@ -21,28 +20,28 @@ test("Phase 8 context engine derives deterministic time periods",async({page})=>
  expect(result).toEqual(["morning","midday","evening","night"]);
 });
 
-test("Phase 8 global mode replaces visible mood selection",async({page})=>{
- await page.goto("");
- await enterIgniteWelcome(page);
- await expect(page.getByRole("region",{name:"IGNITE mode"})).toBeVisible();
+test("global mode changes Home state",async({page})=>{
+ await enter(page);
+ await expect(page.getByText("IGNITE MODE",{exact:true})).toBeVisible();
  await expect(page.getByRole("button",{name:"Calm",exact:true})).not.toBeVisible();
  await page.getByRole("button",{name:"After Dark",exact:true}).click();
  const stored=await page.evaluate(()=>JSON.parse(localStorage.getItem("ignite-redesign-v4")));
  expect(stored.mode).toBe("dark");
- await page.reload();
  await expect(page.getByRole("button",{name:"After Dark",exact:true})).toHaveAttribute("aria-pressed","true");
 });
 
-test("Phase 8 global mode reaches Journey without legacy mood controls",async({page})=>{
- await page.goto("");
- await enterIgniteWelcome(page);
- await page.getByRole("button",{name:"Normal",exact:true}).click();
+test("global mode reaches After Dark Journey consent",async({page})=>{
+ await enter(page);
+ await page.getByRole("button",{name:"After Dark",exact:true}).click();
  await page.getByRole("button",{name:"Play",exact:true}).click();
- await expect(page.getByRole("button",{name:"Start Journey →"})).toBeVisible();
  await page.getByRole("button",{name:"Start Journey →"}).click();
- await expect(page.getByRole("heading",{name:"Who is here?",exact:true})).toBeVisible();
- await page.locator('#name-form input[name="p1"]').fill("Deon");
- await page.locator('#name-form input[name="p2"]').fill("Partner");
- await page.getByRole("button",{name:"Save Couple"}).click();
- await expect(page.getByRole("heading",{name:"Normal Journey",exact:true})).toBeVisible();
+ await page.locator('input[name="p1"]').fill("Deon");
+ await page.locator('input[name="p2"]').fill("Partner");
+ await page.getByRole("button",{name:"Start Our Journey →"}).click();
+ await expect(page.getByRole("heading",{name:"After Dark",exact:true})).toBeVisible();
+ await page.getByRole("button",{name:/Enter After Dark/}).click();
+ await expect(page.getByText("Set the Mood")).not.toBeVisible();
+ await page.locator("#consent").check();
+ await page.getByRole("button",{name:/Enter After Dark/}).click();
+ await expect(page.getByText("Set the Mood")).toBeVisible();
 });
