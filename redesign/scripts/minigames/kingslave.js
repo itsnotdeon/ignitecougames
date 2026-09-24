@@ -37,7 +37,8 @@ function freshState() {
     usedPowers: { 0: [], 1: [] },
     kingCount: { 0: 0, 1: 0 },
     slaveCount: { 0: 0, 1: 0 },
-    __powerOpen: false
+    __powerOpen: false,
+    rolling: false
   };
 }
 
@@ -192,6 +193,7 @@ export function kingAction(state, action, value) {
   }
 
   if (action === "roll") {
+    if (state.rolling) return;
     state.rollStarted = true;
     state.rollP1 = 1 + Math.floor(Math.random() * 6);
     state.rollP2 = 1 + Math.floor(Math.random() * 6);
@@ -331,6 +333,8 @@ export function renderKing(state, names) {
   const king = hasRoles ? playerName(names, state.king) : "";
   const slave = hasRoles ? playerName(names, state.slave) : "";
   const mode = state.mode === "normal" ? "Normal" : "After Dark";
+  const kingEmoji = "👑";
+  const slaveEmoji = "🧎";
 
   let body = "";
 
@@ -341,7 +345,7 @@ export function renderKing(state, names) {
 
     body =
       '<section class="ks-draw-stage">' +
-        '<div class="ks-dice-pair">' +
+        '<div class="ks-dice-pair '+(state.rolling?"is-rolling":"")+'>' +
           '<div><span>' + (state.rollP1 || "?") + '</span><small>' + escapeHtml(p1) + '</small></div>' +
           '<div><span>' + (state.rollP2 || "?") + '</span><small>' + escapeHtml(p2) + '</small></div>' +
         '</div>' +
@@ -353,8 +357,8 @@ export function renderKing(state, names) {
   } else if (!state.commandDrawn) {
     body =
       '<section class="ks-ready-stage">' +
-        '<div class="ks-crown"><span>CROWN</span><b>' + escapeHtml(king) + '</b><small>KING / QUEEN</small></div>' +
-        '<div class="ks-slave-note">SLAVE: ' + escapeHtml(slave) + '</div>' +
+        '<div class="ks-crown"><span>'+kingEmoji+'</span><b>' + escapeHtml(king) + '</b><small>KING / QUEEN</small></div>' +
+        '<div class="ks-slave-note">'+slaveEmoji+' SLAVE: ' + escapeHtml(slave) + '</div>' +
         '<button class="ks-main-btn" data-mini="ks-draw">Draw Command Card</button>' +
       '</section>';
   } else {
@@ -386,12 +390,12 @@ export function renderKing(state, names) {
   const roles = hasRoles
     ? '<div class="ks-role-strip">' +
         '<div class="ks-role-person ' + (state.king === 0 ? "king" : "slave") + '">' +
-          '<span>' + (state.king === 0 ? "K" : "S") + '</span><b>' + escapeHtml(p1) + '</b>' +
+          '<span>' + (state.king === 0 ? "👑" : "🧎") + '</span><b>' + escapeHtml(p1) + '</b>' +
           '<small>' + (state.king === 0 ? "KING / QUEEN" : "SLAVE") + '</small>' +
         '</div>' +
         '<div class="ks-vs">VS</div>' +
         '<div class="ks-role-person ' + (state.king === 1 ? "king" : "slave") + '">' +
-          '<span>' + (state.king === 1 ? "K" : "S") + '</span><b>' + escapeHtml(p2) + '</b>' +
+          '<span>' + (state.king === 1 ? "👑" : "🧎") + '</span><b>' + escapeHtml(p2) + '</b>' +
           '<small>' + (state.king === 1 ? "KING / QUEEN" : "SLAVE") + '</small>' +
         '</div>' +
       '</div>'
