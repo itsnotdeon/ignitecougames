@@ -18,7 +18,9 @@ test("Phase 7 Couple Memories can save a note and expose streak summary",async({
  await page.getByRole("button",{name:"Couple Memories"}).click();
  await expect(page.getByRole("heading",{name:"Keep the moments.",exact:true})).toBeVisible();
  await page.getByRole("button",{name:"←"}).click();
- await page.getByRole("button",{name:"Normal"}).click();
+ await page.getByRole("button",{name:"Normal",exact:true}).click();
+ await page.getByRole("button",{name:"Minigames"}).click();
+ await page.getByRole("button",{name:"Start Journey →"}).click();
  await page.locator('input[name="p1"]').fill("Deon");
  await page.locator('input[name="p2"]').fill("Partner");
  await page.getByRole("button",{name:"Save Couple"}).click();
@@ -63,7 +65,10 @@ test("Phase 7 Dynamic Journey and Surprise Mode are wired to Journey actions",as
  await page.getByRole("button",{name:"Save Couple"}).click();
  await expect(page.getByRole("heading",{name:"Normal Journey",exact:true})).toBeVisible();
  await page.getByRole("button",{name:"←"}).click();
- await page.getByRole("button",{name:"Surprise Us"}).click();
+ await page.getByRole("button",{name:"Home",exact:true}).click();
+ await page.getByRole("button",{name:"Normal",exact:true}).click();
+ await page.getByRole("button",{name:"Minigames"}).click();
+ await page.getByRole("button",{name:"Start Journey →"}).click();
  await expect(page.getByRole("heading",{name:"Normal Journey",exact:true})).toBeVisible();
 });
 
