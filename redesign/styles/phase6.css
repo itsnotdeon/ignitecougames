@@ -1710,3 +1710,103 @@ button.card:focus-visible,
   height:auto;
   aspect-ratio:1 / 1;
 }
+
+
+/* ---------- 2026-09-25 mobile visual corrections ---------- */
+
+/* Home: keep shortcut icons visually separated from their labels. */
+.home-action-card{
+  padding-top:52px;
+}
+.home-action-card .home-action-icon{
+  top:14px;
+  left:50%;
+  transform:translateX(-50%);
+  width:30px;
+  height:30px;
+  display:grid;
+  place-items:center;
+  margin:0;
+  line-height:1;
+  font-size:20px;
+}
+.home-action-card.play .home-action-icon{
+  width:34px;
+  height:34px;
+  font-size:24px;
+}
+.home-action-card strong,
+.home-action-card small{
+  position:relative;
+  z-index:1;
+  text-align:center;
+}
+.home-action-card strong{
+  display:block;
+}
+.home-action-card small{
+  display:block;
+}
+
+/* Welcome / Enter Together: center the complete composition vertically and horizontally. */
+.welcome-shell{
+  justify-content:center !important;
+  align-items:center !important;
+  text-align:center !important;
+  padding:24px 22px 34px;
+}
+.welcome-shell > *{
+  align-self:center;
+}
+.welcome-shell h1,
+.welcome-shell p{
+  text-align:center;
+}
+.welcome-enter{
+  width:min(100%,520px);
+}
+
+/* Boot animation: center both the main orbit and the large dark circle. */
+.boot-orbit{
+  left:50%;
+  top:50%;
+  transform:translate(-50%,-50%);
+}
+.boot-screen::after{
+  left:50%;
+  top:50%;
+  transform:translate(-50%,-50%);
+}
+@keyframes ignite-breathe{
+  0%,100%{transform:translate(-50%,-50%) scale(.92);opacity:.55}
+  50%{transform:translate(-50%,-50%) scale(1.06);opacity:1}
+}
+@keyframes ignite-orbit{
+  from{transform:translate(-50%,-50%) rotate(0deg)}
+  to{transform:translate(-50%,-50%) rotate(360deg)}
+}
+
+/* King & Slave: bring Power Cards closer to the main action. */
+.ks-power-trigger{
+  margin-top:14px;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:12px;
+  text-align:left;
+}
+.ks-power-trigger b{
+  flex:1 1 auto;
+}
+.ks-power-trigger small{
+  flex:0 0 auto;
+  margin-left:auto;
+  text-align:right;
+  white-space:nowrap;
+}
+.ks-scoreline{
+  margin:6px 0 0;
+}
+.ks-ready-stage{
+  padding-bottom:8px;
+}
