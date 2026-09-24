@@ -7,6 +7,13 @@ test.describe("IGNITE boot",()=>{
     page.on("pageerror",error=>{console.log("PAGE ERROR:",String(error),String(error.stack||""));errors.push(String(error))});
     page.on("console",msg=>console.log("BROWSER CONSOLE:",msg.type(),msg.text(),JSON.stringify(msg.location())));
     await page.goto("./");
+    const diagnostic=await page.evaluate(async()=>{
+      const paths=["./scripts/journey/mechanics.js","./scripts/minigames/index.js","./scripts/progression.js","./scripts/journey/content.js","./scripts/features/ui.js","./scripts/features/memories.js","./scripts/features/adaptive.js","./scripts/ui/accessibility.js","./scripts/app.js"];
+      const out=[];
+      for(const path of paths){try{await import(path+"?diag=1");out.push(path+" OK")}catch(e){out.push(path+" ERROR "+String(e)+" STACK "+String(e?.stack||""))}}
+      return out;
+    });
+    console.log("IMPORT DIAGNOSTIC:",diagnostic.join("\n"));
     await page.waitForTimeout(1200);
     console.log("BOOT SNAPSHOT:",await page.locator("#app").innerText());
     await expect(page.getByRole("button",{name:"Enter IGNITE"})).toBeVisible();
