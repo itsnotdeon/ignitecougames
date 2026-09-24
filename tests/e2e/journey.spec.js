@@ -3,22 +3,22 @@ const {test,expect}=require("@playwright/test");
 async function enterIgniteWelcome(page){
   await expect(page.getByRole("button",{name:"Enter IGNITE"})).toBeVisible();
   await page.getByRole("button",{name:"Enter IGNITE"}).click();
-  await expect(page.getByText("Let’s spend")).toBeVisible();
+  await expect(page.getByText("YOUR SPACE FOR TWO")).toBeVisible();
 }
 
 async function startNormal(page){
  await page.goto("");
   await enterIgniteWelcome(page);
- await expect(page.getByText("Let’s spend")).toBeVisible();
+ await expect(page.getByText("YOUR SPACE FOR TWO")).toBeVisible();
  await page.getByRole("button",{name:"Normal",exact:true}).click();
  await expect(page.getByRole("button",{name:"Normal",exact:true})).toHaveAttribute("aria-pressed","true");
  await page.getByRole("button",{name:"Play",exact:true}).click();
- await expect(page.getByRole("heading",{name:"Choose your experience.",exact:true})).toBeVisible();
+ await expect(page.getByRole("heading",{name:"What should we play?",exact:true})).toBeVisible();
  await page.getByRole("button",{name:"Start Journey →"}).click();
- await expect(page.getByText("Who is here?")).toBeVisible();
+ await expect(page.getByRole("heading",{name:"Let’s get to know each other."})).toBeVisible();
  await page.locator('input[name="p1"]').fill("Deon");
  await page.locator('input[name="p2"]').fill("Partner");
- await page.getByRole("button",{name:"Save Couple"}).click();
+ await page.getByRole("button",{name:"Start Our Journey →"}).click();
  await expect(page.getByText("Normal Journey")).toBeVisible();
  await page.getByRole("button",{name:/Begin Journey/}).click();
  await expect(page.getByText("Warm Up")).toBeVisible();
@@ -66,7 +66,7 @@ test("After Dark requires consent before entering",async({page})=>{
  await page.getByRole("button",{name:"Start Journey →"}).click();
  await page.locator('input[name="p1"]').fill("Deon");
  await page.locator('input[name="p2"]').fill("Partner");
- await page.getByRole("button",{name:"Save Couple"}).click();
+ await page.getByRole("button",{name:"Start Our Journey →"}).click();
  await expect(page.getByRole("heading",{name:"After Dark",exact:true})).toBeVisible();
  await page.getByRole("button",{name:/Enter After Dark/}).click();
  await expect(page.getByText("Set the Mood")).not.toBeVisible();
@@ -168,7 +168,7 @@ test("Phase 5 progression tracks XP, level stats, and achievements",async({page}
  await page.getByRole("button",{name:"Start Journey →"}).click();
  await page.locator('input[name="p1"]').fill("Deon");
  await page.locator('input[name="p2"]').fill("Partner");
- await page.getByRole("button",{name:"Save Couple"}).click();
+ await page.getByRole("button",{name:"Start Our Journey →"}).click();
  await page.getByRole("button",{name:/Begin Journey/}).click();
  for(let i=0;i<5;i++){await page.getByRole("button",{name:/Merah/}).click();if(i<4)await page.getByRole("button",{name:"Next Round"}).click();}
  await page.getByRole("button",{name:"Continue →"}).click();
@@ -228,7 +228,7 @@ test("Phase 9 Journey is a story timeline and opens completed Journey details",a
  await page.getByRole("button",{name:"Start Journey →"}).click();
  await page.locator('input[name="p1"]').fill("Deon");
  await page.locator('input[name="p2"]').fill("Partner");
- await page.getByRole("button",{name:"Save Couple"}).click();
+ await page.getByRole("button",{name:"Start Our Journey →"}).click();
  await page.getByRole("button",{name:/Begin Journey/}).click();
  for(let i=0;i<5;i++){await page.getByRole("button",{name:/Merah/}).click();if(i<4)await page.getByRole("button",{name:"Next Round"}).click();}
  await page.getByRole("button",{name:"Continue →"}).click();
