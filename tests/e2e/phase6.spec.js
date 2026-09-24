@@ -203,6 +203,6 @@ test("Phase 6 restart preserves a generated short Journey length",async({page})=
  await page.getByRole("button",{name:"Exit"}).click();
  await expect(page.getByRole("button",{name:"Play",exact:true})).toBeVisible();
  await page.getByRole("button",{name:"Home",exact:true}).click();
- await page.getByRole("button",{name:"Continue Journey →"}).click();
+ await page.locator(".continue-card").click();
  await expect(page.getByText("Moment 1 of 4")).toBeVisible();
 });
