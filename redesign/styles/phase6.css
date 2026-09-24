@@ -1834,13 +1834,19 @@ html,body{
 .welcome-cinematic,
 .welcome-shell,
 .boot-screen,
-.boot-error,
-.setup-shell,
-.intro-shell,
-.complete-shell{
+.boot-error{
   min-height:100dvh;
   max-height:100dvh;
   overflow:hidden;
+}
+
+/* Setup, intro and completion may legitimately exceed a very short viewport;
+   let them grow rather than clipping interactive content. */
+.setup-shell,
+.intro-shell,
+.complete-shell{
+  min-height:calc(100dvh - 40px);
+  overflow:visible;
 }
 
 /* The Journey session can become taller on small phones; keep it horizontally
