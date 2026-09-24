@@ -126,13 +126,16 @@ function renderComplete(){const l=getLevelInfo(getProgress().xp);app.innerHTML='
 function renderMinigames(){
  const active=state.__minigameActive;
  const body=active?minigameView(state.names):renderMinigameMenu(state.mode);
- let html='<div class="topbar"><button class="btn ghost" data-action="home">←</button><div class="brand">PLAY</div><span></span></div>';
- html+='<div class="hero"><div class="eyebrow">Play Together</div><h2>'+ (active?'Let’s play.':'Choose your experience.') +'</h2><p>'+ (active?'Direct play — atau kembali ke Play untuk memilih pengalaman lain.':'Journey, games, dan tantangan kalian semuanya dimulai dari sini.') +'</p></div>';
+ let html='<section class="play-v1"><div class="play-v1-top"><button class="btn ghost" data-action="home">←</button><div><div class="brand">PLAY</div><span>CHOOSE YOUR MOMENT</span></div><div></div></div>';
  if(!active){
   const dark=state.mode==="dark";
-  html+='<section class="play-spotlight card '+(dark?"dark":"normal")+'"><div><div class="eyebrow">TONIGHT’S JOURNEY · '+(dark?"AFTER DARK":"NORMAL")+'</div><h3>'+ (dark?"Go deeper together.":"Connect, play, and discover.")+'</h3><p>'+ (dark?"IGNITE menyusun perjalanan After Dark dari ritme dan pilihan kalian.":"IGNITE menyusun rangkaian aktivitas untuk ngobrol, bermain, dan terhubung.")+'</p></div><button class="btn primary" data-action="start" data-journey="'+(dark?"dark":"normal")+'">Start Journey →</button></section><button class="btn ghost full" data-action="journey">View Journey History</button><div class="section-label">Quick Play · '+(dark?"After Dark":"Normal")+'</div>';
+  html+='<section class="play-v1-hero"><div class="eyebrow">'+(dark?"AFTER DARK · 18+":"PLAY TOGETHER")+'</div><h1>'+(dark?"Go a little deeper.":"What should we play?")+'</h1><p>'+(dark?"Choose an experience and keep consent at the center.":"Pick a game, challenge, or journey for the two of you.")+'</p></section>';
+  html+='<section class="play-spotlight card '+(dark?"dark":"normal")+'"><div><div class="eyebrow">TONIGHT’S JOURNEY</div><h3>'+ (dark?"Go deeper together.":"Connect, play, and discover.")+'</h3><p>'+ (dark?"A guided After Dark sequence shaped by your mode.":"A guided sequence of games and conversation.")+'</p></div><button class="btn primary" data-action="start" data-journey="'+(dark?"dark":"normal")+'">Start Journey →</button></section>';
+  html+='<div class="section-label">QUICK PLAY</div>';
+ }else{
+  html+='<div class="play-active-head"><button class="btn ghost" data-action="minigames-menu">← All Games</button><span class="mode-pill">'+(state.mode==="dark"?"AFTER DARK · 18+":"NORMAL")+'</span></div>';
  }
- html+=body+(active?'<button class="btn ghost full mini-back" data-action="minigames-menu">← All Minigames</button>':'')+renderBottomNav("play");
+ html+=body+(active?'<button class="btn ghost full mini-back" data-action="minigames-menu">Back to Play</button>':'')+renderBottomNav("play")+'</section>';
  app.innerHTML=html;
 }
 function formatJourneyDate(value){
