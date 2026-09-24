@@ -17,13 +17,13 @@ jobs:
   cleanup:
     runs-on: ubuntu-latest
     steps:
-      - name: Keep 20 Playwright E2E runs
+      - name: Keep 50 Playwright E2E runs
         env:
           GH_TOKEN: ${{ github.token }}
           REPO: ${{ github.repository }}
         run: |
           set -euo pipefail
-          ids="$(gh api --paginate "repos/$REPO/actions/workflows/playwright.yml/runs?per_page=100" --jq '.workflow_runs[].id' | tail -n +21)"
+          ids="$(gh api --paginate "repos/$REPO/actions/workflows/playwright.yml/runs?per_page=100" --jq '.workflow_runs[].id' | tail -n +51)"
           for id in $ids; do
             gh api --method DELETE "repos/$REPO/actions/runs/$id"
           done
