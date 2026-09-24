@@ -96,5 +96,7 @@ test("Phase 7 Dynamic Journey applies short duration to the generated flow",asyn
  await page.getByRole("button",{name:"Save Couple"}).click();
  await expect(page.getByRole("heading",{name:"Normal Journey",exact:true})).toBeVisible();
  await page.getByRole("button",{name:"Begin Journey →"}).click();
+ console.log("DEBUG_SESSION_BODY", await page.locator("body").innerText());
+ console.log("DEBUG_APP_STATE", await page.evaluate(()=>localStorage.getItem("ignite-redesign-v4")));
  await expect(page.getByText("Moment 1 of 4")).toBeVisible();
 });
