@@ -27,7 +27,7 @@ test("Phase 8 global mode replaces visible mood selection",async({page})=>{
  await expect(page.getByRole("region",{name:"IGNITE mode"})).toBeVisible();
  await expect(page.getByRole("button",{name:"Calm",exact:true})).not.toBeVisible();
  await page.getByRole("button",{name:"After Dark",exact:true}).click();
- const stored=await page.evaluate(()=>JSON.parse(localStorage.getItem("ignite-context-v1")));
+ const stored=await page.evaluate(()=>JSON.parse(localStorage.getItem("ignite-redesign-v4")));
  expect(stored.mode).toBe("dark");
  await page.reload();
  await expect(page.getByRole("button",{name:"After Dark",exact:true})).toHaveAttribute("aria-pressed","true");
