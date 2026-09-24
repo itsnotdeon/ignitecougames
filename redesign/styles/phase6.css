@@ -1335,3 +1335,146 @@ button.card:focus-visible,
 
 /* ---------- Profile achievements ---------- */
 .profile-achievements{margin-top:14px;padding:20px}.achievement-list{display:grid;gap:8px;margin-top:12px}.achievement-item{display:flex;align-items:center;gap:12px;padding:12px;border:1px solid var(--line);border-radius:14px;background:rgba(255,255,255,.025)}.achievement-item>span{width:30px;height:30px;display:grid;place-items:center;border-radius:50%;border:1px solid var(--line);color:var(--muted);font-weight:700}.achievement-item.unlocked{border-color:rgba(230,194,109,.28)}.achievement-item.unlocked>span{color:var(--gold);border-color:rgba(230,194,109,.35)}.achievement-item.locked{opacity:.6}.achievement-item b,.achievement-item small{display:block}.achievement-item b{font-size:12px}.achievement-item small{margin-top:3px;color:var(--muted);font-size:10px;line-height:1.4}
+
+
+/* ---------- Mockup V1 cinematic welcome ---------- */
+.welcome-cinematic{
+  min-height:calc(100dvh - 24px);
+  margin:-20px -20px 0;
+  position:relative;
+  overflow:hidden;
+  display:flex;
+  flex-direction:column;
+  justify-content:flex-end;
+  padding:32px 22px 34px;
+  background:
+    radial-gradient(circle at 50% 28%,rgba(255,106,150,.16),transparent 28%),
+    linear-gradient(180deg,#12070d 0%,#1d0b14 48%,#0c0509 100%);
+}
+.welcome-scene{
+  position:absolute;
+  inset:0;
+  overflow:hidden;
+  pointer-events:none;
+}
+.welcome-scene .welcome-glow{
+  position:absolute;
+  width:420px;
+  height:420px;
+  left:50%;
+  top:8%;
+  transform:translateX(-50%);
+  border-radius:50%;
+  background:radial-gradient(circle,rgba(255,106,150,.20),rgba(255,106,150,.04) 38%,transparent 70%);
+  filter:blur(4px);
+}
+.welcome-ring{
+  position:absolute;
+  width:270px;
+  height:270px;
+  left:50%;
+  top:22%;
+  transform:translateX(-50%) rotate(-12deg);
+  border:1px solid rgba(230,194,109,.20);
+  border-radius:50%;
+  box-shadow:0 0 90px rgba(255,106,150,.08),inset 0 0 70px rgba(255,106,150,.05);
+}
+.welcome-ring::after{
+  content:"";
+  position:absolute;
+  inset:18px;
+  border:1px solid rgba(255,190,210,.07);
+  border-radius:50%;
+}
+.welcome-silhouette{
+  position:absolute;
+  bottom:23%;
+  width:120px;
+  height:250px;
+  border-radius:55% 55% 12% 12%;
+  filter:blur(12px);
+  opacity:.55;
+  background:linear-gradient(180deg,rgba(255,190,210,.16),rgba(86,18,49,.55) 58%,rgba(4,2,5,.92));
+  box-shadow:0 0 70px rgba(255,106,150,.11);
+}
+.welcome-silhouette::before{
+  content:"";
+  position:absolute;
+  width:76px;
+  height:76px;
+  top:-35px;
+  left:22px;
+  border-radius:50%;
+  background:rgba(255,190,210,.13);
+}
+.welcome-silhouette-a{left:calc(50% - 108px);transform:rotate(-6deg)}
+.welcome-silhouette-b{left:calc(50% - 12px);transform:rotate(7deg);opacity:.43}
+.welcome-grain{
+  position:absolute;
+  inset:0;
+  opacity:.08;
+  background-image:radial-gradient(rgba(255,255,255,.55) .6px,transparent .7px);
+  background-size:5px 5px;
+  mix-blend-mode:screen;
+}
+.welcome-cinematic-copy{
+  position:relative;
+  z-index:2;
+  width:min(100%,390px);
+  margin:0 auto;
+  text-align:center;
+}
+.welcome-cinematic-copy .welcome-mark{
+  margin-bottom:10px;
+  color:var(--gold);
+  font-size:25px;
+  text-shadow:0 0 24px rgba(230,194,109,.35);
+}
+.welcome-cinematic-copy h1{
+  margin:8px 0 2px;
+  font-family:var(--display);
+  font-size:clamp(68px,18vw,92px);
+  line-height:.78;
+  letter-spacing:.10em;
+  text-indent:.10em;
+  text-shadow:0 8px 40px rgba(0,0,0,.45);
+}
+.welcome-cinematic-copy p{
+  margin:12px 0 0;
+  color:var(--muted);
+  font-size:10px;
+  letter-spacing:.16em;
+}
+.welcome-cinematic-copy .welcome-divider{
+  width:38px;
+  height:1px;
+  margin:19px auto 15px;
+  background:var(--gold);
+}
+.welcome-cinematic-copy .welcome-enter{
+  min-height:52px;
+  border-radius:16px;
+  letter-spacing:.12em;
+  font-size:10px;
+  box-shadow:0 16px 36px rgba(214,45,104,.22);
+}
+.welcome-cinematic-copy .welcome-enter span{
+  font-size:15px;
+  margin-left:2px;
+}
+.welcome-cinematic-copy .welcome-note{
+  display:block;
+  margin-top:10px;
+  font-size:8px;
+  letter-spacing:.04em;
+}
+@media(max-width:390px){
+  .welcome-cinematic{margin:-16px -16px 0;padding:26px 17px 28px}
+  .welcome-silhouette{bottom:25%;transform:scale(.88)}
+  .welcome-silhouette-a{left:calc(50% - 96px)}
+  .welcome-silhouette-b{left:calc(50% - 5px)}
+  .welcome-ring{top:19%;width:230px;height:230px}
+}
+@media(prefers-reduced-motion:reduce){
+  .welcome-silhouette,.welcome-ring{animation:none}
+}
