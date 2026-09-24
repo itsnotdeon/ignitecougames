@@ -1130,3 +1130,88 @@ button.card:focus-visible,
 .bond-goals label{display:flex;align-items:center;gap:9px;padding:10px 12px;border-radius:12px;background:rgba(255,255,255,.035);font-size:12px}
 .bond-goals input{accent-color:var(--rose)}
 @media(max-width:390px){.home-shortcut-grid{gap:7px}.home-shortcut{padding:13px 10px}}
+
+
+/* ---------- Mockup V1: cinematic loading screen (loading retained) ---------- */
+.boot-screen{
+  isolation:isolate;
+  min-height:100dvh;
+  padding:34px 22px max(34px,env(safe-area-inset-bottom));
+  background:
+    radial-gradient(circle at 50% 32%,rgba(255,106,150,.22),transparent 25%),
+    radial-gradient(circle at 18% 18%,rgba(230,194,109,.10),transparent 23%),
+    radial-gradient(circle at 84% 72%,rgba(122,31,68,.20),transparent 31%),
+    linear-gradient(180deg,#1a0912 0%,#0c0509 100%);
+}
+.boot-screen::before{
+  content:"";
+  position:absolute;
+  inset:0;
+  background:
+    linear-gradient(115deg,transparent 0 42%,rgba(255,255,255,.025) 50%,transparent 58%),
+    radial-gradient(circle at 50% 45%,transparent 0 29%,rgba(255,106,150,.045) 30%,transparent 48%);
+  pointer-events:none;
+  z-index:0;
+}
+.boot-screen::after{
+  content:"";
+  position:absolute;
+  width:min(92vw,430px);
+  height:min(92vw,430px);
+  border:1px solid rgba(255,190,210,.08);
+  border-radius:50%;
+  box-shadow:0 0 100px rgba(255,106,150,.08),inset 0 0 80px rgba(230,194,109,.04);
+  animation:ignite-orbit 8s linear infinite;
+  pointer-events:none;
+  z-index:0;
+}
+.boot-orbit{
+  width:min(72vw,300px);
+  height:min(72vw,300px);
+  background:radial-gradient(circle,rgba(255,106,150,.12),transparent 66%);
+  animation:ignite-breathe 3.2s ease-in-out infinite;
+  z-index:1;
+}
+.boot-orbit span{
+  width:8px;
+  height:8px;
+  box-shadow:0 0 24px rgba(255,106,150,.65);
+}
+.boot-brand{
+  font-size:clamp(42px,12vw,62px);
+  letter-spacing:.22em;
+  text-shadow:0 0 35px rgba(255,106,150,.18);
+}
+.boot-kicker{
+  margin-top:7px;
+  letter-spacing:.32em;
+}
+.boot-screen h1{
+  margin-top:30px;
+  font-size:clamp(30px,8vw,42px);
+  font-weight:600;
+  letter-spacing:-.035em;
+}
+.boot-status{
+  min-height:17px;
+  margin:10px 0 22px;
+  font-size:10px;
+  letter-spacing:.04em;
+}
+.boot-progress{
+  width:min(310px,84vw);
+  height:5px;
+  background:rgba(255,255,255,.065);
+  box-shadow:0 0 0 1px rgba(255,190,210,.06),0 8px 30px rgba(0,0,0,.25);
+}
+.boot-progress span{
+  box-shadow:0 0 14px rgba(255,106,150,.35);
+}
+.boot-progress-meta{
+  width:min(310px,84vw);
+  margin-top:9px;
+}
+@keyframes ignite-orbit{to{transform:rotate(360deg)}}
+@media(max-width:390px){
+  .boot-screen{padding-left:18px;padding-right:18px}
+}
