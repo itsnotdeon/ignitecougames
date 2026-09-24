@@ -21,7 +21,9 @@ export function minigameView(names){
  if(state.active==="snake")return renderSnake(state.snake,n);
  return renderMinigameMenu();
 }
-function renderActiveGame(){ window.dispatchEvent(new CustomEvent("ignite:rerender")); }\n\nexport function minigameAction(action,value){
+function renderActiveGame(){ window.dispatchEvent(new CustomEvent("ignite:rerender")); }
+
+export function minigameAction(action,value){
  if(state.active==="roleplay"){if(action==="roleplay-next")nextRoleplay(state.roleplay);if(action==="roleplay-switch"){state.roleplay.usedRoles=new Set();nextRoleplay(state.roleplay)}if(action==="roleplay-mode")setRoleplayMode(state.roleplay,value);return}
  if(state.active==="king"){if(action==="ks-consent"){const box=document.querySelector("#ks-consent");if(box&&!box.checked)return;kingAction(state.king,"consent")}else if(action==="ks-roll"){
    if(state.king.rolling)return;
