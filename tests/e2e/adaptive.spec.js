@@ -36,6 +36,7 @@ test.describe("IGNITE adaptive experience",()=>{
   test("one more reveals a second adaptive card",async({page})=>{
     await page.goto("./");
     await page.evaluate(()=>{
+      sessionStorage.setItem("ignite-welcome-seen","1");
       localStorage.setItem("ignite-redesign-v4",JSON.stringify({
         names:{p1:"A",p2:"B",couple:""},relationship:"Couple",relationshipSince:new Date().toISOString(),
         currentJourney:{id:"normal",title:"Normal Journey",subtitle:"Test",steps:[
