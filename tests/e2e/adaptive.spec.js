@@ -1,11 +1,18 @@
 const {test,expect}=require("@playwright/test");
 
+async function enter(page){
+  await page.goto("./");
+  await page.getByRole("button",{name:"Enter IGNITE"}).click();
+  await expect(page.getByText("YOUR SPACE FOR TWO")).toBeVisible();
+}
+
 test.describe("IGNITE adaptive experience",()=>{
   test("vibe selector updates preferences and adaptive state",async({page})=>{
-    await page.goto("./");
-    await page.getByRole("button",{name:"Enter IGNITE"}).click();
-    await expect(page.getByText("What feels right tonight?")).toBeVisible();
-    await page.getByRole("button",{name:"Playful"}).click();
+    await enter(page);
+    await page.getByRole("button",{name:"Profile"}).click();
+    await page.getByRole("button",{name:"Settings"}).click();
+    await page.getByRole("button",{name:"Journey Preferences"}).click();
+    await page.getByRole("button",{name:"Playful",exact:true}).click();
     const state=await page.evaluate(()=>({
       preferences:JSON.parse(localStorage.getItem("ignite-preferences-v1")||"{}"),
       adaptive:JSON.parse(localStorage.getItem("ignite-adaptive-v1")||"{}")
@@ -15,19 +22,18 @@ test.describe("IGNITE adaptive experience",()=>{
   });
 
   test("couple progress and memory capsule are reachable",async({page})=>{
-    await page.goto("./");
-    await page.getByRole("button",{name:"Enter IGNITE"}).click();
-    await expect(page.getByText("Couple Progress")).toBeVisible();
-    await page.getByRole("button",{name:"Open Memories"}).click();
+    await enter(page);
+    await expect(page.getByText("COUPLE LEVEL",{exact:true})).toBeVisible();
+    await page.getByRole("button",{name:"Memories"}).click();
     await expect(page.getByRole("heading",{name:"Keep the moments."})).toBeVisible();
-    await expect(page.getByText("No moments yet.")).toBeVisible();
+    await expect(page.getByText("Your first memory is waiting.")).toBeVisible();
   });
 
   test("one more reveals a second adaptive card",async({page})=>{
     await page.goto("./");
     await page.evaluate(()=>{
       localStorage.setItem("ignite-redesign-v4",JSON.stringify({
-        names:{p1:"A",p2:"B",couple:""},
+        names:{p1:"A",p2:"B",couple:""},relationship:"Couple",relationshipSince:new Date().toISOString(),
         currentJourney:{id:"normal",title:"Normal Journey",subtitle:"Test",steps:[
           {kind:"activity",mechanic:"card",icon:"♡",title:"Talk Card",text:"Test",action:"Continue"}
         ]},
