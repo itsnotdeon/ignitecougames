@@ -63,7 +63,7 @@ function readBond(){try{return{favorites:[],goals:[],...JSON.parse(localStorage.
 function writeBond(v){localStorage.setItem(BOND_KEY,JSON.stringify(v));return v}
 function pickBond(type,current=""){const pool=BOND_PROMPTS[type]||BOND_PROMPTS.daily;const choices=pool.filter(x=>x!==current);return choices[Math.floor(Math.random()*choices.length)]||pool[0]}
 function renderBond(){
- const b=readBond(),current=b.current||pickBond("daily"),deep=b.deepCurrent||pickBond("deep"),quiz=b.quizCurrent||pickBond("quiz");
+ const b=readBond(),current=b.dailyCurrent||pickBond("daily"),deep=b.deepCurrent||pickBond("deep"),quiz=b.quizCurrent||pickBond("quiz");
  let html='<div class="topbar"><button class="btn ghost" data-action="home">←</button><div class="brand">BOND</div><span></span></div>';
  html+='<div class="hero"><div class="eyebrow">Connect beyond the game</div><h2>Make space for each other.</h2><p>Bond adalah ruang untuk percakapan, pertanyaan, dan tujuan kecil yang kalian bangun bersama.</p></div>';
  html+='<section class="bond-grid">';
@@ -165,7 +165,7 @@ app.addEventListener("click",function(e){const mood=e.target.closest("[data-mood
 app.addEventListener("click",function(e){const el=e.target.closest("[data-mini]");if(!el)return;const action=el.dataset.mini;const value=action==="chess-square"?el.dataset.index:el.dataset.value;minigameAction(action,value);render();if((action==="snake-roll"||action==="snake-skip")&&state.__minigameActive==="snake")window.__igniteAnimateSnakeMove?.()});
 app.addEventListener("click",function(e){
  const b=e.target.closest("[data-bond-action]");
- if(b){const s=readBond(),type=b.dataset.bondType||"daily";if(b.dataset.bondAction==="new"){s[type+"Current"]=pickBond(type,s[type+"Current"]||"");writeBond(s);renderBond()}if(b.dataset.bondAction==="favorite"){const current=s.current||pickBond("daily");if(!s.favorites.includes(current))s.favorites.unshift(current);writeBond(s);renderBond()}return}
+ if(b){const s=readBond(),type=b.dataset.bondType||"daily";if(b.dataset.bondAction==="new"){s[type+"Current"]=pickBond(type,s[type+"Current"]||"");writeBond(s);renderBond()}if(b.dataset.bondAction==="favorite"){const current=s.dailyCurrent||pickBond("daily");if(!s.favorites.includes(current))s.favorites.unshift(current);writeBond(s);renderBond()}return}
  const g=e.target.closest("[data-bond-goal]");if(g){const s=readBond(),i=Number(g.dataset.bondGoal);if(s.goals[i])s.goals[i].done=g.checked;writeBond(s);renderBond()}
 });
 app.addEventListener("submit",function(e){if(e.target.matches("#name-form,#settings-form")){e.preventDefault();saveNames(e.target);return}if(e.target.matches("#preferences-form")){e.preventDefault();handlePreferenceSubmit(e.target);setView("settings");return}if(e.target.matches("#bond-goal-form")){e.preventDefault();const s=readBond(),goal=String(new FormData(e.target).get("goal")||"").trim();if(goal){s.goals.unshift({text:goal,done:false});writeBond(s)}renderBond();return}if(e.target.matches("#memory-form")){e.preventDefault();const form=e.target,note=String(new FormData(form).get("note")||"").trim(),file=form.querySelector("input[name=photo]")?.files?.[0];const finish=photo=>{saveMemory({journey:state.currentJourney?.title||"Journey",xp:getProgress().xp,moment:"A moment together",note,photo:photo||""});recordMemorySaved();recordInteraction("memory-save");setView("home")};if(file&&file.size<=1024*1024){const reader=new FileReader();reader.onload=()=>finish(String(reader.result||""));reader.readAsDataURL(file)}else finish("")}});
