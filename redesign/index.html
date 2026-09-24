@@ -28,21 +28,8 @@
   const fill=document.querySelector("#boot-progress-fill");
   const value=document.querySelector("#boot-progress-value");
   const bar=document.querySelector(".boot-progress");
-  const revision="20260924-07";
-  const modules=[
-    "./scripts/journey/mechanics.js",
-    "./scripts/data/topics.js",
-    "./scripts/progression.js",
-    "./scripts/journey/content.js",
-    "./scripts/features/ui.js",
-    "./scripts/features/memories.js",
-    "./scripts/ui/accessibility.js",
-    "./scripts/minigames/roleplay.js",
-    "./scripts/minigames/kingslave.js",
-    "./scripts/minigames/chess.js",
-    "./scripts/minigames/snake.js",
-    "./scripts/minigames/index.js"
-  ];
+  const revision="20260924-08";
+  const modules=[];
   const startedAt=performance.now();
   const sleep=ms=>new Promise(resolve=>setTimeout(resolve,ms));
   const setProgress=(percent,label)=>{
@@ -66,13 +53,9 @@
   try{
     setProgress(4,"Starting IGNITE…");
     await sleep(120);
-    await Promise.all(modules.map(async(path,i)=>{
-      setProgress(Math.max(8,8+(i/modules.length)*60),"Preparing "+path.split("/").pop()+"…");
-      await Promise.race([
-        import(path+"?v="+revision),
-        new Promise((_,reject)=>setTimeout(()=>reject(new Error("Timeout loading module")),10000))
-      ]);
-    }));
+    setProgress(18,"Preparing your experience…");
+    await sleep(40);
+    setProgress(42,"Loading the IGNITE core…");
     setProgress(90,"Starting your experience…");
     await Promise.race([
       import("./scripts/app.js?v="+revision),
