@@ -164,7 +164,8 @@ test("Phase 5 progression tracks XP, level stats, and achievements",async({page}
  await page.goto("");
   await enterIgniteWelcome(page);
  await expect(page.locator(".progression-card strong")).toContainText("Spark");
- await page.getByRole("button",{name:/Normal/}).click();
+ await page.getByRole("button",{name:/Minigames/}).click();
+ await page.getByRole("button",{name:"Start Journey →"}).click();
  await page.locator('input[name="p1"]').fill("Deon");
  await page.locator('input[name="p2"]').fill("Partner");
  await page.getByRole("button",{name:"Save Couple"}).click();
@@ -221,7 +222,8 @@ test("Phase 9 Journey is a story timeline and opens completed Journey details",a
  await expect(page.getByText("What are you up for?")).not.toBeVisible();
 
  await page.getByRole("button",{name:"Home",exact:true}).click();
- await page.getByRole("button",{name:/Normal/}).click();
+ await page.getByRole("button",{name:"Minigames",exact:true}).click();
+ await page.getByRole("button",{name:"Start Journey →"}).click();
  await page.locator('input[name="p1"]').fill("Deon");
  await page.locator('input[name="p2"]').fill("Partner");
  await page.getByRole("button",{name:"Save Couple"}).click();
