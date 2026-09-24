@@ -1670,3 +1670,43 @@ button.card:focus-visible,
     animation:none;
   }
 }
+
+
+/* ---------- Mobile geometry + fixed navigation correction ---------- */
+/* Page-in animations must not transform the navigation's containing block.
+   A transformed ancestor changes how position:fixed descendants are positioned. */
+.home-v1,.play-v1,.bond-v1,.memories-v1,.settings-v1,.profile-v1{
+  animation:ignite-page-fade .42s ease both;
+}
+@keyframes ignite-page-fade{
+  from{opacity:0}
+  to{opacity:1}
+}
+
+/* Keep the Home action geometry aligned with the mockup even on narrow phones. */
+@media(max-width:390px){
+  .home-actions-v1{
+    grid-template-columns:1.2fr 1fr;
+    gap:8px;
+  }
+  .home-action-card:first-child{
+    grid-column:auto;
+    grid-row:span 2;
+    min-height:224px;
+  }
+  .home-action-card{
+    min-height:108px;
+  }
+}
+
+/* Force the cinematic loader rings to remain mathematically circular. */
+.boot-screen::after{
+  width:min(86vw,430px);
+  height:auto;
+  aspect-ratio:1 / 1;
+}
+.boot-orbit{
+  width:min(64vw,300px);
+  height:auto;
+  aspect-ratio:1 / 1;
+}
