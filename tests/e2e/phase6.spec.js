@@ -26,6 +26,34 @@ test("Release candidate has no application page errors on Home",async({page})=>{
   expect(pageErrors).toEqual([]);
 });
 
+
+
+test("Global mode controls Home and Play spotlight",async({page})=>{
+  await page.goto("");
+  await enterIgniteWelcome(page);
+  await expect(page.getByRole("button",{name:"Normal",exact:true})).toHaveAttribute("aria-pressed","true");
+  await page.getByRole("button",{name:"After Dark",exact:true}).click();
+  await expect(page.getByRole("button",{name:"After Dark",exact:true})).toHaveAttribute("aria-pressed","true");
+  await page.getByRole("button",{name:"Minigames"}).click();
+  await expect(page.getByText("AFTER DARK JOURNEY",{exact:true})).toBeVisible();
+  await expect(page.getByRole("button",{name:"Start Journey →"})).toBeVisible();
+  await expect(page.getByText("Quick Play · After Dark",{exact:true})).toBeVisible();
+  await page.getByRole("button",{name:"Roleplay"}).click();
+  await expect(page.getByText("AFTER DARK QUICK PLAY",{exact:true})).not.toBeVisible();
+  await expect(page.getByRole("heading",{name:"Roleplay",exact:true})).toBeVisible();
+  await page.getByRole("button",{name:"Draw Role"}).click();
+  await expect(page.getByText("SCENE",{exact:true})).toBeVisible();
+});
+
+test("Selected mode persists after returning to Home",async({page})=>{
+  await page.goto("");
+  await enterIgniteWelcome(page);
+  await page.getByRole("button",{name:"After Dark",exact:true}).click();
+  await page.getByRole("button",{name:"Minigames"}).click();
+  await page.getByRole("button",{name:"Home",exact:true}).click();
+  await expect(page.getByRole("button",{name:"After Dark",exact:true})).toHaveAttribute("aria-pressed","true");
+});
+
 test("Phase 6 preserves an active Journey after reload",async({page})=>{
   await page.goto("");
   await enterIgniteWelcome(page);
