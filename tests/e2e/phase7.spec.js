@@ -80,3 +80,20 @@ test("Phase 7 generated couple quote remains tied to progression level",async({p
  await expect(page.locator(".generated-couple-quote")).toContainText("Every story starts with a spark.");
  await expect(page.locator('input[name="couple"]')).toHaveCount(0);
 });
+
+test("Phase 7 Dynamic Journey applies short duration to the generated flow",async({page})=>{
+ await page.goto("");
+ await enterIgniteWelcome(page);
+ await page.getByRole("button",{name:"Profile",exact:true}).click();
+ await page.getByRole("button",{name:"Settings",exact:true}).click();
+ await page.getByRole("button",{name:"Journey Preferences"}).click();
+ await page.locator('select[name="duration"]').selectOption("short");
+ await page.getByRole("button",{name:"Save Preferences"}).click();
+ await page.getByRole("button",{name:"Profile",exact:true}).click();
+ await page.getByRole("button",{name:"Build Dynamic Journey"}).click();
+ await page.locator('input[name="p1"]').fill("Deon");
+ await page.locator('input[name="p2"]').fill("Partner");
+ await page.getByRole("button",{name:"Save Couple"}).click();
+ await expect(page.getByRole("heading",{name:"Normal Journey",exact:true})).toBeVisible();
+ await expect(page.getByText("Moment 1 of 4")).toBeVisible();
+});\n
