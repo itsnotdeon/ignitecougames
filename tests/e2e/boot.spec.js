@@ -4,6 +4,7 @@ test.describe("IGNITE boot",()=>{
   test("loads the app shell without a module boot error",async({page})=>{
     const errors=[];
     page.on("pageerror",error=>errors.push(String(error)));
+    page.on("console",msg=>console.log("BROWSER CONSOLE:",msg.type(),msg.text(),JSON.stringify(msg.location())));
     await page.goto("./");
     await page.waitForTimeout(1200);
     console.log("BOOT SNAPSHOT:",await page.locator("#app").innerText());
