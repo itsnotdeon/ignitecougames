@@ -2,7 +2,7 @@ const {test,expect}=require("@playwright/test");
 
 async function enter(page){
   await page.goto("./");
-  await page.getByRole("button",{name:"Enter IGNITE"}).click();
+  await page.getByRole("button",{name:/ENTER TOGETHER/}).click();
   await expect(page.getByText("YOUR SPACE FOR TWO")).toBeVisible();
 }
 
@@ -42,7 +42,7 @@ test.describe("IGNITE Bond hub",()=>{
     await page.goto("./");
     await page.evaluate(()=>localStorage.setItem("ignite-bond-v1",JSON.stringify({favorites:null,goals:null,dailyCurrent:"Saved prompt"})));
     await page.reload();
-    await page.getByRole("button",{name:"Enter IGNITE"}).click();
+    await page.getByRole("button",{name:/ENTER TOGETHER/}).click();
     await page.getByRole("button",{name:"BOND"}).click();
     await expect(page.getByText("0 saved")).toBeVisible();
     await page.getByRole("button",{name:"Save"}).click();
