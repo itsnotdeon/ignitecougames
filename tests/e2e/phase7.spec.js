@@ -38,9 +38,6 @@ test.describe("IGNITE memories and preferences",()=>{
     await page.getByRole("button",{name:"Profile",exact:true}).click();
     await page.getByRole("button",{name:"Settings",exact:true}).click();
     await page.getByRole("button",{name:"Build Dynamic Journey"}).click();
-    await page.locator('input[name="p1"]').fill("Deon");
-    await page.locator('input[name="p2"]').fill("Partner");
-    await page.getByRole("button",{name:"Start Our Journey →"}).click();
     await expect(page.getByRole("heading",{name:"Normal Journey",exact:true})).toBeVisible();
   });
 
