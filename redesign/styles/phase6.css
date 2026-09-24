@@ -1111,3 +1111,22 @@ button.card:focus-visible,
 
 /* Phase: adaptive experience */
 .vibe-selector{margin:22px 0 0}.vibe-selector h3{margin:6px 0 8px}.adaptive-note{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-top:12px;padding:10px 12px;border-radius:12px;background:rgba(255,255,255,.04);font-size:.82rem}.adaptive-note strong{font-size:.78rem}.ending-vibes{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:18px 0}.ending-vibes .btn{min-height:44px}.memory-list{display:grid;gap:14px}.memory-item img{width:100%;max-height:280px;object-fit:cover;border-radius:14px;margin-top:12px}
+/* ---------- Bond hub + Home shortcuts ---------- */
+.home-shortcuts{margin:18px 0 8px}
+.home-shortcut-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+.home-shortcut{min-height:112px;padding:16px 12px;text-align:left;display:flex;flex-direction:column;align-items:flex-start;justify-content:flex-end;gap:5px;cursor:pointer}
+.home-shortcut .shortcut-icon{font-size:22px;color:var(--rose);margin-bottom:auto}
+.home-shortcut strong{font-size:15px}
+.home-shortcut small{color:var(--faint);font-size:10px}
+.bond-grid{display:grid;gap:12px;margin-bottom:96px}
+.bond-card{padding:20px}
+.bond-card h3{margin:8px 0 16px;font-size:20px;line-height:1.25}
+.bond-feature{border-color:rgba(255,106,150,.28)}
+.bond-card-icon{width:42px;height:42px;border:1px solid var(--line);border-radius:14px;display:grid;place-items:center;color:var(--rose);font-size:20px;margin-bottom:18px}
+.bond-favorites,.bond-goals{display:grid;gap:8px;margin-top:14px}
+.bond-favorites p{margin:0;padding:10px 12px;border-radius:12px;background:rgba(255,255,255,.035);font-size:12px;color:var(--muted)}
+.bond-goal-form{display:grid;gap:8px}
+.bond-goal-form input{width:100%;box-sizing:border-box}
+.bond-goals label{display:flex;align-items:center;gap:9px;padding:10px 12px;border-radius:12px;background:rgba(255,255,255,.035);font-size:12px}
+.bond-goals input{accent-color:var(--rose)}
+@media(max-width:390px){.home-shortcut-grid{gap:7px}.home-shortcut{padding:13px 10px}}
