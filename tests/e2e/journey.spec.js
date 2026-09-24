@@ -13,7 +13,7 @@ async function startNormal(page){
  await page.getByRole("button",{name:"Normal",exact:true}).click();
  await expect(page.getByRole("button",{name:"Normal",exact:true})).toHaveAttribute("aria-pressed","true");
  await page.getByRole("button",{name:"Play"}).click();
- await expect(page.getByRole("heading",{name:"Choose a game.",exact:true})).toBeVisible();
+ await expect(page.getByRole("heading",{name:"Choose your experience.",exact:true})).toBeVisible();
  await page.getByRole("button",{name:"Start Journey →"}).click();
  await expect(page.getByText("Who is here?")).toBeVisible();
  await page.locator('input[name="p1"]').fill("Deon");
