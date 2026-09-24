@@ -28,7 +28,7 @@
   const fill=document.querySelector("#boot-progress-fill");
   const value=document.querySelector("#boot-progress-value");
   const bar=document.querySelector(".boot-progress");
-  const revision="20260924-06";
+  const revision="20260924-07";
   const modules=[
     "./scripts/journey/mechanics.js",
     "./scripts/data/topics.js",
@@ -79,9 +79,9 @@
       new Promise((_,reject)=>setTimeout(()=>reject(new Error("Timeout loading app.js")),10000))
     ]);
     const elapsed=performance.now()-startedAt;
-    if(elapsed<1800)await sleep(1800-elapsed);
+    if(elapsed<900)await sleep(900-elapsed);
     setProgress(100,"Ready.");
-    await sleep(1100);
+    await sleep(300);
   }catch(error){
     showError(status?.textContent||"unknown",error);
   }
