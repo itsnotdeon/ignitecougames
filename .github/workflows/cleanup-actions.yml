@@ -1,0 +1,38 @@
+name: Cleanup Actions History
+
+on:
+  workflow_dispatch:
+  workflow_run:
+    workflows:
+      - Playwright E2E
+      - Deploy GitHub Pages
+    types: [completed]
+
+permissions:
+  actions: write
+
+jobs:
+  cleanup:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Keep 20 Playwright E2E runs
+        env:
+          GH_TOKEN: ${{ github.token }}
+          REPO: ${{ github.repository }}
+        run: |
+          set -euo pipefail
+          ids="$(gh api --paginate "repos/$REPO/actions/workflows/playwright.yml/runs?per_page=100" --jq '.workflow_runs[].id' | tail -n +21)"
+          for id in $ids; do
+            gh api --method DELETE "repos/$REPO/actions/runs/$id"
+          done
+
+      - name: Keep 10 Deploy GitHub Pages runs
+        env:
+          GH_TOKEN: ${{ github.token }}
+          REPO: ${{ github.repository }}
+        run: |
+          set -euo pipefail
+          ids="$(gh api --paginate "repos/$REPO/actions/workflows/pages.yml/runs?per_page=100" --jq '.workflow_runs[].id' | tail -n +11)"
+          for id in $ids; do
+            gh api --method DELETE "repos/$REPO/actions/runs/$id"
+          done
