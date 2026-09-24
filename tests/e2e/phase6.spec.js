@@ -198,8 +198,8 @@ test("Phase 6 resume preserves a generated short Journey length",async({page})=>
  await page.locator('input[name="p1"]').fill("Deon");
  await page.locator('input[name="p2"]').fill("Partner");
  await page.getByRole("button",{name:"Save Couple"}).click();
- await expect(page.getByText("Moment 1 of 4")).toBeVisible();
  await page.getByRole("button",{name:"Begin Journey →"}).click();
+ await expect(page.getByText("Moment 1 of 4")).toBeVisible();
  await page.getByRole("button",{name:"Exit"}).click();
  await expect(page.getByRole("button",{name:"Play",exact:true})).toBeVisible();
  await page.getByRole("button",{name:"Home",exact:true}).click();
