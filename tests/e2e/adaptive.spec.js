@@ -24,7 +24,7 @@ test.describe("IGNITE adaptive experience",()=>{
   test("couple progress and memory capsule are reachable",async({page})=>{
     await enter(page);
     await expect(page.getByText("COUPLE LEVEL",{exact:true})).toBeVisible();
-    await page.getByRole("button",{name:"Memories"}).click();
+    await page.getByRole("button",{name:"Memories",exact:true}).click();
     await expect(page.getByRole("heading",{name:"Keep the moments."})).toBeVisible();
     await expect(page.getByText("Your first memory is waiting.")).toBeVisible();
   });
