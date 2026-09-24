@@ -47,6 +47,10 @@ test.describe("IGNITE Bond hub",()=>{
     await page.evaluate(()=>localStorage.setItem("ignite-bond-v1",JSON.stringify({favorites:null,goals:null,dailyCurrent:"Saved prompt"})));
     await page.reload();
     await page.getByRole("button",{name:/ENTER TOGETHER/}).click();
+    await expect(page.getByText("LET’S BEGIN TOGETHER")).toBeVisible();
+    await page.locator('input[name="p1"]').fill("Ariel");
+    await page.locator('input[name="p2"]').fill("Fe");
+    await page.getByRole("button",{name:/Start Our Journey/}).click();
     await page.getByRole("button",{name:"BOND"}).click();
     await expect(page.getByText("0 saved")).toBeVisible();
     await page.getByRole("button",{name:"Save"}).click();
