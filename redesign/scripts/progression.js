@@ -29,7 +29,9 @@ const DEFAULT = () => ({
     afterDarkCompleted: 0,
     activitiesCompleted: 0,
     ritualsCompleted: 0,
-    minigamesPlayed: 0
+    minigamesPlayed: 0,
+    memoriesSaved: 0,
+    oneMoreCards: 0
   },
   achievements: [],
   history: [],
@@ -174,6 +176,9 @@ export function recordMinigamePlayed(gameId) {
   write(progress);
   return awardXP(10, "Played " + gameId, "minigame:" + gameId + ":" + Date.now());
 }
+
+export function recordMemorySaved(){const progress=read();progress.stats.memoriesSaved+=1;write(progress);return progress}
+export function recordOneMore(){const progress=read();progress.stats.oneMoreCards+=1;write(progress);return progress}
 
 export function resetProgress() {
   localStorage.removeItem(PROGRESS_KEY);
