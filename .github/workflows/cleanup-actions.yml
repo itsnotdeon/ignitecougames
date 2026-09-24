@@ -5,7 +5,6 @@ on:
   workflow_run:
     workflows:
       - Playwright E2E
-      - Deploy to Cloudflare Pages
     types: [completed]
 
 permissions:
@@ -22,17 +21,6 @@ jobs:
         run: |
           set -euo pipefail
           ids="$(gh api --paginate "repos/$REPO/actions/workflows/playwright.yml/runs?per_page=100" --jq '.workflow_runs[].id' | tail -n +51)"
-          for id in $ids; do
-            gh api --method DELETE "repos/$REPO/actions/runs/$id" || true
-          done
-
-      - name: Keep 10 Cloudflare Pages runs
-        env:
-          GH_TOKEN: ${{ github.token }}
-          REPO: ${{ github.repository }}
-        run: |
-          set -euo pipefail
-          ids="$(gh api --paginate "repos/$REPO/actions/workflows/pages.yml/runs?per_page=100" --jq '.workflow_runs[].id' | tail -n +11)"
           for id in $ids; do
             gh api --method DELETE "repos/$REPO/actions/runs/$id" || true
           done
