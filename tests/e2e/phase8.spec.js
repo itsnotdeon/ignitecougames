@@ -8,7 +8,7 @@ async function enterIgniteWelcome(page){
 
 test("Phase 8 context engine derives deterministic time periods",async({page})=>{
  await page.goto("");
-  await enterIgniteWelcome(page);
+ await enterIgniteWelcome(page);
  const result=await page.evaluate(async()=>{
   const m=await import("./scripts/features/context.js");
   return [
@@ -32,6 +32,7 @@ test("Phase 8 global mode replaces visible mood selection",async({page})=>{
  await page.reload();
  await expect(page.getByRole("button",{name:"After Dark",exact:true})).toHaveAttribute("aria-pressed","true");
 });
+
 test("Phase 8 global mode reaches Journey without legacy mood controls",async({page})=>{
  await page.goto("");
  await enterIgniteWelcome(page);
@@ -40,9 +41,8 @@ test("Phase 8 global mode reaches Journey without legacy mood controls",async({p
  await expect(page.getByRole("button",{name:"Start Journey →"})).toBeVisible();
  await page.getByRole("button",{name:"Start Journey →"}).click();
  await expect(page.getByRole("heading",{name:"Who is here?",exact:true})).toBeVisible();
- await page.locator("#name-form input[name="p1"]").fill("Deon");
- await page.locator("#name-form input[name="p2"]").fill("Partner");
+ await page.locator('#name-form input[name="p1"]').fill("Deon");
+ await page.locator('#name-form input[name="p2"]').fill("Partner");
  await page.getByRole("button",{name:"Save Couple"}).click();
  await expect(page.getByRole("heading",{name:"Normal Journey",exact:true})).toBeVisible();
 });
-
