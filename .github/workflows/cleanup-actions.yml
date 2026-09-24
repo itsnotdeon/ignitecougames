@@ -1,6 +1,8 @@
 name: Cleanup Actions History
 
 on:
+  push:
+    branches: ["main"]
   workflow_dispatch:
   workflow_run:
     workflows:
