@@ -9,6 +9,7 @@
 <link rel="stylesheet" href="./styles/app.css?v=20260924-06">
 <link rel="stylesheet" href="./styles/phase6.css?v=20260925-15">
 <link rel="stylesheet" href="./styles/visual-fixes.css?v=20260925-16">
+<link rel="stylesheet" href="./styles/kingslave-fixes.css?v=20260925-17">
 <link rel="modulepreload" href="./scripts/app.js?v=20260925-15">
 </head>
 <body>
@@ -59,9 +60,6 @@
     setProgress(18,"Preparing your experience…");
     await sleep(40);
     setProgress(42,"Starting the IGNITE core…");
-    // Load app.js once and let its dependency graph resolve normally.
-    // Pre-importing the same modules with mixed cache-busting revisions
-    // caused duplicate module graphs and made CI boot stall.
     setProgress(70,"Loading your experience…");
     await Promise.race([
       import("./scripts/app.js?v="+revision),
