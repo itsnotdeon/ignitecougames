@@ -1,5 +1,5 @@
 import {initMechanic,mechanicAction,mechanicView,winnerLabel,isMechanicComplete,resetMechanic} from "./journey/mechanics.js?v=20260924-04";
-import {renderMinigameMenu,minigameView,minigameAction,openMinigame} from "./minigames/index.js?v=20260924-04";
+import {renderMinigameMenu,minigameView,minigameAction,openMinigame} from "./minigames/index.js?v=20260924-05";
 import {getProgress,getLevelInfo,startJourney as progressionStartJourney,completeJourney,completeActivity,completeRitual,recordMinigamePlayed} from "./progression.js?v=20260924-04";
 import {starterNormalCards,starterExplicitCards,starterTruth,starterDare,starterIntimateTruth,starterIntimateDare} from "./journey/content.js?v=20260924-04";
 import {renderMemorySummary,renderMemories,renderPreferences,renderFeatureSettings,handleVibeClick,handlePreferenceSubmit,surpriseContext,dynamicContext,renderContextSummary,handleMoodClick} from "./features/ui.js?v=20260924-04";
@@ -83,7 +83,14 @@ function renderComplete(){const l=getLevelInfo(getProgress().xp);app.innerHTML='
 function renderMinigames(){
  const active=state.__minigameActive;
  const body=active?minigameView(state.names):renderMinigameMenu(state.mode);
- app.innerHTML='<div class="topbar"><button class="btn ghost" data-action="home">←</button><div class="brand">MINIGAMES</div><span></span></div><div class="hero"><div class="eyebrow">Play Directly</div><h2>'+ (active?'Let’s play.':'Choose a game.') +'</h2><p>'+ (active?'Direct play — tidak perlu memulai Journey.':'Kalau kalian tahu game yang ingin dimainkan, langsung masuk ke sini.') +'</p></div>'+body+(active?'<button class="btn ghost full mini-back" data-action="minigames-menu">← All Minigames</button>':'')+renderBottomNav("play");
+ let html='<div class="topbar"><button class="btn ghost" data-action="home">←</button><div class="brand">MINIGAMES</div><span></span></div>';
+ html+='<div class="hero"><div class="eyebrow">Play Directly</div><h2>'+ (active?'Let’s play.':'Choose a game.') +'</h2><p>'+ (active?'Direct play — tidak perlu memulai Journey.':'Pilih Journey atau langsung mainkan Quick Play. Mode mengikuti pilihan IGNITE di Home.') +'</p></div>';
+ if(!active){
+  const dark=state.mode==="dark";
+  html+='<section class="play-spotlight card '+(dark?"dark":"normal")+'"><div><div class="eyebrow">'+(dark?"AFTER DARK JOURNEY":"NORMAL JOURNEY")+'</div><h3>'+ (dark?"Go deeper together.":"Connect, play, and discover.")+'</h3><p>'+ (dark?"Pengalaman After Dark yang dipilihkan IGNITE untuk kalian.":"Journey utama untuk ngobrol, bermain, dan terhubung.")+'</p></div><button class="btn primary" data-action="start" data-journey="'+(dark?"dark":"normal")+'">Start Journey →</button></section><div class="section-label">Quick Play · '+(dark?"After Dark":"Normal")+'</div>';
+ }
+ html+=body+(active?'<button class="btn ghost full mini-back" data-action="minigames-menu">← All Minigames</button>':'')+renderBottomNav("play");
+ app.innerHTML=html;
 }
 function formatJourneyDate(value){
  try{return new Intl.DateTimeFormat("id-ID",{day:"numeric",month:"short",year:"numeric"}).format(new Date(value))}
