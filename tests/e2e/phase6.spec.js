@@ -55,7 +55,7 @@ test.describe("IGNITE mockup UI",()=>{
   test("Setup saves names and relationship",async({page})=>{
     await enter(page);
     await page.getByRole("button",{name:"Play",exact:true}).click();
-    await page.getByRole("button",{name:"Start Something →"}).click();
+    await page.getByRole("button",{name:"Start Journey →"}).click();
     await page.locator('input[name="p1"]').fill("Deon");
     await page.locator('input[name="p2"]').fill("Partner");
     await page.locator('select[name="relationship"]').selectOption("Dating");
