@@ -45,5 +45,7 @@ test.describe("IGNITE memories and preferences",()=>{
     await page.getByRole("button",{name:"Profile",exact:true}).click();
     await expect(page.getByText(/Level \d+ ·/)).toBeVisible();
     await expect(page.getByText("YOUR PROGRESS",{exact:true})).toBeVisible();
+    await expect(page.getByText("ACHIEVEMENTS",{exact:true})).toBeVisible();
+    await expect(page.getByText("First Spark",{exact:true})).toBeVisible();
   });
 });
