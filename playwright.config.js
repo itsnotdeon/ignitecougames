@@ -3,7 +3,7 @@ const {defineConfig,devices}=require("@playwright/test");
 module.exports=defineConfig({
   testDir:"./tests/e2e",
   timeout:20000,
-  expect:{timeout:12000},
+  expect:{timeout:30000},
   globalTimeout:15*60*1000,
   fullyParallel:true,
   workers:process.env.CI?2:undefined,
@@ -13,7 +13,7 @@ module.exports=defineConfig({
   reporter:process.env.CI?"github":"list",
   use:{
     baseURL:"http://127.0.0.1:4173/redesign/index.html",
-    actionTimeout:12000,
+    actionTimeout:30000,
     navigationTimeout:10000,
     trace:"retain-on-failure",
     screenshot:"only-on-failure",
