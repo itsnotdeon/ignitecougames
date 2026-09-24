@@ -2,7 +2,7 @@ const {test,expect}=require("@playwright/test");
 
 async function enter(page){
   await page.goto("./");
-  await page.getByRole("button",{name:"Enter IGNITE"}).click();
+  await page.getByRole("button",{name:/ENTER TOGETHER/}).click();
   await expect(page.getByText("YOUR SPACE FOR TWO")).toBeVisible();
 }
 
