@@ -12,7 +12,7 @@ async function startNormal(page){
  await expect(page.getByText("Let’s spend")).toBeVisible();
  await page.getByRole("button",{name:"Normal",exact:true}).click();
  await expect(page.getByRole("button",{name:"Normal",exact:true})).toHaveAttribute("aria-pressed","true");
- await page.getByRole("button",{name:"Play"}).click();
+ await page.getByRole("button",{name:"Play",exact:true}).click();
  await expect(page.getByRole("heading",{name:"Choose your experience.",exact:true})).toBeVisible();
  await page.getByRole("button",{name:"Start Journey →"}).click();
  await expect(page.getByText("Who is here?")).toBeVisible();
@@ -62,7 +62,7 @@ test("After Dark requires consent before entering",async({page})=>{
  await page.goto("");
   await enterIgniteWelcome(page);
  await page.getByRole("button",{name:"After Dark",exact:true}).click();
- await page.getByRole("button",{name:"Play"}).click();
+ await page.getByRole("button",{name:"Play",exact:true}).click();
  await page.getByRole("button",{name:"Start Journey →"}).click();
  await page.locator('input[name="p1"]').fill("Deon");
  await page.locator('input[name="p2"]').fill("Partner");
@@ -78,7 +78,7 @@ test("After Dark requires consent before entering",async({page})=>{
 test("Phase 3 Roleplay opens and can advance scenes",async({page})=>{
  await page.goto("");
   await enterIgniteWelcome(page);
- await page.getByRole("button",{name:/Play/}).click();
+ await page.getByRole("button",{name:"Play",exact:true}).click();
  await page.getByRole("button",{name:/Roleplay/}).click();
  await expect(page.getByText("Roleplay")).toBeVisible();
  await page.getByRole("button",{name:"Draw Role"}).click();
@@ -90,7 +90,7 @@ test("Phase 3 Roleplay opens and can advance scenes",async({page})=>{
 test("Phase 3 King & Slave requires consent and reveals a fair round",async({page})=>{
  await page.goto("");
   await enterIgniteWelcome(page);
- await page.getByRole("button",{name:/Play/}).click();
+ await page.getByRole("button",{name:"Play",exact:true}).click();
  await page.getByRole("button",{name:/King & Slave/}).click();
  await expect(page.getByText("KING & SLAVE",{exact:true})).toBeVisible();
  await page.locator("#ks-consent").check();
@@ -111,7 +111,7 @@ test("Phase 3 King & Slave requires consent and reveals a fair round",async({pag
 test("Phase 3 Chess renders board, keeps square geometry, distinguishes piece colors, and accepts legal moves",async({page})=>{
  await page.goto("");
   await enterIgniteWelcome(page);
- await page.getByRole("button",{name:/Play/}).click();
+ await page.getByRole("button",{name:"Play",exact:true}).click();
  await page.getByRole("button",{name:/Chess/}).click();
  const board=page.locator(".chess-board");
  await expect(board).toBeVisible();
@@ -132,7 +132,7 @@ test("Phase 3 Chess renders board, keeps square geometry, distinguishes piece co
 test("Chess supports castling after the required squares are cleared",async({page})=>{
  await page.goto("");
   await enterIgniteWelcome(page);
- await page.getByRole("button",{name:/Play/}).click();
+ await page.getByRole("button",{name:"Play",exact:true}).click();
  await page.getByRole("button",{name:/Chess/}).click();
  const sq=(i)=>page.locator('[data-mini="chess-square"][data-index="'+i+'"]');
  await sq(52).click(); await sq(36).click(); // e4
@@ -153,7 +153,7 @@ test("Chess supports castling after the required squares are cleared",async({pag
 test("Phase 3 Snake & Ladder rolls and updates game state",async({page})=>{
  await page.goto("");
   await enterIgniteWelcome(page);
- await page.getByRole("button",{name:/Play/}).click();
+ await page.getByRole("button",{name:"Play",exact:true}).click();
  await page.getByRole("button",{name:/Snake & Ladder/}).click();
  await expect(page.locator(".snake-board")).toBeVisible();
  await page.getByRole("button",{name:"Roll Dice"}).click();
@@ -164,7 +164,7 @@ test("Phase 5 progression tracks XP, level stats, and achievements",async({page}
  await page.goto("");
   await enterIgniteWelcome(page);
  await expect(page.locator(".progression-card strong")).toContainText("Spark");
- await page.getByRole("button",{name:/Play/}).click();
+ await page.getByRole("button",{name:"Play",exact:true}).click();
  await page.getByRole("button",{name:"Start Journey →"}).click();
  await page.locator('input[name="p1"]').fill("Deon");
  await page.locator('input[name="p2"]').fill("Partner");
@@ -189,7 +189,7 @@ test("Phase 5 progression tracks XP, level stats, and achievements",async({page}
 test("Phase 5 direct minigame access records Game Night progress",async({page})=>{
  await page.goto("");
   await enterIgniteWelcome(page);
- await page.getByRole("button",{name:/Play/}).click();
+ await page.getByRole("button",{name:"Play",exact:true}).click();
  await page.getByRole("button",{name:/Roleplay/}).click();
  await page.getByRole("button",{name:"← All Minigames"}).click();
  await page.getByRole("button",{name:"←"}).click();

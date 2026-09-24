@@ -2,15 +2,19 @@ const {defineConfig,devices}=require("@playwright/test");
 
 module.exports=defineConfig({
   testDir:"./tests/e2e",
-  timeout:30000,
-  globalTimeout:25*60*1000,
+  timeout:20000,
+  expect:{timeout:5000},
+  globalTimeout:15*60*1000,
   fullyParallel:true,
+  workers:process.env.CI?2:undefined,
+  retries:process.env.CI?1:0,
+  maxFailures:process.env.CI?8:undefined,
   forbidOnly:!!process.env.CI,
-  retries:process.env.CI?2:0,
-  workers:process.env.CI?1:undefined,
   reporter:process.env.CI?"github":"list",
   use:{
     baseURL:"http://127.0.0.1:4173/redesign/index.html",
+    actionTimeout:5000,
+    navigationTimeout:10000,
     trace:"retain-on-failure",
     screenshot:"only-on-failure",
   },

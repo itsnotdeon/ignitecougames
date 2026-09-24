@@ -9,7 +9,7 @@ async function enterIgniteWelcome(page){
 async function openChess(page){
   await page.goto("");
   await enterIgniteWelcome(page);
-  await page.getByRole("button",{name:/Play/}).click();
+  await page.getByRole("button",{name:"Play",exact:true}).click();
   await page.getByRole("button",{name:/Chess/}).click();
   await expect(page.locator(".chess-board")).toBeVisible();
 }
