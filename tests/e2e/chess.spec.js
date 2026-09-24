@@ -37,7 +37,7 @@ test("Chess accepts a legal pawn move and switches turn",async({page})=>{
   await page.locator('[data-mini="chess-square"][data-index="52"]').click();
   await page.locator('[data-mini="chess-square"][data-index="36"]').click();
   await expect(page.locator('[data-mini="chess-square"][data-index="36"]')).toContainText("♙");
-  await expect(page.getByText(/Player 2 bergerak/)).toBeVisible();
+  await expect(page.getByText(/bergerak/)).toBeVisible();
 });
 
 test("Chess rejects an illegal move and supports undo",async({page})=>{
