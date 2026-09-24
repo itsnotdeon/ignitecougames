@@ -20,6 +20,6 @@ test.describe("IGNITE boot",()=>{
     await expect(page.getByRole("button",{name:/ENTER TOGETHER/})).toBeVisible();
     await expect(page.getByRole("heading",{name:"IGNITE",exact:true})).toBeVisible();
     await page.getByRole("button",{name:/ENTER TOGETHER/}).click();
-    await expect(page.getByText("TOGETHER",{exact:true})).toBeVisible();
+    await expect(page.getByText("LET’S BEGIN TOGETHER")).toBeVisible();
   });
 });
