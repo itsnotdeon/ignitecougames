@@ -45,3 +45,16 @@ test("global mode reaches After Dark Journey consent",async({page})=>{
  await page.getByRole("button",{name:/Enter After Dark/}).click();
  await expect(page.getByText("Set the Mood")).toBeVisible();
 });
+
+
+test("Memories can create a manual memory",async({page})=>{
+ await enter(page);
+ await page.getByRole("button",{name:"Memories",exact:true}).click();
+ await page.getByRole("button",{name:"Add Memory",exact:true}).click();
+ await expect(page.getByRole("heading",{name:"Keep this one.",exact:true})).toBeVisible();
+ await page.locator('input[name="moment"]').fill("Our little September moment");
+ await page.locator('textarea[name="note"]').fill("Saved from the Memories hub.");
+ await page.getByRole("button",{name:"Save Memory",exact:true}).click();
+ await page.getByRole("button",{name:"Memories",exact:true}).click();
+ await expect(page.getByText("Our little September moment",{exact:true})).toBeVisible();
+});
