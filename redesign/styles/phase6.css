@@ -1215,3 +1215,26 @@ button.card:focus-visible,
 @media(max-width:390px){
   .boot-screen{padding-left:18px;padding-right:18px}
 }
+
+/* Mockup V1 setup */
+.setup-shell{min-height:100dvh;display:flex;flex-direction:column;justify-content:center;position:relative;overflow:hidden;padding:18px 0 34px}
+.setup-art{position:absolute;width:280px;height:280px;top:-85px;right:-110px;border-radius:50%;pointer-events:none;background:radial-gradient(circle,rgba(255,106,150,.18),transparent 67%)}
+.setup-orb{position:absolute;inset:48px;border:1px solid rgba(230,194,109,.16);border-radius:50%;box-shadow:0 0 70px rgba(255,106,150,.10)}
+.setup-spark{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);color:var(--gold);font-size:22px}
+.setup-top{position:relative;z-index:1;display:flex;justify-content:space-between;align-items:center;color:var(--faint);font-size:9px;letter-spacing:.22em;font-weight:800;margin-bottom:clamp(42px,10vh,78px)}
+.setup-step{color:var(--gold)}
+.setup-copy{position:relative;z-index:1;margin-bottom:26px}
+.setup-copy .eyebrow{margin-bottom:12px}
+.setup-copy h1{font-size:clamp(43px,11vw,62px);line-height:.91;letter-spacing:-.055em}
+.setup-copy p{color:var(--muted);font-size:12px;margin:16px 0 0;max-width:330px}
+.setup-form{position:relative;z-index:1;display:grid;gap:13px;padding:20px;border-radius:24px}
+.setup-form .field{gap:6px}
+.setup-form .field label{color:var(--faint);font-size:8px;letter-spacing:.16em;font-weight:800}
+.setup-form input,.setup-form select{width:100%;min-height:49px;border:1px solid var(--line);border-radius:14px;background:rgba(0,0,0,.13);color:var(--text);padding:12px 14px;outline:none}
+.setup-form select{appearance:none}
+.setup-form select option{background:#24111a;color:var(--text)}
+.setup-form input:focus,.setup-form select:focus{border-color:rgba(230,194,109,.55);box-shadow:0 0 0 3px rgba(230,194,109,.06)}
+.setup-submit{min-height:52px;margin-top:5px;border-radius:16px}
+.setup-submit span{font-size:17px;margin-left:2px}
+.setup-note{margin:0;color:var(--faint);text-align:center;font-size:8px;line-height:1.45}
+@media(max-width:390px){.setup-shell{padding-top:10px}.setup-top{margin-bottom:42px}.setup-copy h1{font-size:43px}.setup-form{padding:17px}}
