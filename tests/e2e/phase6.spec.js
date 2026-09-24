@@ -35,7 +35,7 @@ test("Global mode controls Home and Play spotlight",async({page})=>{
   await page.getByRole("button",{name:"After Dark",exact:true}).click();
   await expect(page.getByRole("button",{name:"After Dark",exact:true})).toHaveAttribute("aria-pressed","true");
   await page.getByRole("button",{name:"Play",exact:true}).click();
-  await expect(page.getByText("AFTER DARK JOURNEY",{exact:true})).toBeVisible();
+  await expect(page.getByText("TONIGHT’S JOURNEY · AFTER DARK",{exact:true})).toBeVisible();
   await expect(page.getByRole("button",{name:"Start Journey →"})).toBeVisible();
   await expect(page.getByText("Quick Play · After Dark",{exact:true})).toBeVisible();
   await page.getByRole("button",{name:"Roleplay"}).click();
@@ -123,9 +123,11 @@ test("Main bottom navigation exposes all destinations and opens Journey story",a
   await expect(page.getByRole("navigation",{name:"Main navigation"})).toBeVisible();
   await expect(page.getByRole("button",{name:"Home",exact:true})).toBeVisible();
   await expect(page.getByRole("button",{name:"Play",exact:true})).toBeVisible();
-  await expect(page.getByRole("button",{name:"Journey"})).toBeVisible();
-  await expect(page.getByRole("button",{name:"Profile"})).toBeVisible();
-  await page.getByRole("button",{name:"Journey"}).click();
+  await expect(page.getByRole("button",{name:"Memories",exact:true})).toBeVisible();
+  await expect(page.getByRole("button",{name:"Profile",exact:true})).toBeVisible();
+  await page.getByRole("button",{name:"Play",exact:true}).click();
+  await expect(page.getByRole("button",{name:"View Journey History"})).toBeVisible();
+  await page.getByRole("button",{name:"View Journey History"}).click();
   await expect(page.getByRole("heading",{name:"One moment at a time.",exact:true})).toBeVisible();
   await expect(page.getByText("Your Story",{exact:true}).last()).toBeVisible();
 });
@@ -138,7 +140,7 @@ test("Profile and Minigames use the same compact control system",async({page})=>
   const profileButtons=await page.locator(".content-actions .btn").evaluateAll(els=>els.map(el=>Math.round(el.getBoundingClientRect().height)));
   expect(profileButtons.every(h=>h>=40)).toBe(true);
   await page.getByRole("button",{name:"Play",exact:true}).click();
-  await expect(page.getByRole("heading",{name:"Choose a game.",exact:true})).toBeVisible();
+  await expect(page.getByRole("heading",{name:"Choose your experience.",exact:true})).toBeVisible();
   const miniCards=await page.locator(".mini-card").count();
   expect(miniCards).toBe(4);
 });
