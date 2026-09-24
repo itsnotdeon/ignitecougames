@@ -6,8 +6,9 @@
 <meta name="theme-color" content="#160a11">
 <meta name="description" content="IGNITE — a couple experience app.">
 <title>IGNITE — Couple Experience</title>
-<link rel="stylesheet" href="./styles/app.css?v=20260924-05">
-<link rel="stylesheet" href="./styles/phase6.css?v=20260924-05">
+<link rel="stylesheet" href="./styles/app.css?v=20260924-06">
+<link rel="stylesheet" href="./styles/phase6.css?v=20260924-06">
+<link rel="modulepreload" href="./scripts/app.js?v=20260924-09">
 </head>
 <body>
 <main id="app" class="app-shell">
@@ -28,21 +29,8 @@
   const fill=document.querySelector("#boot-progress-fill");
   const value=document.querySelector("#boot-progress-value");
   const bar=document.querySelector(".boot-progress");
-  const revision="20260924-05";
-  const modules=[
-    "./scripts/journey/mechanics.js",
-    "./scripts/data/topics.js",
-    "./scripts/progression.js",
-    "./scripts/journey/content.js",
-    "./scripts/features/ui.js",
-    "./scripts/features/memories.js",
-    "./scripts/ui/accessibility.js",
-    "./scripts/minigames/roleplay.js",
-    "./scripts/minigames/kingslave.js",
-    "./scripts/minigames/chess.js",
-    "./scripts/minigames/snake.js",
-    "./scripts/minigames/index.js"
-  ];
+  const revision="20260924-10";
+  const modules=["./scripts/journey/mechanics.js","./scripts/journey/rituals.js","./scripts/data/topics.js","./scripts/progression.js","./scripts/journey/content.js","./scripts/features/ui.js","./scripts/features/memories.js","./scripts/features/adaptive.js","./scripts/features/preferences.js","./scripts/features/unlocks.js","./scripts/features/surprise.js","./scripts/features/dynamicJourney.js","./scripts/features/context.js","./scripts/ui/accessibility.js","./scripts/minigames/roleplay.js","./scripts/minigames/kingslave.js","./scripts/minigames/chess.js","./scripts/minigames/snake.js","./scripts/minigames/index.js"];
   const startedAt=performance.now();
   const sleep=ms=>new Promise(resolve=>setTimeout(resolve,ms));
   const setProgress=(percent,label)=>{
@@ -55,9 +43,11 @@
   const showError=(stage,error)=>{
     const message=String(error&&error.message||error||"Unknown error");
     const stack=String(error&&error.stack||"");
+    const details=error?Object.getOwnPropertyNames(error).map(key=>key+"="+String(error[key])).join("\n"):"";
     console.error("[IGNITE BOOT ERROR]",stage,error);
-    app.innerHTML='<section class="boot-error"><div class="boot-brand">IGNITE</div><div class="boot-kicker">BOOT ERROR</div><h1>Something interrupted the start.</h1><p>Stage: <strong>'+stage+'</strong></p><pre>'+message+"\n\n"+stack+'</pre><button class="btn primary" id="ignite-reset-reload">Reset &amp; Reload</button></section>';
-    document.querySelector("#ignite-reset-reload")?.addEventListener("click",()=>{
+    app.innerHTML='<section class="boot-error"><div class="boot-brand">IGNITE</div><div class="boot-kicker">BOOT ERROR</div><h1>Something interrupted the start.</h1><p>Stage: <strong>'+stage+'</strong></p><pre>'+message+"\n\n"+stack+"\n\n"+details+'</pre><button class="btn primary" id="ignite-reset-reload">Reset &amp; Reload</button></section>';
+    const resetButton=document.querySelector("#ignite-reset-reload");
+    if(resetButton)resetButton.addEventListener("click",()=>{
       localStorage.removeItem("ignite-redesign-v4");
       sessionStorage.removeItem("ignite-welcome-seen");
       location.reload();
@@ -66,23 +56,21 @@
   try{
     setProgress(4,"Starting IGNITE…");
     await sleep(120);
-    for(let i=0;i<modules.length;i++){
-      const path=modules[i];
-      setProgress(8+(i/modules.length)*78,"Preparing "+path.split("/").pop()+"…");
-      await Promise.race([
-        import(path+"?v="+revision),
-        new Promise((_,reject)=>setTimeout(()=>reject(new Error("Timeout loading module")),10000))
-      ]);
-    }
+    setProgress(18,"Preparing your experience…");
+    await sleep(40);
+    setProgress(42,"Checking the IGNITE core…");
+    const checks=await Promise.allSettled(modules.map(path=>Promise.race([import(path+"?v="+revision),new Promise((_,reject)=>setTimeout(()=>reject(new Error("Timeout loading "+path)),30000))])));
+    const failed=checks.findIndex(x=>x.status==="rejected");
+    if(failed>=0)throw new Error("Module failed: "+modules[failed]+" — "+String(checks[failed].reason?.message||checks[failed].reason||"Unknown module error"));
     setProgress(90,"Starting your experience…");
     await Promise.race([
       import("./scripts/app.js?v="+revision),
-      new Promise((_,reject)=>setTimeout(()=>reject(new Error("Timeout loading app.js")),10000))
+      new Promise((_,reject)=>setTimeout(()=>reject(new Error("Timeout loading app.js")),30000))
     ]);
     const elapsed=performance.now()-startedAt;
-    if(elapsed<720)await sleep(720-elapsed);
+    if(elapsed<900)await sleep(900-elapsed);
     setProgress(100,"Ready.");
-    await sleep(900);
+    await sleep(300);
   }catch(error){
     showError(status?.textContent||"unknown",error);
   }

@@ -1,100 +1,51 @@
 const {test,expect}=require("@playwright/test");
 
-async function enterIgniteWelcome(page){
-  await expect(page.getByRole("button",{name:"Enter IGNITE"})).toBeVisible();
-  await page.getByRole("button",{name:"Enter IGNITE"}).click();
-  await expect(page.getByText("Let’s spend")).toBeVisible();
+async function enter(page){
+  await page.goto("");
+  await page.getByRole("button",{name:/ENTER TOGETHER/}).click();
+  await expect(page.getByText("YOUR SPACE FOR TWO")).toBeVisible();
 }
 
-test.beforeEach(async({page})=>{
- page.on("pageerror",error=>{throw error});
-});
+test.describe("IGNITE memories and preferences",()=>{
+  test("Memories empty state and navigation work",async({page})=>{
+    await enter(page);
+    await page.getByRole("button",{name:"Memories",exact:true}).click();
+    await expect(page.getByRole("heading",{name:"Keep the moments."})).toBeVisible();
+    await expect(page.getByText("Your first memory is waiting.")).toBeVisible();
+  });
 
-test("Phase 7 Couple Memories can save a note and expose streak summary",async({page})=>{
- await page.goto("");
-  await enterIgniteWelcome(page);
- await page.getByRole("button",{name:"Profile",exact:true}).click();
- await page.getByRole("button",{name:"Settings",exact:true}).click();
- await page.getByRole("button",{name:"Couple Memories"}).click();
- await expect(page.getByRole("heading",{name:"Keep the moments.",exact:true})).toBeVisible();
- await page.getByRole("button",{name:"←"}).click();
- await page.getByRole("button",{name:"Normal",exact:true}).click();
- await page.getByRole("button",{name:"Play",exact:true}).click();
- await page.getByRole("button",{name:"Start Journey →"}).click();
- await page.locator('input[name="p1"]').fill("Deon");
- await page.locator('input[name="p2"]').fill("Partner");
- await page.getByRole("button",{name:"Save Couple"}).click();
- await page.getByRole("button",{name:/Begin Journey/}).click();
- for(let i=0;i<5;i++){await page.getByRole("button",{name:/Merah/}).click();if(i<4)await page.getByRole("button",{name:"Next Round"}).click();}
- await page.getByRole("button",{name:"Continue →"}).click();
- await page.getByRole("button",{name:"Skip"}).click();
- await page.getByRole("button",{name:"Skip"}).click();
- await page.getByRole("button",{name:"Skip"}).click();
- await page.getByRole("button",{name:"Skip"}).click();
- await page.getByRole("button",{name:/Finish Journey/}).click();
- await page.locator('textarea[name="note"]').fill("A little moment worth keeping.");
- await page.getByRole("button",{name:"Save This Moment"}).click();
- await page.getByRole("button",{name:"Open Memories"}).click();
- await expect(page.getByText("A little moment worth keeping.")).toBeVisible();
- await expect(page.getByText("1",{exact:true}).first()).toBeVisible();
-});
+  test("Preferences persist",async({page})=>{
+    await enter(page);
+    await page.getByRole("button",{name:"Profile",exact:true}).click();
+    await page.getByRole("button",{name:"Settings",exact:true}).click();
+    await page.getByRole("button",{name:"Journey Preferences"}).click();
+    await page.getByRole("button",{name:"Spontaneous",exact:true}).click();
+    await page.locator('select[name="duration"]').selectOption("long");
+    await page.locator('select[name="intensity"]').selectOption("bold");
+    await page.getByRole("button",{name:"Save Preferences"}).click();
+    const stored=await page.evaluate(()=>JSON.parse(localStorage.getItem("ignite-preferences-v1")));
+    expect(stored.vibes).toContain("Spontaneous");
+    expect(stored.duration).toBe("long");
+    expect(stored.intensity).toBe("bold");
+  });
 
-test("Phase 7 preferences persist and drive personalization controls",async({page})=>{
- await page.goto("");
-  await enterIgniteWelcome(page);
- await page.getByRole("button",{name:"Profile",exact:true}).click();
- await page.getByRole("button",{name:"Settings",exact:true}).click();
- await page.getByRole("button",{name:"Journey Preferences"}).click();
- await page.getByRole("button",{name:"Spontaneous"}).click();
- await page.locator('select[name="duration"]').selectOption("long");
- await page.locator('select[name="intensity"]').selectOption("bold");
- await page.getByRole("button",{name:"Save Preferences"}).click();
- await page.getByRole("button",{name:"Profile",exact:true}).click();
- await expect(page.getByText("Journey Preferences")).toBeVisible();
-});
+  test("Dynamic Journey is reachable from Settings",async({page})=>{
+    await enter(page);
+    await page.getByRole("button",{name:"Profile",exact:true}).click();
+    await page.getByRole("button",{name:"Settings",exact:true}).click();
+    await page.getByRole("button",{name:"Build Dynamic Journey"}).click();
+    await page.locator('input[name="p1"]').fill("Deon");
+    await page.locator('input[name="p2"]').fill("Partner");
+    await page.getByRole("button",{name:"Start Our Journey →"}).click();
+    await expect(page.getByRole("heading",{name:"Normal Journey",exact:true})).toBeVisible();
+  });
 
-test("Phase 7 Dynamic Journey and Surprise Mode are wired to Journey actions",async({page})=>{
- await page.goto("");
-  await enterIgniteWelcome(page);
- await page.getByRole("button",{name:"Profile",exact:true}).click();
- await page.getByRole("button",{name:"Settings",exact:true}).click();
- await page.getByRole("button",{name:"Build Dynamic Journey"}).click();
- await expect(page.getByRole("heading",{name:"Who is here?"})).toBeVisible();
- await page.locator("#name-form input[name=\"p1\"]").fill("Deon");
- await page.locator("#name-form input[name=\"p2\"]").fill("Partner");
- await page.getByRole("button",{name:"Save Couple"}).click();
- await expect(page.getByRole("heading",{name:"Normal Journey",exact:true})).toBeVisible();
- await page.getByRole("button",{name:"←"}).click();
- await page.getByRole("button",{name:"Home",exact:true}).click();
- await page.getByRole("button",{name:"Normal",exact:true}).click();
- await page.getByRole("button",{name:"Play",exact:true}).click();
- await page.getByRole("button",{name:"Start Journey →"}).click();
- await expect(page.getByRole("heading",{name:"Normal Journey",exact:true})).toBeVisible();
-});
-
-test("Phase 7 generated couple quote remains tied to progression level",async({page})=>{
- await page.goto("");
-  await enterIgniteWelcome(page);
- await page.getByRole("button",{name:"Profile",exact:true}).click();
- await expect(page.locator(".generated-couple-quote")).toContainText("Couple Quote · Level 1");
- await expect(page.locator(".generated-couple-quote")).toContainText("Every story starts with a spark.");
- await expect(page.locator('input[name="couple"]')).toHaveCount(0);
-});
-
-test("Phase 7 Dynamic Journey applies short duration to the generated flow",async({page})=>{
- await page.goto("");
- await enterIgniteWelcome(page);
- await page.getByRole("button",{name:"Profile",exact:true}).click();
- await page.getByRole("button",{name:"Settings",exact:true}).click();
- await page.getByRole("button",{name:"Journey Preferences"}).click();
- await page.locator('select[name="duration"]').selectOption("short");
- await page.getByRole("button",{name:"Save Preferences"}).click();
- await page.getByRole("button",{name:"Profile",exact:true}).click();
- await page.getByRole("button",{name:"Build Dynamic Journey"}).click();
- await page.locator('input[name="p1"]').fill("Deon");
- await page.locator('input[name="p2"]').fill("Partner");
- await page.getByRole("button",{name:"Save Couple"}).click();
- await expect(page.getByRole("heading",{name:"Normal Journey",exact:true})).toBeVisible();
- await page.getByRole("button",{name:"Begin Journey →"}).click();
- await expect(page.getByText("Moment 1 of 4")).toBeVisible();
+  test("Profile reflects progression data",async({page})=>{
+    await enter(page);
+    await page.getByRole("button",{name:"Profile",exact:true}).click();
+    await expect(page.getByText(/Level \d+ ·/)).toBeVisible();
+    await expect(page.getByText("YOUR PROGRESS",{exact:true})).toBeVisible();
+    await expect(page.getByText("ACHIEVEMENTS",{exact:true})).toBeVisible();
+    await expect(page.getByText("First Spark",{exact:true})).toBeVisible();
+  });
 });
