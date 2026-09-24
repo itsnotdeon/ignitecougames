@@ -96,4 +96,4 @@ test("Phase 7 Dynamic Journey applies short duration to the generated flow",asyn
  await page.getByRole("button",{name:"Save Couple"}).click();
  await expect(page.getByRole("heading",{name:"Normal Journey",exact:true})).toBeVisible();
  await expect(page.getByText("Moment 1 of 4")).toBeVisible();
-});\n
+});
