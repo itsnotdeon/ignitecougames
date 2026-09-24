@@ -432,7 +432,8 @@ button.card:focus-visible,
   font-size:10px;
   line-height:1.4;
 }
-\n/* ---------- names / profile forms ---------- */
+
+/* ---------- names / profile forms ---------- */
 .name-form{
   gap:16px;
   padding:22px;
