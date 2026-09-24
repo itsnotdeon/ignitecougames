@@ -21,27 +21,28 @@ test("Phase 8 context engine derives deterministic time periods",async({page})=>
  expect(result).toEqual(["morning","midday","evening","night"]);
 });
 
-test("Phase 8 mood selection persists and is reflected in the current context",async({page})=>{
+test("Phase 8 global mode replaces visible mood selection",async({page})=>{
  await page.goto("");
-  await enterIgniteWelcome(page);
- await expect(page.getByText("Right now")).toBeVisible();
- await page.getByRole("button",{name:"Calm"}).click();
- await expect(page.locator(".context-mood")).toContainText("Calm");
+ await enterIgniteWelcome(page);
+ await expect(page.getByRole("region",{name:"IGNITE mode"})).toBeVisible();
+ await expect(page.getByRole("button",{name:"Calm",exact:true})).not.toBeVisible();
+ await page.getByRole("button",{name:"After Dark",exact:true}).click();
  const stored=await page.evaluate(()=>JSON.parse(localStorage.getItem("ignite-context-v1")));
- expect(stored.mood).toBe("calm");
+ expect(stored.mode).toBe("dark");
  await page.reload();
- await expect(page.locator(".context-mood")).toContainText("Calm");
+ await expect(page.getByRole("button",{name:"After Dark",exact:true})).toHaveAttribute("aria-pressed","true");
 });
-
-test("Phase 8 Dynamic Journey receives mood and time context without breaking Journey flow",async({page})=>{
+test("Phase 8 global mode reaches Journey without legacy mood controls",async({page})=>{
  await page.goto("");
-  await enterIgniteWelcome(page);
- await page.getByRole("button",{name:"Calm"}).click();
- await page.getByRole("button",{name:"Profile"}).click();
- await page.getByRole("button",{name:"Build Dynamic Journey"}).click();
+ await enterIgniteWelcome(page);
+ await page.getByRole("button",{name:"Normal",exact:true}).click();
+ await page.getByRole("button",{name:"Minigames",exact:true}).click();
+ await expect(page.getByRole("button",{name:"Start Journey →"})).toBeVisible();
+ await page.getByRole("button",{name:"Start Journey →"}).click();
  await expect(page.getByRole("heading",{name:"Who is here?",exact:true})).toBeVisible();
- await page.locator("#name-form input[name=\"p1\"]").fill("Deon");
- await page.locator("#name-form input[name=\"p2\"]").fill("Partner");
+ await page.locator("#name-form input[name="p1"]").fill("Deon");
+ await page.locator("#name-form input[name="p2"]").fill("Partner");
  await page.getByRole("button",{name:"Save Couple"}).click();
  await expect(page.getByRole("heading",{name:"Normal Journey",exact:true})).toBeVisible();
 });
+
