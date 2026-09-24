@@ -34,7 +34,7 @@ test("Global mode controls Home and Play spotlight",async({page})=>{
   await expect(page.getByRole("button",{name:"Normal",exact:true})).toHaveAttribute("aria-pressed","true");
   await page.getByRole("button",{name:"After Dark",exact:true}).click();
   await expect(page.getByRole("button",{name:"After Dark",exact:true})).toHaveAttribute("aria-pressed","true");
-  await page.getByRole("button",{name:"Play"}).click();
+  await page.getByRole("button",{name:"Play",exact:true}).click();
   await expect(page.getByText("AFTER DARK JOURNEY",{exact:true})).toBeVisible();
   await expect(page.getByRole("button",{name:"Start Journey →"})).toBeVisible();
   await expect(page.getByText("Quick Play · After Dark",{exact:true})).toBeVisible();
@@ -49,7 +49,7 @@ test("Selected mode persists after returning to Home",async({page})=>{
   await page.goto("");
   await enterIgniteWelcome(page);
   await page.getByRole("button",{name:"After Dark",exact:true}).click();
-  await page.getByRole("button",{name:"Play"}).click();
+  await page.getByRole("button",{name:"Play",exact:true}).click();
   await page.getByRole("button",{name:"Home",exact:true}).click();
   await expect(page.getByRole("button",{name:"After Dark",exact:true})).toHaveAttribute("aria-pressed","true");
 });
@@ -58,7 +58,7 @@ test("Phase 6 preserves an active Journey after reload",async({page})=>{
   await page.goto("");
   await enterIgniteWelcome(page);
   await page.getByRole("button",{name:"Normal",exact:true}).click();
-  await page.getByRole("button",{name:"Play"}).click();
+  await page.getByRole("button",{name:"Play",exact:true}).click();
   await page.getByRole("button",{name:"Start Journey →"}).click();
   await page.locator('input[name="p1"]').fill("Deon");
   await page.locator('input[name="p2"]').fill("Partner");
@@ -76,7 +76,7 @@ test("Phase 6 keeps form submission working on mobile",async({page})=>{
   await page.goto("");
   await enterIgniteWelcome(page);
   await page.getByRole("button",{name:"Normal",exact:true}).click();
-  await page.getByRole("button",{name:"Play"}).click();
+  await page.getByRole("button",{name:"Play",exact:true}).click();
   await page.getByRole("button",{name:"Start Journey →"}).click();
   await page.locator('input[name="p1"]').fill("Deon");
   await page.locator('input[name="p2"]').fill("Partner");
@@ -137,7 +137,7 @@ test("Profile and Minigames use the same compact control system",async({page})=>
   await expect(page.getByRole("heading",{name:"Make it yours.",exact:true})).toBeVisible();
   const profileButtons=await page.locator(".content-actions .btn").evaluateAll(els=>els.map(el=>Math.round(el.getBoundingClientRect().height)));
   expect(profileButtons.every(h=>h>=40)).toBe(true);
-  await page.getByRole("button",{name:"Play"}).click();
+  await page.getByRole("button",{name:"Play",exact:true}).click();
   await expect(page.getByRole("heading",{name:"Choose a game.",exact:true})).toBeVisible();
   const miniCards=await page.locator(".mini-card").count();
   expect(miniCards).toBe(4);
@@ -161,7 +161,7 @@ test("Phase 6 replay starts Journey mechanics from a clean state",async({page})=
   await page.goto("");
   await enterIgniteWelcome(page);
   await page.getByRole("button",{name:"Normal",exact:true}).click();
-  await page.getByRole("button",{name:"Play"}).click();
+  await page.getByRole("button",{name:"Play",exact:true}).click();
   await page.getByRole("button",{name:"Start Journey →"}).click();
   await page.locator('input[name="p1"]').fill("Deon");
   await page.locator('input[name="p2"]').fill("Partner");
