@@ -60,10 +60,7 @@ test.describe("IGNITE mockup UI",()=>{
     await enter(page);
     await page.getByRole("button",{name:"Play",exact:true}).click();
     await page.getByRole("button",{name:"Start Journey →"}).click();
-    await page.locator('input[name="p1"]').fill("Deon");
-    await page.locator('input[name="p2"]').fill("Partner");
-    await page.locator('select[name="relationship"]').selectOption("Dating");
-    await page.getByRole("button",{name:"Start Our Journey →"}).click();
+    await expect(page.getByRole("heading",{name:"Normal Journey",exact:true})).toBeVisible();
     const stored=await page.evaluate(()=>JSON.parse(localStorage.getItem("ignite-redesign-v4")));
     expect(stored.names.p1).toBe("Deon");
     expect(stored.names.p2).toBe("Partner");
