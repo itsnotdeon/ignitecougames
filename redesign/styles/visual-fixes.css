@@ -1,14 +1,23 @@
 /* iGNITE production visual hardening — 2026-09-25
-   Keeps full-screen entry states independent from the fixed bottom navigation.
-   The production browser audit found the welcome state retaining the app shell's
-   112px navigation gutter, producing a phantom vertical scroll on mobile.
+   Full-screen entry states must own the viewport geometry and stay independent
+   from the dashboard's fixed navigation gutter.
 */
 
-/* Full-screen welcome does not need the dashboard's bottom-nav clearance. */
 .app-shell:has(.welcome-cinematic),
 .app-shell:has(.boot-screen){
   min-height:100dvh;
   padding:0;
+}
+
+/* Full-screen states must not inherit the legacy shell's negative margins.
+   Without this reset, the scene becomes wider than the mobile viewport and
+   relies on clipping, which can visibly crop edge content. */
+.welcome-cinematic,
+.boot-screen,
+.boot-error{
+  width:100%;
+  margin:0;
+  box-sizing:border-box;
 }
 
 /* Keep the welcome viewport exactly one visual viewport tall. */
@@ -16,18 +25,18 @@
   min-height:100dvh;
   height:100dvh;
   max-height:100dvh;
+  overflow:hidden;
 }
 
-/* Do not allow the welcome scene to create a second scroll container. */
 .welcome-cinematic,
 .welcome-scene{
   overflow:hidden;
 }
 
-/* Preserve centered composition on narrow devices. */
 @media(max-width:390px){
   .welcome-cinematic{
     min-height:100dvh;
     height:100dvh;
+    max-height:100dvh;
   }
 }
