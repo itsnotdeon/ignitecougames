@@ -5,6 +5,8 @@ test.describe("IGNITE boot",()=>{
     const errors=[];
     page.on("pageerror",error=>errors.push(String(error)));
     await page.goto("./");
+    await page.waitForTimeout(1200);
+    console.log("BOOT SNAPSHOT:",await page.locator("#app").innerText());
     await expect(page.getByRole("button",{name:"Enter IGNITE"})).toBeVisible();
     await page.getByRole("button",{name:"Enter IGNITE"}).click();
     await expect(page.locator("#app")).toContainText("YOUR SPACE FOR TWO");
