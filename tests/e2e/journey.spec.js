@@ -3,6 +3,10 @@ const {test,expect}=require("@playwright/test");
 async function enter(page){
  await page.goto("");
  await page.getByRole("button",{name:/ENTER TOGETHER/}).click();
+ await expect(page.getByText("LET’S BEGIN TOGETHER")).toBeVisible();
+ await page.locator('input[name="p1"]').fill("Ariel");
+ await page.locator('input[name="p2"]').fill("Fe");
+ await page.getByRole("button",{name:/Start Our Journey/}).click();
  await expect(page.getByText("YOUR SPACE FOR TWO")).toBeVisible();
 }
 async function setupJourney(page,mode="normal"){
