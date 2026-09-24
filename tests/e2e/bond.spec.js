@@ -34,7 +34,6 @@ test.describe("IGNITE Bond hub",()=>{
     await expect(page.getByText("Date night setiap Jumat")).toBeVisible();
     await page.locator('input[data-bond-goal="0"]').check();
     await page.reload();
-    await page.getByRole("button",{name:"BOND"}).click();
     await expect(page.getByText("Date night setiap Jumat")).toBeVisible();
     await expect(page.locator('input[data-bond-goal="0"]')).toBeChecked();
   });
