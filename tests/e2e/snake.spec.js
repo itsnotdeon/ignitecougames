@@ -11,7 +11,7 @@ async function openSnake(page){
   await enterIgniteWelcome(page);
   await page.evaluate(()=>localStorage.clear());
   await page.reload();
-  await page.locator('[data-action="minigames"]').click();
+  await page.getByRole("button",{name:"Play",exact:true}).click();
   await page.locator('[data-mini-open="snake"]').click();
 }
 
