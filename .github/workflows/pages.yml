@@ -26,5 +26,6 @@ jobs:
         with:
           apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          wranglerVersion: "4.138.0"
           command: pages deploy redesign --project-name=ignitecougames --branch=main --commit-dirty=true
           gitHubToken: ${{ secrets.GITHUB_TOKEN }}
