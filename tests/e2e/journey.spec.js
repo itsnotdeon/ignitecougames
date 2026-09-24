@@ -47,9 +47,6 @@ test("After Dark requires consent before entering",async({page})=>{
  await page.getByRole("button",{name:"After Dark",exact:true}).click();
  await page.getByRole("button",{name:"Play",exact:true}).click();
  await page.getByRole("button",{name:"Start Journey →"}).click();
- await page.locator('input[name="p1"]').fill("Deon");
- await page.locator('input[name="p2"]').fill("Partner");
- await page.getByRole("button",{name:"Start Our Journey →"}).click();
  await expect(page.getByRole("heading",{name:"After Dark",exact:true})).toBeVisible();
  await page.getByRole("button",{name:/Enter After Dark/}).click();
  await expect(page.getByText("Set the Mood")).not.toBeVisible();
