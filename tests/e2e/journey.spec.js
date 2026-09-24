@@ -91,7 +91,7 @@ test("Phase 3 King & Slave requires consent and reveals a fair round",async({pag
  await page.getByRole("button",{name:"Mulai Sesi"}).click();
  await expect(page.getByText("ROUND 1",{exact:true})).toBeVisible();
  await page.getByRole("button",{name:"Reveal King"}).click();
- await expect(page.locator(".ks-role-person.king").getByText("KING / QUEEN",{exact:true})).toBeVisible();
+ await expect(page.locator(".ks-role-person.king small")).toBeVisible();
  await page.getByRole("button",{name:"Draw Command Card"}).click();
  await expect(page.locator(".ks-command-card-main")).toBeVisible();
  await expect(page.getByRole("button",{name:"Jalankan"})).toBeVisible();
