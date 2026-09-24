@@ -90,7 +90,11 @@ test("Phase 3 King & Slave requires consent and reveals a fair round",async({pag
  await page.locator("#ks-consent").check();
  await page.getByRole("button",{name:"Mulai Sesi"}).click();
  await expect(page.getByText("ROUND 1",{exact:true})).toBeVisible();
- await page.getByRole("button",{name:"Reveal King"}).click();
+ for(let attempt=0;attempt<10;attempt+=1){
+  const roles=page.locator(".ks-role-person.king");
+  if(await roles.count())break;
+  await page.getByRole("button",{name:/Reveal King|Roll Again/}).click();
+ }
  await expect(page.locator(".ks-role-person.king small")).toBeVisible();
  await page.getByRole("button",{name:"Draw Command Card"}).click();
  await expect(page.locator(".ks-command-card-main")).toBeVisible();
