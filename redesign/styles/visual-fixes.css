@@ -5,8 +5,10 @@
 */
 
 /* Full-screen welcome does not need the dashboard's bottom-nav clearance. */
-.app-shell:has(.welcome-cinematic){
-  padding-bottom:0;
+.app-shell:has(.welcome-cinematic),
+.app-shell:has(.boot-screen){
+  min-height:100dvh;
+  padding:0;
 }
 
 /* Keep the welcome viewport exactly one visual viewport tall. */
