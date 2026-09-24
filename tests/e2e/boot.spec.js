@@ -3,7 +3,8 @@ const {test,expect}=require("@playwright/test");
 test.describe("IGNITE boot",()=>{
   test("loads the app shell without a module boot error",async({page})=>{
     const errors=[];
-    page.on("pageerror",error=>errors.push(String(error)));
+    page.on("console",msg=>console.log("BROWSER CONSOLE:",msg.type(),msg.text()));
+    page.on("pageerror",error=>{console.log("PAGE ERROR:",String(error),String(error.stack||""));errors.push(String(error))});
     page.on("console",msg=>console.log("BROWSER CONSOLE:",msg.type(),msg.text(),JSON.stringify(msg.location())));
     await page.goto("./");
     await page.waitForTimeout(1200);
