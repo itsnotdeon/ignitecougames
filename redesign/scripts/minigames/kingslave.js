@@ -1,4 +1,4 @@
-import {allKingNormalCommands,allKingDarkCommands} from "../data/topics.js?v=20260924-02";
+import {allKingNormalCommands,allKingDarkCommands} from "../data/topics.js?v=20260924-04";
 
 const NORMAL = allKingNormalCommands;
 const DARK = allKingDarkCommands;
