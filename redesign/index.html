@@ -6,8 +6,8 @@
 <meta name="theme-color" content="#160a11">
 <meta name="description" content="IGNITE — a couple experience app.">
 <title>IGNITE — Couple Experience</title>
-<link rel="stylesheet" href="./styles/app.css?v=20260924-05">
-<link rel="stylesheet" href="./styles/phase6.css?v=20260924-05">
+<link rel="stylesheet" href="./styles/app.css?v=20260924-06">
+<link rel="stylesheet" href="./styles/phase6.css?v=20260924-06">
 </head>
 <body>
 <main id="app" class="app-shell">
@@ -28,7 +28,7 @@
   const fill=document.querySelector("#boot-progress-fill");
   const value=document.querySelector("#boot-progress-value");
   const bar=document.querySelector(".boot-progress");
-  const revision="20260924-05";
+  const revision="20260924-06";
   const modules=[
     "./scripts/journey/mechanics.js",
     "./scripts/data/topics.js",
@@ -80,9 +80,9 @@
       new Promise((_,reject)=>setTimeout(()=>reject(new Error("Timeout loading app.js")),10000))
     ]);
     const elapsed=performance.now()-startedAt;
-    if(elapsed<720)await sleep(720-elapsed);
+    if(elapsed<1800)await sleep(1800-elapsed);
     setProgress(100,"Ready.");
-    await sleep(900);
+    await sleep(1100);
   }catch(error){
     showError(status?.textContent||"unknown",error);
   }
