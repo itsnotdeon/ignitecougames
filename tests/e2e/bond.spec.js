@@ -37,4 +37,16 @@ test.describe("IGNITE Bond hub",()=>{
     await expect(page.getByText("Date night setiap Jumat")).toBeVisible();
     await expect(page.locator('input[data-bond-goal="0"]')).toBeChecked();
   });
+  test("Bond tolerates malformed stored data and avoids duplicate favorites",async({page})=>{
+    await page.goto("./");
+    await page.evaluate(()=>localStorage.setItem("ignite-bond-v1",JSON.stringify({favorites:null,goals:null,dailyCurrent:"Saved prompt"})));
+    await page.reload();
+    await page.getByRole("button",{name:"Enter IGNITE"}).click();
+    await page.getByRole("button",{name:"Bond"}).click();
+    await expect(page.getByText("0 saved questions")).toBeVisible();
+    await page.getByRole("button",{name:"Save"}).click();
+    await page.getByRole("button",{name:"Save"}).click();
+    await expect(page.getByText("1 saved questions")).toBeVisible();
+    await expect(page.locator(".bond-favorites p")).toHaveCount(1);
+  });
 });
