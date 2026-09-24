@@ -108,7 +108,7 @@ function renderJourney(){
  html+='<section class="journey-summary"><div class="card journey-stat"><span class="eyebrow">Journeys</span><strong>'+records.length+'</strong><small>moments completed</small></div><div class="card journey-stat"><span class="eyebrow">XP Together</span><strong>'+p.xp+'</strong><small>Level '+level.level+' · '+esc(level.title)+'</small></div></section>';
  html+='<div class="section-label">Your Story</div>';
  if(!records.length){
-  html+='<section class="card journey-empty"><div class="journey-empty-mark">♥</div><div class="eyebrow">The story starts here</div><h3>Your first Journey is waiting.</h3><p>Setelah kalian menyelesaikan Journey, momen itu akan muncul di sini sebagai bagian dari cerita kalian.</p><button class="btn ghost" data-action="home">Back to Home</button></section>';
+  html+='<section class="card journey-empty"><div class="journey-empty-mark">♥</div><div class="eyebrow">The story starts here</div><h3>Your first Journey is waiting.</h3><p>Setelah kalian menyelesaikan Journey, momen itu akan muncul di sini sebagai bagian dari cerita kalian.</p><button class="btn ghost" data-action="minigames">Back to Play</button></section>';
  } else {
   html+='<div class="journey-timeline">'+records.map((record,index)=>{
    const stepCount=Array.isArray(record.steps)?record.steps.length:0;
