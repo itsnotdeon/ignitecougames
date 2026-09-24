@@ -60,7 +60,7 @@
     setProgress(90,"Starting your experience…");
     await Promise.race([
       import("./scripts/app.js?v="+revision),
-      new Promise((_,reject)=>setTimeout(()=>reject(new Error("Timeout loading app.js")),10000))
+      new Promise((_,reject)=>setTimeout(()=>reject(new Error("Timeout loading app.js")),30000))
     ]);
     const elapsed=performance.now()-startedAt;
     if(elapsed<900)await sleep(900-elapsed);
