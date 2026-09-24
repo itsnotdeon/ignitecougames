@@ -1,11 +1,12 @@
 const {test,expect}=require("@playwright/test");
 
-async function enter(page){
+async function enter(page,p1="Ariel",p2="Fe",relationship=null){
   await page.goto("");
   await page.getByRole("button",{name:/ENTER TOGETHER/}).click();
   await expect(page.getByText("LET’S BEGIN TOGETHER")).toBeVisible();
-  await page.locator('input[name="p1"]').fill("Ariel");
-  await page.locator('input[name="p2"]').fill("Fe");
+  await page.locator('input[name="p1"]').fill(p1);
+  await page.locator('input[name="p2"]').fill(p2);
+  if(relationship) await page.locator('select[name="relationship"]').selectOption(relationship);
   await page.getByRole("button",{name:/Start Our Journey/}).click();
   await expect(page.getByText("YOUR SPACE FOR TWO")).toBeVisible();
 }
@@ -57,10 +58,7 @@ test.describe("IGNITE mockup UI",()=>{
   });
 
   test("Setup saves names and relationship",async({page})=>{
-    await enter(page);
-    await page.getByRole("button",{name:"Play",exact:true}).click();
-    await page.getByRole("button",{name:"Start Journey →"}).click();
-    await expect(page.getByRole("heading",{name:"Normal Journey",exact:true})).toBeVisible();
+    await enter(page,"Deon","Partner","Dating");
     const stored=await page.evaluate(()=>JSON.parse(localStorage.getItem("ignite-redesign-v4")));
     expect(stored.names.p1).toBe("Deon");
     expect(stored.names.p2).toBe("Partner");
