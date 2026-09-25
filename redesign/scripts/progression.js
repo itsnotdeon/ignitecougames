@@ -16,6 +16,9 @@ const ACHIEVEMENTS = [
   { id: "first-journey", title: "First Journey", text: "Selesaikan satu Journey.", test: p => p.stats.journeysCompleted >= 1 },
   { id: "after-dark", title: "After Dark", text: "Selesaikan Journey After Dark.", test: p => p.stats.afterDarkCompleted >= 1 },
   { id: "game-night", title: "Game Night", text: "Mainkan minigame secara langsung.", test: p => p.stats.minigamesPlayed >= 1 },
+  { id: "first-memory", title: "Keep the Moment", text: "Simpan memory pertama kalian.", test: p => p.stats.memoriesSaved >= 1 },
+  { id: "explorer", title: "Explorer", text: "Mainkan tiga minigame.", test: p => p.stats.minigamesPlayed >= 3 },
+  { id: "three-day-streak", title: "Keep the Rhythm", text: "Kembali ke IGNITE selama tiga hari.", test: p => p.stats.currentStreak >= 3 },
   { id: "five-journeys", title: "Five Moments", text: "Selesaikan lima Journey.", test: p => p.stats.journeysCompleted >= 5 }
 ];
 
@@ -31,7 +34,10 @@ const DEFAULT = () => ({
     ritualsCompleted: 0,
     minigamesPlayed: 0,
     memoriesSaved: 0,
-    oneMoreCards: 0
+    oneMoreCards: 0,
+    currentStreak: 0,
+    longestStreak: 0,
+    lastActiveDate: null
   },
   achievements: [],
   history: [],
@@ -61,6 +67,33 @@ function read() {
 function write(progress) {
   localStorage.setItem(PROGRESS_KEY, JSON.stringify(progress));
   return progress;
+}
+
+function localDateKey(date = new Date()) {
+  const y = date.getFullYear();
+  const m = String(date.getMonth() + 1).padStart(2, "0");
+  const d = String(date.getDate()).padStart(2, "0");
+  return y + "-" + m + "-" + d;
+}
+
+function dayDistance(fromKey, toKey) {
+  if (!fromKey) return Infinity;
+  const from = new Date(fromKey + "T00:00:00");
+  const to = new Date(toKey + "T00:00:00");
+  return Math.round((to - from) / 86400000);
+}
+
+function touchStreak(progress) {
+  const today = localDateKey();
+  const last = progress.stats.lastActiveDate;
+  if (last === today) return;
+  const distance = dayDistance(last, today);
+  progress.stats.currentStreak = distance === 1 ? Math.max(1, Number(progress.stats.currentStreak) || 0) + 1 : 1;
+  progress.stats.longestStreak = Math.max(
+    Number(progress.stats.longestStreak) || 0,
+    progress.stats.currentStreak
+  );
+  progress.stats.lastActiveDate = today;
 }
 
 function resolveLevel(xp) {
@@ -102,6 +135,7 @@ export function getLevelInfo(xp = getProgress().xp) {
 
 export function awardXP(amount, reason, eventId) {
   const progress = read();
+  touchStreak(progress);
   if (eventId && progress.awarded[eventId]) return { progress: getProgress(), added: 0, newlyUnlocked: [] };
   if (eventId) progress.awarded[eventId] = true;
   progress.xp += Math.max(0, Number(amount) || 0);
@@ -125,6 +159,7 @@ export function awardXP(amount, reason, eventId) {
 
 export function startJourney(journeyId) {
   const progress = read();
+  touchStreak(progress);
   progress.stats.journeysStarted += 1;
   const unlocked = checkAchievements(progress);
   write(progress);
@@ -133,6 +168,7 @@ export function startJourney(journeyId) {
 
 export function completeJourney(journeyId, details = {}) {
   const progress = read();
+  touchStreak(progress);
   progress.stats.journeysCompleted += 1;
   if (journeyId === "dark") progress.stats.afterDarkCompleted += 1;
 
@@ -158,6 +194,7 @@ export function completeJourney(journeyId, details = {}) {
 
 export function completeActivity(journeyId, step) {
   const progress = read();
+  touchStreak(progress);
   progress.stats.activitiesCompleted += 1;
   write(progress);
   return awardXP(15, "Activity completed", "activity:" + journeyId + ":" + step + ":" + Date.now());
@@ -165,6 +202,7 @@ export function completeActivity(journeyId, step) {
 
 export function completeRitual(journeyId, step) {
   const progress = read();
+  touchStreak(progress);
   progress.stats.ritualsCompleted += 1;
   write(progress);
   return awardXP(10, "Ritual completed", "ritual:" + journeyId + ":" + step + ":" + Date.now());
@@ -172,13 +210,27 @@ export function completeRitual(journeyId, step) {
 
 export function recordMinigamePlayed(gameId) {
   const progress = read();
+  touchStreak(progress);
   progress.stats.minigamesPlayed += 1;
   write(progress);
   return awardXP(10, "Played " + gameId, "minigame:" + gameId + ":" + Date.now());
 }
 
-export function recordMemorySaved(){const progress=read();progress.stats.memoriesSaved+=1;write(progress);return progress}
-export function recordOneMore(){const progress=read();progress.stats.oneMoreCards+=1;write(progress);return progress}
+export function recordMemorySaved() {
+  const progress = read();
+  touchStreak(progress);
+  progress.stats.memoriesSaved += 1;
+  write(progress);
+  return progress;
+}
+
+export function recordOneMore() {
+  const progress = read();
+  touchStreak(progress);
+  progress.stats.oneMoreCards += 1;
+  write(progress);
+  return progress;
+}
 
 export function resetProgress() {
   localStorage.removeItem(PROGRESS_KEY);
