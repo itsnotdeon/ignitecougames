@@ -27,5 +27,12 @@ export function nextRoleplay(s){
  const idx=Math.floor(Math.random()*role.items.length);
  used.add(idx);s.usedItems.set(role.id,used);s.role=role;s.item=role.items[idx];return s
 }
-export function renderRoleplay(s){if(!s.role)return '<div class="mini-intro"><span class="game-icon">🎭</span><h3>Roleplay</h3><p>Pilih karakter, masuk ke adegan, lalu biarkan percakapan berkembang.</p><button class="btn primary full" data-mini="roleplay-next">Draw Role</button></div>';return '<div class="game-active"><div class="game-meta">'+s.role.emoji+' '+s.role.name+'</div><h3>'+escapeHtml(s.role.name)+'</h3><p class="muted">'+escapeHtml(s.role.desc)+'</p><div class="game-prompt"><small>SCENE</small><strong>'+escapeHtml(s.item.context)+'</strong><small>YOUR MOVE</small><span>'+escapeHtml(s.item.challenge)+'</span></div><div class="btn-row"><button class="btn ghost" data-mini="roleplay-next">Next Scene</button><button class="btn primary" data-mini="roleplay-switch">Switch Role</button></div></div>'}
+export function renderRoleplay(s){
+ if(!s.role){
+  const roles=(s.mode==="dark"?darkRoles():normalRoles()).filter(role=>Array.isArray(role?.items)&&role.items.length);
+  return '<div class="mini-intro"><span class="game-icon">🎭</span><h3>Roleplay</h3><p>Pilih karakter, masuk ke adegan, lalu biarkan percakapan berkembang.</p>'+
+    (roles.length?'<button class="btn primary full" data-mini="roleplay-next">Draw Role</button>':'<p class="muted">No roleplay content is available in this mode. Add roles and scenes in Topic Library.</p>')+
+    '</div>'
+ }
+ return '<div class="game-active"><div class="game-meta">'+s.role.emoji+' '+s.role.name+'</div><h3>'+escapeHtml(s.role.name)+'</h3><p class="muted">'+escapeHtml(s.role.desc)+'</p><div class="game-prompt"><small>SCENE</small><strong>'+escapeHtml(s.item.context)+'</strong><small>YOUR MOVE</small><span>'+escapeHtml(s.item.challenge)+'</span></div><div class="btn-row"><button class="btn ghost" data-mini="roleplay-next">Next Scene</button><button class="btn primary" data-mini="roleplay-switch">Switch Role</button></div></div>'}
 function escapeHtml(v){return String(v).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#039;"}[c]))}
