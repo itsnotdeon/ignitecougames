@@ -88,8 +88,7 @@ test("custom topics can be added and deleted without changing built-in topics",a
   expect(stored.normalCards).toContain("Custom Deon topic for testing");
   await page.getByRole("button",{name:"Delete Custom Deon topic for testing",exact:true}).click();
   await expect(page.getByText("Custom Deon topic for testing",{exact:true})).toHaveCount(0);
-  const after=await page.getByRole("button",{name:"settings"}).getAttribute("aria-label").catch(()=>null);
-  expect(after===null||typeof after==="string").toBe(true);
+  await expect(page.getByRole("heading",{name:/Make it/})).toBeVisible();
   const storedAfter=await page.evaluate(()=>JSON.parse(localStorage.getItem("ignite-custom-topics-v1")));
   expect(storedAfter.normalCards).not.toContain("Custom Deon topic for testing");
   expect(before).toMatch(/topics available$/);
