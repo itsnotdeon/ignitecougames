@@ -118,6 +118,14 @@ function resetRound(state) {
 
 function drawRandomCommand(state) {
   const commands = pool(state);
+  if (!commands.length) {
+    state.command = null;
+    state.currentCommands = [];
+    state.commandDrawn = false;
+    state.chooseOpen = false;
+    state.responded = false;
+    return;
+  }
   const available = [];
 
   for (let i = 0; i < commands.length; i += 1) {
@@ -139,6 +147,13 @@ function drawRandomCommand(state) {
 
 function chooseCommand(state, index) {
   const commands = pool(state);
+  if (!commands.length) {
+    state.chooseOpen = false;
+    state.command = null;
+    state.currentCommands = [];
+    state.commandDrawn = false;
+    return;
+  }
   if (!Number.isInteger(index) || !commands[index]) return;
 
   if (!state.usedCommands.includes(index)) state.usedCommands.push(index);
@@ -348,11 +363,14 @@ export function renderKing(state, names) {
         '</button>' +
       '</section>';
   } else if (!state.commandDrawn) {
+    const commandsAvailable=pool(state).length>0;
     body =
       '<section class="ks-ready-stage">' +
         '<div class="ks-crown"><span>'+kingEmoji+'</span><b>' + escapeHtml(king) + '</b><small>KING / QUEEN</small></div>' +
         '<div class="ks-slave-note">'+slaveEmoji+' SLAVE: ' + escapeHtml(slave) + '</div>' +
-        '<button class="ks-main-btn" data-mini="ks-draw">Draw Command Card</button>' +
+        (commandsAvailable
+          ? '<button class="ks-main-btn" data-mini="ks-draw">Draw Command Card</button>'
+          : '<p class="ks-fair-note">No command cards are available in this mode. Add content in Topic Library.</p>') +
       '</section>';
   } else {
     const cards = state.currentCommands.map(function (command, index) {
