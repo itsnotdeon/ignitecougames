@@ -31,6 +31,22 @@ test("King & Slave mobile flow keeps the action as the primary result",async({pa
  expect(Math.max(...sizes)).toBeGreaterThanOrEqual(30);
 });
 
+test("King & Slave automatically rerolls ties until a winner is resolved",async({page})=>{
+ await page.addInitScript(()=>{
+   let n=0;
+   Math.random=()=>n++<40?0.25:(n%2?0.1:0.9);
+ });
+ await page.goto("");
+ await enterIgniteWelcome(page);
+ await page.getByRole("button",{name:"Play",exact:true}).click();
+ await page.getByRole("button",{name:"King & Slave"}).click();
+ await page.locator("#ks-consent").check();
+ await page.getByRole("button",{name:"Mulai Sesi"}).click();
+ await page.getByRole("button",{name:"Roll Dice"}).click();
+ await expect(page.locator(".ks-role-person.king").getByText("KING / QUEEN",{exact:true})).toBeVisible();
+ await expect(page.getByText("Tie. Roll again.",{exact:false})).toHaveCount(0);
+});
+
 test("King & Slave supports five one-use powers and Draw Again",async({page})=>{
  await page.addInitScript(()=>{let n=0;const seq=[0.1,0.8,0.3,0.9,0.2,0.7,0.4,0.6];Math.random=()=>seq[n++%seq.length]});
  await page.goto("");
