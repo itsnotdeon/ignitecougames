@@ -217,7 +217,58 @@ function saveContent(x){localStorage.setItem(CONTENT_KEY,JSON.stringify(x))}
 function renderContentManager(){const el=document.getElementById("content-manager-list");if(!el)return;const x=getContent();el.innerHTML=Object.entries(x).map(([k,v])=>'<div class="content-summary"><strong>'+esc(k)+'</strong><span>'+v.length+' prompts</span></div>').join("")}
 function exportJSON(name,data){const blob=new Blob([JSON.stringify(data,null,2)],{type:"application/json"});const a=document.createElement("a");a.href=URL.createObjectURL(blob);a.download=name;a.click();setTimeout(()=>URL.revokeObjectURL(a.href),500)}
 function importFile(input,handler){if(!input)return;input.onchange=()=>{const file=input.files[0];if(!file)return;const reader=new FileReader();reader.onload=()=>{try{handler(JSON.parse(reader.result))}catch{alert("Invalid JSON file.")}};reader.readAsText(file)}}
-app.addEventListener("click",e=>{const b=e.target.closest("[data-content-action]");if(b){const x=getContent();if(b.dataset.contentAction==="export")exportJSON("ignite-content.json",x);if(b.dataset.contentAction==="reset-content"&&confirm("Reset local content additions?")){localStorage.removeItem(CONTENT_KEY);localStorage.removeItem(CUSTOM_TOPICS_KEY);renderContentManager()}if(b.dataset.contentAction==="import")document.getElementById("content-import-file")?.click()}const topicDelete=e.target.closest("[data-topic-delete]");if(topicDelete){const custom=getCustomTopics(),key=topicDelete.dataset.topicDelete,index=Number(topicDelete.dataset.topicIndex);if(custom[key]?.[index]){custom[key].splice(index,1);saveCustomTopics(custom);renderTopics()}return}const d=e.target.closest("[data-data-action]");if(d){if(d.dataset.dataAction==="export")exportJSON("ignite-backup.json",{version:3,exportedAt:new Date().toISOString(),app:JSON.parse(localStorage.getItem("ignite-redesign-v4")||"{}"),progress:JSON.parse(localStorage.getItem("ignite-progression-v1")||"{}"),content:getContent(),customTopics:getCustomTopics(),memories:JSON.parse(localStorage.getItem("ignite-memories-v1")||"[]"),preferences:JSON.parse(localStorage.getItem("ignite-preferences-v1")||"{}"),bond:readBond()});if(d.dataset.dataAction==="import")document.getElementById("data-import-file")?.click();if(d.dataset.dataAction==="reset"&&confirm("Reset ALL IGNITE data on this browser?")){localStorage.removeItem("ignite-redesign-v4");localStorage.removeItem("ignite-progression-v1");localStorage.removeItem(CONTENT_KEY);localStorage.removeItem(CUSTOM_TOPICS_KEY);localStorage.removeItem("ignite-memories-v1");localStorage.removeItem("ignite-preferences-v1");localStorage.removeItem(BOND_KEY);location.reload()}}});
+app.addEventListener("click",e=>{
+ const b=e.target.closest("[data-content-action]");
+ if(b){
+   const x=getContent();
+   if(b.dataset.contentAction==="export")exportJSON("ignite-content.json",x);
+   if(b.dataset.contentAction==="reset-content"&&confirm("Reset local content additions?")){
+     localStorage.removeItem(CONTENT_KEY);
+     localStorage.removeItem(CUSTOM_TOPICS_KEY);
+     renderContentManager();
+   }
+   if(b.dataset.contentAction==="import")document.getElementById("content-import-file")?.click();
+ }
+ const topicDelete=e.target.closest("[data-topic-delete]");
+ if(topicDelete){
+   const custom=getCustomTopics();
+   const key=topicDelete.dataset.topicDelete;
+   const index=Number(topicDelete.dataset.topicIndex);
+   if(custom[key]?.[index]){
+     custom[key].splice(index,1);
+     saveCustomTopics(custom);
+     renderTopics();
+   }
+   return;
+ }
+ const d=e.target.closest("[data-data-action]");
+ if(d){
+   if(d.dataset.dataAction==="export"){
+     exportJSON("ignite-backup.json",{
+       version:3,
+       exportedAt:new Date().toISOString(),
+       app:JSON.parse(localStorage.getItem("ignite-redesign-v4")||"{}"),
+       progress:JSON.parse(localStorage.getItem("ignite-progression-v1")||"{}"),
+       content:getContent(),
+       customTopics:getCustomTopics(),
+       memories:JSON.parse(localStorage.getItem("ignite-memories-v1")||"[]"),
+       preferences:JSON.parse(localStorage.getItem("ignite-preferences-v1")||"{}"),
+       bond:readBond()
+     });
+   }
+   if(d.dataset.dataAction==="import")document.getElementById("data-import-file")?.click();
+   if(d.dataset.dataAction==="reset"&&confirm("Reset ALL IGNITE data on this browser?")){
+     localStorage.removeItem("ignite-redesign-v4");
+     localStorage.removeItem("ignite-progression-v1");
+     localStorage.removeItem(CONTENT_KEY);
+     localStorage.removeItem(CUSTOM_TOPICS_KEY);
+     localStorage.removeItem("ignite-memories-v1");
+     localStorage.removeItem("ignite-preferences-v1");
+     localStorage.removeItem(BOND_KEY);
+     location.reload();
+   }
+ }
+});
 function bindImportInputs(){importFile(document.getElementById("content-import-file"),data=>{if(!data||typeof data!=="object")return alert("Invalid content file.");saveContent({...defaultContent(),...data});renderContentManager()});
 importFile(document.getElementById("data-import-file"),data=>{if(!data||typeof data!=="object")return alert("Invalid backup file.");if(data.app)localStorage.setItem("ignite-redesign-v4",JSON.stringify(data.app));if(data.progress)localStorage.setItem("ignite-progression-v1",JSON.stringify(data.progress));if(data.content)saveContent({...defaultContent(),...data.content});if(data.customTopics)saveCustomTopics(data.customTopics);if(data.memories)localStorage.setItem("ignite-memories-v1",JSON.stringify(data.memories));if(data.preferences)localStorage.setItem("ignite-preferences-v1",JSON.stringify(data.preferences));if(data.bond)localStorage.setItem(BOND_KEY,JSON.stringify(data.bond));location.reload()});}
 window.addEventListener("ignite:rerender",()=>{if(state.__minigameActive==="snake"||state.__minigameActive==="king")render()});
