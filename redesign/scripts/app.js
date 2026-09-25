@@ -56,10 +56,16 @@ function daysTogether(){
 function tonightSuggestion(){
  const prefs=JSON.parse(localStorage.getItem("ignite-preferences-v1")||'{"vibes":["Romantic"]}');
  const vibes=Array.isArray(prefs.vibes)?prefs.vibes:[];
- if(vibes.includes("Deep"))return{title:"Deep Connection",text:"Slow down and make room for a conversation that matters."};
- if(vibes.includes("Playful"))return{title:"Playful Connection",text:"A light game can turn tonight into a shared little story."};
- if(vibes.includes("Competitive"))return{title:"Game Night",text:"Pick a game, keep the score, and see where the night goes."};
- if(state.mode==="dark")return{title:"Intimate Connection",text:"A slower, more intentional After Dark moment for two."};
+ const adaptive=JSON.parse(localStorage.getItem("ignite-adaptive-v1")||"{}");
+ const learned=Object.entries(adaptive.vibes||{}).sort((a,b)=>b[1]-a[1])[0]?.[0]||"";
+ const progress=getProgress();
+ const streak=Math.max(0,Number(progress.stats?.currentStreak)||0);
+ if(state.mode==="dark")return{title:streak>=3?"Keep the fire alive":"Intimate Connection",text:streak>=3?"Your rhythm is building. Take the next moment at your own pace.":"A slower, more intentional After Dark moment for two."};
+ if(vibes.includes("Deep")||learned==="Deep")return{title:"Deep Connection",text:"Slow down and make room for a conversation that matters."};
+ if(vibes.includes("Playful")||learned==="Playful")return{title:"Playful Connection",text:"A light game can turn tonight into a shared little story."};
+ if(vibes.includes("Competitive")||learned==="Competitive")return{title:"Game Night",text:"Pick a game, keep the score, and see where the night goes."};
+ if(vibes.includes("Spontaneous")||learned==="Spontaneous")return{title:"Try Something New",text:"Let IGNITE change the pace and surprise you tonight."};
+ if(streak>=3)return{title:"Keep the Rhythm",text:"You’ve been showing up for each other. Keep tonight simple and meaningful."};
  return{title:"Playful Connection",text:"A simple way to play, talk, and feel a little closer."};
 }
 function renderHome(){
