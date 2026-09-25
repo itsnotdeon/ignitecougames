@@ -10,7 +10,7 @@ function customRolePool(items){
   return [...groups.values()];
 }
 const ACTIVE_KEY="ignite-active-content-v1";
-function rolePool(key,fallback){try{const raw=JSON.parse(localStorage.getItem(ACTIVE_KEY)||"null");const list=raw?.[key];if(Array.isArray(list)&&list.length)return list}catch{}return fallback}
+function rolePool(key,fallback){try{const raw=JSON.parse(localStorage.getItem(ACTIVE_KEY)||"null");const list=raw?.[key];if(Array.isArray(list))return list}catch{}return fallback}
 function normalRoles(){return rolePool("roleplayNormal",[...allRoleplayNormalRoles,...customRolePool(roleplayCustomItems)])}
 function darkRoles(){return rolePool("roleplayDark",[...allRoleplayDarkRoles,...customRolePool(roleplayCustomItemsExplicit)])}
 
