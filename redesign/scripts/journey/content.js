@@ -1,4 +1,4 @@
-import {allNormalTopics,allExplicitTopics,allTruthTopics,allDareTopics,allIntimateTruthTopics,allIntimateDareTopics} from "../data/topics.js?v=20260924-04";
+import {allNormalTopics,allExplicitTopics,allTruthTopics,allDareTopics,allIntimateTruthTopics,allIntimateDareTopics} from "../data/topics.js?v=20260925-19";
 export const starterNormalCards=allNormalTopics;
 export const starterExplicitCards=allExplicitTopics;
 export const starterTruth=allTruthTopics;
