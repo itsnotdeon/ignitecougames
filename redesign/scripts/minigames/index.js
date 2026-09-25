@@ -39,18 +39,9 @@ export function minigameAction(action,value){
    state.king.rollStarted=true;
    state.king.rollP1=1+Math.floor(Math.random()*6);
    state.king.rollP2=1+Math.floor(Math.random()*6);
+   kingAction(state.king,"roll");
+   state.king.rolling=false;
    renderActiveGame();
-   const timer=setInterval(()=>{
-    state.king.rollP1=1+Math.floor(Math.random()*6);
-    state.king.rollP2=1+Math.floor(Math.random()*6);
-    updateKingDice();
-   },90);
-   setTimeout(()=>{
-    clearInterval(timer);
-    state.king.rolling=false;
-    kingAction(state.king,"roll");
-    renderActiveGame();
-   },900);
   }else if(action==="ks-draw")kingAction(state.king,"draw");else if(action==="ks-choose")kingAction(state.king,"choose",value);else if(action==="ks-draw-again")kingAction(state.king,"draw-again");else if(action==="ks-power")kingAction(state.king,"power",value);else if(action==="ks-respond")kingAction(state.king,"respond",value);else if(action==="ks-mode")kingAction(state.king,"mode");else if(action==="ks-reset")kingAction(state.king,"reset");else if(action==="ks-power-open"){state.king.__powerOpen=true}else if(action==="ks-power-close"){state.king.__powerOpen=false}else if(action==="ks-choice-close"){state.king.chooseOpen=false}return}
  if(state.active==="chess"){if(action==="chess-square")chessClick(state.chess,Number(value));else if(action==="chess-undo")chessUndo(state.chess);else if(action==="chess-reset")state.chess=createChessState();return}
  if(state.active==="snake"){if(state.snake.animating)return;if(action==="snake-roll")snakeRoll(state.snake);else if(action==="snake-continue")snakeContinue(state.snake);else if(action==="snake-done")snakeContinue(state.snake,"done");else if(action==="snake-skip")snakeContinue(state.snake,"skip");else if(action==="snake-mode")snakeSetMode(state.snake,value);else if(action==="snake-reset")state.snake=createSnakeState();else if(action==="snake-save-memory"){const note=document.querySelector("#snake-memory-note")?.value?.trim()||"";saveMemory({journey:"Snake & Ladder",xp:0,moment:"Snake & Ladder — "+(state.snake.winner!=null?"Winner reached 100":"Game complete"),note});state.snake.memorySaved=true}}
