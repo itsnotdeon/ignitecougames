@@ -339,19 +339,19 @@ export function renderKing(state, names) {
   let body = "";
 
   if (!state.rolled) {
-    const note = state.rollP1 === null
+    const note = state.rollStarted && state.rollP1 === null
       ? "Tie. Roll again. Both players get a fresh die roll."
       : "Satu dadu untuk setiap pemain. Nilai tertinggi memegang mahkota.";
 
     body =
       '<section class="ks-draw-stage">' +
-        '<div class="ks-dice-pair '+(state.rolling?"is-rolling":"")+'>' +
+        '<div class="ks-dice-pair '+(state.rolling?"is-rolling":"")+'">' +
           '<div><span>' + (state.rollP1 || "?") + '</span><small>' + escapeHtml(p1) + '</small></div>' +
           '<div><span>' + (state.rollP2 || "?") + '</span><small>' + escapeHtml(p2) + '</small></div>' +
         '</div>' +
         '<p class="ks-fair-note">' + note + '</p>' +
         '<button class="ks-main-btn" data-mini="ks-roll">' +
-          (state.rollStarted ? "Roll Again" : "Reveal King") +
+          (state.rollStarted ? "Roll Again" : "Roll Dice") +
         '</button>' +
       '</section>';
   } else if (!state.commandDrawn) {
@@ -426,7 +426,7 @@ export function renderKing(state, names) {
         '<button class="ks-reset" data-mini="ks-reset">Reset</button>' +
       '</header>' +
       '<div class="ks-progress"><span>ROUND ' + state.round + '</span><i></i><span>' +
-        (hasRoles ? escapeHtml(king) : "CROWN DRAW") + '</span></div>' +
+        (hasRoles ? kingEmoji + ' ' + escapeHtml(king) : "CROWN DRAW") + '</span></div>' +
       roles +
       body +
       powers +

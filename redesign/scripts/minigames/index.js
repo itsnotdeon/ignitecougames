@@ -23,6 +23,14 @@ export function minigameView(names){
 }
 function renderActiveGame(){ window.dispatchEvent(new CustomEvent("ignite:rerender")); }
 
+function updateKingDice(){
+ const dice=document.querySelectorAll(".ks-dice-pair > div > span");
+ if(dice.length<2)return false;
+ dice[0].textContent=String(state.king.rollP1||"?");
+ dice[1].textContent=String(state.king.rollP2||"?");
+ return true;
+}
+
 export function minigameAction(action,value){
  if(state.active==="roleplay"){if(action==="roleplay-next")nextRoleplay(state.roleplay);if(action==="roleplay-switch"){state.roleplay.usedRoles=new Set();nextRoleplay(state.roleplay)}if(action==="roleplay-mode")setRoleplayMode(state.roleplay,value);return}
  if(state.active==="king"){if(action==="ks-consent"){const box=document.querySelector("#ks-consent");if(box&&!box.checked)return;kingAction(state.king,"consent")}else if(action==="ks-roll"){
@@ -35,7 +43,7 @@ export function minigameAction(action,value){
    const timer=setInterval(()=>{
     state.king.rollP1=1+Math.floor(Math.random()*6);
     state.king.rollP2=1+Math.floor(Math.random()*6);
-    renderActiveGame();
+    updateKingDice();
    },90);
    setTimeout(()=>{
     clearInterval(timer);
@@ -65,11 +73,9 @@ export async function animateSnakeMove(){
   const pawn=finalCell?.querySelector(".pawn.p"+(move.player+1)+"-pawn");
   if(!finalCell||!pawn){finishSnakeAnimation(s);return;}
   const clone=pawn.cloneNode(true);
-  const boardRect=board.getBoundingClientRect();
   const firstCell=board.querySelector('[data-square="1"]');
   const startCell=board.querySelector('[data-square="'+move.from+'"]');
   const startRect=(startCell||firstCell)?.getBoundingClientRect();
-  const finalRect=finalCell.getBoundingClientRect();
   if(!startRect){finishSnakeAnimation(s);return;}
   pawn.style.visibility="hidden";
   clone.style.position="fixed";
