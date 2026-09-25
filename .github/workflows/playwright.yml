@@ -21,7 +21,7 @@ jobs:
       - run: npx playwright install --with-deps chromium
       - run: find redesign/scripts -name "*.js" -print0 | xargs -0 -n1 node --check
       - name: Parse browser ES modules
-        run: node --experimental-vm-modules --input-type=module -e "import fs from 'node:fs'; import vm from 'node:vm'; new vm.SourceTextModule(fs.readFileSync('redesign/scripts/app.js','utf8')); new vm.SourceTextModule(fs.readFileSync('redesign/scripts/journey/mechanics.js','utf8')); new vm.SourceTextModule(fs.readFileSync('redesign/scripts/journey/content.js','utf8'));"
+        run: node --experimental-vm-modules --input-type=module -e "import fs from 'node:fs'; import vm from 'node:vm'; for (const file of ['redesign/scripts/app.js','redesign/scripts/journey/mechanics.js','redesign/scripts/journey/content.js']) { try { new vm.SourceTextModule(fs.readFileSync(file,'utf8')); console.log('Parsed',file); } catch (error) { console.error('Failed',file,error); process.exit(1); } }"
       - run: npm run test:e2e -- --workers=2
       - name: Upload Playwright report on failure
         if: failure()
