@@ -195,15 +195,10 @@ export function kingAction(state, action, value) {
   if (action === "roll") {
     if (state.rolling) return;
     state.rollStarted = true;
-    state.rollP1 = 1 + Math.floor(Math.random() * 6);
-    state.rollP2 = 1 + Math.floor(Math.random() * 6);
-
-    if (state.rollP1 === state.rollP2) {
-      state.rollP1 = null;
-      state.rollP2 = null;
-      state.rolled = false;
-      return;
-    }
+    do {
+      state.rollP1 = 1 + Math.floor(Math.random() * 6);
+      state.rollP2 = 1 + Math.floor(Math.random() * 6);
+    } while (state.rollP1 === state.rollP2);
 
     assignRoles(state);
     return;
@@ -339,9 +334,7 @@ export function renderKing(state, names) {
   let body = "";
 
   if (!state.rolled) {
-    const note = state.rollStarted && state.rollP1 === null
-      ? "Tie. Roll again. Both players get a fresh die roll."
-      : "Satu dadu untuk setiap pemain. Nilai tertinggi memegang mahkota.";
+    const note = "Satu dadu untuk setiap pemain. Nilai tertinggi memegang mahkota. Jika tie, dadu otomatis mengulang.";
 
     body =
       '<section class="ks-draw-stage">' +
