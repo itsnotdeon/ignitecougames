@@ -8,6 +8,8 @@ async function enter(page){
   await page.locator('input[name="p2"]').fill("Fe");
   await page.getByRole("button",{name:/Start Our Journey/}).click();
   await expect(page.getByText("YOUR SPACE FOR TWO")).toBeVisible();
+  await expect(page.getByText("YOUR RHYTHM",{exact:true})).toBeVisible();
+  await expect(page.getByText("1 day together",{exact:true})).toBeVisible();
 }
 
 test.describe("IGNITE adaptive experience",()=>{
@@ -53,4 +55,16 @@ test.describe("IGNITE adaptive experience",()=>{
     await page.getByRole("button",{name:"Next Card →"}).click();
     await expect(page.getByText("Card 2")).toBeVisible();
   });
+});
+
+
+test("progression records a three-day rhythm without inflating on the same day",async({page})=>{
+  await enter(page);
+  const result=await page.evaluate(()=>{
+    const p=JSON.parse(localStorage.getItem("ignite-progression-v1")||"{}");
+    return {streak:p.stats?.currentStreak,longest:p.stats?.longestStreak,last:p.stats?.lastActiveDate};
+  });
+  expect(result.streak).toBe(1);
+  expect(result.longest).toBe(1);
+  expect(result.last).toBeTruthy();
 });
