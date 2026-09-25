@@ -1,4 +1,5 @@
 name: Playwright E2E
+# Full regression gate: syntax checks + Chromium E2E on desktop and mobile.
 
 on:
   push:
