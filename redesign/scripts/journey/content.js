@@ -6,7 +6,7 @@ export const starterDare=allDareTopics;
 export const starterIntimateTruth=allIntimateTruthTopics;
 export const starterIntimateDare=allIntimateDareTopics;
 const CUSTOM_TOPICS_KEY="ignite-custom-topics-v1";
-function custom(key){try{const raw=JSON.parse(localStorage.getItem(CUSTOM_TOPICS_KEY)||"{}");return Array.isArray(raw[key])?raw[key].filter(v=>typeof v==="string"&&v.trim()):[]}catch{return[]}}
+function custom(key){try{const storage=globalThis.localStorage;const raw=JSON.parse(storage?.getItem(CUSTOM_TOPICS_KEY)||"{}");return Array.isArray(raw[key])?raw[key].filter(v=>typeof v==="string"&&v.trim()):[]}catch{return[]}}
 function live(base,key){const extra=custom(key);return[...base,...extra.filter(v=>!base.includes(v))]}
 export const getNormalCards=()=>live(starterNormalCards,"normalCards");
 export const getExplicitCards=()=>live(starterExplicitCards,"explicitCards");
