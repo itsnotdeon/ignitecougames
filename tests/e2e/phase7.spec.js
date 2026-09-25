@@ -33,11 +33,11 @@ test.describe("IGNITE memories and preferences",()=>{
     expect(stored.intensity).toBe("bold");
   });
 
-  test("Dynamic Journey is reachable from Settings",async({page})=>{
+  test("Tonight’s Journey is reachable from Play",async({page})=>{
     await enter(page);
-    await page.getByRole("button",{name:"Profile",exact:true}).click();
     await page.getByRole("button",{name:"Play",exact:true}).click();
-    await page.getByRole("button",{name:"Build Dynamic Journey"}).click();
+    await expect(page.getByText("TONIGHT’S JOURNEY",{exact:true})).toBeVisible();
+    await page.getByRole("button",{name:/Start Journey/}).click();
     await expect(page.getByRole("heading",{name:"Normal Journey",exact:true})).toBeVisible();
   });
 
