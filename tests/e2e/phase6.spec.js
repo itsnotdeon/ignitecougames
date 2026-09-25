@@ -61,7 +61,7 @@ test.describe("IGNITE mockup UI",()=>{
     await expect(page.getByText("TOPIC LIBRARY",{exact:true})).toBeVisible();
     await expect(page.getByText(/topics available$/)).toBeVisible();
     await page.getByRole("button",{name:"Manage My Topics",exact:true}).click();
-    await expect(page.getByRole("heading",{name:/Make it/})).toBeVisible();
+    await expect(page.getByRole("heading",{name:/One library/})).toBeVisible();
   });
 
   test("Setup saves names and relationship",async({page})=>{
@@ -88,7 +88,7 @@ test("custom topics can be added and deleted without changing built-in topics",a
   expect(stored.normalCards).toContain("Custom Deon topic for testing");
   await page.getByRole("button",{name:"Delete Custom Deon topic for testing",exact:true}).click();
   await expect(page.getByText("Custom Deon topic for testing",{exact:true})).toHaveCount(0);
-  await expect(page.getByRole("heading",{name:/Make it/})).toBeVisible();
+  await expect(page.getByRole("heading",{name:/One library/})).toBeVisible();
   const storedAfter=await page.evaluate(()=>JSON.parse(localStorage.getItem("ignite-custom-topics-v1")));
   expect(storedAfter.normalCards).not.toContain("Custom Deon topic for testing");
   expect(before).toMatch(/topics available$/);
