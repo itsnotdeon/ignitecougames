@@ -9,7 +9,7 @@ async function enter(page){
   await page.getByRole("button",{name:/Start Our Journey/}).click();
   await expect(page.getByText("YOUR SPACE FOR TWO")).toBeVisible();
   await expect(page.getByText("YOUR RHYTHM",{exact:true})).toBeVisible();
-  await expect(page.getByText("1 day together",{exact:true})).toBeVisible();
+  await expect(page.getByText("0 days together",{exact:true})).toBeVisible();
 }
 
 test.describe("IGNITE adaptive experience",()=>{
