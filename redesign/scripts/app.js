@@ -33,7 +33,7 @@ function save(){localStorage.setItem(STORAGE_KEY,JSON.stringify(state))}
 function coupleName(){const level=getLevelInfo(getProgress().xp);const quotes={1:"Every story starts with a spark.",2:"Two people, one little world.",3:"The closer you get, the more you discover.",4:"In sync, one moment at a time.",5:"You found your rhythm. Keep the fire alive.",6:"Some connections grow deeper with every moment.",7:"Two hearts, one unstoppable rhythm.",8:"This is your story. Keep the fire alive."};return quotes[level.level]||quotes[1]}
 function esc(v){return String(v).replace(/[&<>"']/g,function(c){return{"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#039;"}[c]})}
 function setView(view){state.view=view;save();render()}
-function render(){app.dataset.igniteMode=state.mode==="dark"?"dark":"normal";if(state.view==="welcome")renderWelcome();else if(state.view==="home")renderHome();else if(state.view==="names")renderNames();else if(state.view==="intro")renderIntro();else if(state.view==="session")renderSession();else if(state.view==="complete")renderComplete();else if(state.view==="minigames")renderMinigames();else if(state.view==="profile")renderProfile();else if(state.view==="settings")renderSettings();else if(state.view==="journey")renderJourney();else if(state.view==="journey-detail")renderJourneyDetail();else if(state.view==="memories")app.innerHTML=renderMemories(renderBottomNav("memories"));else if(state.view==="memory-capture")renderMemoryCapture();else if(state.view==="preferences")app.innerHTML=renderPreferences();else if(state.view==="bond")renderBond();else{state.view="home";save();renderHome()}}
+function render(){if(state.view==="welcome")renderWelcome();else if(state.view==="home")renderHome();else if(state.view==="names")renderNames();else if(state.view==="intro")renderIntro();else if(state.view==="session")renderSession();else if(state.view==="complete")renderComplete();else if(state.view==="minigames")renderMinigames();else if(state.view==="profile")renderProfile();else if(state.view==="settings")renderSettings();else if(state.view==="journey")renderJourney();else if(state.view==="journey-detail")renderJourneyDetail();else if(state.view==="memories")app.innerHTML=renderMemories(renderBottomNav("memories"));else if(state.view==="memory-capture")renderMemoryCapture();else if(state.view==="preferences")app.innerHTML=renderPreferences();else if(state.view==="bond")renderBond();else{state.view="home";save();renderHome()}}
 function renderBottomNav(active="home"){
  return '<nav class="bottom-nav" aria-label="Main navigation">'+
  '<button class="bottom-nav-item '+(active==="home"?"active":"")+'" data-action="home" aria-label="Home"><span>⌂</span><small>Home</small></button>'+
@@ -62,7 +62,7 @@ function tonightSuggestion(){
  if(state.mode==="dark")return{title:"Intimate Connection",text:"A slower, more intentional After Dark moment for two."};
  return{title:"Playful Connection",text:"A simple way to play, talk, and feel a little closer."};
 }
-function renderHome(){
+function renderHome(){app.dataset.igniteMode=state.mode==="dark"?"dark":"normal";
  const dark=state.mode==="dark";
  const prog=getProgress(), level=getLevelInfo(prog.xp), days=daysTogether(), suggestion=tonightSuggestion();
  let html='<section class="home-v1">';
