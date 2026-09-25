@@ -1,0 +1,140 @@
+/* IGNITE Phase 3 — visual polish layer
+   Keep the current IGNITE visual direction. This layer adds consistency,
+   touch comfort, focus states, and resilient mobile behavior without
+   changing the product's visual identity. */
+
+:root{
+  --ignite-radius-sm:12px;
+  --ignite-radius-md:18px;
+  --ignite-radius-lg:24px;
+  --ignite-gap-1:8px;
+  --ignite-gap-2:12px;
+  --ignite-gap-3:16px;
+  --ignite-gap-4:20px;
+  --ignite-gap-5:28px;
+  --ignite-control-min:44px;
+}
+
+#app{
+  -webkit-tap-highlight-color:transparent;
+}
+
+button,
+input,
+select,
+textarea{
+  font:inherit;
+}
+
+button{
+  touch-action:manipulation;
+}
+
+button:focus-visible,
+input:focus-visible,
+select:focus-visible,
+textarea:focus-visible,
+a:focus-visible{
+  outline:2px solid rgba(255,142,150,.9);
+  outline-offset:3px;
+}
+
+.btn,
+.bottom-nav-item,
+.home-action-card,
+.settings-v1-row,
+.journey-entry,
+.mini-card,
+.profile-chip,
+.home-mode-toggle button{
+  min-height:var(--ignite-control-min);
+}
+
+.btn{
+  transition:transform .18s ease,filter .18s ease,background-color .18s ease,border-color .18s ease;
+}
+
+.btn:not(:disabled):active,
+.home-action-card:active,
+.mini-card:active,
+.settings-v1-row:active,
+.journey-entry:active{
+  transform:scale(.985);
+}
+
+.btn:disabled{
+  cursor:not-allowed;
+  opacity:.48;
+}
+
+.card{
+  overflow:hidden;
+}
+
+.field{
+  gap:var(--ignite-gap-1);
+}
+
+.field input,
+.field select,
+.field textarea,
+#bond-goal-form input{
+  min-height:var(--ignite-control-min);
+  box-sizing:border-box;
+}
+
+.bottom-nav{
+  padding-bottom:max(10px,env(safe-area-inset-bottom));
+}
+
+.home-v1,
+.bond-v1,
+.profile-v1,
+.settings-v1,
+.play-v1,
+.journey-shell,
+.memories-v1{
+  padding-bottom:calc(92px + env(safe-area-inset-bottom));
+}
+
+@media(max-width:480px){
+  .home-v1,
+  .bond-v1,
+  .profile-v1,
+  .settings-v1,
+  .play-v1,
+  .journey-shell,
+  .memories-v1{
+    padding-left:14px;
+    padding-right:14px;
+  }
+
+  .choice-grid{
+    gap:10px;
+  }
+
+  .btn{
+    min-height:46px;
+  }
+}
+
+@media(max-width:360px){
+  .home-actions-v1{
+    grid-template-columns:1fr;
+  }
+
+  .home-action-card{
+    min-height:88px;
+  }
+}
+
+@media(prefers-reduced-motion:reduce){
+  *,
+  *::before,
+  *::after{
+    scroll-behavior:auto!important;
+    animation-duration:.001ms!important;
+    animation-iteration-count:1!important;
+    transition-duration:.001ms!important;
+  }
+}
