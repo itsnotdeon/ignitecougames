@@ -1,5 +1,5 @@
 import {createRpsState,rpsPick,rpsWinner,createGuessColorState,guessColor,nextGuessRound} from "./rituals.js?v=20260924-01";
-import {starterNormalCards,starterExplicitCards,starterTruth,starterDare,starterIntimateTruth,starterIntimateDare,getNormalCards,getExplicitCards,getTruthTopics,getDareTopics,getIntimateTruthTopics,getIntimateDareTopics,randomUnused} from "./content.js?v=20260925-22";
+import {starterNormalCards,starterExplicitCards,starterTruth,starterDare,starterIntimateTruth,starterIntimateDare,getNormalCards,getExplicitCards,getTruthTopics,getDareTopics,getIntimateTruthTopics,getIntimateDareTopics,randomUnused} from "./content.js?v=20260926-01";
 import {chooseAdaptive} from "../features/adaptive.js?v=20260924-06";
 import {getPreferences} from "../features/preferences.js?v=20260923-12";
 const sessions=new Map();
