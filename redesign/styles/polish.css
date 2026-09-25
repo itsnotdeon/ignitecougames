@@ -138,3 +138,94 @@ a:focus-visible{
     transition-duration:.001ms!important;
   }
 }
+
+
+.home-rhythm-v1{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:18px;
+  padding:18px;
+  margin-top:14px;
+  border-radius:var(--ignite-radius-md);
+}
+
+.home-rhythm-copy{
+  display:grid;
+  gap:4px;
+  min-width:0;
+}
+
+.home-rhythm-copy strong{
+  font-size:1.05rem;
+}
+
+.home-rhythm-copy small{
+  color:var(--muted,#a99ca2);
+  line-height:1.45;
+}
+
+.rhythm-stats{
+  display:flex;
+  gap:12px;
+  flex-shrink:0;
+}
+
+.rhythm-stats span{
+  min-width:52px;
+  text-align:center;
+  display:grid;
+  gap:2px;
+}
+
+.rhythm-stats b{
+  font-size:1.05rem;
+}
+
+.rhythm-stats small{
+  font-size:.65rem;
+  text-transform:uppercase;
+  letter-spacing:.08em;
+  opacity:.65;
+}
+
+.memory-insight{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:16px;
+  margin:0 0 18px;
+  padding:16px;
+}
+
+.memory-insight > div{
+  display:grid;
+  gap:4px;
+  min-width:0;
+}
+
+.memory-insight strong{
+  font-size:1rem;
+}
+
+.memory-insight small{
+  color:var(--muted,#a99ca2);
+  line-height:1.45;
+}
+
+@media(max-width:480px){
+  .home-rhythm-v1,
+  .memory-insight{
+    align-items:flex-start;
+    flex-direction:column;
+  }
+
+  .rhythm-stats{
+    width:100%;
+    justify-content:space-between;
+  }
+
+  .memory-insight .btn{
+    width:100%;
+  }
+}
