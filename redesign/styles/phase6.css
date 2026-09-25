@@ -1873,3 +1873,18 @@ html,body{
 }
 
 .settings-v1-section-label{font-size:8px;letter-spacing:.16em;color:var(--faint);padding:2px 4px 3px}.settings-scope-v1{padding:15px;margin-bottom:20px}.settings-scope-v1 .eyebrow{margin-bottom:8px}.settings-scope-row{display:flex;justify-content:space-between;gap:12px;padding:10px 0;border-top:1px solid var(--line);font-size:9px}.settings-scope-row b{font-size:10px}.settings-scope-row span{color:var(--muted);text-align:right}
+
+
+/* ---------- Topic library settings ---------- */
+.settings-topics-v1{padding:16px;margin-bottom:20px}
+.settings-topic-total{display:flex;align-items:baseline;gap:8px;margin:4px 0 8px}
+.settings-topic-total strong{font-size:30px;line-height:1;font-weight:700}
+.settings-topic-total span{font-size:10px;color:var(--muted);letter-spacing:.04em}
+.topics-manager-v1 .settings-v1-hero{margin-bottom:18px}
+.topics-add-form,.topics-list-v1{padding:16px;margin-bottom:16px}
+.topics-add-form textarea{width:100%;resize:vertical;min-height:96px}
+.topic-group-v1+.topic-group-v1{margin-top:14px}
+.topic-custom-row{display:flex;align-items:center;gap:10px;padding:10px 0;border-top:1px solid var(--line)}
+.topic-custom-row span{flex:1;min-width:0;font-size:11px;line-height:1.45;color:var(--text)}
+.topic-delete{flex:0 0 auto;padding:7px 10px;font-size:9px}
+.topic-empty{padding:9px 0 2px;font-size:10px}
