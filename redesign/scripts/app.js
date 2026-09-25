@@ -212,7 +212,23 @@ const CONTENT_KEY="ignite-content-v1";const CUSTOM_TOPICS_KEY="ignite-custom-top
 function defaultContent(){return{normalCards:[...starterNormalCards],truth:[...starterTruth],dare:[...starterDare],explicitCards:[...starterExplicitCards],intimateTruth:[...starterIntimateTruth],intimateDare:[...starterIntimateDare]}}
 function getCustomTopics(){const empty={normalCards:[],explicitCards:[],truth:[],dare:[],intimateTruth:[],intimateDare:[]};try{const raw=JSON.parse(localStorage.getItem(CUSTOM_TOPICS_KEY)||"{}");return Object.fromEntries(Object.keys(empty).map(k=>[k,Array.isArray(raw[k])?raw[k].filter(v=>typeof v==="string"&&v.trim()).map(v=>v.trim()):[]]))}catch{return empty}}
 function saveCustomTopics(x){localStorage.setItem(CUSTOM_TOPICS_KEY,JSON.stringify(x))}
-function getContent(){const base=defaultContent();const custom=getCustomTopics();const merged={};Object.keys(base).forEach(k=>{merged[k]=[...base[k],...custom[k].filter(v=>!base[k].includes(v))]});try{const legacy=JSON.parse(localStorage.getItem(CONTENT_KEY)||"{}");Object.keys(base).forEach(k=>{if(Array.isArray(legacy[k]))merged[k]=[...legacy[k],...custom[k].filter(v=>!legacy[k].includes(v))})}catch{}return merged}
+function getContent(){
+ const base=defaultContent();
+ const custom=getCustomTopics();
+ const merged={};
+ Object.keys(base).forEach(key=>{
+   merged[key]=[...base[key],...custom[key].filter(value=>!base[key].includes(value))];
+ });
+ try{
+   const legacy=JSON.parse(localStorage.getItem(CONTENT_KEY)||"{}");
+   Object.keys(base).forEach(key=>{
+     if(Array.isArray(legacy[key])){
+       merged[key]=[...legacy[key],...custom[key].filter(value=>!legacy[key].includes(value))];
+     }
+   });
+ }catch{}
+ return merged;
+}
 function saveContent(x){localStorage.setItem(CONTENT_KEY,JSON.stringify(x))}
 function renderContentManager(){const el=document.getElementById("content-manager-list");if(!el)return;const x=getContent();el.innerHTML=Object.entries(x).map(([k,v])=>'<div class="content-summary"><strong>'+esc(k)+'</strong><span>'+v.length+' prompts</span></div>').join("")}
 function exportJSON(name,data){const blob=new Blob([JSON.stringify(data,null,2)],{type:"application/json"});const a=document.createElement("a");a.href=URL.createObjectURL(blob);a.download=name;a.click();setTimeout(()=>URL.revokeObjectURL(a.href),500)}
