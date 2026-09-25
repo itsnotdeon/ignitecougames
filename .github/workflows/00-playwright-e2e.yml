@@ -1,0 +1,36 @@
+name: Playwright E2E
+
+on:
+  workflow_dispatch:
+
+jobs:
+  test:
+    timeout-minutes: 20
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - run: npm install
+      - run: npx playwright install --with-deps chromium
+      - run: find redesign/scripts -name "*.js" -print0 | xargs -0 -n1 node --check
+      - name: Parse app as an ES module
+        run: node --input-type=module --check < redesign/scripts/app.js
+      - name: Parse browser ES modules
+        run: node --experimental-vm-modules --input-type=module -e "import fs from 'node:fs'; import vm from 'node:vm'; for (const file of ['redesign/scripts/app.js','redesign/scripts/journey/mechanics.js','redesign/scripts/journey/content.js']) { try { new vm.SourceTextModule(fs.readFileSync(file,'utf8')); console.log('Parsed',file); } catch (error) { console.error('Failed',file,error); process.exit(1); } }"
+      - run: npm run test:e2e -- --workers=2
+      - name: Upload Playwright report on failure
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: playwright-report
+          path: playwright-report/
+          if-no-files-found: ignore
+      - name: Upload Playwright test results on failure
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: playwright-test-results
+          path: test-results/
+          if-no-files-found: ignore
