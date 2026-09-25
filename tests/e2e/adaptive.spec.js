@@ -16,8 +16,8 @@ test.describe("IGNITE adaptive experience",()=>{
   test("vibe selector updates preferences and adaptive state",async({page})=>{
     await enter(page);
     await page.getByRole("button",{name:"Profile"}).click();
-    await page.getByRole("button",{name:"Settings"}).click();
-    await page.getByRole("button",{name:"Journey Preferences"}).click();
+    await page.getByRole("button",{name:"Play"}).click();
+    await page.getByRole("button",{name:"Journey Preferences",exact:true}).click();
     await page.getByRole("button",{name:"Playful",exact:true}).click();
     const state=await page.evaluate(()=>({
       preferences:JSON.parse(localStorage.getItem("ignite-preferences-v1")||"{}"),
