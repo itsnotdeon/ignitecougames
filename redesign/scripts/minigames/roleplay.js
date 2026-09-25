@@ -1,4 +1,4 @@
-import {allRoleplayNormalRoles,allRoleplayDarkRoles,roleplayCustomItems,roleplayCustomItemsExplicit} from "../data/topics.js?v=20260925-19";
+import {allRoleplayNormalRoles,allRoleplayDarkRoles,roleplayCustomItems,roleplayCustomItemsExplicit} from "../data/topics.js?v=20260925-20";
 
 function customRolePool(items){
   const groups=new Map();
