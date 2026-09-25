@@ -413,6 +413,11 @@
         "Buat penghargaan lucu untuk pasangan dan serahkan secara resmi.",
         "Ajak pasangan melakukan hitung mundur bersama lalu saling tos."
       ]
+    },
+    {
+      "id": 22,
+      "name": "After Dark",
+      "topics": []
     }
   ],
   "ksCommands": [
