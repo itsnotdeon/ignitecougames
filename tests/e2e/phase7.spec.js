@@ -21,8 +21,8 @@ test.describe("IGNITE memories and preferences",()=>{
   test("Preferences persist",async({page})=>{
     await enter(page);
     await page.getByRole("button",{name:"Profile",exact:true}).click();
-    await page.getByRole("button",{name:"Settings",exact:true}).click();
-    await page.getByRole("button",{name:"Journey Preferences"}).click();
+    await page.getByRole("button",{name:"Play",exact:true}).click();
+    await page.getByRole("button",{name:"Journey Preferences",exact:true}).click();
     await page.getByRole("button",{name:"Spontaneous",exact:true}).click();
     await page.locator('select[name="duration"]').selectOption("long");
     await page.locator('select[name="intensity"]').selectOption("bold");
@@ -36,7 +36,7 @@ test.describe("IGNITE memories and preferences",()=>{
   test("Dynamic Journey is reachable from Settings",async({page})=>{
     await enter(page);
     await page.getByRole("button",{name:"Profile",exact:true}).click();
-    await page.getByRole("button",{name:"Settings",exact:true}).click();
+    await page.getByRole("button",{name:"Play",exact:true}).click();
     await page.getByRole("button",{name:"Build Dynamic Journey"}).click();
     await expect(page.getByRole("heading",{name:"Normal Journey",exact:true})).toBeVisible();
   });
