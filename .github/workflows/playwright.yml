@@ -2,9 +2,9 @@ name: Playwright E2E
 
 on:
   push:
-    branches: ["main", "redesign/guided-journey", "redesign/mockup-v1"]
+    branches: ["main"]
   pull_request:
-    branches: ["main", "redesign/guided-journey", "redesign/mockup-v1"]
+    branches: ["main"]
   workflow_dispatch:
 
 jobs:
