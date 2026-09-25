@@ -9,6 +9,12 @@ import {recordMemorySaved,recordOneMore} from "./progression.js?v=20260925-16";
 import {initAccessibility} from "./ui/accessibility.js?v=20260925-15";
 
 const STORAGE_KEY="ignite-redesign-v4";
+const TOPIC_CLEAR_VERSION="20260926-clear-all-topics";
+function clearAllTopicStorageOnce(){
+  if(localStorage.getItem(TOPIC_CLEAR_VERSION)==="done")return;
+  ["ignite-active-content-v1","ignite-active-topics-v1","ignite-custom-topics-v1","ignite-content-v1"].forEach(k=>localStorage.removeItem(k));
+  localStorage.setItem(TOPIC_CLEAR_VERSION,"done");
+}
 const state={names:{p1:"",p2:"",couple:""},relationship:"Couple",relationshipSince:null,currentJourney:null,step:0,view:"home",mode:"normal"};
 const journeys={
  normal:{id:"normal",title:"Normal Journey",subtitle:"Talk, play, and get a little closer.",mood:"Romantic · Playful · Warm",steps:[
@@ -209,7 +215,7 @@ app.addEventListener("click",function(e){
  const g=e.target.closest("[data-bond-goal]");if(g){const s=readBond(),i=Number(g.dataset.bondGoal);if(s.goals[i])s.goals[i].done=g.checked;writeBond(s);renderBond()}
 });
 app.addEventListener("submit",function(e){if(e.target.matches("#name-form,#settings-form")){e.preventDefault();saveNames(e.target);return}if(e.target.matches("#topic-form")){e.preventDefault();const data=new FormData(e.target),category=String(data.get("category")||"normalCards"),textValue=String(data.get("text")||"").trim();if(!textValue)return;const topics=readEditableTopics();if(!topics[category].includes(textValue)){topics[category].push(textValue);saveEditableTopics(topics)}renderTopics();return}if(e.target.matches("#preferences-form")){e.preventDefault();handlePreferenceSubmit(e.target);setView("settings");return}if(e.target.matches("#bond-goal-form")){e.preventDefault();const s=readBond(),goal=String(new FormData(e.target).get("goal")||"").trim();if(goal){s.goals.unshift({text:goal,done:false});writeBond(s)}renderBond();return}if(e.target.matches("#memory-form")){e.preventDefault();const form=e.target,data=new FormData(form),moment=String(data.get("moment")||"A moment together").trim(),note=String(data.get("note")||"").trim(),file=form.querySelector("input[name=photo]")?.files?.[0];const finish=photo=>{saveMemory({journey:state.currentJourney?.title||"Manual Memory",xp:getProgress().xp,moment,note,photo:photo||""});recordMemorySaved();recordInteraction("memory-save");setView("memories")};if(file&&file.size>1024*1024){alert("Photo terlalu besar. Gunakan foto maksimal 1 MB.");return}if(file){const reader=new FileReader();reader.onload=()=>finish(String(reader.result||""));reader.readAsDataURL(file)}else finish("")}});
-load();if(!sessionStorage.getItem("ignite-welcome-seen")){state.view="welcome"}else if(!state.names.p1.trim()||!state.names.p2.trim()){state.view="names"}else if(state.view==="names"){state.view="home"}initAccessibility(app);render();
+clearAllTopicStorageOnce();load();if(!sessionStorage.getItem("ignite-welcome-seen")){state.view="welcome"}else if(!state.names.p1.trim()||!state.names.p2.trim()){state.view="names"}else if(state.view==="names"){state.view="home"}initAccessibility(app);render();
 
 const CONTENT_KEY="ignite-content-v1";const CUSTOM_TOPICS_KEY="ignite-custom-topics-v1";
 function defaultContent(){return{normalCards:[...starterNormalCards],truth:[...starterTruth],dare:[...starterDare],explicitCards:[...starterExplicitCards],intimateTruth:[...starterIntimateTruth],intimateDare:[...starterIntimateDare]}}
@@ -244,6 +250,8 @@ app.addEventListener("click",e=>{
    if(b.dataset.contentAction==="reset-content"&&confirm("Reset local content additions?")){
      localStorage.removeItem(CONTENT_KEY);
      localStorage.removeItem(CUSTOM_TOPICS_KEY);
+     localStorage.removeItem("ignite-active-content-v1");
+     localStorage.removeItem("ignite-active-topics-v1");
      localStorage.removeItem("ignite-active-topics-v1");
      renderContentManager();
    }
