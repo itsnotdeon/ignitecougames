@@ -1,7 +1,7 @@
 import {allKingNormalCommands,allKingDarkCommands} from "../data/topics.js?v=20260925-20";
 
-const NORMAL = allKingNormalCommands;
-const DARK = allKingDarkCommands;
+const ACTIVE_KEY="ignite-active-content-v1";
+function poolForMode(mode){try{const raw=JSON.parse(localStorage.getItem(ACTIVE_KEY)||"null");const list=raw?.[mode==="dark"?"kingDark":"kingNormal"];if(Array.isArray(list)&&list.length)return list}catch{}return mode==="dark"?allKingDarkCommands:allKingNormalCommands}
 
 const POWERS = [
   { id: "pc1", name: "Titah Ganda", icon: "P1", desc: "Ambil satu Command Card tambahan pada ronde ini." },
@@ -60,7 +60,7 @@ function escapeHtml(value) {
 }
 
 function pool(state) {
-  return state.mode === "dark" ? DARK : NORMAL;
+  return poolForMode(state.mode);
 }
 
 function playerName(names, index) {
