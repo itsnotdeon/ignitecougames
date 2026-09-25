@@ -28,3 +28,10 @@ jobs:
           name: playwright-report
           path: playwright-report/
           if-no-files-found: ignore
+      - name: Upload Playwright test results on failure
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: playwright-test-results
+          path: test-results/
+          if-no-files-found: ignore
