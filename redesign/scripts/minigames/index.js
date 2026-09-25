@@ -39,8 +39,8 @@ export function minigameAction(action,value){
    state.king.rollStarted=true;
    state.king.rollP1=1+Math.floor(Math.random()*6);
    state.king.rollP2=1+Math.floor(Math.random()*6);
-   kingAction(state.king,"roll");
    state.king.rolling=false;
+   kingAction(state.king,"roll");
    renderActiveGame();
   }else if(action==="ks-draw")kingAction(state.king,"draw");else if(action==="ks-choose")kingAction(state.king,"choose",value);else if(action==="ks-draw-again")kingAction(state.king,"draw-again");else if(action==="ks-power")kingAction(state.king,"power",value);else if(action==="ks-respond")kingAction(state.king,"respond",value);else if(action==="ks-mode")kingAction(state.king,"mode");else if(action==="ks-reset")kingAction(state.king,"reset");else if(action==="ks-power-open"){state.king.__powerOpen=true}else if(action==="ks-power-close"){state.king.__powerOpen=false}else if(action==="ks-choice-close"){state.king.chooseOpen=false}return}
  if(state.active==="chess"){if(action==="chess-square")chessClick(state.chess,Number(value));else if(action==="chess-undo")chessUndo(state.chess);else if(action==="chess-reset")state.chess=createChessState();return}
