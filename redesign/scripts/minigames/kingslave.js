@@ -1,4 +1,4 @@
-import {allKingNormalCommands,allKingDarkCommands} from "../data/topics.js?v=20260925-20";
+import {allKingNormalCommands,allKingDarkCommands} from "../data/topics.js?v=20260926-01";
 
 const ACTIVE_KEY="ignite-active-content-v1";
 function poolForMode(mode){try{const raw=JSON.parse(localStorage.getItem(ACTIVE_KEY)||"null");const list=raw?.[mode==="dark"?"kingDark":"kingNormal"];if(Array.isArray(list)&&list.length)return list}catch{}return mode==="dark"?allKingDarkCommands:allKingNormalCommands}
