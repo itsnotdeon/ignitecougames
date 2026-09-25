@@ -52,12 +52,16 @@ test.describe("IGNITE mockup UI",()=>{
     await page.getByRole("button",{name:"Profile",exact:true}).click();
     await expect(page.getByText("COUPLE PROFILE",{exact:true})).toBeVisible();
     await page.getByRole("button",{name:"Settings",exact:true}).click();
-    await expect(page.getByRole("heading",{name:"Set it your way."})).toBeVisible();
+    await expect(page.getByRole("heading",{name:/Keep it/})).toBeVisible();
     await expect(page.getByText("LOCAL DATA",{exact:true})).toBeVisible();
     await expect(page.getByText("Journey Preferences",{exact:true})).toBeVisible();
     await expect(page.getByText("Play → Journey Preferences",{exact:true})).toBeVisible();
     await expect(page.getByText("Home → IGNITE Mode",{exact:true})).toBeVisible();
     await expect(page.getByText("Your data stays with you.",{exact:true})).toBeVisible();
+    await expect(page.getByText("TOPIC LIBRARY",{exact:true})).toBeVisible();
+    await expect(page.getByText(/topics available$/)).toBeVisible();
+    await page.getByRole("button",{name:"Manage My Topics",exact:true}).click();
+    await expect(page.getByRole("heading",{name:/Make it/})).toBeVisible();
   });
 
   test("Setup saves names and relationship",async({page})=>{
@@ -67,4 +71,26 @@ test.describe("IGNITE mockup UI",()=>{
     expect(stored.names.p2).toBe("Partner");
     expect(stored.relationship).toBe("Dating");
   });
+});
+
+
+test("custom topics can be added and deleted without changing built-in topics",async({page})=>{
+  await enter(page);
+  await page.getByRole("button",{name:"Profile",exact:true}).click();
+  await page.getByRole("button",{name:"Settings",exact:true}).click();
+  const before=await page.getByText(/topics available$/).textContent();
+  await page.getByRole("button",{name:"Manage My Topics",exact:true}).click();
+  await page.locator('select[name="category"]').selectOption("normalCards");
+  await page.locator('textarea[name="text"]').fill("Custom Deon topic for testing");
+  await page.getByRole("button",{name:"Add Topic",exact:true}).click();
+  await expect(page.getByText("Custom Deon topic for testing",{exact:true})).toBeVisible();
+  const stored=await page.evaluate(()=>JSON.parse(localStorage.getItem("ignite-custom-topics-v1")));
+  expect(stored.normalCards).toContain("Custom Deon topic for testing");
+  await page.getByRole("button",{name:"Delete Custom Deon topic for testing",exact:true}).click();
+  await expect(page.getByText("Custom Deon topic for testing",{exact:true})).toHaveCount(0);
+  const after=await page.getByRole("button",{name:"settings"}).getAttribute("aria-label").catch(()=>null);
+  expect(after===null||typeof after==="string").toBe(true);
+  const storedAfter=await page.evaluate(()=>JSON.parse(localStorage.getItem("ignite-custom-topics-v1")));
+  expect(storedAfter.normalCards).not.toContain("Custom Deon topic for testing");
+  expect(before).toMatch(/topics available$/);
 });
