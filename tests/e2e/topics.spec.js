@@ -1,6 +1,6 @@
 const {test,expect}=require("@playwright/test");
 
-test("topic expansion adds 25 unique entries to every category",async({page})=>{
+test("topic expansion adds 45 unique entries to every category",async({page})=>{
   await page.goto("");
   const result=await page.evaluate(async()=>{
     const m=await import("/redesign/scripts/data/topics.js?v=20260925-19");
@@ -26,11 +26,11 @@ test("topic expansion adds 25 unique entries to every category",async({page})=>{
     };
   });
   for(const item of result.checks){
-    expect(item.added,item.name).toBe(25);
+    expect(item.added,item.name).toBe(45);
     expect(item.unique,item.name).toBe(true);
   }
-  expect(result.roleplayNormal.added).toBe(25);
+  expect(result.roleplayNormal.added).toBe(45);
   expect(result.roleplayNormal.unique).toBe(true);
-  expect(result.roleplayDark.added).toBe(25);
+  expect(result.roleplayDark.added).toBe(45);
   expect(result.roleplayDark.unique).toBe(true);
 });
