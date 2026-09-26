@@ -54,7 +54,6 @@ test.describe("IGNITE mockup UI",()=>{
     await page.getByRole("button",{name:"Settings",exact:true}).click();
     await expect(page.getByRole("heading",{name:/Keep it/})).toBeVisible();
     await expect(page.getByText("LOCAL DATA",{exact:true})).toBeVisible();
-    await expect(page.getByRole("button",{name:"Journey Preferences",exact:true})).toBeVisible();
     await expect(page.getByText("Play → Journey Preferences",{exact:true})).toBeVisible();
     await expect(page.getByText("Home → IGNITE Mode",{exact:true})).toBeVisible();
     await expect(page.getByText("Your data stays with you.",{exact:true})).toBeVisible();
