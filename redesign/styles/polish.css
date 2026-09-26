@@ -55,3 +55,78 @@
 .settings-data-v1 .content-actions .btn{flex:1 1 150px}
 @media(max-width:390px){.settings-data-v1 .content-actions{display:grid;grid-template-columns:1fr}.settings-data-v1 .content-actions .btn{width:100%}}
 @media(prefers-reduced-motion:reduce){.journey-generating-orb,.journey-loader span{animation:none}}
+
+
+/* ---------- 2026-09-27 UI/UX system hardening ---------- */
+:root{
+  --touch:44px;
+  --safe-top:env(safe-area-inset-top,0px);
+  --safe-right:env(safe-area-inset-right,0px);
+  --safe-bottom:env(safe-area-inset-bottom,0px);
+  --safe-left:env(safe-area-inset-left,0px);
+}
+html{scroll-behavior:smooth;scroll-padding-top:24px}
+body{overflow-x:hidden;min-width:280px;-webkit-text-size-adjust:100%}
+button,input,select,textarea{touch-action:manipulation}
+button{min-width:0}
+.app-shell{padding-top:max(24px,var(--safe-top));padding-right:max(18px,var(--safe-right));padding-bottom:max(40px,var(--safe-bottom));padding-left:max(18px,var(--safe-left))}
+.field input,.field select,.field textarea,.memory-form textarea{font-size:16px}
+.field select{width:100%;min-height:48px;border:1px solid var(--line);background:var(--surface);color:var(--text);border-radius:14px;padding:12px 13px;outline:none}
+.field select:focus{border-color:var(--gold);outline:2px solid transparent}
+.btn{min-height:var(--touch);display:inline-flex;align-items:center;justify-content:center;gap:7px;line-height:1.2}
+.btn:focus-visible,.choice:focus-visible,.bottom-nav-item:focus-visible{outline:3px solid var(--gold);outline-offset:2px}
+.bottom-nav{padding-bottom:max(10px,var(--safe-bottom));padding-left:max(10px,var(--safe-left));padding-right:max(10px,var(--safe-right))}
+.session{min-height:calc(100dvh - 64px);padding-bottom:max(18px,var(--safe-bottom))}
+.session-card{width:100%;max-width:520px;margin:auto auto 0}
+.session-actions{position:sticky;bottom:max(10px,var(--safe-bottom));z-index:8;padding-top:10px}
+.session-actions:before{content:"";position:absolute;inset:0 -8px -8px;background:linear-gradient(180deg,transparent,rgba(16,7,12,.96) 35%);z-index:-1;pointer-events:none}
+.reveal-card{font-size:clamp(22px,6vw,30px);overflow-wrap:anywhere;word-break:break-word}
+.choice-grid{min-width:0}
+.choice-grid .btn{min-width:0}
+.journey-steps-control{padding:4px 2px 0}
+.journey-steps-slider{appearance:none;height:34px;background:transparent}
+.journey-steps-slider::-webkit-slider-runnable-track{height:6px;border-radius:999px;background:linear-gradient(90deg,var(--rose),var(--gold))}
+.journey-steps-slider::-moz-range-track{height:6px;border-radius:999px;background:linear-gradient(90deg,var(--rose),var(--gold))}
+.journey-steps-slider::-webkit-slider-thumb{appearance:none;width:28px;height:28px;margin-top:-11px;border-radius:50%;border:3px solid var(--text);background:var(--rose);box-shadow:0 4px 16px rgba(0,0,0,.35)}
+.journey-steps-slider::-moz-range-thumb{width:28px;height:28px;border-radius:50%;border:3px solid var(--text);background:var(--rose);box-shadow:0 4px 16px rgba(0,0,0,.35)}
+.journey-steps-scale span{min-width:24px;text-align:center}
+.preference-grid .choice{min-height:48px}
+.play-v1,.home-v1,.profile-v1,.memories-v1,.settings-v1,.bond-v1{min-width:0;overflow-wrap:anywhere}
+.play-v1-hero,.home-couple-hero,.profile-v1-hero,.memories-v1-hero,.settings-v1-hero{max-width:100%}
+.play-spotlight{display:grid;grid-template-columns:minmax(0,1fr) auto;align-items:center;gap:16px}
+.play-spotlight>div{min-width:0}
+.play-spotlight .btn{white-space:nowrap}
+.settings-links{display:grid;gap:8px}
+.content-category-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px;margin:12px 0}
+.content-category-grid .btn{font-size:11px;padding:10px 8px}
+.topics-library-actions{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.topic-custom-row{min-width:0}
+.topic-custom-row>span{min-width:0;overflow-wrap:anywhere}
+.topic-custom-row .btn{flex:0 0 auto}
+.role-scene-form{display:grid;gap:8px;padding:12px 0}
+.role-scene-form input,.role-scene-form textarea,.topics-add-form textarea,.topics-add-form input{width:100%;border:1px solid var(--line);background:var(--surface);color:var(--text);border-radius:14px;padding:12px 13px;font:inherit;font-size:16px;outline:none}
+.role-scene-form input:focus,.role-scene-form textarea:focus,.topics-add-form textarea:focus,.topics-add-form input:focus{border-color:var(--gold);outline:2px solid transparent}
+.topic-group-v1 summary{min-height:48px;align-items:center}
+.journey-generating{min-height:100dvh;padding:max(32px,var(--safe-top)) max(22px,var(--safe-right)) max(32px,var(--safe-bottom)) max(22px,var(--safe-left))}
+.journey-generating small{color:var(--muted);max-width:320px;line-height:1.5}
+.complete-shell,.intro-shell{min-height:calc(100dvh - 24px);padding-bottom:max(18px,var(--safe-bottom))}
+.memory-item img{display:block;width:100%;height:auto;max-height:420px;object-fit:cover;border-radius:16px;margin-top:12px}
+@media(max-width:520px){
+  .play-spotlight{grid-template-columns:1fr}
+  .play-spotlight .btn{width:100%}
+}
+@media(max-width:390px){
+  .content-category-grid{grid-template-columns:1fr}
+  .topics-library-actions{grid-template-columns:1fr}
+  .session-actions{gap:8px}
+  .session-actions .btn{padding-inline:12px}
+}
+@media(min-width:700px){
+  .app-shell{width:min(100%,620px)}
+  .experience-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
+}
+@media(prefers-reduced-motion:reduce){
+  html{scroll-behavior:auto}
+  .btn,.experience-card,.journey-entry{transition:none!important}
+  .journey-generating-orb,.journey-loader span{animation:none!important}
+}
