@@ -46,6 +46,21 @@ test.describe("Journey Preferences and dynamic generation",()=>{
     await expect(page.getByText(/intensity/i)).toHaveCount(0);
   });
 
+
+  test("direct Journey start uses the saved step count",async({page})=>{
+    await enter(page);
+    await openPreferences(page);
+    await page.locator('input[name="steps"]').fill("7");
+    await page.getByRole("button",{name:"Save Preferences",exact:true}).click();
+    await page.getByRole("button",{name:"Home",exact:true}).click();
+    await page.getByRole("button",{name:"Start Something →",exact:true}).click();
+    await expect(page.getByText("BUILDING YOUR JOURNEY",{exact:true})).toBeVisible();
+    await expect(page.getByText(/IGNITE sedang menyusun 7 steps/)).toBeVisible();
+    await expect(page.getByRole("heading",{name:"Normal Journey"})).toBeVisible();
+    const stored=await page.evaluate(()=>JSON.parse(localStorage.getItem("ignite-redesign-v4")));
+    expect(stored.currentJourney.steps).toHaveLength(7);
+  });
+
   test("engine generates exactly 3 requested steps",async({page})=>{
     await enter(page);
     const stored=await buildWithSteps(page,3,"Playful");
