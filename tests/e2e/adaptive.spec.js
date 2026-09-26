@@ -61,6 +61,8 @@ test.describe("IGNITE adaptive experience",()=>{
 test("progression records a daily rhythm without inflating on the same day",async({page})=>{
   await enter(page);
   await page.getByRole("button",{name:/Start Something/}).click();
+  await expect(page.getByText("BUILDING YOUR JOURNEY",{exact:true})).toBeVisible();
+  await expect.poll(async()=>page.evaluate(()=>JSON.parse(localStorage.getItem("ignite-progression-v1")||"{}").stats?.currentStreak||0)).toBe(1);
   const result=await page.evaluate(()=>{
     const p=JSON.parse(localStorage.getItem("ignite-progression-v1")||"{}");
     return {streak:p.stats?.currentStreak,longest:p.stats?.longestStreak,last:p.stats?.lastActiveDate};
