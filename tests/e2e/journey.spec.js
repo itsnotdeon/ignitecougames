@@ -35,13 +35,25 @@ test("Normal Journey exposes card and Truth or Dare mechanics",async({page})=>{
  const generated=await page.evaluate(()=>JSON.parse(localStorage.getItem("ignite-redesign-v4")||"{}").currentJourney);
  expect(generated.steps.map(s=>s.title)).toEqual(expect.arrayContaining(["Talk Card","Truth or Dare"]));
 
- for(let i=0;i<6 && !(await page.getByText("Talk Card",{exact:true}).count());i++) await page.getByRole("button",{name:"Skip"}).click();
+ const generated=await page.evaluate(()=>JSON.parse(localStorage.getItem("ignite-redesign-v4")||"{}").currentJourney);
+ const cardIndex=generated.steps.findIndex(s=>s.title==="Talk Card");
+ const rpsIndex=generated.steps.findIndex(s=>s.title==="Change the Energy");
+ expect(cardIndex).toBeGreaterThan(0);
+ expect(rpsIndex).toBeGreaterThan(0);
+
+ for(let i=0;i<cardIndex;i++){
+   await expect.poll(async()=>JSON.parse(await page.evaluate(()=>localStorage.getItem("ignite-redesign-v4")||"{}")).step).toBe(i);
+   await page.getByRole("button",{name:"Skip"}).click();
+ }
  await expect(page.getByText("Talk Card",{exact:true})).toBeVisible();
  await page.getByText("Tap to reveal").click();
  await expect(page.locator(".reveal-card")).toContainText(/./);
  await page.getByRole("button",{name:"Continue →"}).click();
 
- for(let i=0;i<6 && !(await page.getByText("Change the Energy",{exact:true}).count());i++) await page.getByRole("button",{name:"Skip"}).click();
+ for(let i=cardIndex+1;i<rpsIndex;i++){
+   await expect.poll(async()=>JSON.parse(await page.evaluate(()=>localStorage.getItem("ignite-redesign-v4")||"{}")).step).toBe(i);
+   await page.getByRole("button",{name:"Skip"}).click();
+ }
  await expect(page.getByText("Change the Energy",{exact:true})).toBeVisible();
  await page.getByRole("button",{name:"Batu"}).click();
  await page.getByRole("button",{name:"Kertas"}).click();
