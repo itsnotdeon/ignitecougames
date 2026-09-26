@@ -46,3 +46,12 @@
 @media(max-width:390px){
   #app .play-v1 .mini-grid{grid-template-columns:1fr 1fr}
 }
+
+/* ---------- 2026-09-27 UI/UX hardening ---------- */
+.btn{min-height:44px}
+.profile-chip,.ks-back,.ks-reset,.ks-mode-switch,.ks-sheet-close{min-height:44px}
+.journey-roleplay{display:grid;gap:14px}
+.journey-roleplay .game-active{margin-top:0}
+.settings-data-v1 .content-actions .btn{flex:1 1 150px}
+@media(max-width:390px){.settings-data-v1 .content-actions{display:grid;grid-template-columns:1fr}.settings-data-v1 .content-actions .btn{width:100%}}
+@media(prefers-reduced-motion:reduce){.journey-generating-orb,.journey-loader span{animation:none}}
