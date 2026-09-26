@@ -9,15 +9,17 @@ async function enter(page){
  await page.getByRole("button",{name:/Start Our Journey/}).click();
  await expect(page.getByText("YOUR SPACE FOR TWO")).toBeVisible();
 }
-async function setupJourney(page,mode="normal"){
+async function setupJourney(page,mode="normal",steps=6){
  await enter(page);
  if(mode==="dark") await page.getByRole("button",{name:"After Dark",exact:true}).click();
  await page.getByRole("button",{name:"Play",exact:true}).click();
+ await page.getByRole("button",{name:"Journey Preferences",exact:true}).click();
+ await page.locator('input[name="steps"]').fill(String(steps));
+ await page.getByRole("button",{name:"Save Preferences",exact:true}).click();
  await page.getByRole("button",{name:"Start Journey →"}).click();
  await expect(page.getByRole("heading",{name:mode==="dark"?"After Dark":"Normal Journey",exact:true})).toBeVisible();
  await page.getByRole("button",{name:/Begin Journey/}).click();
 }
-
 test("Normal Journey can complete",async({page})=>{
  await setupJourney(page);
  await expect(page.getByText("Warm Up")).toBeVisible();
