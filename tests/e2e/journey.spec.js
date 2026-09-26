@@ -35,9 +35,9 @@ test("Normal Journey exposes card and Truth or Dare mechanics",async({page})=>{
  const generated=await page.evaluate(()=>JSON.parse(localStorage.getItem("ignite-redesign-v4")||"{}").currentJourney);
  expect(generated.steps.map(s=>s.title)).toEqual(expect.arrayContaining(["Talk Card","Truth or Dare"]));
  const cardIndex=generated.steps.findIndex(s=>s.title==="Talk Card");
- const rpsIndex=generated.steps.findIndex(s=>s.title==="Change the Energy");
+ const todIndex=generated.steps.findIndex(s=>s.title==="Truth or Dare");
  expect(cardIndex).toBeGreaterThan(0);
- expect(rpsIndex).toBeGreaterThan(0);
+ expect(todIndex).toBeGreaterThan(cardIndex);
 
  for(let i=0;i<cardIndex;i++){
    await expect.poll(async()=>JSON.parse(await page.evaluate(()=>localStorage.getItem("ignite-redesign-v4")||"{}")).step).toBe(i);
@@ -48,15 +48,13 @@ test("Normal Journey exposes card and Truth or Dare mechanics",async({page})=>{
  await expect(page.locator(".reveal-card")).toContainText(/./);
  await page.getByRole("button",{name:"Continue →"}).click();
 
- for(let i=cardIndex+1;i<rpsIndex;i++){
+ for(let i=cardIndex+1;i<todIndex;i++){
    await expect.poll(async()=>JSON.parse(await page.evaluate(()=>localStorage.getItem("ignite-redesign-v4")||"{}")).step).toBe(i);
    await page.getByRole("button",{name:"Skip"}).click();
  }
- await expect(page.getByText("Change the Energy",{exact:true})).toBeVisible();
- await page.getByRole("button",{name:"Batu"}).click();
- await page.getByRole("button",{name:"Kertas"}).click();
- await page.getByRole("button",{name:"Next Round"}).click();
- await expect(page.getByText("Change the Energy",{exact:true})).toBeVisible();
+ await expect(page.getByText("Truth or Dare",{exact:true})).toBeVisible();
+ await page.getByText("Tap to reveal").click();
+ await expect(page.locator(".reveal-card")).toContainText(/./);
 });
 
 test("After Dark requires consent before entering",async({page})=>{
