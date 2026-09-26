@@ -23,7 +23,7 @@ test.describe("IGNITE memories and preferences",()=>{
     await page.getByRole("button",{name:"Play",exact:true}).click();
     await page.getByRole("button",{name:"Journey Preferences",exact:true}).click();
     await page.getByRole("button",{name:"Spontaneous",exact:true}).click();
-    await page.locator('input[name="steps"]').fill("8");
+    await page.locator('input[name="steps"]').evaluate((el)=>{el.value="8";el.dispatchEvent(new Event("input",{bubbles:true}));});
     await page.getByRole("button",{name:"Save Preferences"}).click();
     const stored=await page.evaluate(()=>JSON.parse(localStorage.getItem("ignite-preferences-v1")));
     expect(stored).toEqual({vibes:["Spontaneous"],steps:8});
