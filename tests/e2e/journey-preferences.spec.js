@@ -34,7 +34,7 @@ test.describe("Journey Preferences and dynamic generation",()=>{
     await enter(page);
     await openPreferences(page);
     await page.getByRole("button",{name:"Deep",exact:true}).click();
-    await page.locator('input[name="steps"]').fill("9");
+    await page.locator('input[name="steps"]').evaluate((el)=>{el.value="9";el.dispatchEvent(new Event("input",{bubbles:true}));});
     await page.getByRole("button",{name:"Save Preferences",exact:true}).click();
 
     const stored=await page.evaluate(()=>JSON.parse(localStorage.getItem("ignite-preferences-v1")));
@@ -49,7 +49,7 @@ test.describe("Journey Preferences and dynamic generation",()=>{
   test("direct Journey start uses the saved step count",async({page})=>{
     await enter(page);
     await openPreferences(page);
-    await page.locator('input[name="steps"]').fill("7");
+    await page.locator('input[name="steps"]').evaluate((el)=>{el.value="7";el.dispatchEvent(new Event("input",{bubbles:true}));});
     await page.getByRole("button",{name:"Save Preferences",exact:true}).click();
     await page.getByRole("button",{name:"Home",exact:true}).click();
     await page.locator('[data-action="start"][data-journey="normal"]').click();
