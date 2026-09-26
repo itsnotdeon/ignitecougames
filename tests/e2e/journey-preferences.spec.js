@@ -10,8 +10,7 @@ async function enter(page,p1="Ariel",p2="Fe"){
 }
 
 async function openPreferences(page){
-  await page.getByRole("button",{name:"Profile",exact:true}).click();
-  await page.getByRole("button",{name:"Settings",exact:true}).click();
+  await page.getByRole("button",{name:"Play",exact:true}).click();
   await page.getByRole("button",{name:"Journey Preferences",exact:true}).click();
   await expect(page.getByRole("heading",{name:"How do you want to connect?"})).toBeVisible();
 }
@@ -40,7 +39,7 @@ test.describe("Journey Preferences and dynamic generation",()=>{
 
     const stored=await page.evaluate(()=>JSON.parse(localStorage.getItem("ignite-preferences-v1")));
     expect(stored).toEqual({vibes:["Deep"],steps:9});
-    await page.getByRole("button",{name:"Journey Preferences",exact:true}).click();
+    await openPreferences(page);
     await expect(page.locator('input[name="steps"]')).toHaveValue("9");
     await expect(page.getByRole("button",{name:"Deep",exact:true})).toHaveAttribute("aria-pressed","true");
     await expect(page.getByText(/intensity/i)).toHaveCount(0);
@@ -52,7 +51,7 @@ test.describe("Journey Preferences and dynamic generation",()=>{
     await openPreferences(page);
     await page.locator('input[name="steps"]').fill("7");
     await page.getByRole("button",{name:"Save Preferences",exact:true}).click();
-    await page.locator('[data-action="home"]').click();
+    await page.getByRole("button",{name:"Home",exact:true}).click();
     await page.locator('[data-action="start"][data-journey="normal"]').click();
     await expect(page.getByText("BUILDING YOUR JOURNEY",{exact:true})).toBeVisible();
     await expect(page.getByText(/IGNITE sedang menyusun 7 steps/)).toBeVisible();
