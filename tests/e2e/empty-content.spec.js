@@ -6,7 +6,6 @@ test.describe("Empty content libraries stay safe",()=>{
     const result=await page.evaluate(async()=>{
       const m=await import("./scripts/minigames/roleplay.js?v=20260926-03");
       localStorage.setItem("ignite-active-content-v1",JSON.stringify({roleplayNormal:[],roleplayDark:[]}));
-      expect(JSON.parse(localStorage.getItem("ignite-active-content-v1")).roleplayNormal).toEqual([]);
       const s=m.createRoleplayState();
       m.nextRoleplay(s);
       return {role:s.role,item:s.item,html:m.renderRoleplay(s)};
@@ -21,7 +20,6 @@ test.describe("Empty content libraries stay safe",()=>{
     const result=await page.evaluate(async()=>{
       const m=await import("./scripts/minigames/kingslave.js?v=20260926-03");
       localStorage.setItem("ignite-active-content-v1",JSON.stringify({kingNormal:[],kingDark:[]}));
-      expect(JSON.parse(localStorage.getItem("ignite-active-content-v1")).kingNormal).toEqual([]);
       const s=m.createKingState();
       m.kingAction(s,"consent");
       s.rollP1=6;s.rollP2=1;
