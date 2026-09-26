@@ -46,7 +46,7 @@ test.describe("IGNITE adaptive experience",()=>{
         ]},
         step:0,view:"session",mode:"normal"
       }));
-      localStorage.setItem("ignite-preferences-v1",JSON.stringify({vibes:["Playful"],duration:"medium",intensity:"balanced"}));
+      localStorage.setItem("ignite-preferences-v1",JSON.stringify({vibes:["Playful"],steps:5}));
     });
     await page.reload();
     await expect(page.getByText("Ready for a card")).toBeVisible();
