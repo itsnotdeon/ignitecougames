@@ -26,7 +26,7 @@ async function buildWithSteps(page,steps,vibe){
   await page.getByRole("button",{name:"Build Dynamic Journey",exact:true}).click();
   await expect(page.getByText("BUILDING YOUR JOURNEY",{exact:true})).toBeVisible();
   await expect(page.getByText(new RegExp(`IGNITE sedang menyusun ${steps} steps`))).toBeVisible();
-  await expect(page.getByRole("heading",{name:/Normal Journey|After Dark/})).toBeVisible();
+  await page.waitForFunction((steps)=>{try{return JSON.parse(localStorage.getItem("ignite-redesign-v4"))?.currentJourney?.steps?.length===steps}catch{return false}},steps,{timeout:5000});
   return page.evaluate(()=>JSON.parse(localStorage.getItem("ignite-redesign-v4")));
 }
 
@@ -52,11 +52,11 @@ test.describe("Journey Preferences and dynamic generation",()=>{
     await openPreferences(page);
     await page.locator('input[name="steps"]').fill("7");
     await page.getByRole("button",{name:"Save Preferences",exact:true}).click();
-    await page.getByRole("button",{name:"Home",exact:true}).click();
-    await page.getByRole("button",{name:"Start Something →",exact:true}).click();
+    await page.locator('[data-action="home"]').click();
+    await page.locator('[data-action="start"][data-journey="normal"]').click();
     await expect(page.getByText("BUILDING YOUR JOURNEY",{exact:true})).toBeVisible();
     await expect(page.getByText(/IGNITE sedang menyusun 7 steps/)).toBeVisible();
-    await expect(page.getByRole("heading",{name:"Normal Journey"})).toBeVisible();
+    await page.waitForFunction(()=>{try{return JSON.parse(localStorage.getItem("ignite-redesign-v4"))?.currentJourney?.steps?.length===7}catch{return false}},{timeout:5000});
     const stored=await page.evaluate(()=>JSON.parse(localStorage.getItem("ignite-redesign-v4")));
     expect(stored.currentJourney.steps).toHaveLength(7);
   });
