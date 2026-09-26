@@ -13,3 +13,36 @@
 .journey-steps-slider{width:100%;height:28px;margin:0;accent-color:var(--accent,#e7b7ff);cursor:pointer}
 .journey-steps-slider:focus-visible{outline:2px solid currentColor;outline-offset:4px;border-radius:8px}
 .journey-steps-scale{display:flex;justify-content:space-between;font-size:.72rem;color:var(--muted,#8b8b94);padding:0 2px}
+
+/* ---------- 2026-09-26 Play layout containment fix ---------- */
+/* Keep the Play dashboard as a single vertical flow. Some browser/layout
+   combinations can otherwise resolve its children as narrow grid/flex tracks,
+   which makes the hero, spotlight and personalization cards collapse. */
+#app .play-v1{
+  display:block;
+  width:100%;
+  max-width:100%;
+  min-width:0;
+  box-sizing:border-box;
+}
+#app .play-v1 > *{
+  box-sizing:border-box;
+  min-width:0;
+  max-width:100%;
+}
+#app .play-v1 .play-v1-top,
+#app .play-v1 .play-v1-hero,
+#app .play-v1 .play-spotlight,
+#app .play-v1 .feature-settings,
+#app .play-v1 .journey-history-link,
+#app .play-v1 .section-label,
+#app .play-v1 .mini-grid{
+  width:100%;
+}
+#app .play-v1 .mini-grid{
+  display:grid;
+  grid-template-columns:repeat(2,minmax(0,1fr));
+}
+@media(max-width:390px){
+  #app .play-v1 .mini-grid{grid-template-columns:1fr 1fr}
+}
