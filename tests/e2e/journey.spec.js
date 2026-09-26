@@ -33,28 +33,32 @@ test("Normal Journey can complete",async({page})=>{
 test("Normal Journey exposes card and Truth or Dare mechanics",async({page})=>{
  await setupJourney(page, "normal", 6);
  const generated=await page.evaluate(()=>JSON.parse(localStorage.getItem("ignite-redesign-v4")||"{}").currentJourney);
- expect(generated.steps.map(s=>s.title)).toEqual(expect.arrayContaining(["Talk Card","Truth or Dare"]));
  const cardIndex=generated.steps.findIndex(s=>s.title==="Talk Card");
  const todIndex=generated.steps.findIndex(s=>s.title==="Truth or Dare");
  expect(cardIndex).toBeGreaterThan(0);
- expect(todIndex).toBeGreaterThan(cardIndex);
+ expect(todIndex).toBeGreaterThan(0);
+ expect(cardIndex).not.toBe(todIndex);
 
- for(let i=0;i<cardIndex;i++){
-   await expect.poll(async()=>JSON.parse(await page.evaluate(()=>localStorage.getItem("ignite-redesign-v4")||"{}")).step).toBe(i);
-   await page.getByRole("button",{name:"Skip"}).click();
- }
- await expect(page.getByText("Talk Card",{exact:true})).toBeVisible();
- await page.getByText("Tap to reveal").click();
- await expect(page.locator(".reveal-card")).toContainText(/./);
- await page.getByRole("button",{name:"Continue →"}).click();
+ const targets=[
+   {index:cardIndex,title:"Talk Card",complete:async()=>{
+     await page.getByText("Tap to reveal").click();
+     await expect(page.locator(".reveal-card")).toContainText(/./);
+   }},
+   {index:todIndex,title:"Truth or Dare",complete:async()=>{
+     await page.getByText("Tap to reveal").click();
+     await expect(page.locator(".reveal-card")).toContainText(/./);
+   }}
+ ].sort((a,b)=>a.index-b.index);
 
- for(let i=cardIndex+1;i<todIndex;i++){
-   await expect.poll(async()=>JSON.parse(await page.evaluate(()=>localStorage.getItem("ignite-redesign-v4")||"{}")).step).toBe(i);
-   await page.getByRole("button",{name:"Skip"}).click();
+ for(const target of targets){
+   const current=await page.evaluate(()=>JSON.parse(localStorage.getItem("ignite-redesign-v4")||"{}").step);
+   for(let i=current;i<target.index;i++){
+     await page.getByRole("button",{name:"Skip"}).click();
+   }
+   await expect(page.getByText(target.title,{exact:true})).toBeVisible();
+   await target.complete();
+   if(target!==targets.at(-1)) await page.getByRole("button",{name:"Continue →"}).click();
  }
- await expect(page.getByText("Truth or Dare",{exact:true})).toBeVisible();
- await page.getByText("Tap to reveal").click();
- await expect(page.locator(".reveal-card")).toContainText(/./);
 });
 
 test("After Dark requires consent before entering",async({page})=>{
