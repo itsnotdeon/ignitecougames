@@ -26,7 +26,7 @@ async function buildWithSteps(page,steps,vibe){
   await page.getByRole("button",{name:"Build Dynamic Journey",exact:true}).click();
   await expect(page.getByText("BUILDING YOUR JOURNEY",{exact:true})).toBeVisible();
   await expect(page.getByText(new RegExp(`IGNITE sedang menyusun ${steps} steps`))).toBeVisible();
-  await expect(page.getByText("YOUR SPACE FOR TWO")).toBeVisible();
+  await expect(page.getByRole("heading",{name:/Normal Journey|After Dark/})).toBeVisible();
   return page.evaluate(()=>JSON.parse(localStorage.getItem("ignite-redesign-v4")));
 }
 
