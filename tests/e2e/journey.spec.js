@@ -34,8 +34,6 @@ test("Normal Journey exposes card and Truth or Dare mechanics",async({page})=>{
  await setupJourney(page, "normal", 6);
  const generated=await page.evaluate(()=>JSON.parse(localStorage.getItem("ignite-redesign-v4")||"{}").currentJourney);
  expect(generated.steps.map(s=>s.title)).toEqual(expect.arrayContaining(["Talk Card","Truth or Dare"]));
-
- const generated=await page.evaluate(()=>JSON.parse(localStorage.getItem("ignite-redesign-v4")||"{}").currentJourney);
  const cardIndex=generated.steps.findIndex(s=>s.title==="Talk Card");
  const rpsIndex=generated.steps.findIndex(s=>s.title==="Change the Energy");
  expect(cardIndex).toBeGreaterThan(0);
