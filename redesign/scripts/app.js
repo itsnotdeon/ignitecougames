@@ -155,7 +155,7 @@ function renderComplete(){const l=getLevelInfo(getProgress().xp);app.innerHTML='
 function renderMinigames(){
  const active=state.__minigameActive;
  const body=active?minigameView(state.names):renderMinigameMenu(state.mode);
- let html='<section class="play-v1">'+(active?'': '<div class="play-v1-top"><div></div><div><div class="brand">PLAY</div><span>CHOOSE YOUR MOMENT</span></div><div></div>');
+ let html='<section class="play-v1">'+(active?'': '<div class="play-v1-top"><div></div><div><div class="brand">PLAY</div><span>CHOOSE YOUR MOMENT</span></div><div></div></div>');
  if(!active){
   const dark=state.mode==="dark";
   const level=getLevelInfo(getProgress().xp).level;
