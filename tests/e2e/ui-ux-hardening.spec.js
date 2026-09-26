@@ -13,15 +13,19 @@ async function boot(page){
 }
 
 test.describe("UI/UX hardening",()=>{
-  test("home vibe behaves as a single-choice control",async({page})=>{
+  test("Journey Preferences behaves as a single-choice control",async({page})=>{
     await boot(page);
+    await page.getByRole("button",{name:"Play",exact:true}).click();
+    await page.getByRole("button",{name:"Journey Preferences",exact:true}).click();
     const deep=page.getByRole("button",{name:"Deep",exact:true});
     const romantic=page.getByRole("button",{name:"Romantic",exact:true});
     await deep.click();
     await expect(deep).toHaveAttribute("aria-pressed","true");
     await expect(romantic).toHaveAttribute("aria-pressed","false");
-    const primary=page.locator('[data-vibe-home].primary');
-    await expect(primary).toHaveCount(1);
+    await romantic.click();
+    await expect(romantic).toHaveAttribute("aria-pressed","true");
+    await expect(deep).toHaveAttribute("aria-pressed","false");
+    await expect(page.locator('[data-vibe].primary')).toHaveCount(1);
   });
 
   test("settings backup controls are wired and reset asks for confirmation",async({page})=>{
