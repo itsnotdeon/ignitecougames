@@ -31,17 +31,22 @@ test("Normal Journey can complete",async({page})=>{
 });
 
 test("Normal Journey exposes card and Truth or Dare mechanics",async({page})=>{
- await setupJourney(page);
- await page.getByRole("button",{name:"Skip"}).click();
- await expect(page.getByText("Talk Card")).toBeVisible();
+ await setupJourney(page, "normal", 6);
+ const generated=await page.evaluate(()=>JSON.parse(localStorage.getItem("ignite-redesign-v4")||"{}").currentJourney);
+ expect(generated.steps.map(s=>s.title)).toEqual(expect.arrayContaining(["Talk Card","Truth or Dare"]));
+
+ for(let i=0;i<6 && !(await page.getByText("Talk Card",{exact:true}).count());i++) await page.getByRole("button",{name:"Skip"}).click();
+ await expect(page.getByText("Talk Card",{exact:true})).toBeVisible();
  await page.getByText("Tap to reveal").click();
  await expect(page.locator(".reveal-card")).toContainText(/./);
  await page.getByRole("button",{name:"Continue →"}).click();
- await expect(page.getByText("Change the Energy")).toBeVisible();
+
+ for(let i=0;i<6 && !(await page.getByText("Change the Energy",{exact:true}).count());i++) await page.getByRole("button",{name:"Skip"}).click();
+ await expect(page.getByText("Change the Energy",{exact:true})).toBeVisible();
  await page.getByRole("button",{name:"Batu"}).click();
  await page.getByRole("button",{name:"Kertas"}).click();
  await page.getByRole("button",{name:"Next Round"}).click();
- await expect(page.getByText("Change the Energy")).toBeVisible();
+ await expect(page.getByText("Change the Energy",{exact:true})).toBeVisible();
 });
 
 test("After Dark requires consent before entering",async({page})=>{
