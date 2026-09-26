@@ -14,7 +14,7 @@ async function setupJourney(page,mode="normal",steps=6){
  if(mode==="dark") await page.getByRole("button",{name:"After Dark",exact:true}).click();
  await page.getByRole("button",{name:"Play",exact:true}).click();
  await page.getByRole("button",{name:"Journey Preferences",exact:true}).click();
- await page.locator('input[name="steps"]').fill(String(steps));
+ await page.locator('input[name="steps"]').evaluate((el,value)=>{el.value=String(value);el.dispatchEvent(new Event("input",{bubbles:true}));},steps);
  await page.getByRole("button",{name:"Save Preferences",exact:true}).click();
  await page.getByRole("button",{name:"Start Journey →"}).click();
  await expect(page.getByRole("heading",{name:mode==="dark"?"After Dark":"Normal Journey",exact:true})).toBeVisible();
