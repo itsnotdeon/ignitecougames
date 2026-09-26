@@ -130,3 +130,53 @@ button{min-width:0}
   .btn,.experience-card,.journey-entry{transition:none!important}
   .journey-generating-orb,.journey-loader span{animation:none!important}
 }
+/* ---------- 2026-09-27 Play Hub hard containment ---------- */
+/* The Play dashboard must always own a single vertical flow. Keep this
+   explicit and high-specificity so legacy layout rules cannot turn the
+   dashboard into narrow desktop grid tracks. */
+#app.app-shell > .play-v1{
+  display:block !important;
+  position:relative;
+  float:none !important;
+  clear:both;
+  width:100% !important;
+  max-width:100% !important;
+  min-width:0 !important;
+  margin-left:0 !important;
+  margin-right:0 !important;
+  grid-template-columns:none !important;
+  grid-template-rows:none !important;
+  flex-direction:column !important;
+  columns:auto !important;
+  column-count:auto !important;
+  box-sizing:border-box;
+}
+#app.app-shell > .play-v1 > .play-v1-top,
+#app.app-shell > .play-v1 > .play-v1-hero,
+#app.app-shell > .play-v1 > .journey-history-link,
+#app.app-shell > .play-v1 > .play-spotlight,
+#app.app-shell > .play-v1 > .feature-settings,
+#app.app-shell > .play-v1 > .section-label,
+#app.app-shell > .play-v1 > .mini-grid,
+#app.app-shell > .play-v1 > .play-active-head{
+  width:100% !important;
+  max-width:100% !important;
+  min-width:0 !important;
+  box-sizing:border-box;
+}
+#app.app-shell > .play-v1 > .play-v1-hero{
+  display:block;
+  text-align:center;
+}
+#app.app-shell > .play-v1 > .play-spotlight{
+  display:grid;
+  grid-template-columns:minmax(0,1fr) auto;
+}
+@media(max-width:520px){
+  #app.app-shell > .play-v1 > .play-spotlight{
+    grid-template-columns:1fr;
+  }
+  #app.app-shell > .play-v1 > .play-spotlight .btn{
+    width:100%;
+  }
+}
