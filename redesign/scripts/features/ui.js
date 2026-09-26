@@ -1,4 +1,4 @@
-import {getMemories,getMemoryStats} from "./memories.js?v=20260925-18";
+import {getMemories,getMemoryStats} from "./memories.js?v=20260927-02";
 import {getPreferences,savePreferences,VIBES} from "./preferences.js?v=20260927-03";
 import {getUnlocks} from "./unlocks.js?v=20260925-18";
 import {createSurpriseContext} from "./surprise.js?v=20260927-03";
