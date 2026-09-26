@@ -20,17 +20,13 @@ test.describe("IGNITE memories and preferences",()=>{
 
   test("Preferences persist",async({page})=>{
     await enter(page);
-    await page.getByRole("button",{name:"Profile",exact:true}).click();
     await page.getByRole("button",{name:"Play",exact:true}).click();
     await page.getByRole("button",{name:"Journey Preferences",exact:true}).click();
     await page.getByRole("button",{name:"Spontaneous",exact:true}).click();
-    await page.locator('select[name="duration"]').selectOption("long");
-    await page.locator('select[name="intensity"]').selectOption("bold");
+    await page.locator('input[name="steps"]').fill("8");
     await page.getByRole("button",{name:"Save Preferences"}).click();
     const stored=await page.evaluate(()=>JSON.parse(localStorage.getItem("ignite-preferences-v1")));
-    expect(stored.vibes).toContain("Spontaneous");
-    expect(stored.duration).toBe("long");
-    expect(stored.intensity).toBe("bold");
+    expect(stored).toEqual({vibes:["Spontaneous"],steps:8});
   });
 
   test("Tonight’s Journey is reachable from Play",async({page})=>{
