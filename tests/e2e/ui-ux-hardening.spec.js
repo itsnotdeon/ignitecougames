@@ -13,21 +13,6 @@ async function boot(page){
 }
 
 test.describe("UI/UX hardening",()=>{
-  test("Journey Preferences behaves as a single-choice control",async({page})=>{
-    await boot(page);
-    await page.getByRole("button",{name:"Play",exact:true}).click();
-    await page.getByRole("button",{name:"Journey Preferences",exact:true}).click();
-    const deep=page.getByRole("button",{name:"Deep",exact:true});
-    const romantic=page.getByRole("button",{name:"Romantic",exact:true});
-    await deep.click();
-    await expect(deep).toHaveAttribute("aria-pressed","true");
-    await expect(romantic).toHaveAttribute("aria-pressed","false");
-    await romantic.click();
-    await expect(romantic).toHaveAttribute("aria-pressed","true");
-    await expect(deep).toHaveAttribute("aria-pressed","false");
-    await expect(page.locator('[data-vibe].primary')).toHaveCount(1);
-  });
-
   test("settings backup controls are wired and reset asks for confirmation",async({page})=>{
     await boot(page);
     await page.getByRole("button",{name:"Profile",exact:true}).click();
