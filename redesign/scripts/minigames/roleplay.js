@@ -30,7 +30,7 @@ export function nextRoleplay(s){
 export function renderRoleplay(s){
  if(!s.role){
   const roles=(s.mode==="dark"?darkRoles():normalRoles()).filter(role=>Array.isArray(role?.items)&&role.items.length);
-  return '<section class="game-screen"><header class="game-screen-header"><button class="game-screen-back" data-action="minigames-menu">&larr; All Games</button><div class="game-screen-title"><h2>Roleplay</h2><span>COUPLE QUICK PLAY</span></div><span class="game-screen-status">🎭</span></header><div class="mini-intro"><span class="game-icon">🎭</span><h3>Choose a role.</h3><p>Pilih karakter, masuk ke adegan, lalu biarkan percakapan berkembang.</p>'+
+  return '<section class="game-screen"><header class="game-screen-header"><div class="game-screen-title"><h2>Roleplay</h2><span>COUPLE QUICK PLAY</span></div><span class="game-screen-status">🎭</span></header><div class="mini-intro"><span class="game-icon">🎭</span><h3>Choose a role.</h3><p>Pilih karakter, masuk ke adegan, lalu biarkan percakapan berkembang.</p>'+
     (roles.length?'<button class="btn primary full" data-mini="roleplay-next">Draw Role</button>':'<p class="muted">No roleplay content is available in this mode. Add roles and scenes in Topic Library.</p>')+
     '</div></section>'
  }
