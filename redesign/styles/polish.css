@@ -856,3 +856,13 @@ h3{
     font-size:9px;
   }
 }
+
+.ks-header>div h2{
+  display:block;
+  margin:0;
+  font-family:var(--display);
+  font-size:20px;
+  line-height:1;
+  letter-spacing:-.02em;
+  text-wrap:balance;
+}
