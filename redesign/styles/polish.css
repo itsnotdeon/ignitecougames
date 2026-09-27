@@ -704,3 +704,78 @@ h3{
     --type-display-md:32px;
   }
 }
+
+
+/* ---------- 2026-09-27 Rhythm hierarchy hard fix ---------- */
+/* Every semantic line in the Rhythm card gets its own block.
+   Never allow heading, value, description, and stats to flow inline. */
+.home-rhythm-v1{
+  display:grid;
+  grid-template-columns:minmax(0,1fr);
+  gap:16px;
+  align-items:start;
+}
+.home-rhythm-copy{
+  display:grid;
+  grid-template-columns:minmax(0,1fr);
+  gap:5px;
+  min-width:0;
+}
+.home-rhythm-copy .eyebrow{
+  display:block;
+  margin:0;
+}
+.home-rhythm-copy>strong{
+  display:block;
+  margin:0;
+  font-size:16px;
+  line-height:1.2;
+  font-family:var(--body);
+  font-weight:800;
+  letter-spacing:0;
+}
+.home-rhythm-copy>small{
+  display:block;
+  margin:0;
+  max-width:100%;
+  font-size:10px;
+  line-height:1.45;
+  color:var(--muted);
+}
+.rhythm-stats{
+  display:grid;
+  grid-template-columns:repeat(3,minmax(0,1fr));
+  gap:8px;
+  width:100%;
+  min-width:0;
+}
+.rhythm-stats>span{
+  display:grid;
+  grid-template-rows:auto auto;
+  gap:3px;
+  min-width:0;
+  padding:9px 8px;
+  border-top:1px solid var(--line);
+  text-align:center;
+}
+.rhythm-stats>span>b{
+  display:block;
+  font-family:var(--display);
+  font-size:20px;
+  line-height:1;
+  font-weight:700;
+}
+.rhythm-stats>span>small{
+  display:block;
+  color:var(--muted);
+  font-size:8px;
+  line-height:1.2;
+  letter-spacing:.08em;
+  text-transform:uppercase;
+}
+@media(max-width:390px){
+  .home-rhythm-v1{gap:14px}
+  .home-rhythm-copy>strong{font-size:15px}
+  .rhythm-stats{gap:6px}
+  .rhythm-stats>span{padding-inline:5px}
+}
