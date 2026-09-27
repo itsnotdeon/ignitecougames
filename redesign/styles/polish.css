@@ -779,3 +779,80 @@ h3{
   .rhythm-stats{gap:6px}
   .rhythm-stats>span{padding-inline:5px}
 }
+
+
+/* ---------- 2026-09-27 Universal minigame heading hierarchy ---------- */
+.game-screen{
+  display:grid;
+  gap:14px;
+  min-width:0;
+}
+.game-screen-header{
+  display:grid;
+  grid-template-columns:minmax(90px,1fr) minmax(0,auto) minmax(24px,1fr);
+  align-items:center;
+  gap:10px;
+  min-height:48px;
+  margin-bottom:2px;
+}
+.game-screen-back{
+  justify-self:start;
+  min-height:44px;
+  padding:10px 0;
+  border:0;
+  background:transparent;
+  color:var(--muted);
+  font:700 10px/1.2 var(--body);
+  white-space:nowrap;
+}
+.game-screen-title{
+  min-width:0;
+  text-align:center;
+}
+.game-screen-title h2{
+  margin:0;
+  font-size:28px;
+  line-height:1;
+  text-wrap:balance;
+}
+.game-screen-title span{
+  display:block;
+  margin-top:4px;
+  color:var(--faint);
+  font:800 7px/1.2 var(--body);
+  letter-spacing:.16em;
+  text-transform:uppercase;
+}
+.game-screen-status{
+  justify-self:end;
+  font-size:18px;
+  line-height:1;
+  color:var(--gold);
+}
+.game-screen .game-meta{
+  display:block;
+  margin:0;
+  text-align:center;
+}
+.game-screen .mini-intro{
+  padding-top:8px;
+}
+.game-screen .mini-intro>h3{
+  font-size:22px;
+  line-height:1.05;
+}
+.game-screen .game-active>h3{
+  font-size:22px;
+  line-height:1.05;
+}
+@media(max-width:390px){
+  .game-screen-header{
+    grid-template-columns:minmax(78px,1fr) minmax(0,auto) minmax(24px,1fr);
+  }
+  .game-screen-title h2{
+    font-size:25px;
+  }
+  .game-screen-back{
+    font-size:9px;
+  }
+}
