@@ -43,3 +43,21 @@ test("embedded Journey Roleplay has no redundant game navigation",async({page})=
     await expect(page.locator('.journey-roleplay [data-action="minigames-menu"]')).toHaveCount(0);
   }
 });
+
+
+test("history and completion screens do not duplicate their exit action",async({page})=>{
+  await enterApp(page);
+  await page.locator('[data-action="journey"]').click();
+  await expect(page.getByText("JOURNEY HISTORY",{exact:true})).toBeVisible();
+  await expect(page.locator('[data-action="minigames"]')).toHaveCount(1);
+
+  await page.evaluate(()=>{
+    localStorage.setItem("ignite-redesign-v4",JSON.stringify({
+      names:{p1:"Ariel",p2:"Fe"},relationship:"Couple",relationshipSince:null,
+      currentJourney:null,step:0,view:"complete",mode:"normal"
+    }));
+  });
+  await page.reload();
+  await expect(page.getByText("How was tonight?",{exact:true})).toBeVisible();
+  await expect(page.locator('[data-action="home"]')).toHaveCount(1);
+});
