@@ -433,7 +433,7 @@ export function renderKing(state, names) {
     '<section class="ks-screen">' +
       '<header class="ks-header">' +
         '<button class="ks-back" data-action="minigames-menu">Back</button>' +
-        '<div><b>King &amp; Slave</b><small>' + mode + '</small></div>' +
+        '<div><h2>King &amp; Slave</h2><small>' + mode + '</small></div>' +
         '<button class="ks-reset" data-mini="ks-reset">Reset</button>' +
       '</header>' +
       '<div class="ks-progress"><span>ROUND ' + state.round + '</span><i></i><span>' +
