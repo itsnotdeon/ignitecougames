@@ -146,7 +146,7 @@ export function renderSnake(s,names){
     panel='<section class="snake-event card"><div class="event-icon">'+(s.event.type==="ladder"?"&#8599;":s.event.type==="snake"?"&#8600;":s.event.type==="skip"?"-3":"6")+'</div><div class="eyebrow">'+escapeHtml(status)+'</div><h2>'+escapeHtml(message)+'</h2><p>Current position: <strong>'+s.pos[s.turn]+'</strong></p><button class="btn primary full" data-mini="snake-continue">Continue</button></section>';
   }
   return '<div class="ks-screen snake-screen '+(s.animating?"is-animating":"")+'">'+
-    '<div class="ks-header"><button class="ks-back" data-action="minigames-menu">&larr; Games</button><div><h2>Snake &amp; Ladder</h2><small>IGNITE COUPLE GAME</small></div><button class="ks-reset" data-mini="snake-reset">Reset</button></div>'+
+    '<div class="ks-header"><div><h2>Snake &amp; Ladder</h2><small>IGNITE COUPLE GAME</small></div><button class="ks-reset" data-mini="snake-reset">Reset</button></div>'+
     '<div class="snake-hud"><div class="snake-player '+(s.turn===0&&!s.finished?"active":"")+'"><strong>'+escapeHtml(names[0])+'</strong><span>'+s.pos[0]+' / 100</span></div><div class="snake-turn">TURN</div><div class="snake-player '+(s.turn===1&&!s.finished?"active":"")+'"><strong>'+escapeHtml(names[1])+'</strong><span>'+s.pos[1]+' / 100</span></div></div>'+
     '<div class="snake-mode"><span>Challenge</span><div><button class="btn '+(s.mode==="normal"?"primary":"ghost")+'" data-mini="snake-mode" data-value="normal">Normal</button><button class="btn '+(s.mode==="extreme"?"primary":"ghost")+'" data-mini="snake-mode" data-value="extreme">Extreme</button></div></div>'+
     renderBoard(s,names)+
