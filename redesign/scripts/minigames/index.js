@@ -1,4 +1,4 @@
-import {createRoleplayState,setRoleplayMode,nextRoleplay,renderRoleplay} from "./roleplay.js?v=20260927-01";
+import {createRoleplayState,setRoleplayMode,nextRoleplay,renderRoleplay} from "./roleplay.js?v=20260927-02";
 import {createKingState,kingAction,renderKing} from "./kingslave.js?v=20260927-01";
 import {createChessState,chessClick,chessUndo,renderChess} from "./chess.js?v=20260927-01";
 import {createSnakeState,snakeRoll,snakeContinue,snakeSetMode,snakeReset,renderSnake} from "./snake.js?v=20260927-01";
