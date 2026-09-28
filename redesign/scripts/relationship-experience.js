@@ -95,7 +95,7 @@
     section.className = "rx-play-journey";
     section.innerHTML =
       '<div class="rx-play-kicker">'+esc(c.kicker)+' · '+esc(v.toUpperCase())+'</div>'+
-      '<h2>Tonight's Journey</h2>'+
+      '<h2>Tonight\'s Journey</h2>'+
       '<p>'+esc(s >= 3 ? "Your rhythm is building. Let IGNITE choose a balanced mix." : "A short sequence that moves from playful to meaningful.")+'</p>'+
       '<div class="rx-steps"><span><b>01</b> Warm Up</span><i>→</i><span><b>02</b> Play</span><i>→</i><span><b>03</b> Connect</span></div>'+
       '<button class="btn primary" data-rx-action="journey">Build Dynamic Journey →</button>';
