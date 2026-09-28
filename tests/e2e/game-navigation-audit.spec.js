@@ -19,6 +19,8 @@ test("active minigames use one navigation control and one primary heading",async
     await expect(page.locator('.play-active-head [data-action="minigames-menu"]')).toHaveCount(1);
     await expect(page.getByRole("button",{name:/All Games/})).toHaveCount(1);
     await expect(page.locator(".game-screen-title h2, .ks-header h2")).toHaveCount(1);
+    if(game==="chess"||game==="snake") await expect(page.locator(".mode-pill")).toHaveText("NEUTRAL");
+    if(game==="roleplay"||game==="king") await expect(page.locator(".mode-pill")).toHaveText(/NORMAL|AFTER DARK/);
     await page.locator('[data-action="minigames-menu"]').click();
     await expect(page.locator(".mini-grid")).toBeVisible();
   }
