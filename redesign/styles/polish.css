@@ -901,3 +901,10 @@ h3{
 .game-screen-title h2{font-family:var(--display)}
 /* Chess uses Unicode symbols; use a cross-platform symbol stack rather than a desktop-only font. */
 .chess-square{font-family:"Noto Sans Symbols 2","Segoe UI Symbol","Arial Unicode MS",var(--body),sans-serif}
+
+/* Embedded Journey Roleplay already has the Journey step heading. */
+.journey-roleplay .game-screen-header{display:none}
+.journey-roleplay .game-screen{gap:12px}
+.home-v1-top .profile-chip{pointer-events:none;cursor:default;min-height:40px}
+.settings-v1 .topbar{display:grid;grid-template-columns:1fr auto 1fr;align-items:center}
+.settings-v1 .topbar .brand{text-align:center}
