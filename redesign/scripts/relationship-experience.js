@@ -31,7 +31,7 @@
   function modeCopy() {
     return currentMode() === "dark"
       ? { kicker:"AFTER DARK", title:"Slow down. Stay close.", body:"A more intimate space for two — choose only what feels right." }
-      : { kicker:"YOUR RHYTHM", title:"Make tonight yours.", body:"A little play, a little conversation, and one moment worth remembering." };
+      : { kicker:"TONIGHT'S PULSE", title:"Make tonight yours.", body:"A little play, a little conversation, and one moment worth remembering." };
   }
   function todayKey() {
     const d = new Date();
