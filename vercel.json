@@ -1,0 +1,7 @@
+{
+  "version": 2,
+  "rewrites": [
+    { "source": "/ignite", "destination": "/api/ignite" },
+    { "source": "/ignite/(.*)", "destination": "/api/ignite/$1" }
+  ]
+}
