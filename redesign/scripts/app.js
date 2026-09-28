@@ -222,7 +222,7 @@ function renderMinigames(){
   h+='<div class="ignite-section-head"><h2>All Games</h2></div><div class="ignite-game-grid mini-grid">';
   const game=(id,icon,title,sub,modes)=>'<button class="ignite-game-card" data-mini-open="'+id+'" data-game-modes="'+modes+'"><span>'+icon+'</span><b>'+title+'</b><small>'+sub+'</small></button>';
   h+=game("tod","♡","Truth or Dare","Playful & bold","normal,dark")+game("roleplay","🎭","Roleplay","Create your story","normal,dark")+game("king","♛","King & Slave","Power & surrender","normal,dark")+game("chess","♟","Chess","Strategic & fun","normal")+game("snake","▣","Snake & Ladder","Classic with a twist","normal");
-  h+='</div><section class="ignite-play-surprise"><span>✦</span><div><b>Not sure what to do?</b><small>Let IGNITE give you a suggestion based on your vibe today.</small></div><button data-action="surprise">Surprise Me</button></section>';
+  h+='</div><section class="ignite-play-surprise"><span>✦</span><div><b>Not sure what to do?</b><small>Let IGNITE give you a suggestion based on your vibe today.</small></div><button data-action="surprise">Surprise Me</button></section><button class="ignite-primary-btn play-preferences-link" data-action="preferences">Journey Preferences</button>';
  }else{
   h+='<div class="ignite-detail-header play-active-head"><button class="btn ghost" data-action="minigames-menu">← All Games</button><span></span><span class="ignite-mode-pill">'+(dark?"After Dark 18+":"Normal")+'</span></div>'+minigameView(state.names);
  }
