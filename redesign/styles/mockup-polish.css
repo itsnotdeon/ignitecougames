@@ -49,3 +49,7 @@
 
 /* Journey resume affordance */
 .journey-v2-head-actions{display:flex;gap:6px;align-items:center}.journey-v2-current-progress{height:4px;margin-top:10px;border-radius:99px;background:#321421;overflow:hidden}.journey-v2-current-progress span{display:block;height:100%;border-radius:99px;background:linear-gradient(90deg,#ff2f70,#ff79a0)}
+
+
+/* Profile + Settings navigation */
+.settings-scope-action{width:100%;border:0;text-align:left;cursor:pointer;font:inherit;color:inherit}.settings-scope-action:hover{background:rgba(255,255,255,.035)}.profile-v2-actions button{cursor:pointer}.profile-v2-actions button:active,.settings-scope-action:active{transform:scale(.99)}
