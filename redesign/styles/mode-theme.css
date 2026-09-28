@@ -292,3 +292,12 @@ body[data-ignite-mode="normal"] .ignite-feature-game{
   border-color:#8f3453!important;
   color:var(--text);
 }
+
+
+/* Keep the mobile experience as one continuous canvas in both modes.
+   The screen should not read as a separate rectangular container. */
+body[data-ignite-mode="normal"] .ignite-screen,
+body[data-ignite-mode="dark"] .ignite-screen{
+  background:transparent!important;
+  box-shadow:none;
+}
