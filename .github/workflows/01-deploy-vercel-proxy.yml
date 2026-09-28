@@ -1,0 +1,32 @@
+name: Deploy IGNITE Proxy to Vercel
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - main
+    paths:
+      - "api/ignite/**"
+      - "vercel.json"
+      - ".github/workflows/01-deploy-vercel-proxy.yml"
+
+permissions:
+  contents: read
+
+concurrency:
+  group: "vercel-proxy"
+  cancel-in-progress: true
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Deploy to Vercel
+        uses: amondnet/vercel-action@v25
+        with:
+          vercel-token: ${{ secrets.VERCEL_TOKEN }}
+          vercel-args: "--prod"
+          working-directory: .
