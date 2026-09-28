@@ -18,11 +18,7 @@ import {initAccessibility} from "./ui/accessibility.js?v=20260928-02";
 
 const STORAGE_KEY="ignite-redesign-v4";
 const TOPIC_CLEAR_VERSION="20260926-clear-all-topics";
-function clearAllTopicStorageOnce(){
-  if(localStorage.getItem(TOPIC_CLEAR_VERSION)==="done")return;
-  ["ignite-active-content-v1","ignite-active-topics-v1","ignite-custom-topics-v1","ignite-content-v1"].forEach(k=>localStorage.removeItem(k));
-  localStorage.setItem(TOPIC_CLEAR_VERSION,"done");
-}
+
 const state={names:{p1:"",p2:"",couple:""},relationship:"Couple",relationshipSince:null,currentJourney:null,step:0,view:"home",mode:"normal",profilePhotos:{p1:"",p2:"",couple:""}};
 
 
