@@ -65,3 +65,5 @@
 .home-journey-actions{display:grid;grid-template-columns:1fr 1fr;gap:6px}.home-journey-actions .btn{margin-top:0}button{font-size:10px!important}
 
 .play-legacy-kicker{display:block;font-size:7px;letter-spacing:.18em;color:var(--muted);margin-top:4px}.settings-legacy-paths{display:grid;gap:4px;margin:8px 0;font-size:7px;color:var(--muted)}.profile-settings-shortcut{width:100%;display:flex;align-items:center;gap:8px;text-align:left}.profile-settings-shortcut span{flex:1}.play-preferences h3{font-size:17px!important}.play-v2 h2,.journey-v2 h2,.profile-v2 h2{font-size:17px!important}
+
+.home-v2-quick{display:grid;grid-template-columns:repeat(4,1fr);gap:6px}.home-actions-v1{display:contents}.home-v2-quick>.home-action-card.play{grid-column:4}h3{font-size:17px!important}.settings-legacy-paths{padding:8px 0;font-size:7px;letter-spacing:.03em}
