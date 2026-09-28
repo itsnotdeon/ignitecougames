@@ -22,7 +22,11 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        shard: [1/4, 2/4, 3/4, 4/4]
+        include:
+          - {id: 1, shard: 1/4}
+          - {id: 2, shard: 2/4}
+          - {id: 3, shard: 3/4}
+          - {id: 4, shard: 4/4}
     steps:
       - uses: actions/checkout@v4
 
@@ -49,7 +53,7 @@ jobs:
         if: failure()
         uses: actions/upload-artifact@v4
         with:
-          name: playwright-report-${{ matrix.shard }}
+          name: playwright-report-${{ matrix.id }}
           path: playwright-report/
           if-no-files-found: ignore
 
@@ -57,6 +61,6 @@ jobs:
         if: failure()
         uses: actions/upload-artifact@v4
         with:
-          name: playwright-test-results-${{ matrix.shard }}
+          name: playwright-test-results-${{ matrix.id }}
           path: test-results/
           if-no-files-found: ignore
