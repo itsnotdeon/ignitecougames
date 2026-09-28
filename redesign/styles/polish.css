@@ -866,3 +866,38 @@ h3{
   letter-spacing:-.02em;
   text-wrap:balance;
 }
+
+
+/* ---------- 2026-09-28 typography consistency + readable minimum ---------- */
+/* Decorative microcopy may be small; interactive text must remain readable. */
+.bottom-nav-item small{font-size:9px;line-height:1.1}
+.play-v1-top span{font-size:9px}
+.mode-pill{font-size:9px}
+.game-screen-title span{font-size:8px}
+.game-screen .game-meta{font-size:10px}
+.rhythm-stats>span>small{font-size:9px}
+.home-v1-sub{font-size:9px}
+.home-mode-copy small{font-size:9px}
+.home-mode-toggle button,
+.home-mode-toggle button span{font-size:10px}
+.bond-v1-card .btn{font-size:10px}
+.memory-v1-head .btn{font-size:10px}
+.memory-stats-v1 span{font-size:9px}
+.profile-v1-hero p{font-size:10px}
+.profile-xp span,.profile-xp b{font-size:9px}
+.settings-v1-section-label{font-size:9px}
+.settings-v1-row small{font-size:9px}
+.settings-data-v1 p{font-size:10px}
+.settings-about small{font-size:9px}
+.setup-form .field label{font-size:9px}
+.setup-note{font-size:9px}
+.continue-v1 small{font-size:9px}
+.continue-v1 em{font-size:9px}
+.mode-mini>span,.mode-mini small{font-size:9px}
+.topic-delete{font-size:10px}
+.ks-header small,.ks-role-person small,.ks-dice-pair small,.ks-crown small,.ks-power-trigger small,.ks-scoreline,.ks-active-note{font-size:9px}
+.ks-command-part small,.ks-kicker{font-size:9px}
+.ks-consent-list span,.ks-power-item button{font-size:10px}
+.game-screen-title h2{font-family:var(--display)}
+/* Chess uses Unicode symbols; use a cross-platform symbol stack rather than a desktop-only font. */
+.chess-square{font-family:"Noto Sans Symbols 2","Segoe UI Symbol","Arial Unicode MS",var(--body),sans-serif}
