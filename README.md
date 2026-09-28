@@ -32,5 +32,7 @@ The application is currently **single-player/local-first**. Multiplayer infrastr
 
 
 
-<!-- Playwright QA rerun: duplicate-label-fix -->
 
+
+
+<!-- Playwright QA rerun: mode-pill-and-settings-fix -->
