@@ -1,3 +1,8 @@
+import {state,load,save,clearAllTopicStorageOnce} from "./core/state.js?v=20260928-01";
+import {app,esc,resetViewport} from "./core/dom.js?v=20260928-01";
+import {exportAppBackup,restoreAppBackup,resetAllAppData} from "./core/backup.js?v=20260928-01";
+import {syncModeTheme} from "./core/theme.js?v=20260928-01";
+import {journeys} from "./data/journeys.js?v=20260928-01";
 import {initMechanic,mechanicAction,mechanicView,winnerLabel,isMechanicComplete,resetMechanic} from "./journey/mechanics.js?v=20260928-02";
 import {renderMinigameMenu,minigameView,minigameAction,openMinigame} from "./minigames/index.js?v=20260928-02";
 import {getProgress,getLevelInfo,startJourney as progressionStartJourney,completeJourney,completeActivity,completeRitual,recordMinigamePlayed,achievementList} from "./progression.js?v=20260928-02";
@@ -18,39 +23,17 @@ function clearAllTopicStorageOnce(){
   localStorage.setItem(TOPIC_CLEAR_VERSION,"done");
 }
 const state={names:{p1:"",p2:"",couple:""},relationship:"Couple",relationshipSince:null,currentJourney:null,step:0,view:"home",mode:"normal",profilePhotos:{p1:"",p2:"",couple:""}};
-const journeys={
- normal:{id:"normal",title:"Normal Journey",subtitle:"Talk, play, and get a little closer.",mood:"Romantic · Playful · Warm",steps:[
-  {kind:"ritual",mechanic:"guess-color",icon:"🎴",title:"Warm Up",text:"Tebak warna kartu sebelum kartu dibuka. Lima ronde cukup untuk mengubah suasana.",action:"Continue"},
-  {kind:"activity",mechanic:"card",icon:"♡",title:"Talk Card",text:"Buka kartu satu per satu. Kalian menentukan kapan cukup dan lanjut ke tahap berikutnya.",action:"Continue"},
-  {kind:"ritual",mechanic:"rps",icon:"✊",title:"Change the Energy",text:"Mainkan Rock Paper Scissors. Lima ronde untuk mengubah tempo.",action:"Continue"},
-  {kind:"activity",mechanic:"tod",icon:"◇",title:"Truth or Dare",text:"Buka prompt satu per satu. Pilih Truth atau Dare, lalu lanjut saat kalian siap.",action:"Continue"},
-  {kind:"activity",mechanic:"card",icon:"♡",title:"One More Card",text:"Satu ruang terakhir untuk sebuah kartu. Ambil sebanyak yang kalian mau sebelum menutup Journey.",action:"Continue"},
-  {kind:"closing",icon:"♥",title:"Close the Journey",text:"Apa satu hal kecil dari pasanganmu yang paling kamu nikmati saat ini?",action:"Finish Journey"}]},
- dark:{id:"dark",title:"After Dark",subtitle:"A more intimate journey for two.",mood:"Intimate · Daring · Tasteful",steps:[
-  {kind:"ritual",mechanic:"guess-color",icon:"🎴",title:"Set the Mood",text:"Mulai perlahan dengan tebak warna kartu. Kalian bisa berhenti kapan saja.",action:"Continue"},
-  {kind:"activity",mechanic:"explicit-card",icon:"🔥",title:"Explicit Card",text:"Buka kartu satu per satu. Konten After Dark membutuhkan persetujuan dan kenyamanan kalian berdua.",action:"Continue"},
-  {kind:"ritual",mechanic:"rps",icon:"✊",title:"Change the Energy",text:"Gunakan lima ronde singkat untuk mengubah tempo.",action:"Continue"},
-  {kind:"activity",mechanic:"intimate-tod",icon:"◇",title:"Intimate Truth or Dare",text:"Buka prompt satu per satu. Pilih yang terasa nyaman. Kalian tetap memegang kendali.",action:"Continue"},
-  {kind:"activity",mechanic:"roleplay",icon:"🎭",title:"Roleplay",text:"Masuk ke sebuah karakter dan adegan. Kalian menentukan sendiri kapan cukup.",action:"Continue"},
-  {kind:"closing",icon:"♥",title:"Close the Journey",text:"Selesai. Tidak perlu mengejar apa pun — cukup nikmati momennya.",action:"Finish Journey"}]}
-};
 
-const app=document.querySelector("#app");
-function syncModeTheme(){const mode=state.mode==="dark"?"dark":"normal";app.dataset.igniteMode=mode;document.body.dataset.igniteMode=mode;const meta=document.querySelector('meta[name="theme-color"]');if(meta)meta.setAttribute("content",mode==="dark"?"#030203":"#170a11")}function load(){try{const saved=JSON.parse(localStorage.getItem(STORAGE_KEY));if(saved){state.names=saved.names||state.names;state.relationship=saved.relationship||"Couple";state.relationshipSince=saved.relationshipSince||null;state.currentJourney=saved.currentJourney||null;state.step=Number(saved.step)||0;state.view=saved.view||"home";state.mode=saved.mode==="dark"?"dark":"normal";state.profilePhotos={...state.profilePhotos,...(saved.profilePhotos||{})};state.__journeyComplete=Boolean(saved.__journeyComplete);state.__selectedJourney=Number.isInteger(saved.__selectedJourney)?saved.__selectedJourney:null;if(state.view==="generating"){state.view="home";delete state.__journeyTargetSteps;delete state.__journeyRoleplayOpen;delete state.__journeyRoleplayDone}}}catch(e){state.view="home"}}
-function save(){try{localStorage.setItem(STORAGE_KEY,JSON.stringify(state))}catch(e){console.warn("[IGNITE] state save failed",e)}}
+
 const BACKUP_EXCLUDE_KEYS=new Set(["ignite-topic-clear-v1"]);
-function appStorageSnapshot(){const data={};for(let i=0;i<localStorage.length;i++){const key=localStorage.key(i);if(key&&key.startsWith("ignite-")&&!BACKUP_EXCLUDE_KEYS.has(key))data[key]=localStorage.getItem(key)}return data}
-function downloadText(filename,text,type="application/json"){const blob=new Blob([text],{type});const url=URL.createObjectURL(blob);const a=document.createElement("a");a.href=url;a.download=filename;a.click();setTimeout(()=>URL.revokeObjectURL(url),500)}
-function exportAppBackup(){downloadText("ignite-backup-"+new Date().toISOString().slice(0,10)+".json",JSON.stringify({format:"ignite-backup",version:1,exportedAt:new Date().toISOString(),data:appStorageSnapshot()},null,2))}
-function restoreAppBackup(data){if(!data||data.format!=="ignite-backup"||!data.data||typeof data.data!=="object")throw new Error("Invalid IGNITE backup.");for(let i=localStorage.length-1;i>=0;i--){const key=localStorage.key(i);if(key&&key.startsWith("ignite-"))localStorage.removeItem(key)}for(const key of Object.keys(data.data))if(key.startsWith("ignite-")&&!BACKUP_EXCLUDE_KEYS.has(key))localStorage.setItem(key,String(data.data[key]??""));localStorage.setItem(TOPIC_CLEAR_VERSION,"done");sessionStorage.setItem("ignite-welcome-seen","1");location.reload()}
-function resetAllAppData(){if(!window.confirm("Reset all IGNITE data on this device? This cannot be undone."))return;for(let i=localStorage.length-1;i>=0;i--){const key=localStorage.key(i);if(key&&key.startsWith("ignite-"))localStorage.removeItem(key)}sessionStorage.removeItem("ignite-welcome-seen");location.reload()}
+
+
+
+
+
 function coupleName(){const level=getLevelInfo(getProgress().xp);const quotes={1:"Every story starts with a spark.",2:"Two people, one little world.",3:"The closer you get, the more you discover.",4:"In sync, one moment at a time.",5:"You found your rhythm. Keep the fire alive.",6:"Some connections grow deeper with every moment.",7:"Two hearts, one unstoppable rhythm.",8:"This is your story. Keep the fire alive."};return quotes[level.level]||quotes[1]}
-function esc(v){return String(v).replace(/[&<>"']/g,function(c){return{"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#039;"}[c]})}
-function resetViewport(){
- try{window.scrollTo({top:0,left:0,behavior:"auto"})}catch{window.scrollTo(0,0)}
- if(document.documentElement)document.documentElement.scrollTop=0;
- if(document.body)document.body.scrollTop=0;
-}
+
+
 function setView(view){state.view=view;save();render();requestAnimationFrame(resetViewport)}
 function render(){syncModeTheme();if(state.view==="generating")renderJourneyGenerating();else if(state.view==="welcome")renderWelcome();else if(state.view==="home")renderHome();else if(state.view==="names")renderNames();else if(state.view==="intro")renderIntro();else if(state.view==="session")renderSession();else if(state.view==="complete")renderComplete();else if(state.view==="minigames")renderMinigames();else if(state.view==="profile")renderProfile();else if(state.view==="settings")renderSettings();else if(state.view==="journey")renderJourney();else if(state.view==="journey-detail")renderJourneyDetail();else if(state.view==="memories")app.innerHTML=renderMemories(renderBottomNav("memories"));else if(state.view==="memory-detail")renderMemoryDetail(state.__selectedMemory);else if(state.view==="memory-capture")renderMemoryCapture();else if(state.view==="preferences")app.innerHTML=renderPreferences();else if(state.view==="topics")renderTopics();else if(state.view==="bond")renderBond();else{state.view="home";save();renderHome()}}
 function renderBottomNav(active="home"){
