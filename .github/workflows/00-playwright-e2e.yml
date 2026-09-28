@@ -13,7 +13,7 @@ on:
 
 concurrency:
   group: playwright-e2e-${{ github.workflow }}-${{ github.ref }}
-  cancel-in-progress: true
+  cancel-in-progress: false
 
 jobs:
   test:
@@ -43,7 +43,7 @@ jobs:
         run: node --experimental-vm-modules --input-type=module -e "import fs from 'node:fs'; import vm from 'node:vm'; for (const file of ['redesign/scripts/app.js','redesign/scripts/journey/mechanics.js','redesign/scripts/journey/content.js']) { try { new vm.SourceTextModule(fs.readFileSync(file,'utf8')); console.log('Parsed',file); } catch (error) { console.error('Failed',file,error); process.exit(1); } }"
 
       - name: Run Playwright E2E
-        run: npm run test:e2e -- --workers=2 --shard=${{ matrix.shard }}/4
+        run: npm run test:e2e -- --workers=2 --shard=${{ matrix.shard }}/4/4
 
       - name: Upload Playwright report on failure
         if: failure()
