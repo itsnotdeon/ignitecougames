@@ -1,5 +1,5 @@
 import {starterNormalCards,starterExplicitCards,starterTruth,starterDare,starterIntimateTruth,starterIntimateDare} from "../journey/content.js";
-import {allKingNormalCommands,allKingDarkCommands,allRoleplayNormalRoles,allRoleplayDarkRoles} from "./topics.js";
+import {allKingNormalCommands,allKingDarkCommands,allRoleplayNormalRoles,allRoleplayDarkRoles} from "../data/topics.js";
 export const CONTENT_KEY="ignite-active-content-v1";
 export const TOPIC_MANAGER_KEYS=["normalCards","explicitCards","truth","dare","intimateTruth","intimateDare","kingNormal","kingDark","roleplayNormal","roleplayDark"];
 export const ROLE_KEYS=["roleplayNormal","roleplayDark"];
