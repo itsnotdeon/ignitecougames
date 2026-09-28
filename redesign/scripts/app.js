@@ -339,6 +339,7 @@ function saveNames(form){const d=new FormData(form);state.names.p1=String(d.get(
 app.addEventListener("input",function(e){if(!e.target?.matches("input[name=steps]"))return;const value=Math.max(3,Math.min(12,Number(e.target.value)||5));e.target.value=String(value);e.target.setAttribute("aria-valuenow",String(value));e.target.setAttribute("aria-valuetext",value+" steps");const out=document.querySelector("#journey-steps-value");if(out)out.textContent=String(value)});
 app.addEventListener("change",function(e){if(e.target?.id==="topic-source-import"){const file=e.target.files?.[0];if(!file)return;const reader=new FileReader();reader.onload=()=>{try{importContentSource(JSON.parse(reader.result))}catch{alert("Invalid source JSON.")}};reader.readAsText(file);return}if(e.target?.id==="app-backup-import"){const file=e.target.files?.[0];if(!file)return;const reader=new FileReader();reader.onload=()=>{try{restoreAppBackup(JSON.parse(reader.result))}catch(err){alert(err?.message||"Invalid IGNITE backup.")}};reader.readAsText(file)}});
 app.addEventListener("click",function(e){
+ const hq=e.target.closest("[data-home-quick]");if(hq){if(hq.dataset.homeQuick==="memory")setView("memory-capture");else if(hq.dataset.homeQuick==="play"){state.__minigameActive=null;setView("minigames")}return}
  const hm=e.target.closest("[data-home-modal]");
  if(hm){state.__homeModal=hm.dataset.homeModal;render();return}
  const hma=e.target.closest("[data-home-modal-action]");
