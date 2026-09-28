@@ -17,8 +17,12 @@ concurrency:
 
 jobs:
   test:
-    timeout-minutes: 30
+    timeout-minutes: 15
     runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        shard: [1/4, 2/4, 3/4, 4/4]
     steps:
       - uses: actions/checkout@v4
 
@@ -39,13 +43,13 @@ jobs:
         run: node --experimental-vm-modules --input-type=module -e "import fs from 'node:fs'; import vm from 'node:vm'; for (const file of ['redesign/scripts/app.js','redesign/scripts/journey/mechanics.js','redesign/scripts/journey/content.js']) { try { new vm.SourceTextModule(fs.readFileSync(file,'utf8')); console.log('Parsed',file); } catch (error) { console.error('Failed',file,error); process.exit(1); } }"
 
       - name: Run Playwright E2E
-        run: npm run test:e2e -- --workers=4
+        run: npm run test:e2e -- --workers=2 --shard=${{ matrix.shard }}
 
       - name: Upload Playwright report on failure
         if: failure()
         uses: actions/upload-artifact@v4
         with:
-          name: playwright-report
+          name: playwright-report-${{ matrix.shard }}
           path: playwright-report/
           if-no-files-found: ignore
 
@@ -53,6 +57,6 @@ jobs:
         if: failure()
         uses: actions/upload-artifact@v4
         with:
-          name: playwright-test-results
+          name: playwright-test-results-${{ matrix.shard }}
           path: test-results/
           if-no-files-found: ignore
