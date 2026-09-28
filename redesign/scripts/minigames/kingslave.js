@@ -323,7 +323,7 @@ export function renderKing(state, names) {
 
   if (state.stage === "consent") {
     return (
-      '<section class="ks-screen ks-consent-screen">' +
+      '<section class="ks-screen ks-consent-screen"><header class="ks-header"><div><h2>King &amp; Slave</h2><small>COUPLE QUICK PLAY</small></div><span class="mode-pill">'+(state.mode==="normal"?"NORMAL":"AFTER DARK")+'</span></header>' +
         '<div class="ks-title-mark">KING</div>' +
         '<span class="ks-kicker">KING &amp; SLAVE</span>' +
         '<h2>Power stays playful.</h2>' +
