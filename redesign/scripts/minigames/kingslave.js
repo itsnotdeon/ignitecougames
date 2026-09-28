@@ -323,7 +323,7 @@ export function renderKing(state, names) {
 
   if (state.stage === "consent") {
     return (
-      '<section class="ks-screen ks-consent-screen">' +
+      '<section class="ks-screen ks-consent-screen"><header class="ks-header"><div><h2>King &amp; Slave</h2><small>COUPLE QUICK PLAY</small></div><span class="mode-pill">'+(state.mode==="normal"?"NORMAL":"AFTER DARK")+'</span></header>' +
         '<div class="ks-title-mark">KING</div>' +
         '<span class="ks-kicker">KING &amp; SLAVE</span>' +
         '<h2>Power stays playful.</h2>' +
@@ -433,7 +433,7 @@ export function renderKing(state, names) {
     '<section class="ks-screen">' +
       '<header class="ks-header">' +
         '' +
-        '<div><h2>King &amp; Slave</h2><small>' + mode + '</small></div>' +
+        '<div><h2>King &amp; Slave</h2><small class="mode-pill">' + mode.toUpperCase() + '</small></div>' +
         '<button class="ks-reset" data-mini="ks-reset">Reset</button>' +
       '</header>' +
       '<div class="ks-progress"><span>ROUND ' + state.round + '</span><i></i><span>' +

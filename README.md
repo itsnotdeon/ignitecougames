@@ -21,3 +21,8 @@ npm run test:e2e
 ```
 
 The application is currently **single-player/local-first**. Multiplayer infrastructure is intentionally not part of the current codebase.
+
+
+<!-- Playwright QA trigger: full suite against main -->
+
+<!-- QA heartbeat 2026-09-28T06:59Z -->
