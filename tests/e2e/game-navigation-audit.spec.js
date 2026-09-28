@@ -66,3 +66,25 @@ test("history and completion screens do not duplicate their exit action",async({
   await expect(page.getByText("How was tonight?",{exact:true})).toBeVisible();
   await expect(page.locator('[data-action="home"]')).toHaveCount(1);
 });
+
+
+test("home and settings do not duplicate profile navigation",async({page})=>{
+  await enterApp(page);
+  await page.getByRole("button",{name:"Home",exact:true}).click();
+  await expect(page.locator(".profile-chip")).toHaveCount(1);
+  await expect(page.locator(".profile-chip")).not.toHaveAttribute("data-action");
+  await expect(page.locator('.bottom-nav [data-action="profile"]')).toHaveCount(1);
+
+  await page.locator('.bottom-nav [data-action="profile"]').click();
+  await page.getByRole("button",{name:"Settings",exact:true}).click();
+  await expect(page.locator('.settings-v1 .topbar [data-action="profile"]')).toHaveCount(0);
+  await expect(page.locator('.bottom-nav [data-action="profile"]')).toHaveCount(1);
+});
+
+test("interactive typography stays above the microcopy floor",async({page})=>{
+  await enterApp(page);
+  const sizes=await page.locator("button:visible").evaluateAll(els=>els.filter(el=>!el.classList.contains("chess-square")).map(el=>parseFloat(getComputedStyle(el).fontSize)));
+  for(const size of sizes) expect(size).toBeGreaterThanOrEqual(10);
+  const headings=await page.locator("h1:visible,h2:visible,h3:visible").evaluateAll(els=>els.map(el=>parseFloat(getComputedStyle(el).fontSize)));
+  for(const size of headings) expect(size).toBeGreaterThanOrEqual(17);
+});
