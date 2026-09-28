@@ -35,7 +35,7 @@ test.describe("IGNITE mode theming",()=>{
     const normal=await snapshot(page);
     expect(normal.mode).toBe("normal");
     expect(normal.bodyMode).toBe("normal");
-    expect(normal.themeColor).toBe("#f7eef1");
+    expect(normal.themeColor).toBe("#170a11");
 
     await page.getByRole("button",{name:"After Dark"}).click();
     await expect(page.locator("#app[data-ignite-mode=dark]")).toBeVisible();
@@ -51,7 +51,7 @@ test.describe("IGNITE mode theming",()=>{
     const normalAgain=await snapshot(page);
     expect(normalAgain.mode).toBe("normal");
     expect(normalAgain.bodyMode).toBe("normal");
-    expect(normalAgain.themeColor).toBe("#f7eef1");
+    expect(normalAgain.themeColor).toBe("#170a11");
     expect(normalAgain.bodyBackground).toBe(normal.bodyBackground);
     expect(normalAgain.heroBackground).toBe(normal.heroBackground);
   });
@@ -70,6 +70,6 @@ test.describe("IGNITE mode theming",()=>{
     await expect(page.locator("#app[data-ignite-mode=normal]")).toBeVisible();
     const normal=await snapshot(page);
     expect(normal.bodyMode).toBe("normal");
-    expect(normal.themeColor).toBe("#f7eef1");
+    expect(normal.themeColor).toBe("#170a11");
   });
 });
