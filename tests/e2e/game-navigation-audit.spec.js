@@ -72,6 +72,11 @@ test("home and settings do not duplicate profile navigation",async({page})=>{
   await enterApp(page);
   await page.getByRole("button",{name:"Home",exact:true}).click();
   await expect(page.locator(".profile-chip")).toHaveCount(1);
+  await expect(page.locator('.bottom-nav [data-action="minigames"]')).toHaveCount(1);
+  await expect(page.locator('.bottom-nav [data-action="memories"]')).toHaveCount(1);
+  await expect(page.locator('.home-actions-v1 [data-action="minigames"]')).toHaveCount(0);
+  await expect(page.locator('.home-actions-v1 [data-action="memories"]')).toHaveCount(0);
+  await expect(page.locator('.home-actions-v1 [data-action="bond"]')).toHaveCount(1);
   await expect(page.locator(".profile-chip")).not.toHaveAttribute("data-action");
   await expect(page.locator('.bottom-nav [data-action="profile"]')).toHaveCount(1);
 
