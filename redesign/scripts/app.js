@@ -1,14 +1,14 @@
-import {initMechanic,mechanicAction,mechanicView,winnerLabel,isMechanicComplete,resetMechanic} from "./journey/mechanics.js?v=20260925-23";
-import {renderMinigameMenu,minigameView,minigameAction,openMinigame} from "./minigames/index.js?v=20260928-01";
-import {getProgress,getLevelInfo,startJourney as progressionStartJourney,completeJourney,completeActivity,completeRitual,recordMinigamePlayed,achievementList} from "./progression.js?v=20260925-16";
-import {starterNormalCards,starterExplicitCards,starterTruth,starterDare,starterIntimateTruth,starterIntimateDare} from "./journey/content.js?v=20260925-15";
-import {allKingNormalCommands,allKingDarkCommands,allRoleplayNormalRoles,allRoleplayDarkRoles} from "./data/topics.js?v=20260926-01";
-import {renderMemorySummary,renderMemories,renderPreferences,renderFeatureSettings,handleVibeClick,handlePreferenceSubmit,surpriseContext,dynamicContext,renderContextSummary,handleMoodClick} from "./features/ui.js?v=20260927-03";
-import {saveMemory} from "./features/memories.js?v=20260927-02";
-import {recordVibe,recordInteraction} from "./features/adaptive.js?v=20260925-15";
-import {getPreferences} from "./features/preferences.js?v=20260927-03";
-import {recordMemorySaved,recordOneMore} from "./progression.js?v=20260925-16";
-import {initAccessibility} from "./ui/accessibility.js?v=20260925-15";
+import {initMechanic,mechanicAction,mechanicView,winnerLabel,isMechanicComplete,resetMechanic} from "./journey/mechanics.js?v=20260928-02";
+import {renderMinigameMenu,minigameView,minigameAction,openMinigame} from "./minigames/index.js?v=20260928-02";
+import {getProgress,getLevelInfo,startJourney as progressionStartJourney,completeJourney,completeActivity,completeRitual,recordMinigamePlayed,achievementList} from "./progression.js?v=20260928-02";
+import {starterNormalCards,starterExplicitCards,starterTruth,starterDare,starterIntimateTruth,starterIntimateDare} from "./journey/content.js?v=20260928-02";
+import {allKingNormalCommands,allKingDarkCommands,allRoleplayNormalRoles,allRoleplayDarkRoles} from "./data/topics.js?v=20260928-02";
+import {renderMemorySummary,renderMemories,renderPreferences,renderFeatureSettings,handleVibeClick,handlePreferenceSubmit,surpriseContext,dynamicContext,renderContextSummary,handleMoodClick} from "./features/ui.js?v=20260928-02";
+import {saveMemory} from "./features/memories.js?v=20260928-02";
+import {recordVibe,recordInteraction} from "./features/adaptive.js?v=20260928-02";
+import {getPreferences} from "./features/preferences.js?v=20260928-02";
+import {recordMemorySaved,recordOneMore} from "./progression.js?v=20260928-02";
+import {initAccessibility} from "./ui/accessibility.js?v=20260928-02";
 
 const STORAGE_KEY="ignite-redesign-v4";
 const TOPIC_CLEAR_VERSION="20260926-clear-all-topics";
