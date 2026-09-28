@@ -1,5 +1,5 @@
 import {initMechanic,mechanicAction,mechanicView,winnerLabel,isMechanicComplete,resetMechanic} from "./journey/mechanics.js?v=20260925-23";
-import {renderMinigameMenu,minigameView,minigameAction,openMinigame} from "./minigames/index.js?v=20260927-02";
+import {renderMinigameMenu,minigameView,minigameAction,openMinigame} from "./minigames/index.js?v=20260928-01";
 import {getProgress,getLevelInfo,startJourney as progressionStartJourney,completeJourney,completeActivity,completeRitual,recordMinigamePlayed,achievementList} from "./progression.js?v=20260925-16";
 import {starterNormalCards,starterExplicitCards,starterTruth,starterDare,starterIntimateTruth,starterIntimateDare} from "./journey/content.js?v=20260925-15";
 import {allKingNormalCommands,allKingDarkCommands,allRoleplayNormalRoles,allRoleplayDarkRoles} from "./data/topics.js?v=20260926-01";
