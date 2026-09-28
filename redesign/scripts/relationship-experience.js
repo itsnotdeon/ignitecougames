@@ -16,7 +16,7 @@
     const m = getJSON("ignite-memories-v1", []);
     return Array.isArray(m) ? m : [];
   };
-  const progress = () => getJSON("ignite-progress-v1", {});
+  const progress = () => getJSON("ignite-progression-v1", {});
   const prefs = () => getJSON("ignite-preferences-v1", { vibes:["Romantic"] });
   const names = () => {
     const s = getJSON("ignite-redesign-v4", {});
@@ -168,15 +168,26 @@
 
   function routeAction(action, el) {
     if (action==="journey") {
-      document.querySelector('[data-action="dynamic"]')?.click() || document.querySelector('[data-action="start"]')?.click();
+      const dynamic=document.querySelector('[data-action="dynamic"]');
+      if(dynamic){ dynamic.click(); return; }
+      const start=document.querySelector('[data-action="start"]');
+      if(start){ start.click(); return; }
+      const journey=document.querySelector('[data-rx-action="journey"]');
+      if(journey && journey!==el){ journey.click(); }
       return;
     }
     if (action==="surprise") {
-      document.querySelector('[data-action="surprise"]')?.click() || document.querySelector('[data-home-modal="surprise"]')?.click();
+      const surprise=document.querySelector('[data-action="surprise"]');
+      if(surprise){ surprise.click(); return; }
+      const modal=document.querySelector('[data-home-modal="surprise"]');
+      if(modal){ modal.click(); }
       return;
     }
     if (action==="daily") {
-      document.querySelector('[data-home-modal="daily"]')?.click() || document.querySelector('[data-action="start"]')?.click();
+      const daily=document.querySelector('[data-home-modal="daily"]');
+      if(daily){ daily.click(); return; }
+      const start=document.querySelector('[data-action="start"]');
+      if(start){ start.click(); }
       return;
     }
     if (action==="memory") {
