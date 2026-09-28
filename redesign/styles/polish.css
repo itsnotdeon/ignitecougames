@@ -899,9 +899,6 @@ h3{
 .ks-command-part small,.ks-kicker{font-size:9px}
 .ks-consent-list span,.ks-power-item button{font-size:10px}
 .game-screen-title h2{font-family:var(--display)}
-/* Chess uses Unicode symbols; use a cross-platform symbol stack rather than a desktop-only font. */
-.chess-square{font-family:"Noto Sans Symbols 2","Segoe UI Symbol","Arial Unicode MS",var(--body),sans-serif}
-
 /* Embedded Journey Roleplay already has the Journey step heading. */
 .journey-roleplay .game-screen-header{display:none}
 .journey-roleplay .game-screen{gap:12px}
