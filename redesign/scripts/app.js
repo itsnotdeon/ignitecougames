@@ -16,10 +16,7 @@ import {getPreferences} from "./features/preferences.js?v=20260928-02";
 import {recordMemorySaved,recordOneMore} from "./progression.js?v=20260928-02";
 import {initAccessibility} from "./ui/accessibility.js?v=20260928-02";
 
-const STORAGE_KEY="ignite-redesign-v4";
-const TOPIC_CLEAR_VERSION="20260926-clear-all-topics";
 
-const state={names:{p1:"",p2:"",couple:""},relationship:"Couple",relationshipSince:null,currentJourney:null,step:0,view:"home",mode:"normal",profilePhotos:{p1:"",p2:"",couple:""}};
 
 
 const BACKUP_EXCLUDE_KEYS=new Set(["ignite-topic-clear-v1"]);
