@@ -49,3 +49,8 @@
 
 /* Journey resume affordance */
 .journey-v2-head-actions{display:flex;gap:6px;align-items:center}.journey-v2-current-progress{height:4px;margin-top:10px;border-radius:99px;background:#321421;overflow:hidden}.journey-v2-current-progress span{display:block;height:100%;border-radius:99px;background:linear-gradient(90deg,#ff2f70,#ff79a0)}
+
+
+/* Memories search + detail actions */
+.memories-v2-title-actions{position:absolute;right:0;top:5px;display:flex;gap:5px}.memory-search-form{display:flex;gap:6px;margin:0 0 12px}.memory-search-form input{flex:1;min-width:0}.memory-search-form .icon-btn{flex:0 0 34px}.memory-detail-delete{margin-top:16px}
+.category-grid button.active{border-color:rgba(255,82,132,.6);background:rgba(255,45,111,.12);box-shadow:0 0 15px rgba(255,45,111,.08)}
