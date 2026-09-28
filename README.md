@@ -26,3 +26,5 @@ The application is currently **single-player/local-first**. Multiplayer infrastr
 <!-- Playwright QA trigger: full suite against main -->
 
 <!-- QA heartbeat 2026-09-28T06:59Z -->
+
+<!-- Playwright QA rerun: 1790578804972 -->
