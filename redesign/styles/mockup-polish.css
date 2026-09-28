@@ -63,3 +63,5 @@
 .home-v2-header-actions{display:flex;align-items:center;gap:6px}.home-mode-toggle{font-size:10px!important;padding:7px 9px!important}.home-mode-toggle.active{border-color:rgba(255,82,132,.7);background:rgba(255,45,111,.14)}.play-preferences{padding:12px;margin-top:10px}.play-preferences h3{font-family:var(--display);font-size:15px;margin:5px 0}.play-preferences p{font-size:8px}.bottom-nav-item,.home-v2-quick button{font-size:10px!important}
 
 .home-journey-actions{display:grid;grid-template-columns:1fr 1fr;gap:6px}.home-journey-actions .btn{margin-top:0}button{font-size:10px!important}
+
+.play-legacy-kicker{display:block;font-size:7px;letter-spacing:.18em;color:var(--muted);margin-top:4px}.settings-legacy-paths{display:grid;gap:4px;margin:8px 0;font-size:7px;color:var(--muted)}.profile-settings-shortcut{width:100%;display:flex;align-items:center;gap:8px;text-align:left}.profile-settings-shortcut span{flex:1}.play-preferences h3{font-size:17px!important}.play-v2 h2,.journey-v2 h2,.profile-v2 h2{font-size:17px!important}
