@@ -433,7 +433,7 @@ export function renderKing(state, names) {
     '<section class="ks-screen">' +
       '<header class="ks-header">' +
         '' +
-        '<div><h2>King &amp; Slave</h2><small>' + mode + '</small></div>' +
+        '<div><h2>King &amp; Slave</h2><small class="mode-pill">' + mode.toUpperCase() + '</small></div>' +
         '<button class="ks-reset" data-mini="ks-reset">Reset</button>' +
       '</header>' +
       '<div class="ks-progress"><span>ROUND ' + state.round + '</span><i></i><span>' +
