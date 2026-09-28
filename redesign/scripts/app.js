@@ -1,8 +1,14 @@
+import {state,load,save,clearAllTopicStorageOnce} from "./core/state.js?v=20260928-01";
+import {app,esc,resetViewport} from "./core/dom.js?v=20260928-01";
+import {exportAppBackup,restoreAppBackup,resetAllAppData} from "./core/backup.js?v=20260928-01";
+import {syncModeTheme} from "./core/theme.js?v=20260928-01";
+import {journeys} from "./data/journeys.js?v=20260928-01";
+import {readBond,writeBond,pickBond} from "./features/bond.js?v=20260928-01";
+import {TOPIC_MANAGER_KEYS,ROLE_KEYS,readContent,saveContent,cleanRole,getTopicStats,contentStats,contentTotal} from "./features/content-library.js?v=20260928-01";
 import {initMechanic,mechanicAction,mechanicView,winnerLabel,isMechanicComplete,resetMechanic} from "./journey/mechanics.js?v=20260928-02";
 import {renderMinigameMenu,minigameView,minigameAction,openMinigame} from "./minigames/index.js?v=20260928-02";
 import {getProgress,getLevelInfo,startJourney as progressionStartJourney,completeJourney,completeActivity,completeRitual,recordMinigamePlayed,achievementList} from "./progression.js?v=20260928-02";
-import {starterNormalCards,starterExplicitCards,starterTruth,starterDare,starterIntimateTruth,starterIntimateDare} from "./journey/content.js?v=20260928-02";
-import {allKingNormalCommands,allKingDarkCommands,allRoleplayNormalRoles,allRoleplayDarkRoles} from "./data/topics.js?v=20260928-02";
+import {starterTruth,starterDare} from "./journey/content.js?v=20260928-02";
 import {renderMemorySummary,renderMemories,renderPreferences,renderFeatureSettings,handleVibeClick,handlePreferenceSubmit,surpriseContext,dynamicContext,renderContextSummary,handleMoodClick} from "./features/ui.js?v=20260928-02";
 import {saveMemory,getMemory,updateMemory,deleteMemory,toggleMemoryFavorite} from "./features/memories.js?v=20260928-02";
 import {recordVibe,recordInteraction} from "./features/adaptive.js?v=20260928-02";
@@ -10,49 +16,20 @@ import {getPreferences} from "./features/preferences.js?v=20260928-02";
 import {recordMemorySaved,recordOneMore} from "./progression.js?v=20260928-02";
 import {initAccessibility} from "./ui/accessibility.js?v=20260928-02";
 
-const STORAGE_KEY="ignite-redesign-v4";
-const TOPIC_CLEAR_VERSION="20260926-clear-all-topics";
-function clearAllTopicStorageOnce(){
-  if(localStorage.getItem(TOPIC_CLEAR_VERSION)==="done")return;
-  ["ignite-active-content-v1","ignite-active-topics-v1","ignite-custom-topics-v1","ignite-content-v1"].forEach(k=>localStorage.removeItem(k));
-  localStorage.setItem(TOPIC_CLEAR_VERSION,"done");
-}
-const state={names:{p1:"",p2:"",couple:""},relationship:"Couple",relationshipSince:null,currentJourney:null,step:0,view:"home",mode:"normal",profilePhotos:{p1:"",p2:"",couple:""}};
-const journeys={
- normal:{id:"normal",title:"Normal Journey",subtitle:"Talk, play, and get a little closer.",mood:"Romantic · Playful · Warm",steps:[
-  {kind:"ritual",mechanic:"guess-color",icon:"🎴",title:"Warm Up",text:"Tebak warna kartu sebelum kartu dibuka. Lima ronde cukup untuk mengubah suasana.",action:"Continue"},
-  {kind:"activity",mechanic:"card",icon:"♡",title:"Talk Card",text:"Buka kartu satu per satu. Kalian menentukan kapan cukup dan lanjut ke tahap berikutnya.",action:"Continue"},
-  {kind:"ritual",mechanic:"rps",icon:"✊",title:"Change the Energy",text:"Mainkan Rock Paper Scissors. Lima ronde untuk mengubah tempo.",action:"Continue"},
-  {kind:"activity",mechanic:"tod",icon:"◇",title:"Truth or Dare",text:"Buka prompt satu per satu. Pilih Truth atau Dare, lalu lanjut saat kalian siap.",action:"Continue"},
-  {kind:"activity",mechanic:"card",icon:"♡",title:"One More Card",text:"Satu ruang terakhir untuk sebuah kartu. Ambil sebanyak yang kalian mau sebelum menutup Journey.",action:"Continue"},
-  {kind:"closing",icon:"♥",title:"Close the Journey",text:"Apa satu hal kecil dari pasanganmu yang paling kamu nikmati saat ini?",action:"Finish Journey"}]},
- dark:{id:"dark",title:"After Dark",subtitle:"A more intimate journey for two.",mood:"Intimate · Daring · Tasteful",steps:[
-  {kind:"ritual",mechanic:"guess-color",icon:"🎴",title:"Set the Mood",text:"Mulai perlahan dengan tebak warna kartu. Kalian bisa berhenti kapan saja.",action:"Continue"},
-  {kind:"activity",mechanic:"explicit-card",icon:"🔥",title:"Explicit Card",text:"Buka kartu satu per satu. Konten After Dark membutuhkan persetujuan dan kenyamanan kalian berdua.",action:"Continue"},
-  {kind:"ritual",mechanic:"rps",icon:"✊",title:"Change the Energy",text:"Gunakan lima ronde singkat untuk mengubah tempo.",action:"Continue"},
-  {kind:"activity",mechanic:"intimate-tod",icon:"◇",title:"Intimate Truth or Dare",text:"Buka prompt satu per satu. Pilih yang terasa nyaman. Kalian tetap memegang kendali.",action:"Continue"},
-  {kind:"activity",mechanic:"roleplay",icon:"🎭",title:"Roleplay",text:"Masuk ke sebuah karakter dan adegan. Kalian menentukan sendiri kapan cukup.",action:"Continue"},
-  {kind:"closing",icon:"♥",title:"Close the Journey",text:"Selesai. Tidak perlu mengejar apa pun — cukup nikmati momennya.",action:"Finish Journey"}]}
-};
 
-const app=document.querySelector("#app");
-function syncModeTheme(){const mode=state.mode==="dark"?"dark":"normal";app.dataset.igniteMode=mode;document.body.dataset.igniteMode=mode;const meta=document.querySelector('meta[name="theme-color"]');if(meta)meta.setAttribute("content",mode==="dark"?"#030203":"#170a11")}function load(){try{const saved=JSON.parse(localStorage.getItem(STORAGE_KEY));if(saved){state.names=saved.names||state.names;state.relationship=saved.relationship||"Couple";state.relationshipSince=saved.relationshipSince||null;state.currentJourney=saved.currentJourney||null;state.step=Number(saved.step)||0;state.view=saved.view||"home";state.mode=saved.mode==="dark"?"dark":"normal";state.profilePhotos={...state.profilePhotos,...(saved.profilePhotos||{})};state.__journeyComplete=Boolean(saved.__journeyComplete);state.__selectedJourney=Number.isInteger(saved.__selectedJourney)?saved.__selectedJourney:null;if(state.view==="generating"){state.view="home";delete state.__journeyTargetSteps;delete state.__journeyRoleplayOpen;delete state.__journeyRoleplayDone}}}catch(e){state.view="home"}}
-function save(){try{localStorage.setItem(STORAGE_KEY,JSON.stringify(state))}catch(e){console.warn("[IGNITE] state save failed",e)}}
+
+
 const BACKUP_EXCLUDE_KEYS=new Set(["ignite-topic-clear-v1"]);
-function appStorageSnapshot(){const data={};for(let i=0;i<localStorage.length;i++){const key=localStorage.key(i);if(key&&key.startsWith("ignite-")&&!BACKUP_EXCLUDE_KEYS.has(key))data[key]=localStorage.getItem(key)}return data}
-function downloadText(filename,text,type="application/json"){const blob=new Blob([text],{type});const url=URL.createObjectURL(blob);const a=document.createElement("a");a.href=url;a.download=filename;a.click();setTimeout(()=>URL.revokeObjectURL(url),500)}
-function exportAppBackup(){downloadText("ignite-backup-"+new Date().toISOString().slice(0,10)+".json",JSON.stringify({format:"ignite-backup",version:1,exportedAt:new Date().toISOString(),data:appStorageSnapshot()},null,2))}
-function restoreAppBackup(data){if(!data||data.format!=="ignite-backup"||!data.data||typeof data.data!=="object")throw new Error("Invalid IGNITE backup.");for(let i=localStorage.length-1;i>=0;i--){const key=localStorage.key(i);if(key&&key.startsWith("ignite-"))localStorage.removeItem(key)}for(const key of Object.keys(data.data))if(key.startsWith("ignite-")&&!BACKUP_EXCLUDE_KEYS.has(key))localStorage.setItem(key,String(data.data[key]??""));localStorage.setItem(TOPIC_CLEAR_VERSION,"done");sessionStorage.setItem("ignite-welcome-seen","1");location.reload()}
-function resetAllAppData(){if(!window.confirm("Reset all IGNITE data on this device? This cannot be undone."))return;for(let i=localStorage.length-1;i>=0;i--){const key=localStorage.key(i);if(key&&key.startsWith("ignite-"))localStorage.removeItem(key)}sessionStorage.removeItem("ignite-welcome-seen");location.reload()}
+
+
+
+
+
 function coupleName(){const level=getLevelInfo(getProgress().xp);const quotes={1:"Every story starts with a spark.",2:"Two people, one little world.",3:"The closer you get, the more you discover.",4:"In sync, one moment at a time.",5:"You found your rhythm. Keep the fire alive.",6:"Some connections grow deeper with every moment.",7:"Two hearts, one unstoppable rhythm.",8:"This is your story. Keep the fire alive."};return quotes[level.level]||quotes[1]}
-function esc(v){return String(v).replace(/[&<>"']/g,function(c){return{"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#039;"}[c]})}
-function resetViewport(){
- try{window.scrollTo({top:0,left:0,behavior:"auto"})}catch{window.scrollTo(0,0)}
- if(document.documentElement)document.documentElement.scrollTop=0;
- if(document.body)document.body.scrollTop=0;
-}
+
+
 function setView(view){state.view=view;save();render();requestAnimationFrame(resetViewport)}
-function render(){syncModeTheme();if(state.view==="generating")renderJourneyGenerating();else if(state.view==="welcome")renderWelcome();else if(state.view==="home")renderHome();else if(state.view==="names")renderNames();else if(state.view==="intro")renderIntro();else if(state.view==="session")renderSession();else if(state.view==="complete")renderComplete();else if(state.view==="minigames")renderMinigames();else if(state.view==="profile")renderProfile();else if(state.view==="settings")renderSettings();else if(state.view==="journey")renderJourney();else if(state.view==="journey-detail")renderJourneyDetail();else if(state.view==="memories")app.innerHTML=renderMemories(renderBottomNav("memories"));else if(state.view==="memory-detail")renderMemoryDetail(state.__selectedMemory);else if(state.view==="memory-capture")renderMemoryCapture();else if(state.view==="preferences")app.innerHTML=renderPreferences();else if(state.view==="topics")renderTopics();else if(state.view==="bond")renderBond();else{state.view="home";save();renderHome()}}
+function render(){syncModeTheme(state.mode);if(state.view==="generating")renderJourneyGenerating();else if(state.view==="welcome")renderWelcome();else if(state.view==="home")renderHome();else if(state.view==="names")renderNames();else if(state.view==="intro")renderIntro();else if(state.view==="session")renderSession();else if(state.view==="complete")renderComplete();else if(state.view==="minigames")renderMinigames();else if(state.view==="profile")renderProfile();else if(state.view==="settings")renderSettings();else if(state.view==="journey")renderJourney();else if(state.view==="journey-detail")renderJourneyDetail();else if(state.view==="memories")app.innerHTML=renderMemories(renderBottomNav("memories"));else if(state.view==="memory-detail")renderMemoryDetail(state.__selectedMemory);else if(state.view==="memory-capture")renderMemoryCapture();else if(state.view==="preferences")app.innerHTML=renderPreferences();else if(state.view==="topics")renderTopics();else if(state.view==="bond")renderBond();else{state.view="home";save();renderHome()}}
 function renderBottomNav(active="home"){
  return '<nav class="bottom-nav" aria-label="Main navigation">'+
  '<button class="bottom-nav-item '+(active==="home"?"active":"")+'" data-action="home" aria-label="Home"><span>⌂</span><small>Home</small></button>'+
@@ -137,11 +114,9 @@ function renderHome(){
  h+=renderBottomNav("home")+homeModalOverlay()+'</section>';
  app.innerHTML=h;
 }
-const BOND_KEY="ignite-bond-v1";
-const BOND_PROMPTS={daily:["Apa satu hal kecil yang membuatmu merasa dekat denganku hari ini?","Kalau malam ini hanya punya satu jam bersama, kamu ingin menghabiskannya bagaimana?","Apa momen kecil kita akhir-akhir ini yang ingin kamu ulang?","Hal apa dari pasanganmu yang akhir-akhir ini paling kamu hargai?"],deep:["Apa hal tentang masa depan kita yang paling ingin kamu bangun bersama?","Kapan kamu merasa paling aman untuk menjadi dirimu sendiri bersamaku?","Apa sesuatu yang ingin kamu pelajari tentang pasanganmu tahun ini?","Apa satu kebiasaan kecil yang bisa membuat hubungan kita terasa lebih hangat?"],quiz:["Siapa yang lebih mungkin mengajak liburan dadakan?","Siapa yang lebih cepat bilang ayo coba saat ada hal baru?","Siapa yang biasanya lebih dulu mencairkan suasana setelah salah paham?"]};
-function readBond(){try{const raw=JSON.parse(localStorage.getItem(BOND_KEY)||"{}");return{...raw,favorites:Array.isArray(raw?.favorites)?raw.favorites:[],goals:Array.isArray(raw?.goals)?raw.goals:[]}}catch{return{favorites:[],goals:[]}}}
-function writeBond(v){localStorage.setItem(BOND_KEY,JSON.stringify(v));return v}
-function pickBond(type,current=""){const pool=BOND_PROMPTS[type]||BOND_PROMPTS.daily;const choices=pool.filter(x=>x!==current);return choices[Math.floor(Math.random()*choices.length)]||pool[0]}
+
+
+
 function renderBond(){
  const b=readBond(),current=b.dailyCurrent||pickBond("daily"),deep=b.deepCurrent||pickBond("deep"),quiz=b.quizCurrent||pickBond("quiz");
  if(!b.dailyCurrent)b.dailyCurrent=current;
@@ -279,20 +254,17 @@ function renderProfile(){
   app.innerHTML='<section class="ignite-screen profile-mock"><header class="ignite-centered-title profile-title"><button class="ignite-icon-btn profile-settings-shortcut" data-action="settings" aria-label="Settings">⚙</button><span class="ignite-eyebrow">COUPLE PROFILE</span><h1>PROFILES</h1><p>You, Me, and Us</p></header><section class="ignite-profile-pair"><button data-profile-action="person" data-profile-person="you"><div class="ignite-round-avatar">'+avatar(n1,"p1")+'</div><b>'+esc(n1)+'</b><small>He / Him</small></button><span>♥</span><button data-profile-action="person" data-profile-person="partner"><div class="ignite-round-avatar">'+avatar(n2,"p2")+'</div><b>'+esc(n2)+'</b><small>She / Her</small></button></section><section class="ignite-profile-progress"><span>YOUR PROGRESS</span><b>Level '+getLevelInfo(p.xp).level+' · '+esc(getLevelInfo(p.xp).title)+'</b></section><section class="ignite-profile-stats"><b>'+Math.max(132,p.stats.minigamesPlayed)+'</b><small>Games Played</small><b>'+p.stats.memoriesSaved+'</b><small>Memories</small><b>'+Math.max(127,d||0)+'</b><small>Days Together</small></section><blockquote>“Different people,<br>same favorite person.” <i>♥</i></blockquote><div class="ignite-profile-achievement-tease"><span>ACHIEVEMENTS</span><b>First Spark</b><small>Keep building your story together.</small></div><div class="ignite-profile-links"><button data-profile-action="edit">♧ <span><b>Edit Profiles</b><small>Update your information</small></span>›</button><button data-profile-action="relationship">♡ <span><b>Relationship Settings</b><small>Customize your experience</small></span>›</button><button data-profile-action="achievements">♕ <span><b>Achievements</b><small>See your journey together</small></span>›</button></div>'+renderBottomNav("profile")+'</section>';
  }
 }
-function getTopicStats(){const x=readContent();const total=TOPIC_MANAGER_KEYS.reduce((n,k)=>n+(ROLE_KEYS.includes(k)?(x[k]||[]).reduce((m,r)=>m+1+(Array.isArray(r.items)?r.items.length:0),0):(x[k]||[]).length),0);return{total,customTotal:0}}
+
 function renderSettings(){const stats=getTopicStats(),dateValue=state.relationshipSince?new Date(state.relationshipSince).toISOString().slice(0,10):"";app.innerHTML='<section class="settings-v1"><div class="settings-topbar"><button class="btn ghost" data-action="home">←</button><div class="brand">SETTINGS</div><span></span></div><section class="settings-v1-hero"><div class="eyebrow">IGNITE</div><h1>Keep it<br>simple.</h1><p>Settings are for app-wide controls. Game and Journey choices live where you use them.</p></section><section class="card settings-profile-v1"><div class="eyebrow">YOUR PROFILE</div><h3>Keep your story accurate.</h3><form id="settings-form"><div class="field"><label>YOUR NAME</label><input name="p1" maxlength="30" value="'+esc(state.names.p1)+'" required></div><div class="field"><label>YOUR LOVE</label><input name="p2" maxlength="30" value="'+esc(state.names.p2)+'" required></div><div class="field"><label>RELATIONSHIP</label><select name="relationship"><option value="Couple"'+(state.relationship==="Couple"?" selected":"")+'>Couple</option><option value="Married"'+(state.relationship==="Married"?" selected":"")+'>Married</option><option value="Dating"'+(state.relationship==="Dating"?" selected":"")+'>Dating</option><option value="Other"'+(state.relationship==="Other"?" selected":"")+'>Other</option></select></div><div class="field"><label>TOGETHER SINCE</label><input name="relationshipSince" type="date" value="'+dateValue+'"><small class="muted">Used for Days Together and your anniversary.</small></div><button class="btn primary full">Save Profile</button></form></section><section class="settings-v1-list"><div class="settings-v1-section-label">TOPICS</div></section><section class="card settings-topics-v1"><div class="eyebrow">TOPIC LIBRARY</div><div class="settings-topic-total"><strong>'+stats.total+'</strong><span>topics available</span></div><p>Manage the active prompt library used across IGNITE. Changes stay on this device until you restore or reset your data.</p><button class="btn primary full" data-action="topics">Manage My Topics</button></section><section class="settings-v1-list"><div class="settings-v1-section-label">DATA & PRIVACY</div></section><section class="card settings-data-v1"><div class="eyebrow">LOCAL DATA</div><h3>Your data stays with you.</h3><p>Back up, restore, or reset the IGNITE data stored on this device.</p><div class="content-actions"><button type="button" class="btn ghost" data-action="data-export">Export Backup</button><button type="button" class="btn ghost" data-action="data-import">Restore Backup</button><button type="button" class="btn danger" data-action="data-reset">Reset All Data</button></div><input id="app-backup-import" type="file" accept=".json,application/json" hidden></section><section class="card settings-scope-v1"><div class="eyebrow">QUICK CONTROLS</div><button class="settings-scope-row settings-scope-action" data-action="preferences"><b>Journey Preferences</b><span>Play → Journey Preferences</span></button><button class="settings-scope-row settings-scope-action" data-action="mode" data-mode="'+(state.mode==="dark"?"normal":"dark")+'"><b>IGNITE Mode</b><span>Home → IGNITE Mode</span></button><button class="settings-scope-row settings-scope-action" data-action="dynamic"><b>Dynamic Journey</b><span>Build a fresh journey from your preferences ›</span></button></section><div class="settings-about"><span>IGNITE</span><small>Version 1.0.0 · Made for two</small></div>'+renderBottomNav("profile")+'</section>'}
-const CONTENT_KEY="ignite-active-content-v1";
-const TOPIC_MANAGER_KEYS=["normalCards","explicitCards","truth","dare","intimateTruth","intimateDare","kingNormal","kingDark","roleplayNormal","roleplayDark"];
 const TOPIC_MANAGER_LABELS={normalCards:"Journey · Normal",explicitCards:"Journey · After Dark",truth:"Journey · Truth",dare:"Journey · Dare",intimateTruth:"Journey · After Dark Truth",intimateDare:"Journey · After Dark Dare",kingNormal:"King & Slave · Normal",kingDark:"King & Slave · After Dark",roleplayNormal:"Roleplay · Normal",roleplayDark:"Roleplay · After Dark"};
-const ROLE_KEYS=["roleplayNormal","roleplayDark"];
-function emptyContent(){return Object.fromEntries(TOPIC_MANAGER_KEYS.map(k=>[k,[]]))}
-function cleanTopicList(v){return Array.isArray(v)?v.filter(x=>typeof x==="string"&&x.trim()).map(x=>x.trim()):[]}
-function cleanRole(r){if(!r||typeof r!=="object")return null;return{id:String(r.id||("role-"+Date.now())),emoji:String(r.emoji||"🎭"),name:String(r.name||"Untitled Role").trim(),desc:String(r.desc||"").trim(),items:Array.isArray(r.items)?r.items.filter(x=>x&&typeof x==="object").map(x=>({context:String(x.context||"").trim(),challenge:String(x.challenge||"").trim()})).filter(x=>x.context||x.challenge):[]}}
-function defaultManagerContent(){return{normalCards:[...starterNormalCards],explicitCards:[...starterExplicitCards],truth:[...starterTruth],dare:[...starterDare],intimateTruth:[...starterIntimateTruth],intimateDare:[...starterIntimateDare],kingNormal:[...allKingNormalCommands],kingDark:[...allKingDarkCommands],roleplayNormal:allRoleplayNormalRoles.map(cleanRole).filter(Boolean),roleplayDark:allRoleplayDarkRoles.map(cleanRole).filter(Boolean)}}
-function readContent(){const defaults=defaultManagerContent(),out=emptyContent();try{const raw=JSON.parse(localStorage.getItem(CONTENT_KEY)||"null");if(raw&&typeof raw==="object"){for(const k of TOPIC_MANAGER_KEYS)out[k]=ROLE_KEYS.includes(k)?(Array.isArray(raw[k])?raw[k].map(cleanRole).filter(Boolean):[]):cleanTopicList(raw[k]);return out}}catch{}return defaults}
-function saveContent(x){localStorage.setItem(CONTENT_KEY,JSON.stringify(x))}
-function contentStats(x){return Object.fromEntries(TOPIC_MANAGER_KEYS.map(k=>[k,ROLE_KEYS.includes(k)?x[k].reduce((n,r)=>n+1+r.items.length,0):x[k].length]))}
-function contentTotal(x){const stats=contentStats(x);return TOPIC_MANAGER_KEYS.reduce((n,k)=>n+stats[k],0)}
+
+
+
+
+
+
+
+
 function renderTopics(){
  const x=readContent(),active=state.__topicCategory||"normalCards",roles=ROLE_KEYS.includes(active),items=x[active]||[];
  let html='<section class="settings-v1 topics-manager-v1"><div class="topbar"><button class="btn ghost" data-action="settings">←</button><div class="brand">CONTENT MANAGER</div><span></span></div>';
@@ -327,7 +299,7 @@ function importContentSource(data){
  saveContent(x);renderTopics();
 }
 function resetJourneyMechanics(id,journey=null){const j=journey||journeys[id];if(!j)return;for(let i=0;i<j.steps.length;i++)if(j.steps[i].mechanic&&j.steps[i].mechanic!=="roleplay")resetMechanic(j.steps[i].mechanic,i)}
-function setMode(mode){state.mode=mode==="dark"?"dark":"normal";save();syncModeTheme();render()}
+function setMode(mode){state.mode=mode==="dark"?"dark":"normal";save();syncModeTheme(state.mode);render()}
 function generateJourney(id,targetSteps,bias={}){const base=journeys[id==="dark"?"dark":"normal"];const target=Math.max(3,Math.min(12,Number(targetSteps)||5));const closing=base.steps[base.steps.length-1];const opening=base.steps[0];const pool=base.steps.slice(1,-1);const weights=bias.weights||{};const weightFor=s=>{if(s.mechanic==="card"||s.mechanic==="explicit-card")return weights.Talk||1;if(s.mechanic==="rps")return weights.RPS||1;if(s.mechanic==="tod"||s.mechanic==="intimate-tod")return weights.TruthDare||1;if(s.title==="Roleplay")return weights.Roleplay||1;return 1};const chosen=[];let availablePool=pool.slice();while(chosen.length<target-2){if(!availablePool.length)availablePool=pool.slice();let candidates=availablePool.filter(s=>!chosen.length||s.mechanic!==chosen[chosen.length-1].mechanic);if(!candidates.length)candidates=availablePool.slice();const weighted=[];for(const s of candidates){const n=Math.max(1,Math.round(weightFor(s)));for(let i=0;i<n;i++)weighted.push(s)}const picked=weighted[Math.floor(Math.random()*weighted.length)]||candidates[0];chosen.push(picked);const index=availablePool.indexOf(picked);if(index>=0)availablePool.splice(index,1);}return{...JSON.parse(JSON.stringify(base)),steps:[JSON.parse(JSON.stringify(opening)),...chosen.map(s=>JSON.parse(JSON.stringify(s))),JSON.parse(JSON.stringify(closing))]}}
 function startJourney(id,options={}){const selected=id==="dark"?"dark":(id==="normal"?"normal":(state.mode==="dark"?"dark":"normal"));const preferred=getPreferences().steps;const target=Math.max(3,Math.min(12,Number(options.targetSteps)||Number(preferred)||5));const bias=options.bias||{};if(state.currentJourney?.id===selected)resetJourneyMechanics(selected,state.currentJourney);delete state.__journeyRoleplayOpen;delete state.__journeyRoleplayDone;state.__journeyTargetSteps=target;state.__journeyComplete=false;state.view="generating";save();render();window.setTimeout(()=>{state.currentJourney=generateJourney(selected,target,bias);resetJourneyMechanics(selected,state.currentJourney);state.step=0;delete state.__journeyTargetSteps;delete state.__journeyRoleplayOpen;delete state.__journeyRoleplayDone;progressionStartJourney(selected);if(!state.names.p1.trim()||!state.names.p2.trim())setView("names");else setView("intro")},650)}
 function begin(){const consent=document.querySelector("#consent");if(state.currentJourney.id==="dark"&&(!consent||!consent.checked))return;setView("session")}
