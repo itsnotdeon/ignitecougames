@@ -22,7 +22,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        shard: [1/4, 2/4, 3/4, 4/4]
+        shard: [1, 2, 3, 4]
     steps:
       - uses: actions/checkout@v4
 
@@ -43,7 +43,7 @@ jobs:
         run: node --experimental-vm-modules --input-type=module -e "import fs from 'node:fs'; import vm from 'node:vm'; for (const file of ['redesign/scripts/app.js','redesign/scripts/journey/mechanics.js','redesign/scripts/journey/content.js']) { try { new vm.SourceTextModule(fs.readFileSync(file,'utf8')); console.log('Parsed',file); } catch (error) { console.error('Failed',file,error); process.exit(1); } }"
 
       - name: Run Playwright E2E
-        run: npm run test:e2e -- --workers=2 --shard=${{ matrix.shard }}
+        run: npm run test:e2e -- --workers=2 --shard=${{ matrix.shard }}/4
 
       - name: Upload Playwright report on failure
         if: failure()
