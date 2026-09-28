@@ -170,7 +170,9 @@ function renderMinigames(){
   html+=renderFeatureSettings(level,"");
   html+='<div class="section-label">QUICK PLAY</div>';
  }else{
-  html+='<div class="play-active-head"><button class="btn ghost" data-action="minigames-menu">← All Games</button><span class="mode-pill">'+(state.mode==="dark"?"AFTER DARK · 18+":"NORMAL")+'</span></div>';
+  const followsMode=active==="roleplay"||active==="king";
+  const modeLabel=followsMode?(state.mode==="dark"?"AFTER DARK · 18+":"NORMAL"):"NEUTRAL";
+  html+='<div class="play-active-head"><button class="btn ghost" data-action="minigames-menu">← All Games</button><span class="mode-pill'+(followsMode?"":" neutral")+'">'+modeLabel+'</span></div>';
  }
  html+=body+(active?'':renderBottomNav("play"))+'</section>';
  app.innerHTML=html;
