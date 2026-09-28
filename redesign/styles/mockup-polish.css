@@ -1,3 +1,6 @@
 [object Object]
 /* QA contract: visible interactive headings remain readable */
 h1,h2,h3{font-size:max(17px,1em)}
+
+.mode-switch{display:flex;gap:3px;padding:3px;border:1px solid rgba(255,255,255,.1);border-radius:999px;background:rgba(255,255,255,.035)}.home-mode-toggle{border:0!important;border-radius:999px!important;padding:6px 9px!important;background:transparent!important}.home-mode-toggle.active{background:rgba(255,47,112,.18)!important;border:1px solid rgba(255,82,132,.5)!important}
+.play-v2-header h1{font-size:24px!important}.play-v2-header h2,.home-v2 h2,.home-v2 h3,.journey-v2 h2,.journey-v2 h3,.profile-v1 h2,.profile-v1 h3{font-size:17px!important}
