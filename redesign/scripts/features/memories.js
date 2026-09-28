@@ -11,7 +11,7 @@ function write(v){
 export function getMemories(){return read()}
 export function getMemory(id){return read().find(x=>x.id===id)||null}
 export function updateMemory(id,patch={}){const list=read();const index=list.findIndex(x=>x.id===id);if(index<0)return null;list[index]={...list[index],...patch,id:list[index].id,date:list[index].date||new Date().toISOString()};write(list);return list[index]}
-export function deleteMemory(id){const next=read().filter(x=>x.id!==id);write(next);return next.length<read().length}
+export function deleteMemory(id){const before=read();const next=before.filter(x=>x.id!==id);write(next);return next.length<before.length}
 export function toggleMemoryFavorite(id){const list=read();const item=list.find(x=>x.id===id);if(!item)return null;item.favorite=!item.favorite;write(list);return item}
 export function saveMemory(memory){const item={id:"memory-"+Date.now(),date:new Date().toISOString(),journey:memory.journey||"normal",xp:Number(memory.xp)||0,moment:String(memory.moment||"A moment together"),note:String(memory.note||"").trim(),photo:memory.photo||"",...memory};const list=[item,...read()].slice(0,100);const saved=write(list);return saved.find(x=>x.id===item.id)||saved[0]||item}
 export function getStreak(){const days=new Set(read().map(x=>String(x.date||"").slice(0,10)).filter(Boolean));let streak=0;const d=new Date();while(days.has(d.toISOString().slice(0,10))){streak++;d.setDate(d.getDate()-1)}return streak}
