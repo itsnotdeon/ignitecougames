@@ -1,0 +1,14 @@
+import {starterNormalCards,starterExplicitCards,starterTruth,starterDare,starterIntimateTruth,starterIntimateDare} from "../journey/content.js";
+import {allKingNormalCommands,allKingDarkCommands,allRoleplayNormalRoles,allRoleplayDarkRoles} from "./topics.js";
+export const CONTENT_KEY="ignite-active-content-v1";
+export const TOPIC_MANAGER_KEYS=["normalCards","explicitCards","truth","dare","intimateTruth","intimateDare","kingNormal","kingDark","roleplayNormal","roleplayDark"];
+export const ROLE_KEYS=["roleplayNormal","roleplayDark"];
+export function emptyContent(){return Object.fromEntries(TOPIC_MANAGER_KEYS.map(k=>[k,[]]))}
+export function cleanTopicList(v){return Array.isArray(v)?v.filter(x=>typeof x==="string"&&x.trim()).map(x=>x.trim()):[]}
+export function cleanRole(r){if(!r||typeof r!=="object")return null;return{id:String(r.id||("role-"+Date.now())),emoji:String(r.emoji||"🎭"),name:String(r.name||"Untitled Role").trim(),desc:String(r.desc||"").trim(),items:Array.isArray(r.items)?r.items.filter(x=>x&&typeof x==="object").map(x=>({context:String(x.context||"").trim(),challenge:String(x.challenge||"").trim()})).filter(x=>x.context||x.challenge):[]}}
+export function defaultManagerContent(){return{normalCards:[...starterNormalCards],explicitCards:[...starterExplicitCards],truth:[...starterTruth],dare:[...starterDare],intimateTruth:[...starterIntimateTruth],intimateDare:[...starterIntimateDare],kingNormal:[...allKingNormalCommands],kingDark:[...allKingDarkCommands],roleplayNormal:allRoleplayNormalRoles.map(cleanRole).filter(Boolean),roleplayDark:allRoleplayDarkRoles.map(cleanRole).filter(Boolean)}}
+export function readContent(){const defaults=defaultManagerContent(),out=emptyContent();try{const raw=JSON.parse(localStorage.getItem(CONTENT_KEY)||"null");if(raw&&typeof raw==="object"){for(const k of TOPIC_MANAGER_KEYS)out[k]=ROLE_KEYS.includes(k)?(Array.isArray(raw[k])?raw[k].map(cleanRole).filter(Boolean):[]):cleanTopicList(raw[k]);return out}}catch{}return defaults}
+export function saveContent(x){localStorage.setItem(CONTENT_KEY,JSON.stringify(x))}
+export function contentStats(x){return Object.fromEntries(TOPIC_MANAGER_KEYS.map(k=>[k,ROLE_KEYS.includes(k)?x[k].reduce((n,r)=>n+1+r.items.length,0):x[k].length]))}
+export function contentTotal(x){const stats=contentStats(x);return TOPIC_MANAGER_KEYS.reduce((n,k)=>n+stats[k],0)}
+export function getTopicStats(){const x=readContent();const total=TOPIC_MANAGER_KEYS.reduce((n,k)=>n+(ROLE_KEYS.includes(k)?(x[k]||[]).reduce((m,r)=>m+1+(Array.isArray(r.items)?r.items.length:0),0):(x[k]||[]).length),0);return{total,customTotal:0}}
