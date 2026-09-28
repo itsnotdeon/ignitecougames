@@ -5,6 +5,7 @@ on:
     branches:
       - main
       - redesign
+      - refactor/architecture-cleanup
   pull_request:
     branches:
       - main
