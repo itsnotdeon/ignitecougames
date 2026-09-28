@@ -35,5 +35,7 @@ The application is currently **single-player/local-first**. Multiplayer infrastr
 
 
 
-<!-- Playwright QA rerun: mode-pill-and-settings-fix -->
 
+
+
+<!-- Playwright QA rerun: journey-profile-contract-fix -->
