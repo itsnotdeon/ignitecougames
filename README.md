@@ -41,4 +41,6 @@ The application is currently **single-player/local-first**. Multiplayer infrastr
 
 
 
-<!-- Playwright QA rerun: final-contract-hardening -->
+
+
+<!-- Playwright QA rerun: final-green-check -->
