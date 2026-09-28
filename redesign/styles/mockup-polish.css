@@ -61,3 +61,5 @@
 .home-moment-actions{display:grid;grid-template-columns:1.4fr 1fr;gap:6px}.home-moment-actions .btn{margin-top:0}
 
 .home-v2-header-actions{display:flex;align-items:center;gap:6px}.home-mode-toggle{font-size:10px!important;padding:7px 9px!important}.home-mode-toggle.active{border-color:rgba(255,82,132,.7);background:rgba(255,45,111,.14)}.play-preferences{padding:12px;margin-top:10px}.play-preferences h3{font-family:var(--display);font-size:15px;margin:5px 0}.play-preferences p{font-size:8px}.bottom-nav-item,.home-v2-quick button{font-size:10px!important}
+
+.home-journey-actions{display:grid;grid-template-columns:1fr 1fr;gap:6px}.home-journey-actions .btn{margin-top:0}button{font-size:10px!important}
