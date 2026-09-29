@@ -28,7 +28,7 @@ test.describe("IGNITE mockup parity and dual themes",()=>{
     await expect(page.locator("body")).toHaveAttribute("data-ignite-mode","dark");
     const dark=await page.evaluate(()=>({
       background:getComputedStyle(document.body).backgroundImage,
-      accent:getComputedStyle(document.documentElement).getPropertyValue("--rose").trim()
+      accent:getComputedStyle(document.body).getPropertyValue("--rose").trim()
     }));
     expect(dark.background).toContain("linear-gradient");
     expect(dark.accent).toBe("#b94d70");
