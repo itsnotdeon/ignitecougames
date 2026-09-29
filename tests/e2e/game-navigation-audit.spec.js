@@ -26,6 +26,27 @@ test("active minigames use one navigation control and one primary heading",async
   }
 });
 
+test("Truth or Dare card opens a playable prompt flow",async({page})=>{
+  await enterApp(page);
+  await page.locator('[data-mini-open="tod"]').click();
+  await expect(page.getByRole("heading",{name:"TRUTH OR DARE"})).toBeVisible();
+  await expect(page.getByRole("button",{name:/Next Question/})).toBeVisible();
+  await page.getByRole("button",{name:/Dare/}).click();
+  await expect(page.getByRole("button",{name:/Next Question/})).toBeVisible();
+});
+
+test("Profile controls persist relationship details",async({page})=>{
+  await enterApp(page);
+  await page.getByRole("button",{name:"Profile",exact:true}).click();
+  await page.getByRole("button",{name:"Relationship Settings",exact:true}).click();
+  await page.locator('select[name="loveLanguage"]').selectOption({label:"Quality Time"});
+  await page.locator('textarea[name="coupleBio"]').fill("A story we keep building.");
+  await page.getByRole("button",{name:"Save",exact:true}).click();
+  await expect(page.getByText("Quality Time",{exact:true})).toBeVisible();
+  await expect(page.getByText("A story we keep building.",{exact:true})).toBeVisible();
+});
+
+
 test("embedded Journey Roleplay has no redundant game navigation",async({page})=>{
   await enterApp(page);
   await page.getByRole("button",{name:"Home",exact:true}).click();
