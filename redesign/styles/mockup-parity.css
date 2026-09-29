@@ -1,0 +1,422 @@
+/* IGNITE MOCKUP PARITY + DUAL GAME THEMES
+   2026-09-29
+   Normal  = sweet / elegant / warm rose
+   After Dark = deep / elegant / restrained wine
+*/
+
+/* ---------- Theme tokens ---------- */
+:root{
+  --ignite-bg:#160c12;
+  --ignite-bg-2:#10080d;
+  --ignite-surface:#24151d;
+  --ignite-surface-2:#2d1a24;
+  --ignite-text:#fff7fa;
+  --ignite-muted:#d8b7c2;
+  --ignite-faint:#a67b89;
+  --ignite-accent:#e985a5;
+  --ignite-accent-strong:#d85d83;
+  --ignite-accent-soft:rgba(233,133,165,.14);
+  --ignite-gold:#e6cb91;
+  --ignite-line:rgba(255,214,225,.16);
+  --ignite-line-strong:rgba(233,133,165,.34);
+  --ignite-glow:rgba(233,133,165,.18);
+}
+
+body[data-ignite-mode="normal"]{
+  --bg:var(--ignite-bg);
+  --surface:var(--ignite-surface);
+  --surface-2:var(--ignite-surface-2);
+  --text:var(--ignite-text);
+  --muted:var(--ignite-muted);
+  --faint:var(--ignite-faint);
+  --rose:var(--ignite-accent);
+  --gold:var(--ignite-gold);
+  --line:var(--ignite-line);
+  --line-strong:var(--ignite-line-strong);
+  background:
+    radial-gradient(circle at 12% -5%,rgba(233,133,165,.18),transparent 29%),
+    radial-gradient(circle at 90% 8%,rgba(230,203,145,.10),transparent 24%),
+    linear-gradient(180deg,#211019 0%,#11090e 100%);
+  color:var(--text);
+}
+
+body[data-ignite-mode="dark"]{
+  --bg:#080509;
+  --surface:#130a11;
+  --surface-2:#1b0d16;
+  --text:#f7e9ee;
+  --muted:#bd929f;
+  --faint:#765363;
+  --rose:#b94d70;
+  --gold:#c4a36c;
+  --line:rgba(223,167,186,.12);
+  --line-strong:rgba(185,77,112,.34);
+  background:
+    radial-gradient(circle at 50% -12%,rgba(127,24,59,.20),transparent 32%),
+    radial-gradient(circle at 100% 30%,rgba(73,15,37,.14),transparent 35%),
+    linear-gradient(180deg,#0d070c 0%,#030204 100%);
+  color:var(--text);
+}
+
+/* ---------- Shared shell / cinematic consistency ---------- */
+body[data-ignite-mode] .app-shell{
+  background:transparent;
+}
+body[data-ignite-mode] .card,
+body[data-ignite-mode] .home-action-card,
+body[data-ignite-mode] .ignite-moment-card,
+body[data-ignite-mode] .ignite-next-card,
+body[data-ignite-mode] .ignite-goal-row,
+body[data-ignite-mode] .ignite-profile-progress,
+body[data-ignite-mode] .ignite-profile-achievement-tease,
+body[data-ignite-mode] .settings-v1-row,
+body[data-ignite-mode] .settings-data-v1,
+body[data-ignite-mode] .settings-topics-v1{
+  background:
+    linear-gradient(145deg,rgba(255,255,255,.045),rgba(255,255,255,.012)),
+    var(--surface);
+  border-color:var(--line);
+}
+
+body[data-ignite-mode="normal"] .card,
+body[data-ignite-mode="normal"] .home-action-card,
+body[data-ignite-mode="normal"] .ignite-moment-card,
+body[data-ignite-mode="normal"] .ignite-next-card{
+  box-shadow:0 18px 50px rgba(72,26,43,.20);
+}
+
+body[data-ignite-mode="dark"] .card,
+body[data-ignite-mode="dark"] .home-action-card,
+body[data-ignite-mode="dark"] .ignite-moment-card,
+body[data-ignite-mode="dark"] .ignite-next-card{
+  box-shadow:0 24px 65px rgba(0,0,0,.46);
+}
+
+/* ---------- Mode switch ---------- */
+body[data-ignite-mode="normal"] .ignite-mode-control.active{
+  background:linear-gradient(135deg,#d97898,#c65f80);
+  border-color:#efabc0;
+  color:#fff;
+  box-shadow:0 7px 20px rgba(214,95,131,.18);
+}
+body[data-ignite-mode="dark"] .ignite-mode-control.active{
+  background:linear-gradient(135deg,#7d2949,#4f162f);
+  border-color:#a94969;
+  color:#f7e8ed;
+  box-shadow:0 8px 26px rgba(83,17,45,.30);
+}
+
+/* ---------- Primary actions ---------- */
+body[data-ignite-mode="normal"] .btn.primary,
+body[data-ignite-mode="normal"] .ignite-primary-btn,
+body[data-ignite-mode="normal"] .ks-main-btn{
+  background:linear-gradient(135deg,#e58aa7,#c96788);
+  box-shadow:0 12px 28px rgba(207,93,128,.16);
+}
+body[data-ignite-mode="dark"] .btn.primary,
+body[data-ignite-mode="dark"] .ignite-primary-btn,
+body[data-ignite-mode="dark"] .ks-main-btn{
+  background:linear-gradient(135deg,#a13d60,#651f3c);
+  box-shadow:0 14px 34px rgba(73,12,37,.32);
+}
+
+/* ---------- HOME ---------- */
+body[data-ignite-mode="normal"] .ignite-home-hero{
+  background:
+    radial-gradient(circle at 50% 8%,rgba(233,133,165,.14),transparent 45%);
+}
+body[data-ignite-mode="dark"] .ignite-home-hero{
+  background:
+    radial-gradient(circle at 50% 8%,rgba(127,24,59,.16),transparent 46%);
+}
+body[data-ignite-mode="normal"] .ignite-hero-glow{
+  background:radial-gradient(circle,rgba(233,133,165,.20),transparent 65%);
+}
+body[data-ignite-mode="dark"] .ignite-hero-glow{
+  background:radial-gradient(circle,rgba(112,26,56,.16),transparent 65%);
+}
+body[data-ignite-mode="normal"] .ignite-moment-image{
+  background:
+    radial-gradient(circle at 70% 30%,rgba(247,184,199,.34),transparent 35%),
+    linear-gradient(145deg,#5a273a,#28131c);
+}
+body[data-ignite-mode="dark"] .ignite-moment-image{
+  background:
+    radial-gradient(circle at 70% 30%,rgba(142,39,69,.24),transparent 35%),
+    linear-gradient(145deg,#35101f,#0c0509);
+}
+
+/* ---------- PLAY HUB ---------- */
+body[data-ignite-mode="normal"] .ignite-feature-game{
+  border-color:rgba(229,137,166,.34);
+  background:
+    radial-gradient(circle at 72% 20%,rgba(245,171,192,.28),transparent 35%),
+    linear-gradient(145deg,#492233,#211018);
+}
+body[data-ignite-mode="dark"] .ignite-feature-game{
+  border-color:rgba(153,48,82,.42);
+  background:
+    radial-gradient(circle at 72% 20%,rgba(117,25,55,.28),transparent 35%),
+    linear-gradient(145deg,#2c0c1a,#090408);
+}
+body[data-ignite-mode="normal"] .ignite-game-card{
+  background:linear-gradient(150deg,#2b1821,#181016);
+  border-color:rgba(229,137,166,.20);
+}
+body[data-ignite-mode="dark"] .ignite-game-card{
+  background:linear-gradient(150deg,#1b0c14,#090508);
+  border-color:rgba(142,43,76,.22);
+}
+body[data-ignite-mode="normal"] .ignite-play-surprise{
+  background:#24131c;
+  border-color:rgba(229,137,166,.18);
+}
+body[data-ignite-mode="dark"] .ignite-play-surprise{
+  background:#10070c;
+  border-color:rgba(119,35,65,.25);
+}
+
+/* ---------- JOURNEY / SESSION ---------- */
+body[data-ignite-mode="normal"] .session-v2-card,
+body[data-ignite-mode="normal"] .intro-v2-preview,
+body[data-ignite-mode="normal"] .complete-v2-card{
+  background:linear-gradient(145deg,rgba(255,215,226,.055),rgba(255,255,255,.012)),#24131b;
+  border-color:rgba(229,137,166,.20);
+}
+body[data-ignite-mode="dark"] .session-v2-card,
+body[data-ignite-mode="dark"] .intro-v2-preview,
+body[data-ignite-mode="dark"] .complete-v2-card{
+  background:linear-gradient(145deg,rgba(122,25,57,.08),rgba(255,255,255,.008)),#0f070c;
+  border-color:rgba(136,42,76,.24);
+}
+body[data-ignite-mode="normal"] .session-v2-art,
+body[data-ignite-mode="normal"] .intro-v2-mark{
+  color:#e985a5;
+  text-shadow:0 0 28px rgba(233,133,165,.25);
+}
+body[data-ignite-mode="dark"] .session-v2-art,
+body[data-ignite-mode="dark"] .intro-v2-mark{
+  color:#a64262;
+  text-shadow:0 0 30px rgba(126,25,56,.30);
+}
+
+/* ---------- TRUTH / DARE ---------- */
+body[data-ignite-mode="normal"] .reveal-card{
+  background:
+    radial-gradient(circle at 50% 0,rgba(233,133,165,.12),transparent 55%),
+    #21121a;
+  border-color:rgba(229,137,166,.22);
+}
+body[data-ignite-mode="dark"] .reveal-card{
+  background:
+    radial-gradient(circle at 50% 0,rgba(119,27,55,.14),transparent 55%),
+    #0d060a;
+  border-color:rgba(136,42,76,.24);
+}
+body[data-ignite-mode="dark"] .tod-modal{
+  background:#0d060a;
+}
+
+/* ---------- KING & SLAVE ---------- */
+body[data-ignite-mode="normal"] .ks-role-person.king{
+  border-color:rgba(230,203,145,.42);
+  background:rgba(230,203,145,.07);
+}
+body[data-ignite-mode="normal"] .ks-command-card-main{
+  background:
+    radial-gradient(circle at 50% 0,rgba(233,133,165,.10),transparent 52%),
+    linear-gradient(160deg,#2b1721,#181017);
+  border-color:rgba(230,203,145,.28);
+}
+body[data-ignite-mode="dark"] .ks-role-person.king{
+  border-color:rgba(163,124,76,.40);
+  background:rgba(99,67,31,.08);
+}
+body[data-ignite-mode="dark"] .ks-command-card-main{
+  background:
+    radial-gradient(circle at 50% 0,rgba(123,25,57,.12),transparent 52%),
+    linear-gradient(160deg,#1a0b13,#080407);
+  border-color:rgba(164,124,77,.28);
+}
+body[data-ignite-mode="dark"] .ks-crown b{
+  color:#e4c993;
+}
+
+/* ---------- CHESS / SNAKE ---------- */
+body[data-ignite-mode="normal"] .chess-board{
+  border-color:rgba(230,203,145,.38);
+}
+body[data-ignite-mode="dark"] .chess-board{
+  border-color:rgba(148,104,61,.34);
+}
+body[data-ignite-mode="normal"] .snake-board{
+  background:#1d1017;
+  border-color:rgba(229,137,166,.18);
+}
+body[data-ignite-mode="dark"] .snake-board{
+  background:#0a0508;
+  border-color:rgba(122,35,65,.25);
+}
+body[data-ignite-mode="dark"] .snake-cell{
+  background:rgba(255,255,255,.022);
+}
+body[data-ignite-mode="normal"] .snake-cell{
+  background:rgba(255,220,230,.035);
+}
+
+/* ---------- MEMORIES ---------- */
+body[data-ignite-mode="normal"] .ignite-memory-box{
+  color:#e985a5;
+  background:radial-gradient(circle,rgba(233,133,165,.24),transparent 60%);
+  filter:drop-shadow(0 0 25px rgba(208,102,140,.22));
+}
+body[data-ignite-mode="dark"] .ignite-memory-box{
+  color:#a84263;
+  background:radial-gradient(circle,rgba(126,26,57,.18),transparent 60%);
+  filter:drop-shadow(0 0 28px rgba(91,17,44,.28));
+}
+body[data-ignite-mode="normal"] .ignite-category-grid button.active,
+body[data-ignite-mode="normal"] .ignite-category-picker button.active{
+  background:linear-gradient(145deg,#d97998,#b95779);
+  border-color:#ecabc0;
+}
+body[data-ignite-mode="dark"] .ignite-category-grid button.active,
+body[data-ignite-mode="dark"] .ignite-category-picker button.active{
+  background:linear-gradient(145deg,#782542,#481329);
+  border-color:#9c3e61;
+}
+body[data-ignite-mode="normal"] .ignite-memory-detail-placeholder{
+  background:
+    radial-gradient(circle at 50% 40%,rgba(238,155,177,.30),transparent 30%),
+    linear-gradient(180deg,#55313e,#180b11);
+}
+body[data-ignite-mode="dark"] .ignite-memory-detail-placeholder{
+  background:
+    radial-gradient(circle at 50% 40%,rgba(125,31,60,.22),transparent 30%),
+    linear-gradient(180deg,#2c111d,#070307);
+}
+
+/* ---------- PROFILE ---------- */
+body[data-ignite-mode="normal"] .ignite-round-avatar{
+  border-color:#e99ab3;
+  box-shadow:0 0 25px rgba(224,119,151,.20);
+  background:radial-gradient(circle at 50% 30%,#f0b0bd,#512333 48%,#16090f);
+}
+body[data-ignite-mode="dark"] .ignite-round-avatar{
+  border-color:#91405c;
+  box-shadow:0 0 28px rgba(104,23,50,.30);
+  background:radial-gradient(circle at 50% 30%,#a44d68,#32101d 48%,#070307);
+}
+body[data-ignite-mode="normal"] .profile-mock blockquote{
+  background:linear-gradient(145deg,#3a1b29,#1d1017);
+  border-color:rgba(229,137,166,.28);
+}
+body[data-ignite-mode="dark"] .profile-mock blockquote{
+  background:linear-gradient(145deg,#210c17,#0b0509);
+  border-color:rgba(137,40,74,.28);
+}
+body[data-ignite-mode="normal"] .ignite-couple-photo{
+  background:
+    radial-gradient(circle at 55% 50%,rgba(241,165,177,.46),transparent 28%),
+    linear-gradient(160deg,#79505b,#2a141d 56%,#11070d);
+}
+body[data-ignite-mode="dark"] .ignite-couple-photo{
+  background:
+    radial-gradient(circle at 55% 50%,rgba(132,39,67,.25),transparent 28%),
+    linear-gradient(160deg,#3b1825,#160810 56%,#050205);
+}
+
+/* ---------- SETTINGS / FORMS ---------- */
+body[data-ignite-mode="normal"] .ignite-form input,
+body[data-ignite-mode="normal"] .ignite-form select,
+body[data-ignite-mode="normal"] .memory-form-mock input,
+body[data-ignite-mode="normal"] .memory-form-mock textarea{
+  background:#21121a;
+  border-color:rgba(229,137,166,.18);
+}
+body[data-ignite-mode="dark"] .ignite-form input,
+body[data-ignite-mode="dark"] .ignite-form select,
+body[data-ignite-mode="dark"] .memory-form-mock input,
+body[data-ignite-mode="dark"] .memory-form-mock textarea{
+  background:#0d060a;
+  border-color:rgba(122,35,65,.25);
+}
+
+/* ---------- Bottom navigation ---------- */
+body[data-ignite-mode="normal"] .bottom-nav{
+  background:rgba(25,13,20,.96)!important;
+  border-color:rgba(229,137,166,.18);
+}
+body[data-ignite-mode="dark"] .bottom-nav{
+  background:rgba(5,3,5,.97)!important;
+  border-color:rgba(123,36,67,.22);
+}
+body[data-ignite-mode="normal"] .bottom-nav-item.active{
+  color:#e985a5;
+  text-shadow:0 0 15px rgba(233,133,165,.42);
+}
+body[data-ignite-mode="dark"] .bottom-nav-item.active{
+  color:#a84263;
+  text-shadow:0 0 16px rgba(120,25,56,.42);
+}
+
+/* ---------- Relationship Experience additions ---------- */
+body[data-ignite-mode="normal"] .rx-home-pulse,
+body[data-ignite-mode="normal"] .rx-play-journey,
+body[data-ignite-mode="normal"] .rx-profile-insights{
+  background:linear-gradient(145deg,rgba(255,214,226,.045),rgba(255,255,255,.01)),#24131b;
+  border-color:rgba(229,137,166,.20);
+}
+body[data-ignite-mode="dark"] .rx-home-pulse,
+body[data-ignite-mode="dark"] .rx-play-journey,
+body[data-ignite-mode="dark"] .rx-profile-insights{
+  background:linear-gradient(145deg,rgba(122,25,57,.06),rgba(255,255,255,.006)),#0d060a;
+  border-color:rgba(123,36,67,.24);
+}
+
+/* ---------- Reduce accidental visual flattening ---------- */
+body[data-ignite-mode] .ignite-outline-wide,
+body[data-ignite-mode] .ignite-outline-btn{
+  background:transparent;
+  color:var(--text);
+  border-color:var(--line-strong);
+}
+body[data-ignite-mode] .ignite-link{
+  color:var(--rose);
+}
+body[data-ignite-mode] .ignite-eyebrow,
+body[data-ignite-mode] .eyebrow{
+  color:var(--rose);
+}
+body[data-ignite-mode] .ignite-section-head h2,
+body[data-ignite-mode] .ignite-subtitle{
+  color:var(--text);
+}
+
+/* ---------- Explicit visual identity labels ---------- */
+body[data-ignite-mode="normal"] .ignite-mode-label{
+  color:#e985a5;
+}
+body[data-ignite-mode="dark"] .ignite-mode-label,
+body[data-ignite-mode="dark"] .ignite-after-dark-copy{
+  color:#b94d70;
+}
+
+/* Keep mode change elegant, never like a light/dark OS switch. */
+body[data-ignite-mode] *,
+body[data-ignite-mode]{
+  transition-property:background-color,border-color,color,box-shadow,background,filter;
+  transition-duration:.22s;
+  transition-timing-function:ease;
+}
+
+@media(prefers-reduced-motion:reduce){
+  body[data-ignite-mode] *,
+  body[data-ignite-mode]{transition:none!important}
+}
+
+/* Home mode pill wording mirrors the mockup. */
+body[data-ignite-mode="dark"] .mode-test-label{font-size:0}
+body[data-ignite-mode="dark"] .mode-test-label::after{content:"AFTER DARK 18+";font-size:8px}
+body[data-ignite-mode="normal"] .mode-test-label{font-size:0}
+body[data-ignite-mode="normal"] .mode-test-label::after{content:"AFTER DARK";font-size:8px}
