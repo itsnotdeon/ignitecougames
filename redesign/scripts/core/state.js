@@ -1,6 +1,6 @@
 const STORAGE_KEY="ignite-redesign-v4";
 export const TOPIC_CLEAR_VERSION="20260926-clear-all-topics";
-export const state={names:{p1:"",p2:"",couple:""},relationship:"Couple",relationshipSince:null,profileDetails:{p1:{pronouns:"",birthDate:"",bio:""},p2:{pronouns:"",birthDate:"",bio:""}},currentJourney:null,step:0,view:"home",mode:"normal",profilePhotos:{p1:"",p2:"",couple:""}};
+export const state={names:{p1:"",p2:"",couple:""},relationship:"Couple",relationshipSince:null,profileDetails:{p1:{pronouns:"",birthDate:"",bio:""},p2:{pronouns:"",birthDate:"",bio:""}},coupleBio:"",loveLanguage:"",anniversaryReminder:true,preferredContent:"normal",currentJourney:null,step:0,view:"home",mode:"normal",profilePhotos:{p1:"",p2:"",couple:""}};
 
 export function clearAllTopicStorageOnce(){
   if(localStorage.getItem(TOPIC_CLEAR_VERSION)==="done")return;
@@ -14,6 +14,10 @@ export function load(){
       state.names=saved.names||state.names;
       state.relationship=saved.relationship||"Couple";
       state.relationshipSince=saved.relationshipSince||null;
+      state.coupleBio=typeof saved.coupleBio==="string"?saved.coupleBio:"";
+      state.loveLanguage=typeof saved.loveLanguage==="string"?saved.loveLanguage:"";
+      state.anniversaryReminder=saved.anniversaryReminder!==false;
+      state.preferredContent=saved.preferredContent==="dark"?"dark":"normal";
       state.currentJourney=saved.currentJourney||null;
       state.step=Number(saved.step)||0;
       state.view=saved.view||"home";
