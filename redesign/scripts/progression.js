@@ -157,13 +157,13 @@ export function awardXP(amount, reason, eventId) {
   };
 }
 
-export function startJourney(journeyId) {
+export function startJourney(journeyId,eventId=null) {
   const progress = read();
   touchStreak(progress);
   progress.stats.journeysStarted += 1;
   const unlocked = checkAchievements(progress);
   write(progress);
-  return awardXP(10, journeyId === "dark" ? "Started After Dark" : "Started a Journey", "journey-start:" + Date.now());
+  return awardXP(10, journeyId === "dark" ? "Started After Dark" : "Started a Journey", "journey-start:" + String(eventId || Date.now()));
 }
 
 export function completeJourney(journeyId, details = {}) {
@@ -189,7 +189,7 @@ export function completeJourney(journeyId, details = {}) {
   });
   progress.journeyHistory = progress.journeyHistory.slice(0, 30);
   write(progress);
-  return awardXP(journeyId === "dark" ? 75 : 60, journeyId === "dark" ? "After Dark completed" : "Journey completed", "journey-complete:" + journeyId + ":" + Date.now());
+  return awardXP(journeyId === "dark" ? 75 : 60, journeyId === "dark" ? "After Dark completed" : "Journey completed", eventId);
 }
 
 export function completeActivity(journeyId, step) {
