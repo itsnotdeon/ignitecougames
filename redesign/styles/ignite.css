@@ -3811,3 +3811,480 @@ body[data-ignite-mode="dark"] .ignite-screen{
   background:transparent!important;
   box-shadow:none;
 }
+
+
+/* =========================================================
+   IGNITE HOME — visual polish / mobile regression fixes
+   2026-09-29
+   Matches the approved dark-romantic home direction while
+   preserving Normal mode as a dark theme.
+   ========================================================= */
+
+:root{
+  --ignite-bg:#16070d;
+  --ignite-panel:#24101a;
+  --ignite-panel-2:#2d1420;
+  --ignite-pink:#ff1760;
+  --ignite-pink-soft:#ff5b88;
+  --ignite-copy:#fff3f6;
+  --ignite-copy-muted:#c99aaa;
+}
+
+html,body{
+  overflow-x:hidden;
+  background:
+    radial-gradient(circle at 18% 0%,rgba(255,23,96,.16),transparent 30%),
+    radial-gradient(circle at 90% 12%,rgba(255,112,145,.07),transparent 26%),
+    linear-gradient(180deg,#1b0a12 0%,#0f050a 100%);
+}
+
+body{min-width:0}
+
+.app-shell{
+  width:min(100%,540px);
+  padding:20px 18px calc(118px + env(safe-area-inset-bottom));
+}
+
+/* Home header */
+.ignite-home-screen .topbar{
+  min-height:58px;
+  margin-bottom:20px;
+  align-items:center;
+}
+
+.ignite-home-screen .brand{
+  font-size:25px;
+  letter-spacing:.12em;
+}
+
+.ignite-home-screen .profile-chip{
+  display:none;
+}
+
+.ignite-home-screen .home-mode-row,
+.ignite-home-screen .mode-row,
+.ignite-home-screen .mode-switch{
+  border-color:rgba(255,180,205,.14);
+  background:rgba(20,6,12,.55);
+  backdrop-filter:blur(14px);
+  -webkit-backdrop-filter:blur(14px);
+}
+
+.ignite-home-screen .home-mode-toggle{
+  min-height:38px;
+  padding:9px 15px!important;
+  color:#a97889!important;
+  font-size:10px;
+  font-weight:800;
+  letter-spacing:.03em;
+}
+
+.ignite-home-screen .home-mode-toggle.active{
+  color:#fff!important;
+  background:linear-gradient(135deg,#ff3d7b,#df1755)!important;
+  border:0!important;
+  box-shadow:0 8px 22px rgba(255,23,96,.2);
+}
+
+/* Hero — contained instead of edge-to-edge */
+.ignite-home-screen .ignite-home-hero{
+  height:445px;
+  margin:0 0 26px;
+  padding:24px 22px 24px;
+  border:1px solid rgba(255,91,136,.18);
+  border-radius:0;
+  background:
+    radial-gradient(circle at 54% 42%,rgba(255,91,119,.28),transparent 27%),
+    linear-gradient(160deg,rgba(65,20,34,.82),rgba(18,5,12,.96));
+  box-shadow:0 22px 60px rgba(0,0,0,.28);
+}
+
+.ignite-home-screen .ignite-home-hero:before{
+  opacity:.7;
+}
+
+.ignite-home-screen .ignite-home-hero:after{
+  left:39%;
+  bottom:17%;
+  width:26%;
+  height:38%;
+}
+
+.ignite-home-screen .ignite-home-copy h1{
+  font-size:36px;
+  line-height:1;
+  margin:8px 0 10px;
+}
+
+.ignite-home-screen .ignite-home-copy p{
+  font-size:12px;
+  color:#d8abb8;
+}
+
+.ignite-home-screen .ignite-hero-quote{
+  font-size:21px;
+  margin-top:68px;
+  max-width:300px;
+}
+
+.ignite-home-screen .ignite-hero-quote i,
+.ignite-home-screen .ignite-home-copy h1 i{
+  color:#ff286d;
+}
+
+/* Section rhythm */
+.ignite-home-screen .ignite-section{
+  margin-top:26px;
+}
+
+.ignite-home-screen .ignite-section-head{
+  margin:0 0 12px;
+  padding:0 2px;
+}
+
+.ignite-home-screen .ignite-section-head h2{
+  font-size:25px!important;
+  color:var(--ignite-copy);
+}
+
+.ignite-home-screen .ignite-section-head>span{
+  color:#ff4e80;
+  font-size:10px;
+}
+
+/* Today's Moment */
+.ignite-home-screen .ignite-moment-card{
+  padding:13px;
+  border-radius:22px;
+  border-color:rgba(255,63,121,.48);
+  background:linear-gradient(155deg,rgba(86,17,38,.72),rgba(29,7,16,.96));
+}
+
+.ignite-home-screen .ignite-moment-image{
+  height:154px;
+  margin-bottom:15px;
+  border-radius:15px;
+  background:
+    radial-gradient(circle at 50% 45%,rgba(255,148,101,.56),transparent 24%),
+    linear-gradient(135deg,#562431,#17070e 62%,#27101a);
+}
+
+.ignite-home-screen .ignite-moment-card h3{
+  font-size:25px;
+  margin:8px 0 5px;
+}
+
+.ignite-home-screen .ignite-moment-card p{
+  font-size:12px;
+  margin:0;
+}
+
+.ignite-home-screen .ignite-moment-card small{
+  font-size:10px;
+  margin:10px 0 14px;
+}
+
+.ignite-home-screen .ignite-primary-btn{
+  min-height:48px;
+  font-size:12px;
+  background:linear-gradient(90deg,#ff1260,#d91552);
+  box-shadow:0 12px 30px rgba(239,19,87,.24);
+}
+
+/* Pulse / stats injected by relationship-experience */
+.ignite-home-screen .rx-home-pulse{
+  margin:14px 0 28px;
+  padding:18px;
+  border-radius:22px;
+  border:1px solid rgba(255,75,120,.28);
+  background:linear-gradient(145deg,rgba(77,17,37,.7),rgba(25,6,14,.94));
+}
+
+.ignite-home-screen .rx-pulse-head{
+  gap:14px;
+}
+
+.ignite-home-screen .rx-pulse-head h2{
+  font-size:23px;
+}
+
+.ignite-home-screen .rx-pulse-head p{
+  font-size:11px;
+}
+
+.ignite-home-screen .rx-streak{
+  min-width:74px;
+  border-radius:14px;
+}
+
+.ignite-home-screen .rx-pulse-actions{
+  gap:8px;
+}
+
+.ignite-home-screen .rx-pulse-actions button{
+  min-height:92px;
+  border-radius:15px;
+  padding:12px 7px;
+}
+
+.ignite-home-screen .rx-pulse-actions span{
+  font-size:19px;
+}
+
+.ignite-home-screen .rx-pulse-actions b{
+  font-size:9px;
+}
+
+.ignite-home-screen .rx-pulse-actions small{
+  font-size:7px;
+}
+
+.ignite-home-screen .rx-mini-stats{
+  gap:8px;
+  margin-top:10px;
+}
+
+.ignite-home-screen .rx-mini-stats span{
+  min-height:66px;
+  display:grid;
+  place-items:center;
+  align-content:center;
+  border:1px solid rgba(255,91,136,.08);
+  border-radius:13px;
+}
+
+.ignite-home-screen .rx-mini-stats b{
+  font-size:21px;
+}
+
+.ignite-home-screen .rx-mini-stats small{
+  font-size:7px;
+  margin-top:2px;
+}
+
+/* Quick Connection — four equal cards, never a tall first card */
+.ignite-home-screen .home-actions-v1,
+.ignite-home-screen .home-v2-quick{
+  display:grid!important;
+  grid-template-columns:repeat(4,minmax(0,1fr))!important;
+  gap:9px!important;
+  align-items:stretch;
+}
+
+.ignite-home-screen .home-actions-v1 .home-action-card,
+.ignite-home-screen .home-v2-quick>*{
+  grid-column:auto!important;
+  grid-row:auto!important;
+  width:100%;
+  min-width:0;
+  min-height:108px!important;
+  height:108px;
+  padding:13px 7px!important;
+  border-radius:17px;
+  display:flex!important;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center!important;
+  text-align:center;
+}
+
+.ignite-home-screen .home-actions-v1 .home-action-card:first-child{
+  grid-row:auto!important;
+  grid-column:auto!important;
+  min-height:108px!important;
+}
+
+.ignite-home-screen .home-actions-v1 .home-action-card span,
+.ignite-home-screen .home-v2-quick>* span{
+  margin-bottom:12px;
+}
+
+.ignite-home-screen .home-actions-v1 .home-action-card small,
+.ignite-home-screen .home-v2-quick>* small{
+  font-size:9px;
+  line-height:1.3;
+}
+
+/* Memories row — don't collapse into a strange vertical tile */
+.ignite-home-screen .home-v2-memory-row{
+  display:flex;
+  gap:10px;
+  overflow-x:auto;
+  overflow-y:hidden;
+  padding-bottom:3px;
+  scrollbar-width:none;
+}
+
+.ignite-home-screen .home-v2-memory-row::-webkit-scrollbar{
+  display:none;
+}
+
+.ignite-home-screen .home-v2-memory{
+  flex:0 0 155px;
+  min-width:155px;
+}
+
+.ignite-home-screen .ignite-memory-strip{
+  gap:10px;
+  overflow-x:auto;
+  overflow-y:hidden;
+  scrollbar-width:none;
+}
+
+.ignite-home-screen .ignite-memory-strip::-webkit-scrollbar{
+  display:none;
+}
+
+.ignite-home-screen .ignite-memory-tile{
+  width:155px;
+  flex-basis:155px;
+}
+
+.ignite-home-screen .ignite-memory-tile>div{
+  height:142px;
+  border-radius:15px;
+}
+
+/* Anniversary / next card */
+.ignite-home-screen .ignite-next-card{
+  min-height:132px;
+  padding:18px;
+  border-radius:22px;
+  grid-template-columns:1fr auto;
+}
+
+.ignite-home-screen .ignite-next-card h3{
+  font-size:24px;
+}
+
+.ignite-home-screen .ignite-next-card strong{
+  font-size:25px;
+}
+
+.ignite-home-screen .ignite-next-card p{
+  font-size:10px;
+}
+
+/* Goals */
+.ignite-home-screen .ignite-goal-row{
+  min-height:64px;
+  border-radius:15px;
+}
+
+/* Fixed bottom navigation */
+.bottom-nav{
+  left:50%;
+  right:auto;
+  transform:translateX(-50%);
+  width:min(calc(100% - 36px),504px);
+  bottom:max(10px,env(safe-area-inset-bottom));
+  padding:7px;
+  border-radius:24px;
+  background:rgba(27,8,16,.92);
+  border:1px solid rgba(255,170,195,.16);
+  box-shadow:0 18px 50px rgba(0,0,0,.42);
+  backdrop-filter:blur(18px);
+  -webkit-backdrop-filter:blur(18px);
+  z-index:1000;
+}
+
+.bottom-nav-item{
+  min-height:58px;
+  border-radius:17px;
+  gap:5px;
+}
+
+.bottom-nav-item .icon{
+  font-size:15px;
+}
+
+.bottom-nav-item span{
+  font-size:9px;
+}
+
+.bottom-nav-item.active{
+  background:linear-gradient(145deg,rgba(255,65,119,.18),rgba(255,255,255,.025));
+  box-shadow:inset 0 0 0 1px rgba(255,88,135,.12);
+  color:#ff7398;
+}
+
+/* Safe area + compact phones */
+@media(max-width:390px){
+  .app-shell{
+    padding-left:14px;
+    padding-right:14px;
+  }
+
+  .ignite-home-screen .ignite-home-hero{
+    height:420px;
+    padding-left:18px;
+    padding-right:18px;
+  }
+
+  .ignite-home-screen .ignite-home-copy h1{
+    font-size:32px;
+  }
+
+  .ignite-home-screen .ignite-hero-quote{
+    font-size:19px;
+    margin-top:58px;
+  }
+
+  .ignite-home-screen .rx-home-pulse{
+    padding:14px;
+  }
+
+  .ignite-home-screen .home-actions-v1,
+  .ignite-home-screen .home-v2-quick{
+    gap:6px!important;
+  }
+
+  .ignite-home-screen .home-actions-v1 .home-action-card,
+  .ignite-home-screen .home-v2-quick>*{
+    min-height:96px!important;
+    height:96px;
+    padding:9px 4px!important;
+    border-radius:14px;
+  }
+
+  .ignite-home-screen .home-actions-v1 .home-action-card span,
+  .ignite-home-screen .home-v2-quick>* span{
+    margin-bottom:8px;
+    font-size:17px;
+  }
+
+  .ignite-home-screen .home-actions-v1 .home-action-card small,
+  .ignite-home-screen .home-v2-quick>* small{
+    font-size:7px;
+  }
+
+  .ignite-home-screen .ignite-memory-tile{
+    width:140px;
+    flex-basis:140px;
+  }
+
+  .ignite-home-screen .ignite-memory-tile>div{
+    height:128px;
+  }
+
+  .bottom-nav{
+    width:calc(100% - 28px);
+  }
+
+  .bottom-nav-item{
+    min-height:54px;
+  }
+}
+
+@media(max-width:340px){
+  .ignite-home-screen .home-actions-v1,
+  .ignite-home-screen .home-v2-quick{
+    grid-template-columns:repeat(2,minmax(0,1fr))!important;
+  }
+
+  .ignite-home-screen .home-actions-v1 .home-action-card,
+  .ignite-home-screen .home-v2-quick>*{
+    min-height:84px!important;
+    height:84px;
+  }
+}
