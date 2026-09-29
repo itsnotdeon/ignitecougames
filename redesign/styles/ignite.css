@@ -4288,3 +4288,92 @@ body{min-width:0}
     height:84px;
   }
 }
+
+
+/* Snake & Ladder — explicit connection targets */
+.snake-cell.ladder,
+.snake-cell.snake{
+  overflow:visible;
+}
+.snake-cell.ladder{
+  background:linear-gradient(145deg,rgba(230,194,109,.14),rgba(255,255,255,.035));
+  border-color:rgba(230,194,109,.5);
+}
+.snake-cell.snake{
+  background:linear-gradient(145deg,rgba(255,92,110,.14),rgba(255,255,255,.035));
+  border-color:rgba(255,92,110,.45);
+}
+.connection-target{
+  position:absolute;
+  right:3px;
+  bottom:3px;
+  z-index:5;
+  min-width:25px;
+  padding:3px 4px;
+  border-radius:7px;
+  font-size:clamp(7px,2vw,10px);
+  line-height:1;
+  font-weight:900;
+  text-align:center;
+  color:#fff;
+  background:rgba(0,0,0,.72);
+  border:1px solid rgba(255,255,255,.16);
+  box-shadow:0 2px 7px rgba(0,0,0,.35);
+  pointer-events:none;
+}
+.connection-target.ladder{
+  color:#ffe39a;
+  border-color:rgba(230,194,109,.55);
+}
+.connection-target.snake{
+  color:#ffabb5;
+  border-color:rgba(255,92,110,.5);
+}
+.connection-source{
+  position:absolute;
+  left:3px;
+  bottom:3px;
+  z-index:5;
+  max-width:calc(100% - 6px);
+  padding:2px 4px;
+  border-radius:6px;
+  font-size:6px;
+  line-height:1;
+  font-weight:800;
+  color:rgba(255,255,255,.72);
+  background:rgba(0,0,0,.62);
+  pointer-events:none;
+}
+.connection-source.ladder{color:#f5d98d}
+.connection-source.snake{color:#f3a1aa}
+.snake-route{
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  gap:12px;
+  margin:12px 0 8px;
+  padding:12px 16px;
+  border-radius:15px;
+  background:rgba(255,255,255,.035);
+  border:1px solid var(--line);
+}
+.snake-route span,
+.snake-route strong{
+  min-width:54px;
+  padding:9px 10px;
+  border-radius:11px;
+  font-family:var(--display);
+  font-size:24px;
+  line-height:1;
+  text-align:center;
+}
+.snake-route span{color:var(--text);background:rgba(255,255,255,.045)}
+.snake-route strong{color:var(--gold);background:rgba(230,194,109,.09)}
+.snake-route b{font-size:20px;color:var(--muted)}
+.snake-route.snake strong{color:#ff9fab;background:rgba(255,92,110,.09)}
+.snake-event p{font-size:11px;line-height:1.5}
+@media(max-width:390px){
+  .connection-target{right:2px;bottom:2px;min-width:21px;padding:2px 3px;font-size:7px}
+  .connection-source{font-size:5.5px}
+  .snake-route{gap:8px;padding:10px 12px}
+}
