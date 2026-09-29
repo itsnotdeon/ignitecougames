@@ -18,7 +18,8 @@ export function load(){
       state.step=Number(saved.step)||0;
       state.view=saved.view||"home";
       state.mode=saved.mode==="dark"?"dark":"normal";
-      state.profilePhotos={...state.profilePhotos,...(saved.profilePhotos||{})};\n      state.profileDetails={...state.profileDetails,p1:{...state.profileDetails.p1,...(saved.profileDetails?.p1||{})},p2:{...state.profileDetails.p2,...(saved.profileDetails?.p2||{})}};
+      state.profilePhotos={...state.profilePhotos,...(saved.profilePhotos||{})};
+      state.profileDetails={...state.profileDetails,p1:{...state.profileDetails.p1,...(saved.profileDetails?.p1||{})},p2:{...state.profileDetails.p2,...(saved.profileDetails?.p2||{})}};
       state.__journeyComplete=Boolean(saved.__journeyComplete);
       state.__selectedJourney=Number.isInteger(saved.__selectedJourney)?saved.__selectedJourney:null;
       if(state.view==="generating"){
