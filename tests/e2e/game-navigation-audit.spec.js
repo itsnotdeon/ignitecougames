@@ -114,3 +114,16 @@ test("interactive typography stays above the microcopy floor",async({page})=>{
   const headings=await page.locator("h1:visible,h2:visible,h3:visible").evaluateAll(els=>els.map(el=>parseFloat(getComputedStyle(el).fontSize)));
   for(const size of headings) expect(size).toBeGreaterThanOrEqual(17);
 });
+
+
+test("saving a memory through a game updates progression exactly once",async({page})=>{
+  await enterApp(page);
+  await page.locator('[data-mini-open="snake"]').click();
+  const before=await page.evaluate(()=>JSON.parse(localStorage.getItem("ignite-progression-v1")||"{}").stats?.memoriesSaved||0);
+  await page.locator('[data-mini="snake-save-memory"]').click();
+  const after=await page.evaluate(()=>JSON.parse(localStorage.getItem("ignite-progression-v1")||"{}").stats?.memoriesSaved||0);
+  expect(after).toBe(before+1);
+  await page.locator('[data-mini="snake-save-memory"]').click();
+  const afterSecond=await page.evaluate(()=>JSON.parse(localStorage.getItem("ignite-progression-v1")||"{}").stats?.memoriesSaved||0);
+  expect(afterSecond).toBe(after);
+});
