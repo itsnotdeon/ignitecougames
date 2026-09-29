@@ -414,3 +414,9 @@ body[data-ignite-mode]{
   body[data-ignite-mode] *,
   body[data-ignite-mode]{transition:none!important}
 }
+
+/* Home mode pill wording mirrors the mockup. */
+body[data-ignite-mode="dark"] .mode-test-label{font-size:0}
+body[data-ignite-mode="dark"] .mode-test-label::after{content:"AFTER DARK 18+";font-size:8px}
+body[data-ignite-mode="normal"] .mode-test-label{font-size:0}
+body[data-ignite-mode="normal"] .mode-test-label::after{content:"AFTER DARK";font-size:8px}
