@@ -192,9 +192,9 @@
     }
     if (action==="memory") {
       const id=el?.dataset?.memoryId;
-      const card=document.querySelector('[data-memory-id="'+CSS.escape(id||"")+'"]');
-      card?.click();
-      if(!card && id){ localStorage.setItem("ignite-rx-pending-memory",id); document.querySelector('[data-action="memories"]')?.click(); }
+      if(!id)return;
+      localStorage.setItem("ignite-rx-pending-memory",id);
+      document.querySelector('[data-action="memories"]')?.click();
       return;
     }
     if (action==="achievements") {
@@ -213,7 +213,14 @@
       if(!view)return;
       if(app.querySelector(".ignite-home-screen")) homePulse();
       if(app.querySelector(".play-mock")) playEnhancement();
-      if(app.querySelector(".memories-mock")) memoriesEnhancement();
+      if(app.querySelector(".memories-mock")){
+        memoriesEnhancement();
+        const pending=localStorage.getItem("ignite-rx-pending-memory");
+        if(pending){
+          localStorage.removeItem("ignite-rx-pending-memory");
+          requestAnimationFrame(()=>document.querySelector('[data-memory-id="'+CSS.escape(pending)+'"]')?.click());
+        }
+      }
       if(app.querySelector(".profile-mock")) profileEnhancement();
     };
     new MutationObserver(()=>{

@@ -12,14 +12,14 @@ const LEVELS = [
 ];
 
 const ACHIEVEMENTS = [
-  { id: "first-spark", title: "First Spark", text: "Mulai perjalanan pertama.", test: p => p.stats.journeysStarted >= 1 },
-  { id: "first-journey", title: "First Journey", text: "Selesaikan satu Journey.", test: p => p.stats.journeysCompleted >= 1 },
-  { id: "after-dark", title: "After Dark", text: "Selesaikan Journey After Dark.", test: p => p.stats.afterDarkCompleted >= 1 },
-  { id: "game-night", title: "Game Night", text: "Mainkan minigame secara langsung.", test: p => p.stats.minigamesPlayed >= 1 },
-  { id: "first-memory", title: "Keep the Moment", text: "Simpan memory pertama kalian.", test: p => p.stats.memoriesSaved >= 1 },
-  { id: "explorer", title: "Explorer", text: "Mainkan tiga minigame.", test: p => p.stats.minigamesPlayed >= 3 },
-  { id: "three-day-streak", title: "Keep the Rhythm", text: "Kembali ke IGNITE selama tiga hari.", test: p => p.stats.currentStreak >= 3 },
-  { id: "five-journeys", title: "Five Moments", text: "Selesaikan lima Journey.", test: p => p.stats.journeysCompleted >= 5 }
+  {id:"first-spark",category:"special",title:"First Spark",text:"Mulai perjalanan pertama.",test:p=>p.stats.journeysStarted>=1},
+  {id:"first-journey",category:"special",title:"First Journey",text:"Selesaikan satu Journey.",test:p=>p.stats.journeysCompleted>=1},
+  {id:"after-dark",category:"special",title:"After Dark",text:"Selesaikan Journey After Dark.",test:p=>p.stats.afterDarkCompleted>=1},
+  {id:"game-night",category:"games",title:"Game Night",text:"Mainkan minigame secara langsung.",test:p=>p.stats.minigamesPlayed>=1},
+  {id:"first-memory",category:"memories",title:"Keep the Moment",text:"Simpan memory pertama kalian.",test:p=>p.stats.memoriesSaved>=1},
+  {id:"explorer",category:"games",title:"Explorer",text:"Mainkan tiga minigame.",test:p=>p.stats.minigamesPlayed>=3},
+  {id:"three-day-streak",category:"special",title:"Keep the Rhythm",text:"Kembali ke IGNITE selama tiga hari.",test:p=>p.stats.currentStreak>=3},
+  {id:"five-journeys",category:"special",title:"Five Moments",text:"Selesaikan lima Journey.",test:p=>p.stats.journeysCompleted>=5}
 ];
 
 const DEFAULT = () => ({
