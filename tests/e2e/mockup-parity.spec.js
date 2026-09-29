@@ -70,6 +70,22 @@ test.describe("IGNITE mockup parity and dual themes",()=>{
     await expect(page.getByText("A real profile detail.",{exact:true})).toBeVisible();
   });
 
+  test("Preferred Content controls the Journey entry mode",async({page})=>{
+    await enter(page);
+    await page.getByRole("button",{name:"Profile",exact:true}).click();
+    await page.getByText("Relationship Settings",{exact:true}).click();
+    await page.getByRole("button",{name:"After Dark 18+"}).click();
+    await page.locator("#relationship-profile-form").getByRole("button",{name:"Save"}).click();
+    await page.getByRole("button",{name:"Play",exact:true}).click();
+    await page.getByRole("button",{name:"Journey Preferences"}).click();
+    await page.getByRole("button",{name:/Start Journey/}).click();
+    await expect(page.getByText("BUILDING YOUR JOURNEY")).toBeVisible();
+    await expect.poll(async()=>page.evaluate(()=>{
+      const saved=JSON.parse(localStorage.getItem("ignite-redesign-v4")||"{}");
+      return saved.currentJourney?.id||null;
+    })).toBe("dark");
+  });
+
   test("Memories hub matches the mockup information hierarchy",async({page})=>{
     await enter(page);
     await page.getByRole("button",{name:"Memories",exact:true}).click();
