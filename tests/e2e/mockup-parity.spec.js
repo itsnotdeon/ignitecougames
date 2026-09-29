@@ -70,6 +70,19 @@ test.describe("IGNITE mockup parity and dual themes",()=>{
     await expect(page.getByText("A real profile detail.",{exact:true})).toBeVisible();
   });
 
+  test("Journey completion is idempotent per run",async({page})=>{
+    await enter(page);
+    const result=await page.evaluate(async()=>{
+      const progression=await import("./scripts/progression.js?v=20260928-02");
+      progression.resetProgress();
+      progression.completeJourney("normal",{eventId:"e2e-run-1",title:"Test Journey"});
+      progression.completeJourney("normal",{eventId:"e2e-run-1",title:"Test Journey"});
+      const p=progression.getProgress();
+      return {completed:p.stats.journeysCompleted,xp:p.xp,history:p.journeyHistory.length};
+    });
+    expect(result).toEqual({completed:1,xp:60,history:1});
+  });
+
   test("Preferred Content controls the Journey entry mode",async({page})=>{
     await enter(page);
     await page.getByRole("button",{name:"Profile",exact:true}).click();
