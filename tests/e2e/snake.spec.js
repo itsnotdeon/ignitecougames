@@ -38,6 +38,23 @@ test.describe("Snake & Ladder",()=>{
     expect(actionCount).toBeGreaterThan(0);
   });
 
+
+  test("board and event explicitly show snake or ladder destination",async({page})=>{
+    const result=await page.evaluate(async()=>{
+      const url=new URL("./scripts/minigames/snake.js",location.href).href;
+      const m=await import(url);
+      const ladder=m.renderSnake({pos:[0,0],turn:0,finished:false,lastRoll:1,event:{type:"ladder",from:6,to:16},mode:"normal",challenge:null,memorySaved:false,winner:null,animating:false,lastMove:null},["Ariel","Fe"]);
+      const snake=m.renderSnake({pos:[0,0],turn:0,finished:false,lastRoll:1,event:{type:"snake",from:24,to:9},mode:"normal",challenge:null,memorySaved:false,winner:null,animating:false,lastMove:null},["Ariel","Fe"]);
+      return {
+        ladderBoard:ladder.includes("&#8599; 16"),
+        snakeBoard:snake.includes("&#8599; 9"),
+        ladderRoute:ladder.includes(">16</strong>"),
+        snakeRoute:snake.includes(">9</strong>")
+      };
+    });
+    expect(result).toEqual({ladderBoard:true,snakeBoard:true,ladderRoute:true,snakeRoute:true});
+  });
+
   test("challenge skip moves the player back three squares",async({page})=>{
     await openSnake(page);
     const result=await page.evaluate(async()=>{
