@@ -45,6 +45,31 @@ test.describe("IGNITE mockup parity and dual themes",()=>{
     await expect(page.locator(".ignite-activity-list")).toBeVisible();
   });
 
+  test("Home does not expose mockup placeholder relationship data",async({page})=>{
+    await enter(page);
+    const app=page.locator("#app");
+    await expect(app).not.toContainText("14 Feb");
+    await expect(app).not.toContainText("238 Days");
+    await expect(app).not.toContainText("84% Match");
+    await expect(app).toContainText("Set your date");
+  });
+
+  test("Profile supports real optional person details",async({page})=>{
+    await enter(page);
+    await page.getByRole("button",{name:"Profile",exact:true}).click();
+    await page.getByText("Edit Profiles",{exact:true}).click();
+    await expect(page.locator('input[name="p1Pronouns"]')).toBeVisible();
+    await expect(page.locator('input[name="p1BirthDate"]')).toBeVisible();
+    await expect(page.locator('textarea[name="p1Bio"]')).toBeVisible();
+    await page.locator('input[name="p1Pronouns"]').fill("They / Them");
+    await page.locator('input[name="p1BirthDate"]').fill("2001-01-12");
+    await page.locator('textarea[name="p1Bio"]').fill("A real profile detail.");
+    await page.locator("#profile-edit-form").getByRole("button",{name:"Save"}).click();
+    await page.getByText("Ariel",{exact:true}).click();
+    await expect(page.getByText("They / Them",{exact:true})).toBeVisible();
+    await expect(page.getByText("A real profile detail.",{exact:true})).toBeVisible();
+  });
+
   test("Memories hub matches the mockup information hierarchy",async({page})=>{
     await enter(page);
     await page.getByRole("button",{name:"Memories",exact:true}).click();

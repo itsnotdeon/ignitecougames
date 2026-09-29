@@ -1,6 +1,6 @@
 const STORAGE_KEY="ignite-redesign-v4";
 export const TOPIC_CLEAR_VERSION="20260926-clear-all-topics";
-export const state={names:{p1:"",p2:"",couple:""},relationship:"Couple",relationshipSince:null,currentJourney:null,step:0,view:"home",mode:"normal",profilePhotos:{p1:"",p2:"",couple:""}};
+export const state={names:{p1:"",p2:"",couple:""},relationship:"Couple",relationshipSince:null,profileDetails:{p1:{pronouns:"",birthDate:"",bio:""},p2:{pronouns:"",birthDate:"",bio:""}},currentJourney:null,step:0,view:"home",mode:"normal",profilePhotos:{p1:"",p2:"",couple:""}};
 
 export function clearAllTopicStorageOnce(){
   if(localStorage.getItem(TOPIC_CLEAR_VERSION)==="done")return;
@@ -18,7 +18,7 @@ export function load(){
       state.step=Number(saved.step)||0;
       state.view=saved.view||"home";
       state.mode=saved.mode==="dark"?"dark":"normal";
-      state.profilePhotos={...state.profilePhotos,...(saved.profilePhotos||{})};
+      state.profilePhotos={...state.profilePhotos,...(saved.profilePhotos||{})};\n      state.profileDetails={...state.profileDetails,p1:{...state.profileDetails.p1,...(saved.profileDetails?.p1||{})},p2:{...state.profileDetails.p2,...(saved.profileDetails?.p2||{})}};
       state.__journeyComplete=Boolean(saved.__journeyComplete);
       state.__selectedJourney=Number.isInteger(saved.__selectedJourney)?saved.__selectedJourney:null;
       if(state.view==="generating"){
