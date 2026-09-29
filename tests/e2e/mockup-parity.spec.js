@@ -95,6 +95,22 @@ test.describe("IGNITE mockup parity and dual themes",()=>{
     await expect(page.getByRole("button",{name:/Add Memory/})).toBeVisible();
   });
 
+  test("Saving a memory unlocks Keep the Moment progression",async({page})=>{
+    await enter(page);
+    await page.getByRole("button",{name:"Memories",exact:true}).click();
+    await page.getByRole("button",{name:/Add Memory/}).click();
+    await page.locator("#memory-form input[name=moment]").fill("Progression memory");
+    await page.locator("#memory-form").getByRole("button",{name:/Save Memory|Save/}).click();
+    await expect.poll(async()=>page.evaluate(()=>{
+      const p=JSON.parse(localStorage.getItem("ignite-progression-v1")||"{}");
+      return p.stats?.memoriesSaved||0;
+    })).toBe(1);
+    await expect.poll(async()=>page.evaluate(()=>{
+      const p=JSON.parse(localStorage.getItem("ignite-progression-v1")||"{}");
+      return Array.isArray(p.achievements)&&p.achievements.includes("first-memory");
+    })).toBe(true);
+  });
+
   test("Play exposes all mockup game entry points",async({page})=>{
     await enter(page);
     await page.getByRole("button",{name:"Play",exact:true}).click();

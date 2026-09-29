@@ -220,6 +220,7 @@ export function recordMemorySaved() {
   const progress = read();
   touchStreak(progress);
   progress.stats.memoriesSaved += 1;
+  checkAchievements(progress);
   write(progress);
   return progress;
 }
