@@ -34,6 +34,17 @@ test.describe("IGNITE mockup parity and dual themes",()=>{
     expect(dark.accent).toBe("#b94d70");
   });
 
+  test("Home follows the mockup information hierarchy",async({page})=>{
+    await enter(page);
+    for(const name of ["Our Journey","Today’s Moment","Our Vibe Right Now","Quick Connection","Recent Memories","Upcoming & Motivation","Couple Level"]){
+      await expect(page.getByText(name,{exact:true})).toBeVisible();
+    }
+    await expect(page.getByRole("button",{name:/Start Journey/})).toBeVisible();
+    await expect(page.locator(".ignite-home-timeline")).toBeVisible();
+    await expect(page.locator(".ignite-vibe-grid")).toBeVisible();
+    await expect(page.locator(".ignite-activity-list")).toBeVisible();
+  });
+
   test("Memories hub matches the mockup information hierarchy",async({page})=>{
     await enter(page);
     await page.getByRole("button",{name:"Memories",exact:true}).click();
