@@ -122,10 +122,24 @@ function renderBoard(s,names){
     const p1=s.pos[0]===n;
     const p2=s.pos[1]===n;
     const special=SPECIALS[n];
-    return '<div class="snake-cell '+(p1?"p1 ":"")+(p2?"p2 ":"")+(special?"special ":"")+(LADDERS[n]?"ladder ":"")+(SNAKES[n]?"snake ":"")+'" data-square="'+n+'">'+
+    const ladderTarget=LADDERS[n]||0;
+    const snakeTarget=SNAKES[n]||0;
+    const connectionTarget=ladderTarget||snakeTarget;
+    const connectionType=ladderTarget?"ladder":snakeTarget?"snake":"";
+    const endpointSources=[];
+    for(const [source,target] of Object.entries(LADDERS)){
+      if(Number(target)===n) endpointSources.push({source:Number(source),type:"ladder"});
+    }
+    for(const [source,target] of Object.entries(SNAKES)){
+      if(Number(target)===n) endpointSources.push({source:Number(source),type:"snake"});
+    }
+    const endpoint=endpointSources[0];
+    return '<div class="snake-cell '+(p1?"p1 ":"")+(p2?"p2 ":"")+(special?"special ":"")+(ladderTarget?"ladder ":"")+(snakeTarget?"snake ":"")+(endpoint?"connection-end ":"")+'" data-square="'+n+'">'+
       '<span>'+n+'</span>'+
-      (LADDERS[n]?'<b class="snake-marker ladder-marker" aria-label="Ladder">&#x1FA9C;</b>':"")+
-      (SNAKES[n]?'<b class="snake-marker snake-marker" aria-label="Snake">&#x1F40D;</b>':"")+
+      (ladderTarget?'<b class="snake-marker ladder-marker" aria-label="Ladder from '+n+' to '+ladderTarget+'">&#x1FA9C;</b>':"")+
+      (snakeTarget?'<b class="snake-marker snake-marker" aria-label="Snake from '+n+' to '+snakeTarget+'">&#x1F40D;</b>':"")+
+      (connectionTarget?'<small class="connection-target '+connectionType+'">&#8599; '+connectionTarget+'</small>':"")+
+      (endpoint?'<small class="connection-source '+endpoint.type+'" aria-label="'+(endpoint.type==="ladder"?"Ladder":"Snake")+' arrives from '+endpoint.source+'">'+(endpoint.type==="ladder"?"from ":"from ")+endpoint.source+'</small>':"")+
       (special?'<i class="special-marker" aria-label="'+escapeHtml(SPECIAL_LABELS[special])+'">'+SPECIAL_ICONS[special]+'</i>':"")+
       (p1?'<em class="pawn p1-pawn">'+escapeHtml((names[0]||"P").charAt(0).toUpperCase())+'</em>':"")+
       (p2?'<em class="pawn p2-pawn">'+escapeHtml((names[1]||"P").charAt(0).toUpperCase())+'</em>':"")+
@@ -143,7 +157,9 @@ export function renderSnake(s,names){
     panel='<section class="snake-challenge card"><div class="eyebrow">'+escapeHtml(SPECIAL_LABELS[s.event.kind])+' - '+s.mode.toUpperCase()+'</div><h2>Do it together.</h2><p class="snake-challenge-text">'+escapeHtml(s.challenge.text)+'</p><div class="btn-row"><button class="btn primary" data-mini="snake-done">Done</button><button class="btn ghost" data-mini="snake-skip">Skip -3</button></div></section>';
   }else if(s.event?.type==="ladder"||s.event?.type==="snake"||s.event?.type==="overshoot"||s.event?.type==="skip"){
     const message=s.event.type==="ladder"?"You found a shortcut. Up you go.":s.event.type==="snake"?"A slide down. Keep going.":s.event.type==="overshoot"?"That roll goes past 100. No move this turn.":"Challenge skipped. Move back 3 squares.";
-    panel='<section class="snake-event card"><div class="event-icon">'+(s.event.type==="ladder"?"&#8599;":s.event.type==="snake"?"&#8600;":s.event.type==="skip"?"-3":"6")+'</div><div class="eyebrow">'+escapeHtml(status)+'</div><h2>'+escapeHtml(message)+'</h2><p>Current position: <strong>'+s.pos[s.turn]+'</strong></p><button class="btn primary full" data-mini="snake-continue">Continue</button></section>';
+    const route=s.event.type==="ladder"||s.event.type==="snake" ? '<div class="snake-route '+s.event.type+'"><span>'+s.event.from+'</span><b>&#8594;</b><strong>'+s.event.to+'</strong></div>' : "";
+    const routeCopy=s.event.type==="ladder" ? "Ladder takes you from "+s.event.from+" to "+s.event.to+".":s.event.type==="snake" ? "Snake sends you from "+s.event.from+" down to "+s.event.to+".":"";
+    panel='<section class="snake-event card"><div class="event-icon">'+(s.event.type==="ladder"?"&#8599;":s.event.type==="snake"?"&#8600;":s.event.type==="skip"?"-3":"6")+'</div><div class="eyebrow">'+escapeHtml(status)+'</div><h2>'+escapeHtml(message)+'</h2>'+route+'<p>'+escapeHtml(routeCopy)+(routeCopy?" ":"")+'Current position: <strong>'+s.pos[s.turn]+'</strong></p><button class="btn primary full" data-mini="snake-continue">Continue</button></section>';
   }
   return '<div class="ks-screen snake-screen '+(s.animating?"is-animating":"")+'">'+
     '<div class="ks-header"><div><h2>Snake &amp; Ladder</h2><small>IGNITE COUPLE GAME</small></div><span class="mode-pill">NEUTRAL</span><button class="ks-reset" data-mini="snake-reset">Reset</button></div>'+
