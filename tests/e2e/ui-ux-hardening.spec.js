@@ -26,6 +26,48 @@ test.describe("UI/UX hardening",()=>{
     expect(dialogSeen).toBe(true);
   });
 
+  test("backup restore preserves state and progression stores",async({page})=>{
+    await boot(page);
+    await page.evaluate(()=>{
+      localStorage.setItem("ignite-progression-v1",JSON.stringify({xp:130,stats:{journeysCompleted:2,memoriesSaved:1},achievements:["first-memory"]}));
+      localStorage.setItem("ignite-memories-v1",JSON.stringify([{id:"m1",moment:"Restored Moment",memoryDate:"2026-09-29"}]));
+      localStorage.setItem("ignite-preferences-v1",JSON.stringify({vibes:["Deep"],steps:7}));
+      localStorage.setItem("ignite-backup-marker","keep");
+    });
+    const backup=await page.evaluate(()=>({
+      format:"ignite-backup",version:1,exportedAt:new Date().toISOString(),
+      data:{
+        "ignite-redesign-v4":JSON.stringify({names:{p1:"Restored A",p2:"Restored B"},relationship:"Couple",relationshipSince:null,currentJourney:null,step:0,view:"home",mode:"dark"}),
+        "ignite-progression-v1":localStorage.getItem("ignite-progression-v1"),
+        "ignite-memories-v1":localStorage.getItem("ignite-memories-v1"),
+        "ignite-preferences-v1":localStorage.getItem("ignite-preferences-v1")
+      }
+    }));
+    await page.evaluate(data=>{
+      import("./scripts/core/backup.js").then(({restoreAppBackup})=>{
+        setTimeout(()=>restoreAppBackup(data),0);
+      });
+    },backup);
+    await page.waitForLoadState("domcontentloaded");
+    await expect.poll(()=>page.evaluate(()=>JSON.parse(localStorage.getItem("ignite-redesign-v4")).names.p1)).toBe("Restored A");
+    await expect.poll(()=>page.evaluate(()=>JSON.parse(localStorage.getItem("ignite-progression-v1")).xp)).toBe(130);
+    await expect.poll(()=>page.evaluate(()=>JSON.parse(localStorage.getItem("ignite-memories-v1"))[0].moment)).toBe("Restored Moment");
+    await expect.poll(()=>page.evaluate(()=>JSON.parse(localStorage.getItem("ignite-preferences-v1")).vibes[0])).toBe("Deep");
+    expect(await page.evaluate(()=>localStorage.getItem("ignite-backup-marker"))).toBe(null);
+  });
+
+  test("invalid backup never clears existing local data",async({page})=>{
+    await boot(page);
+    await page.evaluate(()=>localStorage.setItem("ignite-backup-marker","safe"));
+    const result=await page.evaluate(async()=>{
+      const {restoreAppBackup}=await import("./scripts/core/backup.js");
+      try{restoreAppBackup({format:"ignite-backup",version:1,data:{"ignite-good":"ok","ignite-bad":42}})}catch(e){return {message:e.message,marker:localStorage.getItem("ignite-backup-marker")}};
+      return {message:"no-error",marker:localStorage.getItem("ignite-backup-marker")};
+    });
+    expect(result.message).toBe("Invalid IGNITE backup data.");
+    expect(result.marker).toBe("safe");
+  });
+
   test("interrupted Journey generation recovers instead of hanging",async({page})=>{
     await boot(page);
     await page.evaluate(()=>{
