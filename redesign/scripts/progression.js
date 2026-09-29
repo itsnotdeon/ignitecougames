@@ -168,6 +168,9 @@ export function startJourney(journeyId,eventId=null) {
 
 export function completeJourney(journeyId, details = {}) {
   const progress = read();
+  const eventId = "journey-complete:" + String(details.eventId || Date.now());
+  if (progress.awarded[eventId]) return { progress: getProgress(), added: 0, newlyUnlocked: [] };
+  progress.awarded[eventId] = true;
   touchStreak(progress);
   progress.stats.journeysCompleted += 1;
   if (journeyId === "dark") progress.stats.afterDarkCompleted += 1;
