@@ -2,21 +2,21 @@
 // Transitional TypeScript entry: runtime logic is preserved while modules are migrated incrementally.
 import {state,load,save,clearAllTopicStorageOnce} from "./core/state.ts";
 import {app,esc,resetViewport} from "./core/dom.ts";
-import {exportAppBackup,restoreAppBackup,resetAllAppData} from "./core/backup.js?v=20260928-01";
+import {exportAppBackup,restoreAppBackup,resetAllAppData} from "./core/backup.ts";
 import {syncModeTheme} from "./core/theme.ts";
-import {journeys} from "./data/journeys.js?v=20260928-01";
+import {journeys} from "./data/journeys.ts";
 import {readBond,writeBond,pickBond} from "./features/bond.ts";
-import {TOPIC_MANAGER_KEYS,ROLE_KEYS,readContent,saveContent,cleanRole,getTopicStats,contentStats,contentTotal} from "./features/content-library.js?v=20260928-01";
-import {initMechanic,mechanicAction,mechanicView,winnerLabel,isMechanicComplete,resetMechanic} from "./journey/mechanics.js?v=20260928-02";
-import {renderMinigameMenu,minigameView,minigameAction,openMinigame} from "./minigames/index.js?v=20260929-01";
-import {getProgress,getLevelInfo,startJourney as progressionStartJourney,completeJourney,completeActivity,completeRitual,recordMinigamePlayed,achievementList} from "./progression.js?v=20260928-02";
-import {starterTruth,starterDare} from "./journey/content.js?v=20260928-02";
-import {renderMemorySummary,renderMemories,renderPreferences,renderFeatureSettings,handleVibeClick,handlePreferenceSubmit,surpriseContext,dynamicContext,renderContextSummary,handleMoodClick} from "./features/ui.js?v=20260928-02";
+import {TOPIC_MANAGER_KEYS,ROLE_KEYS,readContent,saveContent,cleanRole,getTopicStats,contentStats,contentTotal} from "./features/content-library.ts";
+import {initMechanic,mechanicAction,mechanicView,winnerLabel,isMechanicComplete,resetMechanic} from "./journey/mechanics.ts";
+import {renderMinigameMenu,minigameView,minigameAction,openMinigame} from "./minigames/index.ts";
+import {getProgress,getLevelInfo,startJourney as progressionStartJourney,completeJourney,completeActivity,completeRitual,recordMinigamePlayed,achievementList} from "./progression.ts";
+import {starterTruth,starterDare} from "./journey/content.ts";
+import {renderMemorySummary,renderMemories,renderPreferences,renderFeatureSettings,handleVibeClick,handlePreferenceSubmit,surpriseContext,dynamicContext,renderContextSummary,handleMoodClick} from "./features/ui.ts";
 import {saveMemory,getMemory,updateMemory,deleteMemory,toggleMemoryFavorite} from "./features/memories.ts";
 import {recordVibe,recordInteraction} from "./features/adaptive.ts";
 import {getPreferences} from "./features/preferences.ts";
-import {recordMemorySaved,recordOneMore} from "./progression.js?v=20260928-02";
-import {initAccessibility} from "./ui/accessibility.js?v=20260928-02";
+import {recordMemorySaved,recordOneMore} from "./progression.ts";
+import {initAccessibility} from "./ui/accessibility.ts";
 
 
 
