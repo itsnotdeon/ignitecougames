@@ -7,8 +7,7 @@
     "checkJs": false,
     "noEmit": true,
     "strict": true,
-    "skipLibCheck": true,
-    "types": ["./redesign/types/ignite.d.ts"]
+    "skipLibCheck": true
   },
   "include": [
     "redesign/types/**/*.d.ts",
