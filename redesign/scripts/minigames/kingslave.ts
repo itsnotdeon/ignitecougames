@@ -1,6 +1,6 @@
 // @ts-nocheck
 // Transitional migration copy; types are added as this module is audited.
-import {allKingNormalCommands,allKingDarkCommands} from "../data/topics.js?v=20260928-02";
+import {allKingNormalCommands,allKingDarkCommands} from "../data/topics.ts";
 
 const ACTIVE_KEY="ignite-active-content-v1";
 function poolForMode(mode){try{const raw=JSON.parse(localStorage.getItem(ACTIVE_KEY)||"null");const list=raw?.[mode==="dark"?"kingDark":"kingNormal"];if(Array.isArray(list))return list}catch{}return mode==="dark"?allKingDarkCommands:allKingNormalCommands}
