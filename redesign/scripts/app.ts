@@ -3,18 +3,18 @@
 import {state,load,save,clearAllTopicStorageOnce} from "./core/state.ts";
 import {app,esc,resetViewport} from "./core/dom.ts";
 import {exportAppBackup,restoreAppBackup,resetAllAppData} from "./core/backup.js?v=20260928-01";
-import {syncModeTheme} from "./core/theme.js?v=20260928-01";
+import {syncModeTheme} from "./core/theme.ts";
 import {journeys} from "./data/journeys.js?v=20260928-01";
-import {readBond,writeBond,pickBond} from "./features/bond.js?v=20260928-01";
+import {readBond,writeBond,pickBond} from "./features/bond.ts";
 import {TOPIC_MANAGER_KEYS,ROLE_KEYS,readContent,saveContent,cleanRole,getTopicStats,contentStats,contentTotal} from "./features/content-library.js?v=20260928-01";
 import {initMechanic,mechanicAction,mechanicView,winnerLabel,isMechanicComplete,resetMechanic} from "./journey/mechanics.js?v=20260928-02";
 import {renderMinigameMenu,minigameView,minigameAction,openMinigame} from "./minigames/index.js?v=20260929-01";
 import {getProgress,getLevelInfo,startJourney as progressionStartJourney,completeJourney,completeActivity,completeRitual,recordMinigamePlayed,achievementList} from "./progression.js?v=20260928-02";
 import {starterTruth,starterDare} from "./journey/content.js?v=20260928-02";
 import {renderMemorySummary,renderMemories,renderPreferences,renderFeatureSettings,handleVibeClick,handlePreferenceSubmit,surpriseContext,dynamicContext,renderContextSummary,handleMoodClick} from "./features/ui.js?v=20260928-02";
-import {saveMemory,getMemory,updateMemory,deleteMemory,toggleMemoryFavorite} from "./features/memories.js?v=20260928-02";
-import {recordVibe,recordInteraction} from "./features/adaptive.js?v=20260928-02";
-import {getPreferences} from "./features/preferences.js?v=20260928-02";
+import {saveMemory,getMemory,updateMemory,deleteMemory,toggleMemoryFavorite} from "./features/memories.ts";
+import {recordVibe,recordInteraction} from "./features/adaptive.ts";
+import {getPreferences} from "./features/preferences.ts";
 import {recordMemorySaved,recordOneMore} from "./progression.js?v=20260928-02";
 import {initAccessibility} from "./ui/accessibility.js?v=20260928-02";
 
