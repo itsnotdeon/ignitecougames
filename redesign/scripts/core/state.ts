@@ -1,4 +1,4 @@
-import type { IgniteMode } from "../../types/ignite.js";
+import type { IgniteMode } from "../../types/ignite";
 
 export interface IgniteProfileDetails {
   pronouns: string;
