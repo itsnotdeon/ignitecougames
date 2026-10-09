@@ -8,7 +8,7 @@ export default defineConfig({
     emptyOutDir: true,
     target: "es2022",
     rollupOptions: {
-      input: "redesign/index.html"
+      input: ["index.html", "redesign/index.html"]
     }
   },
   server: { host: "0.0.0.0" }
