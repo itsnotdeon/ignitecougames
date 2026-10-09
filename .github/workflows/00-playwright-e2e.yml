@@ -38,8 +38,11 @@ jobs:
 
       - run: npx playwright install chromium
 
-      - name: TypeScript foundation check
+      - name: TypeScript check
         run: npm run typecheck
+
+      - name: Production build
+        run: npm run build
 
       - run: find redesign/scripts -name "*.js" -print0 | xargs -0 -n1 node --check
 
