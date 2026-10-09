@@ -1,0 +1,17 @@
+{
+  "compilerOptions": {
+    "target": "ES2022",
+    "module": "ESNext",
+    "moduleResolution": "Bundler",
+    "allowJs": true,
+    "checkJs": false,
+    "noEmit": true,
+    "strict": true,
+    "skipLibCheck": true
+  },
+  "include": [
+    "redesign/types/**/*.d.ts",
+    "redesign/scripts/**/*.ts"
+  ],
+  "exclude": ["node_modules", "dist"]
+}
