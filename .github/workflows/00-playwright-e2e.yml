@@ -38,6 +38,9 @@ jobs:
 
       - run: npx playwright install chromium
 
+      - name: TypeScript foundation check
+        run: npm run typecheck
+
       - run: find redesign/scripts -name "*.js" -print0 | xargs -0 -n1 node --check
 
       - name: Parse app as an ES module
