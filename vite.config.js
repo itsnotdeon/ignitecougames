@@ -1,14 +1,12 @@
 import { defineConfig } from "vite";
 
 export default defineConfig({
-  root: "redesign",
-  publicDir: "../public",
+  root: ".",
+  publicDir: "public",
   build: {
-    outDir: "../dist",
+    outDir: "dist",
     emptyOutDir: true,
     target: "es2022"
   },
-  server: {
-    host: "0.0.0.0"
-  }
+  server: { host: "0.0.0.0" }
 });
