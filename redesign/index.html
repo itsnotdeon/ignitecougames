@@ -30,7 +30,6 @@
   const fill=document.querySelector("#boot-progress-fill");
   const value=document.querySelector("#boot-progress-value");
   const bar=document.querySelector(".boot-progress");
-  const revision="20260929-01";
   const startedAt=performance.now();
   const sleep=ms=>new Promise(resolve=>setTimeout(resolve,ms));
   const setProgress=(percent,label)=>{
@@ -61,7 +60,7 @@
     setProgress(42,"Starting the IGNITE core…");
     setProgress(70,"Loading your experience…");
     await Promise.race([
-      import("./scripts/app.ts?v="+revision),
+      import("./scripts/app.ts?v=20260929-01"),
       new Promise((_,reject)=>setTimeout(()=>reject(new Error("Timeout loading app.ts")),30000))
     ]);
     setProgress(90,"Starting your experience…");
