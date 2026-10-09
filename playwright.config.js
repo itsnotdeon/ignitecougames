@@ -23,7 +23,7 @@ module.exports=defineConfig({
     {name:"mobile-chrome",use:{...devices["Pixel 5"]}},
   ],
   webServer:{
-    command:"python3 -m http.server 4173 --directory .",
+    command:"npm run dev -- --host 127.0.0.1 --port 4173",
     url:"http://127.0.0.1:4173/redesign/index.html",
     reuseExistingServer:true,
     timeout:10000
