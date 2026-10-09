@@ -14,8 +14,5 @@
     "redesign/types/**/*.d.ts",
     "redesign/scripts/**/*.ts"
   ],
-  "exclude": [
-    "node_modules",
-    "dist"
-  ]
+  "exclude": ["node_modules", "dist"]
 }
