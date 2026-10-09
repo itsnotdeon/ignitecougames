@@ -11,6 +11,11 @@
     "types": ["./redesign/types/ignite.d.ts"]
   },
   "include": [
-    "redesign/types/**/*.d.ts"
+    "redesign/types/**/*.d.ts",
+    "redesign/scripts/**/*.ts"
+  ],
+  "exclude": [
+    "node_modules",
+    "dist"
   ]
 }
