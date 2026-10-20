@@ -37,11 +37,11 @@
 - `KingSlaveScreen`: refreshed command/power card presentation and retained consent gating for actions.
 - `IgniteRoleplayScreen`: editorial scenario card, explicit-mode consent gate, custom scenario dialog, and explicit content remains empty until users add it.
 - `ChessCommandScreen`: responsive board, selected-square state, consent gate, and undo now restores the previous side to move. It is still a simplified board interaction and does not validate official chess move rules.
-- `TruthOrDareScreen`: fallback selection now respects the current theme, so Normal Mode cannot fall back into After Dark cards when a category/type filter is empty; completion avoids nested state updates.
+- `TruthOrDareScreen`: premium responsive card layout, visible turn ownership, category filters, reveal interaction, safe theme-specific fallback, and imported HTML Truth/Dare topics are included in the draw pool without importing After Dark categories into Normal Mode.
 
 ## Next implementation stages
 
-1. Complete the remaining interaction polish for Truth or Dare and other supplementary game screens.
-2. Audit HTML parity for the session setup, import/export, topic categories, and persistence rather than assuming visual parity means behavioral parity.
+1. Complete the HTML category editor, per-topic CRUD, and per-category importers (Excel, Word, PDF, JSON; CSV for Roleplay).
+2. Wire the imported snapshot into all relevant category-aware game screens and implement full session save/load restoration, global timer, and browser localStorage migration strategy.
 3. Check responsive layout, long Indonesian strings, keyboard/safe-area behavior, and accessibility.
 4. Verify Flutter analyze/tests on the newest commit and manually test key flows in browser and Android.
