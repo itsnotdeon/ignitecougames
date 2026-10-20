@@ -38,7 +38,9 @@ class _TruthOrDareScreenState extends State<TruthOrDareScreen> {
     }).toList();
 
     if (filtered.isEmpty) {
-      filtered = TruthOrDareData.cards;
+      // Never fall back to After Dark content while Normal Mode is active.
+      // If a selected type/category has no cards, use only content allowed by the current theme.
+      filtered = TruthOrDareData.cards.where((card) => isAfterDark || !card.isAfterDark).toList();
     }
 
     final random = Random();
@@ -165,7 +167,7 @@ class _TruthOrDareScreenState extends State<TruthOrDareScreen> {
                         boxShadow: [
                           BoxShadow(
                             color: (isAfterDark ? AppColors.darkPrimary : AppColors.normalPrimary)
-                                .withOpacity(0.25),
+                                .withValues(alpha: 0.25),
                             blurRadius: 20,
                             offset: const Offset(0, 10),
                           ),
@@ -181,7 +183,7 @@ class _TruthOrDareScreenState extends State<TruthOrDareScreen> {
                               color: (_currentCard?.type == CardType.dare
                                       ? (isAfterDark ? AppColors.darkPrimary : AppColors.normalPrimary)
                                       : (isAfterDark ? AppColors.darkSecondary : AppColors.normalSecondary))
-                                  .withOpacity(0.2),
+                                  .withValues(alpha: 0.2),
                               borderRadius: BorderRadius.circular(12),
                             ),
                             child: Text(
