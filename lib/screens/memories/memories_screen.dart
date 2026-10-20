@@ -20,7 +20,7 @@ class MemoriesScreen extends StatelessWidget {
     return Scaffold(
       backgroundColor: Colors.transparent,
       appBar: AppBar(
-        title: const Text('Our Memories'),
+        title: const Text('Kenangan Kita'),
       ),
       floatingActionButton: FloatingActionButton.extended(
         onPressed: () => _showAddMemoryDialog(context),
@@ -46,7 +46,7 @@ class MemoriesScreen extends StatelessWidget {
                 ),
               )
             : ListView.builder(
-                padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
+                padding: const EdgeInsets.fromLTRB(20, 16, 20, 28),
                 itemCount: memories.length + 1,
                 itemBuilder: (context, index) {
                   if (index == memories.length) {
