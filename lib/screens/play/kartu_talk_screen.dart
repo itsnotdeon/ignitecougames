@@ -88,9 +88,10 @@ class _KartuTalkScreenState extends State<KartuTalkScreen> {
     return Scaffold(
       backgroundColor: Colors.transparent,
       appBar: AppBar(title: const Text('Kartu Talk')),
-      body: ListView(
-        padding: const EdgeInsets.all(20),
-        children: [
+      body: SafeArea(
+        child: ListView(
+          padding: const EdgeInsets.fromLTRB(20, 12, 20, 28),
+          children: [
           Text(
             'Pilih kartu untuk membuka percakapan. Kalian boleh melewati pertanyaan kapan saja; tidak ada kewajiban menjawab.',
             style: TextStyle(
@@ -98,8 +99,8 @@ class _KartuTalkScreenState extends State<KartuTalkScreen> {
               height: 1.5,
             ),
           ),
-          const SizedBox(height: 16),
-          SegmentedButton<bool>(
+          const SizedBox(height: 18),
+          Center(child: ConstrainedBox(constraints: const BoxConstraints(maxWidth: 760), child: SegmentedButton<bool>(
             segments: const [
               ButtonSegment(value: false, label: Text('🃏 Kartu Biasa')),
               ButtonSegment(value: true, label: Text('🔥 Eksplisit / Custom')),
@@ -109,10 +110,15 @@ class _KartuTalkScreenState extends State<KartuTalkScreen> {
               _explicitMode = selection.first;
               _index = 0;
             }),
-          ),
+          )),
           const SizedBox(height: 18),
-          Container(
-            constraints: const BoxConstraints(minHeight: 245),
+          Center(
+            child: ConstrainedBox(
+              constraints: const BoxConstraints(maxWidth: 760),
+              child: AnimatedContainer(
+                duration: const Duration(milliseconds: 240),
+                curve: Curves.easeOutCubic,
+                constraints: const BoxConstraints(minHeight: 280),
             padding: const EdgeInsets.all(26),
             decoration: BoxDecoration(
               gradient: LinearGradient(
@@ -195,7 +201,9 @@ class _KartuTalkScreenState extends State<KartuTalkScreen> {
               height: 1.45,
             ),
           ),
+          ])),
         ],
+      ),
       ),
     );
   }
