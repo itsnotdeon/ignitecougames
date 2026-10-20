@@ -62,7 +62,7 @@ class _IgniteRoleplayScreenState extends State<IgniteRoleplayScreen> {
       final challengeText = (item['challenge'] ?? '').toString().trim();
       final roleName = (item['roleName'] ?? item['name'] ?? '').toString().trim();
       final prefix = roleName.isEmpty ? '' : '$roleName — ';
-      return [if (contextText.isNotEmpty) contextText, if (challengeText.isNotEmpty) '$prefix$challengeText'].join('\\n\\n');
+      return [if (contextText.isNotEmpty) contextText, if (challengeText.isNotEmpty) '$prefix$challengeText'].join('\n\n');
     }).where((prompt) => prompt.trim().isNotEmpty).toList();
   }
 
