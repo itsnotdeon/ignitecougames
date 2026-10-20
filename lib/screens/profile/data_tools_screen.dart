@@ -217,6 +217,31 @@ class _DataToolsScreenState extends State<DataToolsScreen> {
         final state = decoded['state'] as Map<String, dynamic>;
         if (state['categories'] is! List) throw const FormatException('Save game tidak memiliki daftar kategori yang valid.');
         await prefs.setString(_htmlSaveKey, jsonEncode(decoded));
+        final playerNames = decoded['playerNames'];
+        if (playerNames is Map) {
+          final first = (playerNames['p1'] ?? '').toString().trim();
+          final second = (playerNames['p2'] ?? '').toString().trim();
+          await prefs.setString('ignite-couple-game-player-names', jsonEncode({
+            'p1': first,
+            'p2': second,
+          }));
+          final existingProfileRaw = prefs.getString('couple_profile');
+          Map<String, dynamic> profile = <String, dynamic>{};
+          if (existingProfileRaw != null) {
+            try {
+              final existingProfile = jsonDecode(existingProfileRaw);
+              if (existingProfile is Map<String, dynamic>) profile = existingProfile;
+            } catch (_) {
+              // Replace malformed profile JSON with a minimal valid profile below.
+            }
+          }
+          if (first.isNotEmpty) profile['partner1'] = first;
+          if (second.isNotEmpty) profile['partner2'] = second;
+          profile.putIfAbsent('anniversaryDate', () => DateTime.now().toIso8601String());
+          profile.putIfAbsent('emoji1', () => '👑');
+          profile.putIfAbsent('emoji2', () => '💖');
+          await prefs.setString('couple_profile', jsonEncode(profile));
+        }
         final topicSnapshot = <String, dynamic>{
           'format': 'ignite-couple-game-topics-export',
           'version': 1,
