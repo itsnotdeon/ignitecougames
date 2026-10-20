@@ -1,12 +1,30 @@
-# IGNITE Couple Games — Flutter + Dart
+# IGNITE Couple Games — unified Flutter rebuild
 
-IGNITE is being rebuilt as a Flutter application. This clean baseline replaces the old browser app as the repository's current source tree.
+IGNITE is being unified as a Flutter + Dart app. **The user-provided `Ignite_optimized_vscode.html` is the primary source of truth for legacy behavior and content.** The supplied `lib.zip` is integrated as the source for supplementary screens, state providers, models, reusable widgets, and design foundations. The prior GitHub Flutter shell is retained only where it helps the unified app; it must not silently replace original HTML mechanics.
 
-## Visual direction
+## Design direction
 
-- **Normal Mode:** sweet elegant — warm rose, champagne, and blush tones. It should not look plain white.
-- **After Dark:** deep elegant — wine, burgundy, violet, and obsidian tones.
-- The two modes should feel related while keeping distinct visual personalities.
+- **Normal Mode:** sweet, warm, elegant; blush, rose, and champagne. It must not become a plain white interface.
+- **After Dark:** deep, intimate, elegant; wine, burgundy, violet, and obsidian.
+- Consent and the ability to skip a prompt remain available in relationship/intimacy modes.
+
+## Included product areas
+
+### HTML-derived core modes
+
+- Kartu Talk with HTML-sourced normal prompt content and persistent custom prompts.
+- Ular Tangga Cinta with a separate HTML-derived 100-cell board implementation.
+- Truth or Dare with prompts from both the HTML and the supplied Flutter archive.
+- King & Slave with HTML-derived Command Card content, Power Card names, and a consent gate.
+- Russian Roulette Cinta as a virtual-only chance game.
+- Roleplay with HTML-derived normal role contexts and challenges.
+- Chess & Command with an interactive board prototype and command-card interaction.
+- Player-name/session setup and opening ritual screen.
+- Data & Backup screen for Flutter SharedPreferences JSON.
+
+### Screens reused from `lib.zip`
+
+Home, Play, Memories, Bond, Profile, Truth or Dare, Snake & Ladder, This or That, Know Your Partner, Would You Rather, Story Continues, Two-Minute Challenge, Couple Charades, Dare Wheel, Gratitude Jar, Dream Planning, Couple Spa, Love Contract, and Guess Our Song, plus the supplied providers, models, theme, and reusable widgets.
 
 ## Run locally
 
@@ -19,12 +37,6 @@ flutter test
 flutter run
 ```
 
-## Current baseline
+## Migration truthfulness
 
-The first rebuild commit establishes the Flutter shell, five main destinations, a game catalogue seeded from IGNITE product references, a working theme toggle, a Truth or Dare prompt flow, and initial CI configuration. This is a foundation, not a claim that every legacy feature has been ported.
-
-## Reference materials
-
-- `Ignite_optimized_vscode.html`: legacy browser product reference.
-- `lib.zip`: supplied Flutter/Dart screens and providers to review and integrate.
-- `docs/REBUILD_PLAN.md`: migration checklist and acceptance criteria.
+This is an integration milestone, **not yet a claim of full feature parity**. Full HTML topic-category management, all import formats, legacy localStorage migration, complete save/load snapshot compatibility, the global timer, complete King & Slave Power Card mechanics, and full legal chess rules still need implementation and QA. See [`docs/HTML_TO_FLUTTER_PARITY.md`](docs/HTML_TO_FLUTTER_PARITY.md) and [`docs/REBUILD_PLAN.md`](docs/REBUILD_PLAN.md).
