@@ -84,6 +84,7 @@ class _KartuTalkScreenState extends State<KartuTalkScreen> {
     final topic = hasTopic ? topics[_index % topics.length] : null;
     final primary = dark ? AppColors.darkPrimary : AppColors.normalPrimary;
     final text = dark ? AppColors.darkText : AppColors.normalText;
+    final muted = dark ? AppColors.darkTextMuted : AppColors.normalTextMuted;
 
     return Scaffold(
       backgroundColor: Colors.transparent,
@@ -92,118 +93,141 @@ class _KartuTalkScreenState extends State<KartuTalkScreen> {
         child: ListView(
           padding: const EdgeInsets.fromLTRB(20, 12, 20, 28),
           children: [
-          Text(
-            'Pilih kartu untuk membuka percakapan. Kalian boleh melewati pertanyaan kapan saja; tidak ada kewajiban menjawab.',
-            style: TextStyle(
-              color: dark ? AppColors.darkTextMuted : AppColors.normalTextMuted,
-              height: 1.5,
-            ),
-          ),
-          const SizedBox(height: 18),
-          Center(child: ConstrainedBox(constraints: const BoxConstraints(maxWidth: 760), child: SegmentedButton<bool>(
-            segments: const [
-              ButtonSegment(value: false, label: Text('🃏 Kartu Biasa')),
-              ButtonSegment(value: true, label: Text('🔥 Eksplisit / Custom')),
-            ],
-            selected: {_explicitMode},
-            onSelectionChanged: (selection) => setState(() {
-              _explicitMode = selection.first;
-              _index = 0;
-            }),
-          )),
-          const SizedBox(height: 18),
-          Center(
-            child: ConstrainedBox(
-              constraints: const BoxConstraints(maxWidth: 760),
-              child: AnimatedContainer(
-                duration: const Duration(milliseconds: 240),
-                curve: Curves.easeOutCubic,
-                constraints: const BoxConstraints(minHeight: 280),
-            padding: const EdgeInsets.all(26),
-            decoration: BoxDecoration(
-              gradient: LinearGradient(
-                begin: Alignment.topLeft,
-                end: Alignment.bottomRight,
-                colors: dark
-                    ? const [Color(0xFF35142B), Color(0xFF1A1026)]
-                    : const [Color(0xFFFFE4EA), Color(0xFFFFF7E9)],
+            Center(
+              child: ConstrainedBox(
+                constraints: const BoxConstraints(maxWidth: 760),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  children: [
+                    Text(
+                      'Satu kartu, satu percakapan yang lebih dekat.',
+                      style: Theme.of(context).textTheme.headlineMedium,
+                    ),
+                    const SizedBox(height: 8),
+                    Text(
+                      'Kalian boleh melewati pertanyaan kapan saja; tidak ada kewajiban menjawab.',
+                      style: TextStyle(color: muted, height: 1.5),
+                    ),
+                    const SizedBox(height: 20),
+                    SegmentedButton<bool>(
+                      segments: const [
+                        ButtonSegment(value: false, label: Text('🃏 Kartu Biasa')),
+                        ButtonSegment(value: true, label: Text('🔥 Eksplisit / Custom')),
+                      ],
+                      selected: {_explicitMode},
+                      onSelectionChanged: (selection) => setState(() {
+                        _explicitMode = selection.first;
+                        _index = 0;
+                      }),
+                    ),
+                    const SizedBox(height: 18),
+                    AnimatedContainer(
+                      duration: const Duration(milliseconds: 240),
+                      curve: Curves.easeOutCubic,
+                      constraints: const BoxConstraints(minHeight: 280),
+                      padding: const EdgeInsets.all(26),
+                      decoration: BoxDecoration(
+                        gradient: LinearGradient(
+                          begin: Alignment.topLeft,
+                          end: Alignment.bottomRight,
+                          colors: dark
+                              ? const [Color(0xFF442038), Color(0xFF211326), Color(0xFF17101E)]
+                              : const [Color(0xFFFFDDE5), Color(0xFFFFEEF0), Color(0xFFF9E4D8)],
+                        ),
+                        borderRadius: BorderRadius.circular(28),
+                        border: Border.all(color: primary.withValues(alpha: 0.28)),
+                        boxShadow: [
+                          BoxShadow(
+                            color: primary.withValues(alpha: dark ? 0.10 : 0.07),
+                            blurRadius: 24,
+                            offset: const Offset(0, 10),
+                          ),
+                        ],
+                      ),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Row(
+                            children: [
+                              Icon(Icons.favorite_rounded, color: primary, size: 18),
+                              const SizedBox(width: 8),
+                              Text(
+                                _explicitMode ? 'TOPIK CUSTOM' : 'KARTU BIASA',
+                                style: TextStyle(color: primary, fontWeight: FontWeight.w800, letterSpacing: 1.6, fontSize: 11),
+                              ),
+                              const Spacer(),
+                              const Icon(Icons.auto_awesome_rounded, size: 20, color: AppColors.gold),
+                            ],
+                          ),
+                          const SizedBox(height: 28),
+                          Text(
+                            topic ?? 'Belum ada topik custom. Tambahkan topik pertama kalian untuk mulai bermain.',
+                            style: TextStyle(color: text, fontSize: 22, height: 1.4, fontWeight: FontWeight.w700),
+                          ),
+                          const SizedBox(height: 24),
+                          Text(
+                            hasTopic ? 'Kartu ${_index + 1} dari ${topics.length}' : 'Belum ada konten custom',
+                            style: TextStyle(color: muted, fontSize: 12),
+                          ),
+                        ],
+                      ),
+                    ),
+                    const SizedBox(height: 16),
+                    if (_explicitMode)
+                      FilledButton.icon(
+                        onPressed: _addCustomTopic,
+                        icon: const Icon(Icons.add),
+                        label: const Text('Tambah topik custom'),
+                      )
+                    else
+                      FilledButton.icon(
+                        onPressed: hasTopic ? () => setState(() => _index = _random.nextInt(topics.length)) : null,
+                        icon: const Icon(Icons.shuffle_rounded),
+                        label: const Text('Ambil kartu berikutnya'),
+                      ),
+                    if (_explicitMode && _customTopics.isNotEmpty) ...[
+                      const SizedBox(height: 8),
+                      OutlinedButton.icon(
+                        onPressed: () async {
+                          final prefs = await SharedPreferences.getInstance();
+                          await prefs.remove(_customKey);
+                          if (mounted) setState(() { _customTopics = <String>[]; _index = 0; });
+                        },
+                        icon: const Icon(Icons.delete_outline_rounded),
+                        label: const Text('Hapus semua topik custom'),
+                      ),
+                    ],
+                    const SizedBox(height: 14),
+                    Container(
+                      padding: const EdgeInsets.all(14),
+                      decoration: BoxDecoration(
+                        color: (dark ? AppColors.darkCard : AppColors.normalCard).withValues(alpha: 0.8),
+                        borderRadius: BorderRadius.circular(16),
+                        border: Border.all(color: dark ? AppColors.darkBorder : AppColors.normalBorder),
+                      ),
+                      child: Row(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Icon(Icons.info_outline_rounded, size: 18, color: muted),
+                          const SizedBox(width: 10),
+                          Expanded(
+                            child: Text(
+                              _explicitMode
+                                  ? 'Topik custom tersimpan lokal di perangkat ini. Kategori eksplisit bawaan HTML awalnya kosong; konten tidak diganti dengan topik biasa.'
+                                  : 'Kartu biasa menggunakan kumpulan pertanyaan dari HTML IGNITE yang diberikan.',
+                              style: TextStyle(color: muted, fontSize: 12, height: 1.45),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
               ),
-              borderRadius: BorderRadius.circular(28),
-              border: Border.all(
-                color: dark ? AppColors.darkBorder : AppColors.normalBorder,
-              ),
-            ),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Text(
-                  _explicitMode ? 'TOPIK CUSTOM' : 'KARTU BIASA',
-                  style: TextStyle(
-                    color: primary,
-                    fontWeight: FontWeight.bold,
-                    letterSpacing: 1.6,
-                  ),
-                ),
-                const SizedBox(height: 28),
-                Text(
-                  topic ?? 'Belum ada topik custom. Tambahkan topik pertama kalian untuk mulai bermain.',
-                  style: TextStyle(
-                    color: text,
-                    fontSize: 22,
-                    height: 1.4,
-                    fontWeight: FontWeight.w700,
-                  ),
-                ),
-                const SizedBox(height: 24),
-                Text(
-                  hasTopic ? 'Kartu ${_index + 1} dari ${topics.length}' : 'Konten custom',
-                  style: TextStyle(
-                    color: dark ? AppColors.darkTextMuted : AppColors.normalTextMuted,
-                  ),
-                ),
-              ],
-            ),
-          ),
-          const SizedBox(height: 16),
-          if (_explicitMode)
-            FilledButton.icon(
-              onPressed: _addCustomTopic,
-              icon: const Icon(Icons.add),
-              label: const Text('Tambah topik custom'),
-            )
-          else
-            FilledButton.icon(
-              onPressed: () => setState(() => _index = (_index + 1) % topics.length),
-              icon: const Icon(Icons.shuffle),
-              label: const Text('Kartu berikutnya'),
-            ),
-          if (_explicitMode && _customTopics.isNotEmpty) ...[
-            const SizedBox(height: 8),
-            OutlinedButton.icon(
-              onPressed: () async {
-                final prefs = await SharedPreferences.getInstance();
-                await prefs.remove(_customKey);
-                if (mounted) setState(() { _customTopics = <String>[]; _index = 0; });
-              },
-              icon: const Icon(Icons.delete_outline),
-              label: const Text('Hapus semua topik custom'),
             ),
           ],
-          const SizedBox(height: 12),
-          Text(
-            _explicitMode
-                ? 'Topik custom tersimpan lokal di perangkat ini. Kategori eksplisit bawaan HTML awalnya kosong; konten di sini tidak diganti dengan topik biasa.'
-                : 'Kartu biasa diambil dari kumpulan pertanyaan HTML IGNITE yang diberikan.',
-            style: TextStyle(
-              color: dark ? AppColors.darkTextMuted : AppColors.normalTextMuted,
-              fontSize: 12,
-              height: 1.45,
-            ),
-          ),
-          ])),
-        ],
-      ),
+        ),
       ),
     );
   }
