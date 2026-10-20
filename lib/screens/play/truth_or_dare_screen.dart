@@ -219,7 +219,7 @@ class _TruthOrDareScreenState extends State<TruthOrDareScreen> {
                               ),
                             ),
                           ] else ...[
-                            const Icon(
+                            Icon(
                               Icons.touch_app_rounded,
                               size: 48,
                               color: isAfterDark ? AppColors.darkAccent : AppColors.normalSecondary,
