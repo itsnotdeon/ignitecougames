@@ -1,28 +1,30 @@
-# IGNITE
+# IGNITE Couple Games — Flutter + Dart
 
-IGNITE is a browser-based couple experience app built with vanilla HTML, CSS, and JavaScript.
+IGNITE is being rebuilt as a Flutter application. This clean baseline replaces the old browser app as the repository's current source tree.
 
-## Current app
+## Visual direction
 
-The production app lives in `redesign/` and is served through the root `index.html` redirect.
+- **Normal Mode:** sweet elegant — warm rose, champagne, and blush tones. It should not look plain white.
+- **After Dark:** deep elegant — wine, burgundy, violet, and obsidian tones.
+- The two modes should feel related while keeping distinct visual personalities.
 
-- `redesign/index.html` — application shell and boot sequence
-- `redesign/scripts/` — application logic, journeys, features, minigames, and progression
-- `redesign/styles/` — visual system and targeted style fixes
-- `tests/e2e/` — Playwright end-to-end coverage
-- `docs/` — product and release notes
-- `.github/workflows/playwright.yml` — CI test workflow
+## Run locally
 
-## Development
+Install Flutter stable, then run:
 
 ```bash
-npm install
-npm run test:e2e
+flutter pub get
+flutter analyze
+flutter test
+flutter run
 ```
 
-The application is currently **single-player/local-first**. Multiplayer infrastructure is intentionally not part of the current codebase.
+## Current baseline
 
+The first rebuild commit establishes the Flutter shell, five main destinations, a game catalogue seeded from IGNITE product references, a working theme toggle, a Truth or Dare prompt flow, and initial CI configuration. This is a foundation, not a claim that every legacy feature has been ported.
 
-<!-- Playwright QA trigger: full suite against main -->
+## Reference materials
 
-<!-- QA heartbeat 2026-09-28T06:59Z -->
+- `Ignite_optimized_vscode.html`: legacy browser product reference.
+- `lib.zip`: supplied Flutter/Dart screens and providers to review and integrate.
+- `docs/REBUILD_PLAN.md`: migration checklist and acceptance criteria.
