@@ -151,7 +151,7 @@ class _TruthOrDareScreenState extends State<TruthOrDareScreen> {
                                 end: Alignment.bottomRight,
                               )
                             : const LinearGradient(
-                                colors: [Color(0xFFFFFFFF), Color(0xFFFFF0F3)],
+                                colors: [AppColors.normalCard, AppColors.normalHighlight],
                                 begin: Alignment.topLeft,
                                 end: Alignment.bottomRight,
                               ),
@@ -222,7 +222,7 @@ class _TruthOrDareScreenState extends State<TruthOrDareScreen> {
                             const Icon(
                               Icons.touch_app_rounded,
                               size: 48,
-                              color: AppColors.normalSecondary,
+                              color: isAfterDark ? AppColors.darkAccent : AppColors.normalSecondary,
                             ),
                             const SizedBox(height: 14),
                             Text(
