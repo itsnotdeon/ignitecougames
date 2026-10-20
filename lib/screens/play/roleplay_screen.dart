@@ -1,7 +1,9 @@
+import 'dart:convert';
 import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../data/html_legacy_content.dart';
 import '../../providers/app_provider.dart';
@@ -22,9 +24,47 @@ class _IgniteRoleplayScreenState extends State<IgniteRoleplayScreen> {
   String? _custom;
 
   final Map<String, List<String>> _scenarios = {
-    'Biasa': HtmlLegacyContent.roleplayChallenge,
+    'Biasa': List<String>.from(HtmlLegacyContent.roleplayChallenge),
     'Eksplisit': <String>[],
   };
+
+  @override
+  void initState() {
+    super.initState();
+    _loadImportedRoleplayItems();
+  }
+
+  Future<void> _loadImportedRoleplayItems() async {
+    final prefs = await SharedPreferences.getInstance();
+    final raw = prefs.getString('ignite_html_compatible_topics_snapshot');
+    if (raw == null) return;
+    try {
+      final decoded = jsonDecode(raw);
+      if (decoded is! Map) return;
+      final normalItems = decoded['roleplayCustomItems'];
+      final explicitItems = decoded['roleplayCustomItemsExplicit'];
+      final normal = _roleplayItemsToPrompts(normalItems);
+      final explicit = _roleplayItemsToPrompts(explicitItems);
+      if (!mounted) return;
+      setState(() {
+        if (normal.isNotEmpty) _scenarios['Biasa']!.addAll(normal);
+        if (explicit.isNotEmpty) _scenarios['Eksplisit']!.addAll(explicit);
+      });
+    } catch (_) {
+      // Keep the source-derived built-in content if the optional import is malformed.
+    }
+  }
+
+  List<String> _roleplayItemsToPrompts(dynamic value) {
+    if (value is! List) return <String>[];
+    return value.whereType<Map>().map((item) {
+      final contextText = (item['context'] ?? '').toString().trim();
+      final challengeText = (item['challenge'] ?? '').toString().trim();
+      final roleName = (item['roleName'] ?? item['name'] ?? '').toString().trim();
+      final prefix = roleName.isEmpty ? '' : '$roleName — ';
+      return [if (contextText.isNotEmpty) contextText, if (challengeText.isNotEmpty) '$prefix$challengeText'].join('\\n\\n');
+    }).where((prompt) => prompt.trim().isNotEmpty).toList();
+  }
 
   Future<void> _writeCustomScenario() async {
     final controller = TextEditingController(text: _custom ?? '');
