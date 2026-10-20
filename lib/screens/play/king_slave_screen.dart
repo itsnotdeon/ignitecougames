@@ -1,7 +1,9 @@
+import 'dart:convert';
 import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../data/html_legacy_content.dart';
 import '../../providers/app_provider.dart';
@@ -29,6 +31,34 @@ class _KingSlaveScreenState extends State<KingSlaveScreen> {
     'Tanyakan satu hal yang ingin kalian pahami lebih baik tentang pasangan.',
   ];
   final List<Map<String, String>> _powers = HtmlLegacyContent.powerCards;
+
+  @override
+  void initState() {
+    super.initState();
+    _loadImportedCommands();
+  }
+
+  Future<void> _loadImportedCommands() async {
+    final prefs = await SharedPreferences.getInstance();
+    final raw = prefs.getString('ignite_html_compatible_topics_snapshot');
+    if (raw == null) return;
+    try {
+      final decoded = jsonDecode(raw);
+      final commands = decoded is Map ? decoded['ksCommands'] : null;
+      if (commands is List) {
+        final imported = commands.whereType<String>().where((item) => item.trim().isNotEmpty).toList();
+        if (mounted && imported.isNotEmpty) {
+          setState(() {
+            _commands
+              ..clear()
+              ..addAll(imported);
+          });
+        }
+      }
+    } catch (_) {
+      // Built-in HTML-derived commands remain available if import data is malformed.
+    }
+  }
 
   String _drawPowerCard() {
     final power = _powers[_random.nextInt(_powers.length)];
