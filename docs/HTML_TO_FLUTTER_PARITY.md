@@ -16,9 +16,9 @@
 | HTML capability | Flutter destination | Status |
 |---|---|---|
 | Player names and session start | `home/html_session_setup_screen.dart`, `CoupleProvider` | Partial: names persist and setup is available; all legacy screens do not yet share a unified session controller |
-| Opening ritual: Rock-Paper-Scissors | `home/html_session_setup_screen.dart` | Partial: one quick round, not the full HTML multi-round flow |
-| Opening ritual: guess a card color | `home/html_session_setup_screen.dart` | Partial: digital random warm-up; full HTML five-round interaction remains to port |
-| Normal card prompts | `data/html_legacy_content.dart`, `play/kartu_talk_screen.dart` | HTML `NORMAL_NEW_TOPICS.cards` prompts included |
+| Opening ritual: Rock-Paper-Scissors | `home/html_session_setup_screen.dart` | Implemented five-round flow with alternating hidden choices; verify end-to-end in browser/device QA |
+| Opening ritual: guess a card color | `home/html_session_setup_screen.dart` | Implemented five-round alternating digital warm-up; verify end-to-end in browser/device QA |
+| Normal card prompts | `data/html_legacy_content.dart`, `play/kartu_talk_screen.dart` | HTML `NORMAL_NEW_TOPICS.cards` included; imported HTML topic snapshots override the normal card pool when available |
 | Explicit card categories and custom topics | `play/kartu_talk_screen.dart` | Partial: local custom topics exist; full three-category manager and category-level CRUD/import are outstanding |
 | Snake & Ladder, 100-cell board | `play/html_snake_ladder_screen.dart` | Partial: board, turns, dice, snakes/ladders, special prompts; edge cases and visual parity still need QA |
 | Truth or Dare | `data/truth_or_dare_data.dart`, `play/truth_or_dare_screen.dart` | HTML normal prompts are merged with ZIP content; HTML category editing and import/export are outstanding |
@@ -27,10 +27,10 @@
 | Roleplay | `play/roleplay_screen.dart`, `data/html_legacy_content.dart` | Partial: source-derived context/challenge content; built-in role library, separate normal/explicit role lists and persistent custom scenarios remain |
 | Chess & Command | `play/chess_command_screen.dart` | Prototype: board, selection, moves, undo/reset and command draw; legal chess rules (check/checkmate, promotion, castling, en-passant) are not implemented |
 | Mode switch and explicit-mode consent | Individual HTML-derived screens | Basic notices/consent exist; HTML's complete navigation gate and settings behavior need parity work |
-| Topic settings and custom content | `screens/profile/data_tools_screen.dart` and game screens | Partial: Flutter preferences backup and limited custom topics; HTML's category editor and topic CRUD are not yet fully ported |
-| Import/export all topics (JSON) | `screens/profile/data_tools_screen.dart` | Not HTML-compatible yet; current format backs up Flutter SharedPreferences, not the HTML topic snapshot |
+| Topic settings and custom content | `screens/profile/data_tools_screen.dart` and game screens | Partial: imported normal card topics are used by Kartu Talk, imported Truth/Dare topics are added to its draw pool, and custom Kartu Talk prompts remain separate; full category editor, edit/delete per topic, and explicit-category CRUD remain outstanding |
+| Import/export topics (JSON) | `screens/profile/data_tools_screen.dart` | Partial: imports HTML `ignite-couple-game-topics-export` and `ignite-couple-game-save` snapshots, validates shape, stores original structured snapshot, and exports the topic snapshot via clipboard; file picker/download and all-category editing remain outstanding |
 | Per-category import (Excel, Word, PDF, JSON; CSV for Roleplay) and template download | Not yet mapped | Outstanding |
-| Save/load complete game snapshot | Not yet mapped | Outstanding; Flutter backup is not backward-compatible with HTML's game snapshot |
+| Save/load complete game snapshot | `screens/profile/data_tools_screen.dart` | Partial: imports and preserves HTML `ignite-couple-game-save` JSON snapshot and can copy it back out; active session state is not yet fully restored into Flutter game controllers |
 | Global timer presets/custom timer | Not yet mapped | Outstanding |
 | Original HTML localStorage migration | Not yet mapped | Outstanding; browser data requires a deliberate export/import strategy |
 
