@@ -168,6 +168,27 @@ class _DataToolsScreenState extends State<DataToolsScreen> {
       }
       final decoded = jsonDecode(raw);
       if (decoded is! Map<String, dynamic>) throw const FormatException('Snapshot save tersimpan tidak valid.');
+      if (_topicSnapshot != null && decoded['state'] is Map<String, dynamic>) {
+        final state = decoded['state'] as Map<String, dynamic>;
+        for (final key in [
+          'categories',
+          'explicitCategories',
+          'totCategories',
+          'ksCommands',
+          'ksCommandsExplicit',
+          'roleplayBuiltInRoles',
+          'roleplayBuiltInRolesExplicit',
+          'roleplayCustomItems',
+          'roleplayCustomItemsExplicit',
+          'roleplayMode',
+        ]) {
+          if (_topicSnapshot!.containsKey(key)) state[key] = _topicSnapshot![key];
+        }
+        decoded['savedAt'] = DateTime.now().millisecondsSinceEpoch;
+        await SharedPreferences.getInstance().then(
+          (prefs) => prefs.setString(_htmlSaveKey, jsonEncode(decoded)),
+        );
+      }
       await _copyJson(Map<String, Object?>.from(decoded), 'Snapshot save game HTML disalin ke clipboard.');
     } catch (error) {
       if (mounted) ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('$error')));
