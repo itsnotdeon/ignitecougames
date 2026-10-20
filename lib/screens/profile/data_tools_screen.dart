@@ -21,7 +21,84 @@ class _DataToolsScreenState extends State<DataToolsScreen> {
 
   final TextEditingController _importController = TextEditingController();
   bool _busy = false;
+  Map<String, dynamic>? _topicSnapshot;
   String _status = 'Backup Flutter mencakup preferensi lokal. File topik/save HTML disimpan terpisah agar struktur aslinya tidak hilang.';
+
+  @override
+  void initState() {
+    super.initState();
+    _loadSavedTopicSnapshot();
+  }
+
+  Future<void> _loadSavedTopicSnapshot() async {
+    final prefs = await SharedPreferences.getInstance();
+    final raw = prefs.getString(_htmlTopicsKey);
+    if (raw == null) return;
+    try {
+      final decoded = jsonDecode(raw);
+      if (decoded is Map<String, dynamic> && mounted) {
+        setState(() => _topicSnapshot = decoded);
+      }
+    } catch (_) {
+      // Keep data tools available even if an older snapshot is malformed.
+    }
+  }
+
+  Future<void> _persistTopicSnapshot() async {
+    final snapshot = _topicSnapshot;
+    if (snapshot == null) return;
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.setString(_htmlTopicsKey, jsonEncode(snapshot));
+    if (mounted) setState(() => _status = 'Perubahan kategori dan topik HTML disimpan di perangkat ini.');
+  }
+
+  Future<void> _addTopic(String categoryKey, int categoryIndex) async {
+    final controller = TextEditingController();
+    final value = await showDialog<String>(
+      context: context,
+      builder: (dialogContext) => AlertDialog(
+        title: const Text('Tambah topik'),
+        content: TextField(
+          controller: controller,
+          autofocus: true,
+          maxLines: 4,
+          maxLength: 700,
+          decoration: const InputDecoration(hintText: 'Tulis topik baru…'),
+        ),
+        actions: [
+          TextButton(onPressed: () => Navigator.pop(dialogContext), child: const Text('Batal')),
+          FilledButton(onPressed: () => Navigator.pop(dialogContext, controller.text.trim()), child: const Text('Simpan')),
+        ],
+      ),
+    );
+    controller.dispose();
+    if (value == null || value.trim().isEmpty || !mounted || _topicSnapshot == null) return;
+    final categories = _topicSnapshot![categoryKey] as List<dynamic>;
+    final category = Map<String, dynamic>.from(categories[categoryIndex] as Map);
+    final topics = List<String>.from((category['topics'] as List).whereType<String>());
+    if (topics.any((topic) => topic.toLowerCase() == value.trim().toLowerCase())) {
+      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Topik yang sama sudah ada di kategori ini.')));
+      return;
+    }
+    topics.add(value.trim());
+    category['topics'] = topics;
+    categories[categoryIndex] = category;
+    setState(() {});
+    await _persistTopicSnapshot();
+  }
+
+  Future<void> _deleteTopic(String categoryKey, int categoryIndex, int topicIndex) async {
+    if (_topicSnapshot == null) return;
+    final categories = _topicSnapshot![categoryKey] as List<dynamic>;
+    final category = Map<String, dynamic>.from(categories[categoryIndex] as Map);
+    final topics = List<String>.from((category['topics'] as List).whereType<String>());
+    if (topicIndex < 0 || topicIndex >= topics.length) return;
+    topics.removeAt(topicIndex);
+    category['topics'] = topics;
+    categories[categoryIndex] = category;
+    setState(() {});
+    await _persistTopicSnapshot();
+  }
 
   @override
   void dispose() {
@@ -132,7 +209,10 @@ class _DataToolsScreenState extends State<DataToolsScreen> {
       } else if (format == 'ignite-couple-game-topics-export') {
         _validateHtmlTopics(decoded);
         await prefs.setString(_htmlTopicsKey, jsonEncode(decoded));
-        if (mounted) setState(() => _status = 'Topik HTML berhasil diimpor dan struktur kategorinya disimpan. Konten mode eksplisit tidak digabung ke mode biasa.');
+        if (mounted) setState(() {
+          _topicSnapshot = Map<String, dynamic>.from(decoded);
+          _status = 'Topik HTML berhasil diimpor dan struktur kategorinya disimpan. Konten mode eksplisit tidak digabung ke mode biasa.';
+        });
       } else if (format == 'ignite-couple-game-save' && decoded['state'] is Map<String, dynamic>) {
         final state = decoded['state'] as Map<String, dynamic>;
         if (state['categories'] is! List) throw const FormatException('Save game tidak memiliki daftar kategori yang valid.');
@@ -158,7 +238,10 @@ class _DataToolsScreenState extends State<DataToolsScreen> {
         };
         _validateHtmlTopics(topicSnapshot);
         await prefs.setString(_htmlTopicsKey, jsonEncode(topicSnapshot));
-        if (mounted) setState(() => _status = 'Save game HTML tersimpan. Topik kartu biasa dipetakan ke Kartu Talk; snapshot sesi lain dipertahankan untuk kompatibilitas.');
+        if (mounted) setState(() {
+          _topicSnapshot = topicSnapshot;
+          _status = 'Save game HTML tersimpan. Topik kartu biasa dipetakan ke Kartu Talk; snapshot sesi lain dipertahankan untuk kompatibilitas.';
+        });
       } else {
         throw const FormatException('Format tidak dikenali. Gunakan backup Flutter, "ignite-couple-game-topics-export", atau "ignite-couple-game-save".');
       }
@@ -216,6 +299,75 @@ class _DataToolsScreenState extends State<DataToolsScreen> {
     if (mounted) ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Data lokal dihapus. Restart aplikasi untuk memulai dari awal.')));
   }
 
+  Widget _buildTopicManager() {
+    final snapshot = _topicSnapshot;
+    if (snapshot == null) {
+      return const Card(
+        child: Padding(
+          padding: EdgeInsets.all(16),
+          child: Text('Pengelola kategori HTML akan muncul setelah kalian mengimpor JSON topik atau save game dari versi HTML.'),
+        ),
+      );
+    }
+    final sections = <(String, String)>[
+      ('categories', 'Kartu Biasa'),
+      ('explicitCategories', 'Kategori Eksplisit'),
+      ('totCategories', 'Truth or Dare'),
+    ];
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text('Pengelola topik HTML', style: Theme.of(context).textTheme.titleLarge),
+        const SizedBox(height: 6),
+        const Text('Tambah atau hapus topik per kategori. Perubahan tersimpan di perangkat dan ikut dalam ekspor snapshot topik.', style: TextStyle(height: 1.45)),
+        const SizedBox(height: 8),
+        for (final section in sections)
+          if (snapshot[section.$1] is List)
+            for (var categoryIndex = 0; categoryIndex < (snapshot[section.$1] as List).length; categoryIndex++)
+              Builder(builder: (context) {
+                final category = (snapshot[section.$1] as List)[categoryIndex];
+                if (category is! Map || category['topics'] is! List) return const SizedBox.shrink();
+                final topics = (category['topics'] as List).whereType<String>().toList();
+                final categoryName = (category['name'] ?? section.$2).toString();
+                return Card(
+                  margin: const EdgeInsets.only(bottom: 8),
+                  child: ExpansionTile(
+                    title: Text(categoryName),
+                    subtitle: Text('${topics.length} topik'),
+                    childrenPadding: const EdgeInsets.fromLTRB(12, 0, 12, 12),
+                    children: [
+                      Align(
+                        alignment: Alignment.centerLeft,
+                        child: TextButton.icon(
+                          onPressed: _busy ? null : () => _addTopic(section.$1, categoryIndex),
+                          icon: const Icon(Icons.add_rounded),
+                          label: const Text('Tambah topik'),
+                        ),
+                      ),
+                      if (topics.isEmpty)
+                        const Padding(
+                          padding: EdgeInsets.all(8),
+                          child: Align(alignment: Alignment.centerLeft, child: Text('Belum ada topik di kategori ini.')),
+                        ),
+                      for (var topicIndex = 0; topicIndex < topics.length; topicIndex++)
+                        ListTile(
+                          dense: true,
+                          contentPadding: EdgeInsets.zero,
+                          title: Text(topics[topicIndex]),
+                          trailing: IconButton(
+                            tooltip: 'Hapus topik',
+                            onPressed: _busy ? null : () => _deleteTopic(section.$1, categoryIndex, topicIndex),
+                            icon: const Icon(Icons.delete_outline_rounded),
+                          ),
+                        ),
+                    ],
+                  ),
+                );
+              }),
+      ],
+    );
+  }
+
   @override
   Widget build(BuildContext context) => Scaffold(
     appBar: AppBar(title: const Text('Data & Backup')),
@@ -243,6 +395,8 @@ class _DataToolsScreenState extends State<DataToolsScreen> {
           icon: const Icon(Icons.save_outlined),
           label: const Text('Salin snapshot save HTML'),
         ),
+        const SizedBox(height: 22),
+        _buildTopicManager(),
         const SizedBox(height: 22),
         Text('Impor JSON', style: Theme.of(context).textTheme.titleLarge),
         const SizedBox(height: 8),
