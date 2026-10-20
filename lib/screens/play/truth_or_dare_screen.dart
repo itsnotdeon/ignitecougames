@@ -74,214 +74,193 @@ class _TruthOrDareScreenState extends State<TruthOrDareScreen> {
     final couple = context.watch<CoupleProvider>().profile;
     final activePartner = _currentTurn == 1 ? couple.partner1 : couple.partner2;
     final activeEmoji = _currentTurn == 1 ? couple.emoji1 : couple.emoji2;
+    final primary = isAfterDark ? AppColors.darkAccent : AppColors.normalPrimary;
+    final muted = isAfterDark ? AppColors.darkTextMuted : AppColors.normalTextMuted;
+    final foreground = isAfterDark ? AppColors.darkText : AppColors.normalText;
+    final surface = isAfterDark ? AppColors.darkCard : AppColors.normalCard;
+    final cardTypeColor = _currentCard?.type == CardType.dare
+        ? (isAfterDark ? AppColors.darkAccent : AppColors.normalPrimary)
+        : (isAfterDark ? AppColors.darkSecondary : AppColors.normalSecondary);
 
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Truth or Dare'),
-      ),
+      backgroundColor: Colors.transparent,
+      appBar: AppBar(title: const Text('Truth or Dare')),
       body: SafeArea(
-        child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
-          child: Column(
-            children: [
-              // --- TURN INDICATOR ---
-              Container(
-                padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
-                decoration: BoxDecoration(
-                  color: (isAfterDark ? AppColors.darkCard : AppColors.normalCard),
-                  borderRadius: BorderRadius.circular(16),
-                  border: Border.all(
-                    color: (isAfterDark ? AppColors.darkBorder : AppColors.normalBorder),
-                  ),
-                ),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
+        child: ListView(
+          padding: const EdgeInsets.fromLTRB(18, 12, 18, 28),
+          children: [
+            Center(
+              child: ConstrainedBox(
+                constraints: const BoxConstraints(maxWidth: 720),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: [
-                    Text(activeEmoji, style: const TextStyle(fontSize: 20)),
-                    const SizedBox(width: 8),
+                    Text('Jujur, berani, dan semakin dekat.', style: Theme.of(context).textTheme.headlineMedium),
+                    const SizedBox(height: 8),
                     Text(
-                      'Giliran: $activePartner',
-                      style: const TextStyle(
-                        fontWeight: FontWeight.bold,
-                        fontSize: 15,
-                      ),
+                      'Pilih kartu yang terasa nyaman. Kalian boleh melewati tantangan kapan saja tanpa harus menjelaskan alasannya.',
+                      style: TextStyle(color: muted, height: 1.5),
                     ),
-                  ],
-                ),
-              ),
-
-              const SizedBox(height: 16),
-
-              // --- CATEGORY FILTER CHIPS ---
-              SingleChildScrollView(
-                scrollDirection: Axis.horizontal,
-                child: Row(
-                  children: [
-                    _buildCategoryChip(null, '✨ Semua'),
-                    const SizedBox(width: 8),
-                    _buildCategoryChip(CardCategory.romantic, '🌹 Romantic'),
-                    const SizedBox(width: 8),
-                    _buildCategoryChip(CardCategory.deep, '🌊 Deep Talk'),
-                    if (isAfterDark) ...[
-                      const SizedBox(width: 8),
-                      _buildCategoryChip(CardCategory.spicy, '🔥 Spicy'),
-                    ],
-                  ],
-                ),
-              ),
-
-              const SizedBox(height: 20),
-
-              // --- THE CARD ---
-              Expanded(
-                child: Center(
-                  child: GestureDetector(
-                    onTap: () {
-                      setState(() {
-                        _cardRevealed = !_cardRevealed;
-                      });
-                    },
-                    child: AnimatedContainer(
-                      duration: const Duration(milliseconds: 300),
-                      width: double.infinity,
-                      padding: const EdgeInsets.all(26),
+                    const SizedBox(height: 16),
+                    Container(
+                      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 13),
                       decoration: BoxDecoration(
-                        gradient: isAfterDark
-                            ? const LinearGradient(
-                                colors: [Color(0xFF281438), Color(0xFF190B24)],
-                                begin: Alignment.topLeft,
-                                end: Alignment.bottomRight,
-                              )
-                            : const LinearGradient(
-                                colors: [AppColors.normalCard, AppColors.normalHighlight],
-                                begin: Alignment.topLeft,
-                                end: Alignment.bottomRight,
-                              ),
-                        borderRadius: BorderRadius.circular(28),
-                        border: Border.all(
-                          color: _currentCard?.type == CardType.dare
-                              ? (isAfterDark ? AppColors.darkAccent : AppColors.normalPrimary)
-                              : (isAfterDark ? AppColors.darkSecondary : AppColors.normalSecondary),
-                          width: 2,
-                        ),
-                        boxShadow: [
-                          BoxShadow(
-                            color: (isAfterDark ? AppColors.darkPrimary : AppColors.normalPrimary)
-                                .withValues(alpha: 0.25),
-                            blurRadius: 20,
-                            offset: const Offset(0, 10),
+                        color: surface,
+                        borderRadius: BorderRadius.circular(18),
+                        border: Border.all(color: isAfterDark ? AppColors.darkBorder : AppColors.normalBorder),
+                      ),
+                      child: Row(
+                        children: [
+                          Container(
+                            width: 42,
+                            height: 42,
+                            alignment: Alignment.center,
+                            decoration: BoxDecoration(
+                              color: primary.withValues(alpha: 0.12),
+                              borderRadius: BorderRadius.circular(14),
+                            ),
+                            child: Text(activeEmoji, style: const TextStyle(fontSize: 21)),
                           ),
+                          const SizedBox(width: 12),
+                          Expanded(
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text('GILIRAN SEKARANG', style: TextStyle(color: muted, fontSize: 10, letterSpacing: 1.2, fontWeight: FontWeight.w800)),
+                                const SizedBox(height: 3),
+                                Text(activePartner, style: TextStyle(color: foreground, fontWeight: FontWeight.w700, fontSize: 16)),
+                              ],
+                            ),
+                          ),
+                          Icon(Icons.favorite_rounded, color: primary),
                         ],
                       ),
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
+                    ),
+                    const SizedBox(height: 18),
+                    Text('Pilih suasana', style: Theme.of(context).textTheme.titleMedium),
+                    const SizedBox(height: 8),
+                    SingleChildScrollView(
+                      scrollDirection: Axis.horizontal,
+                      child: Row(
                         children: [
-                          // Card Type Badge
-                          Container(
-                            padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 6),
-                            decoration: BoxDecoration(
-                              color: (_currentCard?.type == CardType.dare
-                                      ? (isAfterDark ? AppColors.darkPrimary : AppColors.normalPrimary)
-                                      : (isAfterDark ? AppColors.darkSecondary : AppColors.normalSecondary))
-                                  .withValues(alpha: 0.2),
-                              borderRadius: BorderRadius.circular(12),
-                            ),
-                            child: Text(
-                              _currentCard?.type == CardType.dare ? '🔥 DARE' : '💬 TRUTH',
-                              style: TextStyle(
-                                fontWeight: FontWeight.bold,
-                                fontSize: 13,
-                                letterSpacing: 1.2,
-                                color: _currentCard?.type == CardType.dare
-                                    ? (isAfterDark ? AppColors.darkAccent : AppColors.normalPrimary)
-                                    : (isAfterDark ? AppColors.darkSecondary : AppColors.normalSecondary),
-                              ),
-                            ),
-                          ),
-                          const SizedBox(height: 24),
-
-                          // Text Content
-                          if (_cardRevealed) ...[
-                            Text(
-                              _currentCard?.text ?? 'Sentuh kartu untuk membuka...',
-                              textAlign: TextAlign.center,
-                              style: Theme.of(context).textTheme.displayMedium?.copyWith(
-                                fontSize: 20,
-                                fontWeight: FontWeight.w600,
-                                height: 1.4,
-                              ),
-                            ),
-                            const SizedBox(height: 20),
-                            Text(
-                              'Reward: +${_currentCard?.xpReward ?? 20} XP',
-                              style: TextStyle(
-                                fontSize: 13,
-                                fontWeight: FontWeight.w600,
-                                color: isAfterDark ? AppColors.darkAccent : AppColors.normalPrimary,
-                              ),
-                            ),
-                          ] else ...[
-                            Icon(
-                              Icons.touch_app_rounded,
-                              size: 48,
-                              color: isAfterDark ? AppColors.darkAccent : AppColors.normalSecondary,
-                            ),
-                            const SizedBox(height: 14),
-                            Text(
-                              'Sentuh untuk Membuka Kartu',
-                              style: Theme.of(context).textTheme.titleLarge?.copyWith(
-                                fontSize: 18,
-                              ),
-                            ),
-                            const SizedBox(height: 6),
-                            Text(
-                              'Tatap matanya saat kartu terbuka...',
-                              style: Theme.of(context).textTheme.bodyMedium,
-                            ),
+                          _buildCategoryChip(null, '✨ Semua'),
+                          const SizedBox(width: 8),
+                          _buildCategoryChip(CardCategory.romantic, '🌹 Romantic'),
+                          const SizedBox(width: 8),
+                          _buildCategoryChip(CardCategory.deep, '🌊 Deep Talk'),
+                          if (isAfterDark) ...[
+                            const SizedBox(width: 8),
+                            _buildCategoryChip(CardCategory.spicy, '🔥 Spicy'),
                           ],
                         ],
                       ),
                     ),
-                  ),
+                    const SizedBox(height: 16),
+                    GestureDetector(
+                      onTap: () => setState(() => _cardRevealed = !_cardRevealed),
+                      child: AnimatedContainer(
+                        duration: const Duration(milliseconds: 260),
+                        curve: Curves.easeOutCubic,
+                        constraints: const BoxConstraints(minHeight: 300),
+                        padding: const EdgeInsets.all(24),
+                        decoration: BoxDecoration(
+                          gradient: LinearGradient(
+                            begin: Alignment.topLeft,
+                            end: Alignment.bottomRight,
+                            colors: isAfterDark
+                                ? const [Color(0xFF442038), Color(0xFF211326), Color(0xFF17101E)]
+                                : const [Color(0xFFFFDDE5), Color(0xFFFFEEF0), Color(0xFFF9E4D8)],
+                          ),
+                          borderRadius: BorderRadius.circular(28),
+                          border: Border.all(color: cardTypeColor.withValues(alpha: 0.45), width: 1.4),
+                          boxShadow: [
+                            BoxShadow(
+                              color: primary.withValues(alpha: isAfterDark ? 0.12 : 0.08),
+                              blurRadius: 24,
+                              offset: const Offset(0, 10),
+                            ),
+                          ],
+                        ),
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          crossAxisAlignment: CrossAxisAlignment.stretch,
+                          children: [
+                            Row(
+                              children: [
+                                Icon(_currentCard?.type == CardType.dare ? Icons.bolt_rounded : Icons.chat_bubble_rounded, color: cardTypeColor, size: 19),
+                                const SizedBox(width: 8),
+                                Text(
+                                  _currentCard?.type == CardType.dare ? 'DARE' : 'TRUTH',
+                                  style: TextStyle(color: cardTypeColor, fontSize: 11, letterSpacing: 1.6, fontWeight: FontWeight.w900),
+                                ),
+                                const Spacer(),
+                                Icon(Icons.auto_awesome_rounded, color: isAfterDark ? AppColors.gold : AppColors.normalSecondary),
+                              ],
+                            ),
+                            const SizedBox(height: 24),
+                            if (_cardRevealed) ...[
+                              Text(
+                                _currentCard?.text ?? 'Kartu belum tersedia.',
+                                textAlign: TextAlign.center,
+                                style: TextStyle(color: foreground, fontSize: 21, height: 1.45, fontWeight: FontWeight.w700),
+                              ),
+                              const SizedBox(height: 22),
+                              Center(
+                                child: Container(
+                                  padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 7),
+                                  decoration: BoxDecoration(color: surface.withValues(alpha: 0.78), borderRadius: BorderRadius.circular(30)),
+                                  child: Text('+${_currentCard?.xpReward ?? 20} XP jika diselesaikan', style: TextStyle(color: muted, fontSize: 12, fontWeight: FontWeight.w600)),
+                                ),
+                              ),
+                            ] else ...[
+                              const SizedBox(height: 30),
+                              Icon(Icons.touch_app_rounded, size: 44, color: cardTypeColor),
+                              const SizedBox(height: 16),
+                              Text('Sentuh kartu untuk membuka', textAlign: TextAlign.center, style: TextStyle(color: foreground, fontSize: 18, fontWeight: FontWeight.w700)),
+                              const SizedBox(height: 8),
+                              Text('Ambil napas, saling tatap, lalu mulai saat siap.', textAlign: TextAlign.center, style: TextStyle(color: muted, height: 1.4)),
+                              const SizedBox(height: 30),
+                            ],
+                          ],
+                        ),
+                      ),
+                    ),
+                    const SizedBox(height: 14),
+                    Row(
+                      children: [
+                        Expanded(
+                          child: OutlinedButton.icon(
+                            onPressed: () => _drawRandomCard(type: CardType.truth),
+                            icon: const Icon(Icons.chat_bubble_outline_rounded),
+                            label: const Text('Truth baru'),
+                          ),
+                        ),
+                        const SizedBox(width: 10),
+                        Expanded(
+                          child: OutlinedButton.icon(
+                            onPressed: () => _drawRandomCard(type: CardType.dare),
+                            icon: const Icon(Icons.bolt_rounded),
+                            label: const Text('Dare baru'),
+                          ),
+                        ),
+                      ],
+                    ),
+                    const SizedBox(height: 8),
+                    FilledButton.icon(
+                      onPressed: _completeChallenge,
+                      icon: const Icon(Icons.check_circle_outline_rounded),
+                      label: const Text('Selesai & ganti giliran'),
+                    ),
+                    const SizedBox(height: 8),
+                    Text(
+                      'Hadiah XP diberikan saat kalian menandai tantangan selesai. Persetujuan dan kenyamanan kalian tetap lebih penting daripada menyelesaikan kartu.',
+                      style: TextStyle(color: muted, fontSize: 12, height: 1.45),
+                    ),
+                  ],
                 ),
               ),
-
-              const SizedBox(height: 20),
-
-              // --- ACTION BUTTONS ---
-              Row(
-                children: [
-                  Expanded(
-                    child: GradientButton(
-                      text: 'Truth Baru',
-                      icon: Icons.chat_bubble_outline_rounded,
-                      isSecondary: true,
-                      onPressed: () => _drawRandomCard(type: CardType.truth),
-                    ),
-                  ),
-                  const SizedBox(width: 12),
-                  Expanded(
-                    child: GradientButton(
-                      text: 'Dare Baru',
-                      icon: Icons.flash_on_rounded,
-                      isSecondary: true,
-                      onPressed: () => _drawRandomCard(type: CardType.dare),
-                    ),
-                  ),
-                ],
-              ),
-              const SizedBox(height: 12),
-              SizedBox(
-                width: double.infinity,
-                child: GradientButton(
-                  text: 'Tantangan Selesai (+XP) →',
-                  icon: Icons.check_circle_rounded,
-                  onPressed: _completeChallenge,
-                ),
-              ),
-              const SizedBox(height: 10),
-            ],
-          ),
+            ),
+          ],
         ),
       ),
     );
