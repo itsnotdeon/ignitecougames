@@ -29,9 +29,19 @@
 - Keep all existing game entry points and session setup actions.
 - Do not represent compilation success as proof of full feature parity.
 
+## Implemented in the latest game-screen pass
+
+- `KartuTalkScreen`: responsive card layout, warm romantic gradients, custom-topic actions retained, and HTML's initially empty explicit-content behavior preserved.
+- `HtmlSnakeLadderScreen`: retained the 100-cell HTML board and game movement, improved board surfaces and responsive maximum width.
+- `IgniteRouletteScreen`: replaced literal weapon-like iconography with a virtual chance-game presentation, clearer score/turn hierarchy, and consent-first start.
+- `KingSlaveScreen`: refreshed command/power card presentation and retained consent gating for actions.
+- `IgniteRoleplayScreen`: editorial scenario card, explicit-mode consent gate, custom scenario dialog, and explicit content remains empty until users add it.
+- `ChessCommandScreen`: responsive board, selected-square state, consent gate, and undo now restores the previous side to move. It is still a simplified board interaction and does not validate official chess move rules.
+- `TruthOrDareScreen`: fallback selection now respects the current theme, so Normal Mode cannot fall back into After Dark cards when a category/type filter is empty; completion avoids nested state updates.
+
 ## Next implementation stages
 
-1. Audit and polish the actual play flow in each HTML-derived game: session setup, Kartu Talk, 100-cell Ular Tangga Cinta, Truth or Dare, King & Slave, Russian Roulette Cinta, Roleplay, and Chess & Command.
-2. Apply consistent loading, empty, error, selected, disabled, and confirmation states.
+1. Complete the remaining interaction polish for Truth or Dare and other supplementary game screens.
+2. Audit HTML parity for the session setup, import/export, topic categories, and persistence rather than assuming visual parity means behavioral parity.
 3. Check responsive layout, long Indonesian strings, keyboard/safe-area behavior, and accessibility.
-4. Verify Flutter analyze/tests and manually test key flows in browser and Android.
+4. Verify Flutter analyze/tests on the newest commit and manually test key flows in browser and Android.
