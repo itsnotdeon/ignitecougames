@@ -38,14 +38,15 @@ class _HtmlSnakeLadderScreenState extends State<HtmlSnakeLadderScreen> {
     return Scaffold(
       backgroundColor: Colors.transparent,
       appBar: AppBar(title: const Text('Ular Tangga Cinta')),
-      body: ListView(
-        padding: const EdgeInsets.all(14),
-        children: [
+      body: SafeArea(
+        child: ListView(
+          padding: const EdgeInsets.fromLTRB(16, 12, 16, 28),
+          children: [
           Text('Pemain bergiliran melempar dadu, bergerak di papan 1–100, dan menyelesaikan topik pada petak spesial. Tangga naik, ular turun.', style: TextStyle(color: dark ? AppColors.darkTextMuted : AppColors.normalTextMuted, height: 1.45)),
-          const SizedBox(height: 12),
-          SegmentedButton<bool>(segments: const [ButtonSegment(value: false, label: Text('🃏 Biasa')), ButtonSegment(value: true, label: Text('🔥 Eksplisit'))], selected: {_explicit}, onSelectionChanged: (v) => setState(() { _explicit = v.first; _prompt = null; _message = null; })),
-          const SizedBox(height: 12),
-          Container(padding: const EdgeInsets.all(10), decoration: BoxDecoration(color: card, borderRadius: BorderRadius.circular(16), border: Border.all(color: dark ? AppColors.darkBorder : AppColors.normalBorder)), child: GridView.builder(
+          const SizedBox(height: 16),
+          Center(child: ConstrainedBox(constraints: const BoxConstraints(maxWidth: 680), child: SegmentedButton<bool>(segments: const [ButtonSegment(value: false, label: Text('🃏 Biasa')), ButtonSegment(value: true, label: Text('🔥 Eksplisit'))], selected: {_explicit}, onSelectionChanged: (v) => setState(() { _explicit = v.first; _prompt = null; _message = null; }))),
+          const SizedBox(height: 14),
+          Center(child: ConstrainedBox(constraints: const BoxConstraints(maxWidth: 680), child: Container(padding: const EdgeInsets.all(10), decoration: BoxDecoration(gradient: LinearGradient(begin: Alignment.topLeft, end: Alignment.bottomRight, colors: dark ? const [Color(0xFF302035), Color(0xFF1A101F)] : const [Color(0xFFFFE5EB), Color(0xFFFFF5EC)]), borderRadius: BorderRadius.circular(22), border: Border.all(color: dark ? AppColors.darkBorder : AppColors.normalBorder)), child: GridView.builder(
             shrinkWrap: true,
             physics: const NeverScrollableScrollPhysics(),
             gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 10, crossAxisSpacing: 3, mainAxisSpacing: 3),
@@ -58,13 +59,13 @@ class _HtmlSnakeLadderScreenState extends State<HtmlSnakeLadderScreen> {
               final ladder = _ladders.containsKey(number);
               final snake = _snakes.containsKey(number);
               return Container(
-                decoration: BoxDecoration(color: p1 ? primary : p2 ? (dark ? AppColors.darkSecondary : AppColors.normalSecondary) : ladder ? const Color(0xFFD8F3DC) : snake ? const Color(0xFFFFD6D6) : special ? (dark ? const Color(0xFF3B2448) : const Color(0xFFFFE8ED)) : (dark ? const Color(0xFF2B1B36) : const Color(0xFFFFFDFD)), borderRadius: BorderRadius.circular(4)),
+                decoration: BoxDecoration(color: p1 ? primary : p2 ? (dark ? AppColors.darkSecondary : AppColors.normalSecondary) : ladder ? (dark ? const Color(0xFF25483C) : const Color(0xFFD8F3DC)) : snake ? (dark ? const Color(0xFF592C3B) : const Color(0xFFFFD6DF)) : special ? (dark ? AppColors.darkHighlight : AppColors.normalHighlight) : ((number + (number ~/ 10)).isEven ? (dark ? const Color(0xFF2B1B36) : const Color(0xFFFFFDFD)) : (dark ? const Color(0xFF241722) : const Color(0xFFFFF0F2))), borderRadius: BorderRadius.circular(5), border: Border.all(color: (dark ? AppColors.darkBorder : AppColors.normalBorder).withValues(alpha: 0.55))),
                 alignment: Alignment.center,
                 child: FittedBox(child: Text('${p1 ? '●' : ''}${p2 ? '♥' : ''}${ladder ? '↗' : snake ? '↘' : ''}${number}', style: TextStyle(fontSize: 9, fontWeight: FontWeight.bold, color: (p1 || p2) ? Colors.white : text))),
               );
             },
-          )),
-          const SizedBox(height: 12),
+          ))),
+          const SizedBox(height: 14),
           Row(children: [Expanded(child: _playerCard(couple.partner1, _p1, _turn == 1, primary, card, text)), const SizedBox(width: 8), Expanded(child: _playerCard(couple.partner2, _p2, _turn == 2, dark ? AppColors.darkSecondary : AppColors.normalSecondary, card, text))]),
           const SizedBox(height: 12),
           if (_message != null) Container(padding: const EdgeInsets.all(14), decoration: BoxDecoration(color: card, borderRadius: BorderRadius.circular(14)), child: Text(_message!, style: TextStyle(color: text, fontWeight: FontWeight.w600))),
@@ -72,7 +73,8 @@ class _HtmlSnakeLadderScreenState extends State<HtmlSnakeLadderScreen> {
           const SizedBox(height: 12),
           FilledButton.icon(onPressed: (_p1 >= 100 || _p2 >= 100) ? null : _roll, icon: const Icon(Icons.casino), label: Text(_lastRoll == null ? 'Lempar dadu — ${_turn == 1 ? couple.partner1 : couple.partner2}' : 'Lempar lagi — ${_turn == 1 ? couple.partner1 : couple.partner2}')),
           OutlinedButton.icon(onPressed: () => setState(() { _p1 = 0; _p2 = 0; _turn = 1; _lastRoll = null; _message = null; _prompt = null; }), icon: const Icon(Icons.refresh), label: const Text('Mulai ulang')),
-        ],
+          ],
+        ),
       ),
     );
   }
