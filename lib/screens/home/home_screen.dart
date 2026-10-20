@@ -180,7 +180,7 @@ class HomeScreen extends StatelessWidget {
                             ClipRRect(
                               borderRadius: BorderRadius.circular(20),
                               child: LinearProgressIndicator(
-                                value: bond.progressToNextLevel.clamp(0.0, 1.0),
+                                value: bond.progressToNextLevel.clamp(0.0, 1.0).toDouble(),
                                 minHeight: 7,
                                 backgroundColor: border.withValues(alpha: 0.6),
                                 valueColor: AlwaysStoppedAnimation<Color>(accent),
