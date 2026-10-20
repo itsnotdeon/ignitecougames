@@ -24,7 +24,7 @@ class ProfileScreen extends StatelessWidget {
       ),
       body: SafeArea(
         child: ListView(
-          padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
+          padding: const EdgeInsets.fromLTRB(20, 16, 20, 28),
           children: [
             // --- COUPLE PROFILE CARD ---
             CustomCard(
