@@ -64,8 +64,8 @@ class _TruthOrDareScreenState extends State<TruthOrDareScreen> {
 
     setState(() {
       _currentTurn = _currentTurn == 1 ? 2 : 1;
-      _drawRandomCard();
     });
+    _drawRandomCard();
   }
 
   @override
