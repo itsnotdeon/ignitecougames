@@ -34,7 +34,9 @@ class CustomCard extends StatelessWidget {
           width: 1,
         );
 
-    return Container(
+    return AnimatedContainer(
+      duration: const Duration(milliseconds: 180),
+      curve: Curves.easeOut,
       decoration: BoxDecoration(
         color: bgColor,
         borderRadius: BorderRadius.circular(borderRadius),
@@ -44,8 +46,9 @@ class CustomCard extends StatelessWidget {
             color: isAfterDark
                 ? Colors.black.withOpacity(0.3)
                 : AppColors.normalBorder.withOpacity(0.4),
-            blurRadius: 10,
-            offset: const Offset(0, 4),
+            blurRadius: isAfterDark ? 18 : 14,
+            spreadRadius: isAfterDark ? 0 : -3,
+            offset: const Offset(0, 6),
           ),
         ],
       ),
