@@ -17,11 +17,11 @@ class BondScreen extends StatelessWidget {
     return Scaffold(
       backgroundColor: Colors.transparent,
       appBar: AppBar(
-        title: const Text('Our Bond & XP'),
+        title: const Text('Ikatan & Pencapaian'),
       ),
       body: SafeArea(
         child: ListView(
-          padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
+          padding: const EdgeInsets.fromLTRB(20, 16, 20, 28),
           children: [
             // --- HERO LEVEL BADGE ---
             Center(
