@@ -12,15 +12,16 @@ void main() {
     expect(find.text('Profile'), findsOneWidget);
   });
 
-  testWidgets('Truth or Dare prompt flow can start', (tester) async {
+  testWidgets('Truth or Dare can start a round', (tester) async {
     await tester.pumpWidget(const IgniteApp());
     await tester.tap(find.text('Play'));
     await tester.pumpAndSettle();
     await tester.tap(find.text('Truth or Dare'));
     await tester.pumpAndSettle();
-    expect(find.text('Truth or Dare'), findsWidgets);
+    expect(find.text('Pilih Truth atau Dare untuk memulai ronde kalian.'), findsOneWidget);
     await tester.tap(find.text('💗 Truth'));
     await tester.pumpAndSettle();
-    expect(find.textContaining('Apa '), findsOneWidget);
+    expect(find.text('Pilih Truth atau Dare untuk memulai ronde kalian.'), findsNothing);
+    expect(find.text('ROUND 2'), findsOneWidget);
   });
 }
