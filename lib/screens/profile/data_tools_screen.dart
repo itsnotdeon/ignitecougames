@@ -124,7 +124,9 @@ class _DataToolsScreenState extends State<DataToolsScreen> {
           else if (value is bool) await prefs.setBool(entry.key, value);
           else if (value is int) await prefs.setInt(entry.key, value);
           else if (value is double) await prefs.setDouble(entry.key, value);
-          else if (value is List<String>) await prefs.setStringList(entry.key, value);
+          else if (value is List && value.every((item) => item is String)) {
+            await prefs.setStringList(entry.key, value.cast<String>());
+          }
         }
         if (mounted) setState(() => _status = 'Backup Flutter berhasil dipulihkan.');
       } else if (format == 'ignite-couple-game-topics-export') {
