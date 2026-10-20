@@ -135,7 +135,28 @@ class _DataToolsScreenState extends State<DataToolsScreen> {
         final state = decoded['state'] as Map<String, dynamic>;
         if (state['categories'] is! List) throw const FormatException('Save game tidak memiliki daftar kategori yang valid.');
         await prefs.setString(_htmlSaveKey, jsonEncode(decoded));
-        if (mounted) setState(() => _status = 'Save game HTML tersimpan sebagai snapshot kompatibilitas. Progres sesi HTML belum dipetakan penuh ke semua layar Flutter.');
+        final topicSnapshot = <String, dynamic>{
+          'format': 'ignite-couple-game-topics-export',
+          'version': 1,
+          'exportId': decoded['exportId'],
+          'exportedAt': decoded['savedAt'] ?? DateTime.now().millisecondsSinceEpoch,
+          for (final key in [
+            'categories',
+            'explicitCategories',
+            'totCategories',
+            'ksCommands',
+            'ksCommandsExplicit',
+            'roleplayBuiltInRoles',
+            'roleplayBuiltInRolesExplicit',
+            'roleplayCustomItems',
+            'roleplayCustomItemsExplicit',
+            'roleplayMode',
+          ])
+            if (state.containsKey(key)) key: state[key],
+        };
+        _validateHtmlTopics(topicSnapshot);
+        await prefs.setString(_htmlTopicsKey, jsonEncode(topicSnapshot));
+        if (mounted) setState(() => _status = 'Save game HTML tersimpan. Topik kartu biasa dipetakan ke Kartu Talk; snapshot sesi lain dipertahankan untuk kompatibilitas.');
       } else {
         throw const FormatException('Format tidak dikenali. Gunakan backup Flutter, "ignite-couple-game-topics-export", atau "ignite-couple-game-save".');
       }
