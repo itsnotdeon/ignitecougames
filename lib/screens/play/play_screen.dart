@@ -53,11 +53,15 @@ class _PlayScreenState extends State<PlayScreen> with SingleTickerProviderStateM
     return Scaffold(
       backgroundColor: Colors.transparent,
       appBar: AppBar(
-        title: const Text('Play & Games'),
+        title: const Text('Permainan untuk Berdua'),
         bottom: TabBar(
           controller: _tabController,
           isScrollable: true,
           indicatorColor: isAfterDark ? AppColors.darkPrimary : AppColors.normalPrimary,
+          indicatorSize: TabBarIndicatorSize.label,
+          dividerColor: Colors.transparent,
+          indicatorPadding: const EdgeInsets.symmetric(vertical: 5),
+          labelPadding: const EdgeInsets.symmetric(horizontal: 16),
           labelColor: isAfterDark ? AppColors.darkAccent : AppColors.normalPrimary,
           unselectedLabelColor: isAfterDark ? AppColors.darkTextMuted : AppColors.normalTextMuted,
           labelStyle: const TextStyle(fontWeight: FontWeight.bold, fontSize: 13),
@@ -443,7 +447,7 @@ class _PlayScreenState extends State<PlayScreen> with SingleTickerProviderStateM
 
   Widget _buildCategoryList(BuildContext context, bool isAfterDark, List<_GameItem> items) {
     return ListView.separated(
-      padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 16),
+      padding: const EdgeInsets.fromLTRB(20, 18, 20, 28),
       itemCount: items.length,
       separatorBuilder: (_, __) => const SizedBox(height: 14),
       itemBuilder: (context, index) {
@@ -490,7 +494,16 @@ class _PlayScreenState extends State<PlayScreen> with SingleTickerProviderStateM
         children: [
           Row(
             children: [
-              Text(emoji, style: const TextStyle(fontSize: 30)),
+              Container(
+                width: 54,
+                height: 54,
+                alignment: Alignment.center,
+                decoration: BoxDecoration(
+                  color: (isAfterDark ? AppColors.darkPrimary : AppColors.normalPrimary).withValues(alpha: 0.12),
+                  borderRadius: BorderRadius.circular(17),
+                ),
+                child: Text(emoji, style: const TextStyle(fontSize: 28)),
+              ),
               const SizedBox(width: 14),
               Expanded(
                 child: Column(
@@ -512,7 +525,7 @@ class _PlayScreenState extends State<PlayScreen> with SingleTickerProviderStateM
                   ],
                 ),
               ),
-              const Icon(Icons.chevron_right_rounded),
+              Icon(Icons.arrow_forward_rounded, size: 19, color: isAfterDark ? AppColors.darkAccent : AppColors.normalPrimary),
             ],
           ),
           const SizedBox(height: 10),
