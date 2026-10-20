@@ -1,6 +1,8 @@
+import 'dart:convert';
 import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import '../../data/truth_or_dare_data.dart';
 import '../../models/game_card.dart';
 import '../../providers/app_provider.dart';
@@ -21,16 +23,54 @@ class _TruthOrDareScreenState extends State<TruthOrDareScreen> {
   int _currentTurn = 1; // 1 for partner1, 2 for partner2
   GameCard? _currentCard;
   bool _cardRevealed = false;
+  List<GameCard> _importedHtmlCards = <GameCard>[];
 
   @override
   void initState() {
     super.initState();
+    _loadImportedHtmlCards();
     _drawRandomCard();
+  }
+
+  Future<void> _loadImportedHtmlCards() async {
+    final prefs = await SharedPreferences.getInstance();
+    final raw = prefs.getString('ignite_html_compatible_topics_snapshot');
+    if (raw == null) return;
+    try {
+      final decoded = jsonDecode(raw);
+      final categories = decoded is Map ? decoded['totCategories'] : null;
+      if (categories is! List) return;
+      final imported = <GameCard>[];
+      for (final category in categories) {
+        if (category is! Map || category['topics'] is! List) continue;
+        final name = (category['name'] ?? '').toString().toLowerCase();
+        final type = name.contains('dare') ? CardType.dare : CardType.truth;
+        final topics = (category['topics'] as List).whereType<String>();
+        var index = 0;
+        for (final topic in topics) {
+          if (topic.trim().isEmpty) continue;
+          imported.add(GameCard(
+            id: 'imported_html_${type.name}_${index++}_${topic.hashCode}',
+            type: type,
+            category: CardCategory.deep,
+            text: topic,
+            xpReward: 20,
+          ));
+        }
+      }
+      if (mounted && imported.isNotEmpty) {
+        setState(() => _importedHtmlCards = imported);
+        _drawRandomCard();
+      }
+    } catch (_) {
+      // A malformed optional import must not prevent the built-in game from running.
+    }
   }
 
   void _drawRandomCard({CardType? type}) {
     final isAfterDark = context.read<AppProvider>().isAfterDark;
-    List<GameCard> filtered = TruthOrDareData.cards.where((c) {
+    final allCards = <GameCard>[...TruthOrDareData.cards, ..._importedHtmlCards];
+    List<GameCard> filtered = allCards.where((c) {
       if (!isAfterDark && c.isAfterDark) return false;
       if (_selectedCategory != null && c.category != _selectedCategory) return false;
       if (type != null && c.type != type) return false;
@@ -40,7 +80,7 @@ class _TruthOrDareScreenState extends State<TruthOrDareScreen> {
     if (filtered.isEmpty) {
       // Never fall back to After Dark content while Normal Mode is active.
       // If a selected type/category has no cards, use only content allowed by the current theme.
-      filtered = TruthOrDareData.cards.where((card) => isAfterDark || !card.isAfterDark).toList();
+      filtered = allCards.where((card) => isAfterDark || !card.isAfterDark).toList();
     }
 
     final random = Random();
