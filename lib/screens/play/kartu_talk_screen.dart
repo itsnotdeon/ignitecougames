@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'dart:math';
 
 import 'package:flutter/material.dart';
@@ -21,6 +22,7 @@ class _KartuTalkScreenState extends State<KartuTalkScreen> {
   int _index = 0;
   bool _explicitMode = false;
   List<String> _customTopics = <String>[];
+  List<String> _importedNormalTopics = <String>[];
 
   @override
   void initState() {
@@ -30,8 +32,28 @@ class _KartuTalkScreenState extends State<KartuTalkScreen> {
 
   Future<void> _loadCustomTopics() async {
     final prefs = await SharedPreferences.getInstance();
+    List<String> imported = <String>[];
+    final rawSnapshot = prefs.getString('ignite_html_compatible_topics_snapshot');
+    if (rawSnapshot != null) {
+      try {
+        final snapshot = jsonDecode(rawSnapshot);
+        final categories = snapshot is Map ? snapshot['categories'] : null;
+        if (categories is List) {
+          for (final category in categories) {
+            if (category is Map && category['topics'] is List) {
+              imported.addAll((category['topics'] as List).whereType<String>());
+            }
+          }
+        }
+      } catch (_) {
+        // Keep the built-in HTML-derived prompts if an imported snapshot is malformed.
+      }
+    }
     if (!mounted) return;
-    setState(() => _customTopics = prefs.getStringList(_customKey) ?? <String>[]);
+    setState(() {
+      _customTopics = prefs.getStringList(_customKey) ?? <String>[];
+      _importedNormalTopics = imported.toSet().toList();
+    });
   }
 
   Future<void> _addCustomTopic() async {
@@ -79,7 +101,11 @@ class _KartuTalkScreenState extends State<KartuTalkScreen> {
   @override
   Widget build(BuildContext context) {
     final dark = context.watch<AppProvider>().isAfterDark;
-    final topics = _explicitMode ? _customTopics : HtmlLegacyContent.cards;
+    final topics = _explicitMode
+        ? _customTopics
+        : (_importedNormalTopics.isNotEmpty
+            ? _importedNormalTopics
+            : HtmlLegacyContent.cards);
     final hasTopic = topics.isNotEmpty;
     final topic = hasTopic ? topics[_index % topics.length] : null;
     final primary = dark ? AppColors.darkPrimary : AppColors.normalPrimary;
