@@ -164,7 +164,8 @@ class _HtmlSessionSetupScreenState extends State<HtmlSessionSetupScreen> {
   }
 
   Widget _buildRitualPanel(Color primary, Color muted) {
-    final roundText = 'Ronde ${_roundsPlayed + 1} dari $_minimumRounds';
+    final displayedRound = _roundsPlayed >= _minimumRounds ? _minimumRounds : _roundsPlayed + 1;
+    final roundText = 'Ronde $displayedRound dari $_minimumRounds';
     if (_finished) {
       return Column(
         children: [

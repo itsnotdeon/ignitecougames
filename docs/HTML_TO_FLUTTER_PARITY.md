@@ -44,4 +44,4 @@ Home, Play, Memories, Bond, Profile; Truth or Dare, Snake & Ladder (ZIP's separa
 - The HTML's Roulette is a virtual chance mechanic, not a real firearm feature.
 - Consent and skip actions must remain available in relationship/intimacy modes.
 - Do not mark a mode complete until behavior-level tests pass against the HTML.
-- Flutter analysis and widget tests passed in GitHub Actions for commit `c924c30a946c77760d56ac14c4aa954f667110a1`. This confirms static analysis and the current test suite only; it does not establish full feature parity or a release-ready platform build.
+- Flutter analysis and widget tests passed in GitHub Actions for commit `c924c30a946c77760d56ac14c4aa954f667110a1`. The five-round ritual update is a later commit and must pass its own CI run before it is treated as verified. A green CI confirms static analysis and the current test suite only; it does not establish full feature parity or a release-ready platform build.
