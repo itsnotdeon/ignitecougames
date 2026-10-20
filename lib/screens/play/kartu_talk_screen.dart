@@ -23,6 +23,7 @@ class _KartuTalkScreenState extends State<KartuTalkScreen> {
   bool _explicitMode = false;
   List<String> _customTopics = <String>[];
   List<String> _importedNormalTopics = <String>[];
+  bool _hasImportedNormalSnapshot = false;
 
   @override
   void initState() {
@@ -33,12 +34,14 @@ class _KartuTalkScreenState extends State<KartuTalkScreen> {
   Future<void> _loadCustomTopics() async {
     final prefs = await SharedPreferences.getInstance();
     List<String> imported = <String>[];
+    var hasImportedSnapshot = false;
     final rawSnapshot = prefs.getString('ignite_html_compatible_topics_snapshot');
     if (rawSnapshot != null) {
       try {
         final snapshot = jsonDecode(rawSnapshot);
         final categories = snapshot is Map ? snapshot['categories'] : null;
         if (categories is List) {
+          hasImportedSnapshot = true;
           for (final category in categories) {
             if (category is Map && category['topics'] is List) {
               imported.addAll((category['topics'] as List).whereType<String>());
@@ -53,6 +56,7 @@ class _KartuTalkScreenState extends State<KartuTalkScreen> {
     setState(() {
       _customTopics = prefs.getStringList(_customKey) ?? <String>[];
       _importedNormalTopics = imported.toSet().toList();
+      _hasImportedNormalSnapshot = hasImportedSnapshot;
     });
   }
 
@@ -103,7 +107,7 @@ class _KartuTalkScreenState extends State<KartuTalkScreen> {
     final dark = context.watch<AppProvider>().isAfterDark;
     final topics = _explicitMode
         ? _customTopics
-        : (_importedNormalTopics.isNotEmpty
+        : (_hasImportedNormalSnapshot
             ? _importedNormalTopics
             : HtmlLegacyContent.cards);
     final hasTopic = topics.isNotEmpty;
