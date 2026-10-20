@@ -71,10 +71,35 @@ class _HtmlSessionSetupScreenState extends State<HtmlSessionSetupScreen> {
       body: ListView(
         padding: const EdgeInsets.all(20),
         children: [
-          Text(
-            'Siapkan nama pemain dan pilih ritual pembuka dari versi HTML IGNITE. '
-            'Ritual dapat dilewati kapan saja.',
-            style: TextStyle(color: muted, height: 1.5),
+          Container(
+            padding: const EdgeInsets.all(18),
+            decoration: BoxDecoration(
+              gradient: LinearGradient(
+                begin: Alignment.topLeft,
+                end: Alignment.bottomRight,
+                colors: dark
+                    ? const [Color(0xFF382033), Color(0xFF211426)]
+                    : const [Color(0xFFFFE1E8), Color(0xFFFFF0EC)],
+              ),
+              borderRadius: BorderRadius.circular(22),
+              border: Border.all(color: primary.withValues(alpha: 0.24)),
+            ),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Icon(Icons.favorite_rounded, color: primary, size: 22),
+                const SizedBox(height: 10),
+                Text(
+                  'Mulai dengan kalian berdua',
+                  style: Theme.of(context).textTheme.titleLarge,
+                ),
+                const SizedBox(height: 6),
+                Text(
+                  'Siapkan nama pemain dan pilih ritual pembuka. Ritual dapat dilewati kapan saja.',
+                  style: TextStyle(color: muted, height: 1.5),
+                ),
+              ],
+            ),
           ),
           const SizedBox(height: 18),
           TextField(
@@ -83,7 +108,8 @@ class _HtmlSessionSetupScreenState extends State<HtmlSessionSetupScreen> {
             enabled: !_started,
             decoration: const InputDecoration(
               labelText: 'Nama Pemain 1',
-              border: OutlineInputBorder(),
+              prefixIcon: Icon(Icons.person_outline_rounded),
+              counterText: '',
             ),
           ),
           const SizedBox(height: 10),
@@ -93,18 +119,20 @@ class _HtmlSessionSetupScreenState extends State<HtmlSessionSetupScreen> {
             enabled: !_started,
             decoration: const InputDecoration(
               labelText: 'Nama Pemain 2',
-              border: OutlineInputBorder(),
+              prefixIcon: Icon(Icons.person_outline_rounded),
+              counterText: '',
             ),
           ),
           const SizedBox(height: 18),
           Text(
             'Ritual pemanasan',
-            style: Theme.of(context)
-                .textTheme
-                .titleMedium
-                ?.copyWith(fontWeight: FontWeight.bold),
+            style: Theme.of(context).textTheme.titleLarge,
           ),
           RadioListTile<String>(
+            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+            tileColor: (dark ? AppColors.darkCard : AppColors.normalCard),
+            activeColor: primary,
+            contentPadding: const EdgeInsets.symmetric(horizontal: 12),
             value: 'Gunting Batu Kertas',
             groupValue: _ritual,
             onChanged: _started
@@ -114,6 +142,10 @@ class _HtmlSessionSetupScreenState extends State<HtmlSessionSetupScreen> {
             subtitle: const Text('Bergiliran memilih secara rahasia.'),
           ),
           RadioListTile<String>(
+            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+            tileColor: (dark ? AppColors.darkCard : AppColors.normalCard),
+            activeColor: primary,
+            contentPadding: const EdgeInsets.symmetric(horizontal: 12),
             value: 'Tebak Warna Kartu',
             groupValue: _ritual,
             onChanged: _started
