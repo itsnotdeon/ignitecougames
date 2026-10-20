@@ -18,7 +18,6 @@ class DataToolsScreen extends StatefulWidget {
 class _DataToolsScreenState extends State<DataToolsScreen> {
   static const String _htmlTopicsKey = 'ignite_html_compatible_topics_snapshot';
   static const String _htmlSaveKey = 'ignite_html_compatible_save_snapshot';
-  static const String _kartuTalkKey = 'ignite_html_kartu_talk_custom_topics';
 
   final TextEditingController _importController = TextEditingController();
   bool _busy = false;
@@ -131,30 +130,11 @@ class _DataToolsScreenState extends State<DataToolsScreen> {
       } else if (format == 'ignite-couple-game-topics-export') {
         _validateHtmlTopics(decoded);
         await prefs.setString(_htmlTopicsKey, jsonEncode(decoded));
-        // Seed the current Kartu Talk custom list from ordinary HTML card topics.
-        final categories = decoded['categories'] as List<dynamic>;
-        final prompts = <String>[];
-        for (final category in categories) {
-          if (category is Map && category['topics'] is List) {
-            prompts.addAll((category['topics'] as List).whereType<String>());
-          }
-        }
-        if (prompts.isNotEmpty) {
-          await prefs.setStringList(_kartuTalkKey, prompts.toSet().toList());
-        }
         if (mounted) setState(() => _status = 'Topik HTML berhasil diimpor dan struktur kategorinya disimpan. Konten mode eksplisit tidak digabung ke mode biasa.');
       } else if (format == 'ignite-couple-game-save' && decoded['state'] is Map<String, dynamic>) {
         final state = decoded['state'] as Map<String, dynamic>;
         if (state['categories'] is! List) throw const FormatException('Save game tidak memiliki daftar kategori yang valid.');
         await prefs.setString(_htmlSaveKey, jsonEncode(decoded));
-        final categories = state['categories'] as List<dynamic>;
-        final prompts = <String>[];
-        for (final category in categories) {
-          if (category is Map && category['topics'] is List) {
-            prompts.addAll((category['topics'] as List).whereType<String>());
-          }
-        }
-        if (prompts.isNotEmpty) await prefs.setStringList(_kartuTalkKey, prompts.toSet().toList());
         if (mounted) setState(() => _status = 'Save game HTML tersimpan sebagai snapshot kompatibilitas. Progres sesi HTML belum dipetakan penuh ke semua layar Flutter.');
       } else {
         throw const FormatException('Format tidak dikenali. Gunakan backup Flutter, "ignite-couple-game-topics-export", atau "ignite-couple-game-save".');
