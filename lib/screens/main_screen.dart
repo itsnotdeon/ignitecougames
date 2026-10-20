@@ -23,7 +23,7 @@ class MainScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     final app = context.watch<AppProvider>();
     final isAfterDark = app.isAfterDark;
-    final currentIndex = app.currentTabIndex;
+    final currentIndex = app.currentTabIndex.clamp(0, _screens.length - 1);
 
     final bgGradient = isAfterDark
         ? const LinearGradient(
@@ -45,7 +45,9 @@ class MainScreen extends StatelessWidget {
           index: currentIndex,
           children: _screens,
         ),
-        bottomNavigationBar: Container(
+        bottomNavigationBar: SafeArea(
+          top: false,
+          child: Container(
           decoration: BoxDecoration(
             color: isAfterDark ? AppColors.darkCard : AppColors.normalSurface,
             border: Border(
@@ -63,6 +65,8 @@ class MainScreen extends StatelessWidget {
             ],
           ),
           child: NavigationBar(
+            height: 68,
+            labelBehavior: NavigationDestinationLabelBehavior.alwaysShow,
             selectedIndex: currentIndex,
             onDestinationSelected: (index) => app.setTabIndex(index),
             backgroundColor: Colors.transparent,
@@ -75,7 +79,8 @@ class MainScreen extends StatelessWidget {
                   Icons.favorite_rounded,
                   color: isAfterDark ? AppColors.darkAccent : AppColors.normalPrimary,
                 ),
-                label: 'Home',
+                tooltip: 'Beranda',
+                label: 'Beranda',
               ),
               NavigationDestination(
                 icon: const Icon(Icons.sports_esports_outlined),
@@ -83,7 +88,8 @@ class MainScreen extends StatelessWidget {
                   Icons.sports_esports_rounded,
                   color: isAfterDark ? AppColors.darkAccent : AppColors.normalPrimary,
                 ),
-                label: 'Play',
+                tooltip: 'Permainan',
+                label: 'Main',
               ),
               NavigationDestination(
                 icon: const Icon(Icons.photo_library_outlined),
@@ -91,7 +97,8 @@ class MainScreen extends StatelessWidget {
                   Icons.photo_library_rounded,
                   color: isAfterDark ? AppColors.darkAccent : AppColors.normalPrimary,
                 ),
-                label: 'Memories',
+                tooltip: 'Kenangan',
+                label: 'Kenangan',
               ),
               NavigationDestination(
                 icon: const Icon(Icons.local_fire_department_outlined),
@@ -99,7 +106,8 @@ class MainScreen extends StatelessWidget {
                   Icons.local_fire_department_rounded,
                   color: isAfterDark ? AppColors.darkAccent : AppColors.normalPrimary,
                 ),
-                label: 'Bond',
+                tooltip: 'Kedekatan',
+                label: 'Ikatan',
               ),
               NavigationDestination(
                 icon: const Icon(Icons.person_outline_rounded),
@@ -107,10 +115,12 @@ class MainScreen extends StatelessWidget {
                   Icons.person_rounded,
                   color: isAfterDark ? AppColors.darkAccent : AppColors.normalPrimary,
                 ),
-                label: 'Profile',
+                tooltip: 'Profil',
+                label: 'Profil',
               ),
             ],
           ),
+        ),
         ),
       ),
     );
