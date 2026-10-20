@@ -30,6 +30,7 @@ class _IgniteRouletteScreenState extends State<IgniteRouletteScreen> {
     final muted = dark ? AppColors.darkTextMuted : AppColors.normalTextMuted;
     final surface = dark ? AppColors.darkCard : AppColors.normalCard;
     final foreground = dark ? AppColors.darkText : AppColors.normalText;
+    final chancePercent = _chanceLevel == 1 ? 17 : _chanceLevel == 2 ? 33 : 50;
 
     return Scaffold(
       backgroundColor: Colors.transparent,
@@ -85,7 +86,7 @@ class _IgniteRouletteScreenState extends State<IgniteRouletteScreen> {
                     const SizedBox(height: 18),
                     Text('Intensitas peluang', style: Theme.of(context).textTheme.titleLarge),
                     const SizedBox(height: 4),
-                    Text('Tingkat $_chanceLevel dari 3 · peluang kejutan ${_chanceLevel * 1 ~/ 3 * 100 + (_chanceLevel == 1 ? 17 : _chanceLevel == 2 ? 33 : 50)}%', style: TextStyle(color: muted, fontSize: 12)),
+                    Text('Tingkat $_chanceLevel dari 3 · peluang kejutan $chancePercent%', style: TextStyle(color: muted, fontSize: 12)),
                     Slider(
                       value: _chanceLevel.toDouble(),
                       min: 1,
